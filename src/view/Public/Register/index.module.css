@@ -1,0 +1,55 @@
+/* fullname
+email
+designation
+password
+conf
+location
+dob */
+
+
+
+
+/* Animation for sliding in from the left */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Animation for sliding in from the right */
+@keyframes slideInRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes registerSlideInRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Apply the animations to the respective divs */
+.slideleft {
+  animation: slideInRight 1s ease-out;
+}
+
+.slideRight {
+  animation: slideInLeft 1s ease-out;
+}
+
+.registerSlideRight {
+  animation: registerSlideInRight 1s ease-out;
+}
+.errormsg{
+  color: red;
+	margin: 0;
+}
