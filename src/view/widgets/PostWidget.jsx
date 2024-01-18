@@ -20,7 +20,7 @@ const PostWidget = () => {
   return (
     <WidgetWrapper m="2rem 0">
       <Friend />
-      <Typography color={main} sx={{ mt: "1rem" }}></Typography>
+      <Typography color={main} sx={{ mt: "1rem" }}>Hello world</Typography>
       <img
         width="100%"
         height="auto"

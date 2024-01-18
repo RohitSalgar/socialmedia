@@ -1,0 +1,16 @@
+.ChatPersonDiv {
+  width: 100%;
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.ChatPersonName {
+  font: bold;
+  font-size: medium;
+}

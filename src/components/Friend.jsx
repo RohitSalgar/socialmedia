@@ -26,10 +26,10 @@ const Friend = () => {
               },
             }}
           >
-            {name}
+            Rohit
           </Typography>
           <Typography color={medium} fontSize="0.75rem">
-            {"NOTHING"}
+            Salgar
           </Typography>
         </Box>
       </FlexBetween>

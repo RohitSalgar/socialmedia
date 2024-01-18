@@ -20,13 +20,16 @@ import {
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "../../components/FlexBetween";
 import { ImSwitch } from "react-icons/im";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "../../redux/slices/authSlice";
+import { setChatModeOff, setChatModeOn } from "../../redux/slices/chat";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const chat = useSelector((state) => state.chat);
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -37,7 +40,7 @@ const Navbar = () => {
   const alt = theme.palette.background.alt;
 
   return (
-    <FlexBetween padding="1rem 6%" backgroundColor={alt}>
+    <FlexBetween padding="1rem 3%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
         <Typography
           fontWeight="bold"
@@ -72,7 +75,18 @@ const Navbar = () => {
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
           </IconButton>
-          <Message sx={{ fontSize: "25px" }} />
+          {chat.isOpen === false && (
+            <Message
+              sx={{ fontSize: "25px" }}
+              onClick={() => dispatch(setChatModeOn())}
+            />
+          )}
+          {chat.isOpen === true && (
+            <ClearIcon
+              sx={{ fontSize: "25px" }}
+              onClick={() => dispatch(setChatModeOff())}
+            />
+          )}
           <Notifications sx={{ fontSize: "25px" }} />
           <Help sx={{ fontSize: "25px" }} />
           <ImSwitch style={{ fontSize: "25px" }} />

@@ -34,7 +34,7 @@ const MyPostWidget = () => {
 
   return (
     <WidgetWrapper>
-      <FlexBetween gap="1.5rem">
+      <FlexBetween gap="1rem">
         <UserImage image={""} />
         <InputBase
           placeholder="What's on your mind..."

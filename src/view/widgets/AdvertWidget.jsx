@@ -12,15 +12,14 @@ const AdvertWidget = () => {
     <WidgetWrapper>
       <FlexBetween>
         <Typography color={dark} variant="h5" fontWeight="500">
-          Sponsored
+          Top Pages
         </Typography>
-        <Typography color={medium}>Create Ad</Typography>
       </FlexBetween>
       <img
         width="100%"
         height="auto"
         alt="advert"
-        src="https://socifybackend.onrender.com/assets/info4.jpeg"
+        // src="https://socifybackend.onrender.com/assets/info4.jpeg"
         style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
       />
       <FlexBetween>

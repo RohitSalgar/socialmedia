@@ -1,0 +1,15 @@
+/* ChatHeader.module.css */
+
+.chatHeader {
+  background-color: #128c7e;
+  color: white;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.contactName {
+  margin-right: 10px;
+}
+
+/* Add additional styles as needed */

@@ -27,24 +27,19 @@ const UserWidget = ({ image }) => {
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
-  console.log(image, "userrr");
 
   return (
     <WidgetWrapper>
-      <Box sx={{
-        display : 'flex',
-        justifyContent:"center"
-      }}>{/* <UserImage image={image} /> */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <UserImage image={image} />
       </Box>
       <div>
-        {/* <FlexBetween gap="1rem"> */}
-        <Box>
-          <Typography variant="h4" color={dark} fontWeight="500">
-            Hi Vijay
-          </Typography>
-          <Typography color={medium}>{"10"} friends</Typography>
-        </Box>
-        {/* </FlexBetween> */}
+        <FlexBetween gap="1rem">Hi Vijay</FlexBetween>
         <ManageAccountsOutlined />
       </div>
 

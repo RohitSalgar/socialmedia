@@ -9,10 +9,10 @@ import {
 	REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import authReducer from '../slices/authSlice'
+import { rootReducer } from "../slices/allReducers";
 
 const persistConfig = { key: "root", storage, version: 1 };
-const persistedReducer = persistReducer(persistConfig, authReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
 	reducer: persistedReducer,
 	middleware: (getDefaultMiddleware) =>

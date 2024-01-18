@@ -5,16 +5,20 @@ import MyPostWidget from "../../view/widgets/MyPostWidget";
 import PostsWidget from "../../view/widgets/PostsWidget";
 import AdvertWidget from "../../view/widgets/AdvertWidget";
 import FriendListWidget from "../../view/widgets/FriendListWidget";
+import { useSelector } from "react-redux";
+import ChatLayout from "../../components/ChatLayout";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const chat = useSelector((state) => state.chat);
+  console.log(chat , 'chat')
 
   return (
     <Box>
       <Navbar />
       <Box
         width="100%"
-        padding="2rem 6%"
+        padding="1rem 6%"
         display={isNonMobileScreens ? "flex" : "block"}
         gap="0.5rem"
         justifyContent="space-between"
@@ -28,14 +32,15 @@ const HomePage = () => {
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}
-          mt={isNonMobileScreens ? undefined : "2rem"}
+          mt={isNonMobileScreens ? undefined : "1rem"}
         >
           <MyPostWidget />
           <PostsWidget />
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="26%">
-            <AdvertWidget />
+            {chat.isOpen === false && <AdvertWidget />}
+            {chat.isOpen === true && <ChatLayout />}
             <Box m="2rem 0" />
             <FriendListWidget />
           </Box>

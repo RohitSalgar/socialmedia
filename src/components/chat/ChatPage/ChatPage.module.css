@@ -1,0 +1,10 @@
+/* ChatPage.module.css */
+
+.chatPage {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  /* Add additional styles as needed */
+  
