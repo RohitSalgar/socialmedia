@@ -1,10 +1,10 @@
 import { Box, useMediaQuery } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Navbar from "../navbar/index";
-import FriendListWidget from "../../view/widgets/FriendListWidget";
-import MyPostWidget from "../../view/widgets/MyPostWidget";
-import PostsWidget from "../../view/widgets/PostsWidget";
-import UserWidget from "../../view/widgets/UserWidget";
+import FriendListWidget from "../../widgets/FriendListWidget";
+import MyPostWidget from "../../widgets/MyPostWidget";
+import PostsWidget from "../../widgets/MyPostWidget";
+import UserWidget from "../../widgets/UserWidget";
 
 const ProfilePage = () => {
   const { userId } = useParams();

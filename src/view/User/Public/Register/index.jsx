@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -66,8 +65,6 @@ export default function RegisterPage() {
     formState: { errors },
     control,
     setValue,
-    reset,
-    watch,
   } = useForm({
     resolver: yupResolver(registerValidation),
     mode: "onTouched",
@@ -303,7 +300,7 @@ export default function RegisterPage() {
                   <Grid item style={{width:"100%", textAlign:"center"}}>
                     <span>Already have an account?</span>
                     <Link href="/" variant="body2" >
-                      {" Sign In"}
+                      Login
                     </Link>
                   </Grid>
                 </Grid>

@@ -11,7 +11,6 @@ import styles from "./index.module.css";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import searchlogo from "../../widgets/logis1.jpeg";
-import { useState } from 'react';
 import * as yup from "yup";
 
 const loginValidation = yup.object({
@@ -27,7 +26,6 @@ const loginValidation = yup.object({
 const defaultTheme = createTheme();
 
 export default function Register() {
-  const [age, setAge] = useState('');
 
   const {
     handleSubmit,
@@ -46,10 +44,6 @@ export default function Register() {
   const onSubmit = () => {
     console.log("run")
   }
-  console.log(errors)
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -110,7 +104,7 @@ export default function Register() {
                       id="email"
                       label="Email Address"
                       name="email"
-                      autoComplete="email"
+                      autoComplete="off"
                     />
                   )} />
                 {errors.email && (
@@ -131,7 +125,7 @@ export default function Register() {
                       label="Password"
                       type="password"
                       id="password"
-                      autoComplete="new-password"
+                      autoComplete="new-password" 
                     />
                   )} />
                 {errors.password && (
@@ -148,9 +142,10 @@ export default function Register() {
                   Login
                 </Button>
                 <Grid container >
-                  <Grid item>
+                  <Grid item style={{width:"100%", textAlign:"center"}}>
+                  <span>Do not have an account?</span>
                     <Link href="/register" variant="body2">
-                      {"Already have an account? Sign In"}
+                     Register
                     </Link>
                   </Grid>
                 </Grid>

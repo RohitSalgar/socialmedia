@@ -18,11 +18,11 @@ import {
   Close,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import FlexBetween from "../../components/FlexBetween";
+import FlexBetween from "../../../../components/FlexBetween";
 import { ImSwitch } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
-import { setMode } from "../../redux/slices/authSlice";
-import { setChatModeOff, setChatModeOn } from "../../redux/slices/chat";
+import { setMode } from "../../../../redux/slices/authSlice";
+import { setChatModeOff, setChatModeOn } from "../../../../redux/slices/chat";
 import ClearIcon from "@mui/icons-material/Clear";
 
 const Navbar = () => {
@@ -50,6 +50,10 @@ const Navbar = () => {
         >
           AllMasters
         </Typography>
+       
+      </FlexBetween>
+      <FlexBetween gap="1.75rem">
+        
         {isNonMobileScreens && (
           <FlexBetween
             backgroundColor={neutralLight}

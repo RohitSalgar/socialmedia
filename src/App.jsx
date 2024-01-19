@@ -1,7 +1,9 @@
 import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
-import LoginPage from "../src/view/Public/Login/index";
-import Register from "../src/view/Public/Register/index";
-import ProfilePage from "../src/view/profilePage";
+import LoginPage from "../src/view/User/Public/Login/index";
+import Register from "../src/view/User/Public/Register/index";
+import ProfilePage from "../src/view/User/Private/profilePage";
+import HomePage from "../src/view/User/Private/homePage/index";
+import Otp from "../src/view/User/Public/Otp/index";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -24,6 +26,8 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/otp" element={<Otp />} />
+            <Route path="/home" element={<HomePage />} />
             
             <Route
               path="/profile/:userId"
