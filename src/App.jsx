@@ -37,6 +37,7 @@ function App() {
           <OperationAdminApp />
         </ThemeProvider>
         </LocalizationProvider>
+        <ToastContainer position="top-right" autoClose={1000} theme="light" />
       </BrowserRouter>
     </div>
   );

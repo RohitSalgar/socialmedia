@@ -29,37 +29,41 @@ const ChatLayout = () => {
         />
       </Box>
       {chatToggle === true && <ChatPage />}
-      <InputBase
-        placeholder="Search Contact..."
-        style={{
-          width: "89%",
-          position: "static",
-          border: "1px solid gray",
-          borderRadius: "5px",
-          marginLeft: "5px",
-          paddingLeft: "5px",
-        }}
-      />
-      <Box
-        sx={{
-          overflowY: "scroll",
-          height: "300px",
-        }}
-      >
-        {chatToggle === false &&
-          userList.map((e, i) => {
+
+      {chatToggle === false && (
+        <InputBase
+          placeholder="Search Contact..."
+          style={{
+            width: "89%",
+            position: "static",
+            borderRadius: "5px",
+            marginLeft: "5px",
+            paddingLeft: "5px",
+          }}
+        />
+      )}
+      {chatToggle === false && (
+        <Box
+          sx={{
+            overflowY: "scroll",
+            height: "300px",
+            marginRight: "5px",
+          }}
+        >
+          {userList.map((e, i) => {
             return (
               <Box
                 key={i}
                 sx={{
-                  margin: "5px",
+                  margin: "1px",
                 }}
               >
                 <ChatPerson id={i} />
               </Box>
             );
           })}
-      </Box>
+        </Box>
+      )}
     </WidgetWrapper>
   );
 };
