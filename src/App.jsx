@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import LoginPage from "../src/view/User/Public/Login/index";
 import Register from "../src/view/User/Public/Register/index";
 import ProfilePage from "../src/view/User/Private/profilePage";
-import HomePage from "../src/view/User/Private/homePage/index";
+import HomePage from "../src/view/User/Private/Home/index";
 import Otp from "../src/view/User/Public/Otp/index";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";

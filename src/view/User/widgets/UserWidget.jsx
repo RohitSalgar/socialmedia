@@ -146,7 +146,7 @@ const UserWidget = ({ image }) => {
           </ListItemButton>
           <ListItemButton
             selected={selectedIndex === 4}
-            onClick={(event) => handleListItemClick(event, 4)}
+            onClick={(event) => handleListItemClick(event, 0)}
           >
             <ListItemIcon>
               <ContactSupportIcon />
