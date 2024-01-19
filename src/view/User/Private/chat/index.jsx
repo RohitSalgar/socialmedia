@@ -36,7 +36,6 @@ const ChatLayout = () => {
           style={{
             width: "89%",
             position: "static",
-            border: "1px solid gray",
             borderRadius: "5px",
             marginLeft: "5px",
             paddingLeft: "5px",
@@ -48,6 +47,7 @@ const ChatLayout = () => {
           sx={{
             overflowY: "scroll",
             height: "300px",
+            marginRight: "5px",
           }}
         >
           {userList.map((e, i) => {
@@ -55,7 +55,7 @@ const ChatLayout = () => {
               <Box
                 key={i}
                 sx={{
-                  margin: "5px",
+                  margin: "1px",
                 }}
               >
                 <ChatPerson id={i} />

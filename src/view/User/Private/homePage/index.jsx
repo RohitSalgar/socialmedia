@@ -11,7 +11,6 @@ import ChatLayout from "../chat/index";
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const chat = useSelector((state) => state.chat);
-  console.log(chat, "chat");
 
   return (
     <Box>
