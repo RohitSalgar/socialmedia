@@ -32,7 +32,7 @@ const ChatLayout = () => {
       <InputBase
         placeholder="Search Contact..."
         style={{
-          width: "92%",
+          width: "89%",
           position: "static",
           border: "1px solid gray",
           borderRadius: "5px",
