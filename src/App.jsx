@@ -11,7 +11,7 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-
+import OperationAdminApp from "./routes/adminPaths";
 function App() {
   const mode = useSelector((state) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -23,7 +23,7 @@ function App() {
       <LocalizationProvider dateAdapter={AdapterMoment}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Routes>
+          {/* <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/otp" element={<Otp />} />
@@ -33,7 +33,8 @@ function App() {
               path="/profile/:userId"
               element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
             />
-          </Routes>
+          </Routes> */}
+          <OperationAdminApp />
         </ThemeProvider>
         </LocalizationProvider>
       </BrowserRouter>
