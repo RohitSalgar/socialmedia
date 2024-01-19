@@ -11,6 +11,9 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { UsersGrid } from "./view/Admin/users";
+import { PagesGrid } from "./view/Admin/pages";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const mode = useSelector((state) => state.mode);
@@ -33,9 +36,12 @@ function App() {
               path="/profile/:userId"
               element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
             />
+            <Route path="/admin/user" element={<UsersGrid/>}/>
+            <Route path="/admin/page" element={<PagesGrid/>}/>
           </Routes>
         </ThemeProvider>
         </LocalizationProvider>
+        <ToastContainer position="top-right" autoClose={1000} theme="light" />
       </BrowserRouter>
     </div>
   );
