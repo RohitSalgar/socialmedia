@@ -6,12 +6,11 @@ import PostWidget from "../../Private/Posts/PostWidget";
 import AdvertWidget from "../../widgets/AdvertWidget";
 import FriendListWidget from "../../widgets/FriendListWidget";
 import { useSelector } from "react-redux";
-import ChatLayout from "../../../../components/ChatLayout";
+import ChatLayout from "../chat/index";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const chat = useSelector((state) => state.chat);
-  console.log(chat , 'chat')
 
   return (
     <Box>
