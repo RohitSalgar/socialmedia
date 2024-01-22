@@ -5,12 +5,12 @@ import {
   ShareOutlined,
 } from "@mui/icons-material";
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
-import FlexBetween from "../../../components/FlexBetween";
-import Friend from "../../../components/Friend";
-import WidgetWrapper from "../../../components/WidgetWrapper";
+import FlexBetween from "../FlexBetween";
 import { useState } from "react";
+import WidgetWrapper from "../WidgetWrapper";
+import Friend from "../Friend";
 
-const PostWidget = () => {
+const ProfilePost = () => {
   const [isComments, setIsComments] = useState(false);
 
   const { palette } = useTheme();
@@ -18,9 +18,11 @@ const PostWidget = () => {
   const primary = palette.primary.main;
 
   return (
-    <WidgetWrapper m="2rem 0">
+    <WidgetWrapper sx={{ p: "10px 20px 10px 0px"}} >
       <Friend />
-      <Typography color={main} sx={{ mt: "1rem" }}>Hello world</Typography>
+      <Typography color={main} sx={{ mt: "1rem" }}>
+        Hello world
+      </Typography>
       <img
         width="100%"
         height="auto"
@@ -63,4 +65,4 @@ const PostWidget = () => {
   );
 };
 
-export default PostWidget;
+export default ProfilePost;

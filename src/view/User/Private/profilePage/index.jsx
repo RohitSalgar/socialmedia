@@ -2,8 +2,8 @@ import { Box, useMediaQuery } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Navbar from "../navbar/index";
 import FriendListWidget from "../../widgets/FriendListWidget";
-import MyPostWidget from "../../widgets/MyPostWidget";
-import PostsWidget from "../../widgets/MyPostWidget";
+import MyPostWidget from "../../Private/Posts/MyPostWidget";
+import PostsWidget from "../../Private/Posts/MyPostWidget";
 import UserWidget from "../../widgets/UserWidget";
 
 const ProfilePage = () => {

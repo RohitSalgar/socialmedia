@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import Friend from "../../../components/Friend";
+import Friend from "../../../components/PostTitle";
 import WidgetWrapper from "../../../components/WidgetWrapper";
 
 const FriendListWidget = () => {
