@@ -2,10 +2,10 @@ import { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
-import { AdminSideBar } from "../../../components/Admin/AdminSideBar";
+// import { AdminSideBar } from "../../../components/Admin/AdminSideBar";
 import "./index.css";
 
-export function UsersGrid() {
+export default function UsersGrid() {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

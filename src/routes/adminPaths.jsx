@@ -5,8 +5,9 @@ const InternalUserLayoutComponent = lazy(() =>
 	import("../components/AdminLayout/index")
 );
 
-const LoginPage = lazy(() => import("../view/User/Public/Login/index"))
-
+const users = lazy(() => import("../view/Admin/users/index"))
+const pages = lazy(() => import("../view/Admin/pages/index"))
+const schedules = lazy(() => import("../view/Admin/schedules/index"))
 
 
 const operationAdminPaths = [
@@ -15,8 +16,16 @@ const operationAdminPaths = [
 		element: InternalUserLayoutComponent,
 		children: [
 			{
+				path: "users",
+				element: users,
+			},
+			{
+				path: "pages",
+				element: pages,
+			},
+			{
 				path: "schedules",
-				element: LoginPage,
+				element: schedules,
 			}
 		],
 	},

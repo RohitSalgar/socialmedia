@@ -8,7 +8,7 @@ import { closeSidebar } from "../../redux/slices/sidebarSlice";
 const drawerWidth = 350;
 
 function InternalUserLayout() {
-	const sidebar = useSelector((state) => state.sidebar.sidebarStatus);
+	const sidebar = true
 	const dispatch = useDispatch();
 	const mobileView = useMediaQuery("(max-width:900px)");
 
@@ -29,7 +29,7 @@ function InternalUserLayout() {
 				open={true}>
 				<Sidebar onClick={() => dispatch(closeSidebar())} />
 			</Drawer>
-			<Main open={sidebar} ismobile={mobileView ? 1 : 0}>
+			<Main open={true} ismobile={mobileView ? 1 : 0}>
 				<Outlet />
 			</Main>
 		</Box>

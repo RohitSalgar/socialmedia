@@ -3,6 +3,7 @@ import styles from "./index.module.css";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 
 function Sidebar({ onClick }) {
 
@@ -14,7 +15,7 @@ function Sidebar({ onClick }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setActiveStep(location.pathname.split("/").pop());
+        setActiveStep(location.pathname.split("/").pop())
     }, [location]);
 
 
@@ -41,75 +42,20 @@ function Sidebar({ onClick }) {
                 </div>
                 <div className={styles.listdiv}>
                     <ul className={styles.slist}>
-                        <li
-                            className={
-                                activeStep === "country"
-                                    ? styles.activesidebarstep
-                                    : ""
-                            }>
+                        <li>
                             <Link
-                                to={"country"}
-                                className={`${styles.listitem} ${activeStep === "country"
-                                    ? styles.activesidebar
-                                    : ""
-                                    }`}>
-                                {/* <CountryIcon
+                                to={"users"}
+                               >
+                                <PeopleOutlineIcon
 											className={
 												activeStep === "country"
 													? styles.activeicon
 													: styles.inActvieIcon
 											}
-										/> */}
+										/>
                                 Users
                             </Link>
                         </li>
-                        <li
-                            className={
-                                activeStep === "country"
-                                    ? styles.activesidebarstep
-                                    : ""
-                            }>
-                            <Link
-                                to={"country"}
-                                className={`${styles.listitem} ${activeStep === "country"
-                                    ? styles.activesidebar
-                                    : ""
-                                    }`}>
-                                {/* <CountryIcon
-											className={
-												activeStep === "country"
-													? styles.activeicon
-													: styles.inActvieIcon
-											}
-										/> */}
-                                Pages
-                            </Link>
-                            
-                        </li>
-                        <li
-                            className={
-                                activeStep === "country"
-                                    ? styles.activesidebarstep
-                                    : ""
-                            }>
-                            <Link
-                                to={"country"}
-                                className={`${styles.listitem} ${activeStep === "country"
-                                    ? styles.activesidebar
-                                    : ""
-                                    }`}>
-                                {/* <CountryIcon
-											className={
-												activeStep === "country"
-													? styles.activeicon
-													: styles.inActvieIcon
-											}
-										/> */}
-                                Pages
-                            </Link>
-                            
-                        </li>
-
                     </ul>
                 </div>
 
