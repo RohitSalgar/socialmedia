@@ -1,18 +1,22 @@
 import { Box, useMediaQuery } from "@mui/material";
-import Navbar from "../navbar/index";
+import Navbar from "../../Private/navbar/index";
 import UserWidget from "../../widgets/UserWidget";
-import MyPostWidget from "../../widgets/MyPostWidget";
-import PostsWidget from "../../widgets/PostsWidget";
-import AdvertWidget from "../../widgets/AdvertWidget";
+import MyPostWidget from "../../Private/Posts/MyPostWidget";
+import PostWidget from "../../Private/Posts/PostWidget";
+import AdvertWidget from "./AdvertWidget";
 import FriendListWidget from "../../widgets/FriendListWidget";
 import { useSelector } from "react-redux";
-import ChatLayout from "../../../../components/ChatLayout";
+import OptionalTab from "../../Private/Tabs/Tabs";
+import { useGetTrendingPosts } from "../../../../hooks/posts";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const chat = useSelector((state) => state.chat);
-  console.log(chat , 'chat')
+  const { data, isLoading } = useGetTrendingPosts()
 
+  if (isLoading) {
+    return
+  }
   return (
     <Box>
       <Navbar />
@@ -23,7 +27,9 @@ const HomePage = () => {
         gap="0.5rem"
         justifyContent="space-between"
       >
+        {console.log("asdasdada")}
         <Box flexBasis={isNonMobileScreens ? "23%" : undefined}>
+          <AdvertWidget />
           <UserWidget
             image={
               "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
@@ -31,20 +37,16 @@ const HomePage = () => {
           />
         </Box>
         <Box
-          flexBasis={isNonMobileScreens ? "50%" : undefined}
+          flexBasis={isNonMobileScreens ? "75%" : undefined}
           mt={isNonMobileScreens ? undefined : "1rem"}
         >
-          <MyPostWidget />
-          <PostsWidget />
-        </Box>
-        {isNonMobileScreens && (
-          <Box flexBasis="25%">
-            {chat.isOpen === false && <AdvertWidget />}
-            {chat.isOpen === true && <ChatLayout />}
-            <Box m="2rem 0" />
-            <FriendListWidget />
+          {/* <MyPostWidget /> */}
+          <Box fullWidth width="100%">
+            <OptionalTab />
           </Box>
-        )}
+          {data && data.map((data) => <PostWidget key={data._id} postData={data} />)}
+        </Box>
+        
       </Box>
     </Box>
   );

@@ -6,6 +6,7 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
+  Avatar,
 } from "@mui/material";
 import {
   Search,
@@ -24,12 +25,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "../../../../redux/slices/authSlice";
 import { setChatModeOff, setChatModeOn } from "../../../../redux/slices/chat";
 import ClearIcon from "@mui/icons-material/Clear";
+import { removeProfileData } from "../../../../redux/slices/profileSlice";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const chat = useSelector((state) => state.chat);
+	const signedIn = localStorage.getItem("amsSocialSignedIn");
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -50,10 +53,10 @@ const Navbar = () => {
         >
           AllMasters
         </Typography>
-       
+
       </FlexBetween>
       <FlexBetween gap="1.75rem">
-        
+
         {isNonMobileScreens && (
           <FlexBetween
             backgroundColor={neutralLight}
@@ -91,9 +94,22 @@ const Navbar = () => {
               onClick={() => dispatch(setChatModeOff())}
             />
           )}
-          <Notifications sx={{ fontSize: "25px" }} />
-          <Help sx={{ fontSize: "25px" }} />
-          <ImSwitch style={{ fontSize: "25px" }} />
+          {/* <Notifications sx={{ fontSize: "25px" }} /> */}
+          <Avatar sx={{ width: 30, height: 30 }} />
+          <ImSwitch style={{ fontSize: "25px" }} onClick={() => {
+            if(signedIn === "true"){
+
+              dispatch(removeProfileData());
+              localStorage.removeItem("amsSocialToken");
+              localStorage.removeItem("amsSocialId");
+              localStorage.removeItem("amsSocialSignedIn");
+            }else{
+              localStorage.removeItem("amsSocialSignedIn");
+
+            }
+            console.log("riunadf")
+            navigate("/login")
+          }} />
         </FlexBetween>
       ) : (
         <IconButton

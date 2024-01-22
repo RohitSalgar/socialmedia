@@ -21,6 +21,7 @@ import { useState } from "react";
 
 const UserWidget = ({ image }) => {
   const { palette } = useTheme();
+  const signedIn = (localStorage.getItem("amsSocialSignedIn"));
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
@@ -32,7 +33,7 @@ const UserWidget = ({ image }) => {
 
   return (
     <WidgetWrapper>
-      <Box
+      {signedIn === "true" && <><Box
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -103,8 +104,11 @@ const UserWidget = ({ image }) => {
           </Box>
         </div>
       </div>
-
       <Divider style={{ marginTop: "10px" }} />
+      </>}
+<Box>
+  
+</Box>
 
       <Box p="0 0 0.1rem 1.5rem">
         <List component="nav" aria-label="main mailbox folders">
@@ -146,7 +150,16 @@ const UserWidget = ({ image }) => {
           </ListItemButton>
           <ListItemButton
             selected={selectedIndex === 4}
-            onClick={(event) => handleListItemClick(event, 4)}
+            onClick={(event) => handleListItemClick(event, 3)}
+          >
+            <ListItemIcon>
+              <CalendarMonthIcon />
+            </ListItemIcon>
+            <ListItemText primary="Pages" />
+          </ListItemButton>
+          <ListItemButton
+            selected={selectedIndex === 5}
+            onClick={(event) => handleListItemClick(event, 0)}
           >
             <ListItemIcon>
               <ContactSupportIcon />

@@ -1,20 +1,28 @@
+/* eslint-disable react/prop-types */
+import { useDispatch } from "react-redux";
 import styles from "./ChatPerson.module.css";
+import { setSingleChatModeOn } from "../../../redux/slices/chat";
+import { Box, Typography } from "@mui/material";
 
-const ChatPerson = () => {
+const ChatPerson = ({ id }) => {
+  const dispatch = useDispatch();
   return (
-    <div className={styles.ChatPersonDiv}>
-      <div>
+    <Box
+      className={styles.ChatPersonDiv}
+      onClick={() => dispatch(setSingleChatModeOn(id))}
+    >
+      <Box>
         <img
           width={"40px"}
           height={"40px"}
           src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
           alt="alt"
         />
-      </div>
-      <div>
-        <p className={styles.ChatPersonName}>Rohit Salgar</p>
-      </div>
-    </div>
+      </Box>
+      <Box>
+        <Typography className={styles.ChatPersonName}>Rohit Salgar</Typography>
+      </Box>
+    </Box>
   );
 };
 
