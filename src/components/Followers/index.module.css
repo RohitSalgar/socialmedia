@@ -1,0 +1,30 @@
+.avatardiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.avatarname {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+.profilemain {
+  padding: 0px 70px;
+}
+.postdiv {
+  height: 230px;
+  overflow-y: scroll;
+}
+.followersdiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.followmain {
+  padding: 0px 10px 0px 0px !important;
+  cursor: pointer !important;
+}
+.unfollowbtn {
+  text-transform: capitalize !important;
+}

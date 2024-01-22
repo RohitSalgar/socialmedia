@@ -1,0 +1,66 @@
+.avatardiv {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.avatarname {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+.profilemain {
+  padding: 0px 70px;
+}
+.postdiv {
+  height: 230px;
+  overflow-y: scroll;
+}
+.followersdiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.editdiv {
+  min-height: 81vh;
+  padding: 10px 20px !important;
+}
+.unfollowbtn {
+  text-transform: capitalize !important;
+}
+.editform label{
+    font-weight: bold;
+    width: 100% !important;
+    color: #000 !important;
+}
+.editform input{
+    margin-bottom: 10px;
+    margin-top: 5px;
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+.editform textarea{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+.changeimgbtn{
+    margin-top: 10px !important;
+    color: #fff !important;
+}
+.submitbtn{
+    background-color: #0EBD60;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}

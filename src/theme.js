@@ -21,12 +21,15 @@ export const colorTokens = {
       200: "#99EEFD",
       300: "#66E6FC",
       400: "#33DDFB",
-      500: "#00D5FA",
+      500: "#0EBD60",
       600: "#00A0BC",
       700: "#006B7D",
       800: "#00353F",
       900: "#001519",
     },
+    profile:{
+      900:"#212121"
+    }
   };
   
   // mui theme settings
@@ -67,6 +70,9 @@ export const colorTokens = {
                 mediumMain: colorTokens.grey[400],
                 medium: colorTokens.grey[300],
                 light: colorTokens.grey[50],
+              },
+              black:{
+                medium:colorTokens.profile[900]
               },
               background: {
                 default: colorTokens.grey[10],
