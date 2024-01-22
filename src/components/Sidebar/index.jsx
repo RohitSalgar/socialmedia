@@ -3,7 +3,10 @@ import styles from "./index.module.css";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import NewspaperOutlinedIcon from '@mui/icons-material/NewspaperOutlined';
 
 function Sidebar({ onClick }) {
 
@@ -42,18 +45,79 @@ function Sidebar({ onClick }) {
                 </div>
                 <div className={styles.listdiv}>
                     <ul className={styles.slist}>
-                        <li>
+                        <li
+                            className={
+                                activeStep === "users"
+                                    ? styles.activesidebarstep
+                                    : ""
+                            }>
                             <Link
                                 to={"users"}
-                               >
-                                <PeopleOutlineIcon
+                                className={`${styles.listitem} ${activeStep === "country"
+                                    ? styles.activesidebar
+                                    : ""
+                                    }`}>
+                                <PeopleOutlinedIcon
+
+                                />
+                                Users
+                            </Link>
+                        </li>
+                        <li
+                            className={
+                                activeStep === "pages"
+                                    ? styles.activesidebarstep
+                                    : ""
+                            }>
+                            <Link
+                                to={"pages"}
+                                className={`${styles.listitem} ${activeStep === "country"
+                                    ? styles.activesidebar
+                                    : ""
+                                    }`}>
+                                <NewspaperOutlinedIcon />
+                                {/* <CountryIcon
 											className={
 												activeStep === "country"
 													? styles.activeicon
 													: styles.inActvieIcon
 											}
-										/>
-                                Users
+										/> */}
+                                Pages
+                            </Link>
+
+                        </li>
+                        <li
+                            className={
+                                activeStep === "posts"
+                                    ? styles.activesidebarstep
+                                    : ""
+                            }>
+                            <Link
+                                to={"posts"}
+                                className={`${styles.listitem} ${activeStep === "country"
+                                    ? styles.activesidebar
+                                    : ""
+                                    }`}>
+                                <MailOutlineIcon />
+                                Posts
+                            </Link>
+
+                        </li>
+                        <li
+                            className={
+                                activeStep === "schedules"
+                                    ? styles.activesidebarstep
+                                    : ""
+                            }>
+                            <Link
+                                to={"schedules"}
+                                className={`${styles.listitem} ${activeStep === "country"
+                                    ? styles.activesidebar
+                                    : ""
+                                    }`}>
+                                <EventNoteIcon />
+                                Schedules
                             </Link>
                         </li>
                     </ul>

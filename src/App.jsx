@@ -1,6 +1,5 @@
-import { Suspense, useMemo } from "react";
+import { useMemo, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
@@ -8,11 +7,14 @@ import { themeSettings } from "./theme";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import RouterRender from "./routes/routerRender";
-import { Suspense } from "react";
 import ErrorFallback from "./components/ErrorFallback/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 import Loader from "./components/Loader/Loader";
+import AdminApp from "./routes/adminPaths";
+
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,7 +43,7 @@ function App() {
             </LocalizationProvider>
           </Suspense>
         </ErrorBoundary>
-        <ToastContainer position="top-right" autoClose={1000} theme="light" />
+        <ToastContainer  position="top-right" />
       </QueryClientProvider>
 
     </div>

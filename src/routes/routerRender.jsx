@@ -7,6 +7,7 @@ import { removeProfileData } from "../redux/slices/profileSlice";
 import PublicApp from "./publicPaths";
 import PrivateApp from "./privatePath";
 import PublicHomeApp from "./publicHome";
+import AdminApp from "./adminPaths";
 
 function RouteChecker() {
 	const dispatch = useDispatch();
@@ -53,7 +54,7 @@ console.log("run")
 			console.log("sdfadmvfsgfvn")
 			return <PrivateApp />
 		} else {
-			return  //admin
+			return  <AdminApp />
 		}
 	}
 }
@@ -61,7 +62,8 @@ console.log("run")
 export default function RouterRender() {
 	return (
 		<BrowserRouter>
-			<RouteChecker />
+			{/* <RouteChecker /> */}
+			<AdminApp />
 		</BrowserRouter>
 	);
 }

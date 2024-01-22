@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import posts from "../view/Admin/posts";
 
 const InternalUserLayoutComponent = lazy(() =>
 	import("../components/AdminLayout/index")
@@ -10,7 +11,7 @@ const pages = lazy(() => import("../view/Admin/pages/index"))
 const schedules = lazy(() => import("../view/Admin/schedules/index"))
 
 
-const operationAdminPaths = [
+const AdminPaths = [
 	{
 		path: "/admin",
 		element: InternalUserLayoutComponent,
@@ -26,15 +27,19 @@ const operationAdminPaths = [
 			{
 				path: "schedules",
 				element: schedules,
+			},
+			{
+				path: "posts",
+				element: posts,
 			}
 		],
 	},
 ];
 
-export default function OperationAdminApp() {
+export default function AdminApp() {
 	return (
 		<Routes>
-			{operationAdminPaths.map((parentElement, index) => (
+			{AdminPaths.map((parentElement, index) => (
 				<Route
 					key={index}
 					path={parentElement.path}
