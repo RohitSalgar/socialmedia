@@ -1,9 +1,9 @@
 import { PersonAddOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "./FlexBetween";
-import UserImage from "./UserImage";
+import Avatar from '@mui/material/Avatar';
 
-const Friend = () => {
+const PostTitle = ({data}) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
@@ -13,20 +13,19 @@ const Friend = () => {
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
-        <UserImage image={""} size="55px" />
+      <Avatar sx={{ width: 40, height: 40 }} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         <Box onClick={() => {}}>
           <Typography
             color={main}
             variant="h5"
-            fontWeight="500"
+            fontWeight="400"
             sx={{
               "&:hover": {
-                color: palette.primary.light,
                 cursor: "pointer",
               },
             }}
           >
-            Rohit
+            {data?._id}
           </Typography>
           <Typography color={medium} fontSize="0.75rem">
             Salgar
@@ -40,4 +39,4 @@ const Friend = () => {
   );
 };
 
-export default Friend;
+export default PostTitle;

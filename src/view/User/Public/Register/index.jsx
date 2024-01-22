@@ -13,7 +13,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import searchlogo from "../../widgets/logis1.jpeg";
+import searchlogo from "../../../../assets/Images/logis1.jpeg";
 import { useState } from 'react';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
@@ -78,12 +78,10 @@ export default function RegisterPage() {
   });
 
   const onSubmit = () => {
-    console.log("run")
     navigate("/")
   }
 
   const handleChange = (event) => {
-    console.log(event.target.value)
     setValue("designation",`${event.target.value}`)
     setDesignation(event.target.value);
   };
@@ -189,7 +187,6 @@ export default function RegisterPage() {
                           label="designation"
                           onChange={handleChange}
                         >
-                          {console.log(designation)}
                           <MenuItem value="">
                             <em>None</em>
                           </MenuItem>
