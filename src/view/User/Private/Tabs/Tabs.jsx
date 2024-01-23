@@ -5,8 +5,11 @@ import Diversity3Icon from "@mui/icons-material/Diversity3";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import AppBar from "@mui/material/AppBar";
+import { useDispatch } from "react-redux";
+import { setTabView } from "../../../../redux/slices/profileSlice";
 
 export default function OptionalTab() {
+  const dispatch = useDispatch()
   const [value, setValue] = React.useState(0);
   const signedIn = localStorage.getItem("amsSocialSignedIn");
 
@@ -31,14 +34,16 @@ export default function OptionalTab() {
             color='red'
             iconPosition="start"
             label="For You"
+            onClick={()=>dispatch(setTabView("forYou"))}
           />
         )}
-        <Tab icon={<WhatshotIcon />} iconPosition="start" label="Trending" />
+        <Tab icon={<WhatshotIcon />} iconPosition="start" label="Trending"  onClick={()=>dispatch(setTabView("trending"))}/>
         {signedIn === "true" && (
           <Tab
             icon={<Diversity3Icon />}
             iconPosition="start"
             label="Friend's Post"
+            onClick={()=>dispatch(setTabView("friend"))}
           />
         )}
       </Tabs>
