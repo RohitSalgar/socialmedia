@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { useEffect } from "react";
 import { removeProfileData } from "../redux/slices/profileSlice";
-// import OperationAdminApp from "./operationAdminPaths";
 import PublicApp from "./publicPaths";
 import PrivateApp from "./privatePath";
 import PublicHomeApp from "./publicHome";
+import AdminApp from "./adminPaths";
 
 function RouteChecker() {
 	const dispatch = useDispatch();
@@ -43,7 +43,7 @@ function RouteChecker() {
 		if (decodedData.role === 1) {
 			return <PrivateApp />
 		} else {
-			return  //admin
+			return  <AdminApp />
 		}
 	}
 }

@@ -27,6 +27,7 @@ const publicPaths = [
 		element: RegisterComponent,
 	},
 ];
+
 function PublicApp() {
 	const location = useLocation()
 	return (

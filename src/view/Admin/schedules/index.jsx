@@ -10,7 +10,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Button } from '@mui/base';
 
 
-const pages = () => {
+const schedules = () => {
 
     const columns = [
 		{
@@ -89,4 +89,4 @@ const pages = () => {
     </section>
 }
 
-export default pages;
+export default schedules;
