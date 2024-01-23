@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import ReplyIcon from '@mui/icons-material/Reply';
 
 function CommentAction({ type, sx, onClick, reply, edit, postData,commentId }) {
-  console.log(commentId)
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
   const { userId } = useSelector((state) => state.profile.profileData)
@@ -15,7 +14,6 @@ function CommentAction({ type, sx, onClick, reply, edit, postData,commentId }) {
   const { mutate: deleteReply } = useDeleteReply()
   const deleteComments = () => {
     if (Object.keys(postData).includes("userReplied")) {
-      console.log(postData)
       const payload = {
         commentId: commentId,
         replyId:postData?._id,

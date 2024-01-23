@@ -29,7 +29,6 @@ const Profile = () => {
   if (isLoading) {
     <Loader />;
   }
-  console.log(data && data, "data");
 
   function checkIsNumber(number) {
     if (number != null) {
