@@ -4,7 +4,7 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Divider, IconButton, TextField, Typography, useTheme } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import PostTitle from "../../../../components/PostTitle";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
@@ -12,56 +12,59 @@ import { useState } from "react";
 import { Stack } from '@mui/material';
 import CommentBox from '../../../../components/Comments/CommentBox';
 import CommentInputBox from '../../../../components/Comments/CommentInputBox';
-
-const reorderedComments = [
-  {
-    id: 1,
-    content: "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
-    createdAt: "May 02 2022",
-    score: 5,
-    user: "amyrobson",
-    replies: []
-  },
-  {
-    id: 2,
-    content: "Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!",
-    createdAt: "May 16 2022",
-    score: 5,
-    user: "maxblagun",
-    replies: [
-      {
-        id: 3,
-        content: "If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
-        reatedAt: "May 23 2022",
-        score: 4,
-        user: "ramsesmiron",
-        replyingTo: "maxblagun"
-      },
-      {
-        id: 4,
-        content: "I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
-        createdAt: "May 31 2022",
-        score: 2,
-        user: "juliusomo",
-        replyingTo: "ramsesmiron"
-      }
-    ]
-  }
-]
+import { useGetPostComment } from "../../../../hooks/likeComment";
+import searchlogo from "../../../../assets/Images/logis1.jpeg";
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import { BsFillSendExclamationFill } from "react-icons/bs";
 
 const PostWidget = ({ postData }) => {
   const [isComments, setIsComments] = useState(false);
+  const [postId, setPostId] = useState("")
+  const [report, setReport] = useState(false)
+  const [reportText, setReportText] = useState("")
   const [selected, setSelected] = useState(0); //0 for none, -id for edit, id for reply
+  const { data: postComment, isLoading: postCommentLoading } = useGetPostComment(postId)
+
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
 
+
+  function addIdsToComments(data, parentId = null) {
+    let count = 1;
+    if (data != null) {
+      return data.map((comment, index) => {
+        data[index].id = count
+        count++;
+        if (comment.replies.length > 0) {
+          for (let i = 0; i < data[index].replies.length; i++) {
+            comment.replies[i].id = count
+            count++
+          }
+        }
+
+        return comment;
+      });
+    } else {
+      return []
+    }
+  }
+  const reportPost = () =>{
+    const payload = {
+
+    }
+  }
+
+  if (postCommentLoading) {
+    return
+  }
+
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
-      <Typography color={main} sx={{ mt: "0.5rem", ml:1 }}>{postData?.description}</Typography>
-      <Typography color={main} sx={{ mt: "0.5rem", ml:1}}>{postData?.hashtags.map((hash) => `#${hash} `)}</Typography>
+      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>{postData?.description}</Typography>
+      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>{postData?.hashtags.map((hash) => `#${hash} `)}</Typography>
       {/* <img
         width="100%"
         height="auto"
@@ -76,33 +79,63 @@ const PostWidget = ({ postData }) => {
               {/* <FavoriteOutlined sx={{ color: primary }} /> */}
               <FavoriteBorderOutlined />
             </IconButton>
-            <Typography>{postData?.likes === 1 ? `1 like`: `${postData?.likes} likes`} </Typography>
+            <Typography>{postData?.likes === 1 ? `1 like` : `${postData?.likes} likes`} </Typography>
           </FlexBetween>
 
           <FlexBetween gap="0.3rem">
-            <Box onClick={() => setIsComments(!isComments)} sx={{ display: "flex", flexDirection: "row", alignItems:"center"}}>
+            <Box onClick={() => { setPostId(postData?._id); setIsComments(!isComments) }} sx={{ display: "flex", flexDirection: "row", alignItems: "center" }} >
               <IconButton >
                 <ChatBubbleOutlineOutlined />
               </IconButton>
-              <Typography sx={{cursor:"pointer"}}>{"comments"}</Typography>
+              <Typography sx={{ cursor: "pointer" }}>{"comments"}</Typography>
+            </Box>
+          </FlexBetween>
+          <FlexBetween gap="0.3rem">
+            <Box onClick={() => { setReport(!report) }} sx={{ display: "flex", flexDirection: "row", alignItems: "center" }} >
+              <IconButton >
+                <ReportProblemIcon />
+              </IconButton>
+              <Typography sx={{ cursor: "pointer" }} >{"report"}</Typography>
             </Box>
           </FlexBetween>
         </FlexBetween>
 
-        <IconButton>
-          <ShareOutlined />
-        </IconButton>
       </FlexBetween>
+      {report &&
+        <FlexBetween gap="5px"><TextField
+          id="outlined-multiline-static"
+          multiline
+          rows={1}
+          variant='standard'
+          placeholder="Reason To Report..."
+          sx={{
+            width: "100%",
+            mt: 1,
+            // backgroundColor: palette.neutral.light,
+            borderRadius: "1rem",
+          }}
+          onChange={(e) => setReportText(e.target.value)}
+        // type={type}
+        />
+          {reportText &&
+            <IconButton
+            onClick={reportPost}
+            >
+              <BsFillSendExclamationFill size={25} />
+            </IconButton>}
+        </FlexBetween>}
       {isComments && <Box mt="0.5rem">
         <Box>
           <Divider />
           <Stack >
             <CommentInputBox type='comment' postData={postData} />
-            {reorderedComments.map((c) => {
+            {addIdsToComments(postComment)?.map((c) => {
               return <CommentBox
                 key={c.id}
+                postData={c}
                 selected={selected}
                 setSelected={setSelected}
+                reorderedComments={addIdsToComments(postComment)}
                 {...c}
               />
             }

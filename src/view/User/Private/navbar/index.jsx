@@ -107,7 +107,6 @@ const Navbar = () => {
               localStorage.removeItem("amsSocialSignedIn");
 
             }
-            console.log("riunadf")
             navigate("/login")
           }} />
         </FlexBetween>
