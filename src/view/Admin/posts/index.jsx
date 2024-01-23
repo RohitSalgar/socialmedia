@@ -115,7 +115,7 @@ const posts = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className={classes.searchInput}
-          placeholder="Search by username..."
+          placeholder="Search by created user..."
         />
         <IconButton className={classes.searchBtn}>
           <Search />
