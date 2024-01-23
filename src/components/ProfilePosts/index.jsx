@@ -8,7 +8,7 @@ import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "../FlexBetween";
 import { useState } from "react";
 import WidgetWrapper from "../WidgetWrapper";
-import Friend from "../Friend";
+
 
 const ProfilePost = () => {
   const [isComments, setIsComments] = useState(false);
@@ -19,7 +19,7 @@ const ProfilePost = () => {
 
   return (
     <WidgetWrapper sx={{ p: "10px 20px 10px 0px"}} >
-      <Friend />
+      {/* <Friend /> */}
       <Typography color={main} sx={{ mt: "1rem" }}>
         Hello world
       </Typography>

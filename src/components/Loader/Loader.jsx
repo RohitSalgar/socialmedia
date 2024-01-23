@@ -1,4 +1,4 @@
-// import logo from "../../assets/Images/Loadergif.gif";
+import logo from "../../assets/Images/loader.svg";
 
 export default function Loader() {
 	return (
@@ -13,7 +13,7 @@ export default function Loader() {
 			<img
 				decoding="async"
 				alt="Animated"
-				src={""}
+				src={logo}
 				width="200"
 				height="200"
 				className="attachment-large size-large wp-image-2708"

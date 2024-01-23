@@ -5,6 +5,7 @@ const initialState = {
     signedIn: false,
     role: null,
     type: null,
+	dashboardView:'',
 };
 
 export const profileSlice = createSlice({
@@ -13,6 +14,7 @@ export const profileSlice = createSlice({
     reducers: {
         setProfileData: (state, action) => {
 			state.profileData = action.payload;
+			state.dashboardView='home'
 			state.signedIn = true;
 			state.role = action.payload.role;
 		},
@@ -30,11 +32,12 @@ export const profileSlice = createSlice({
 				...action.payload,
 			};
 		},
-
-
+		setDashboardView: (state, action) => {
+			state.dashboardView = action.payload;
+		},
     },
 });
 
-export const { setProfileData, removeProfileData, setStatus, updateProfileData } =
+export const { setProfileData, removeProfileData, setStatus, updateProfileData , setDashboardView } =
     profileSlice.actions;
 export default profileSlice.reducer;
