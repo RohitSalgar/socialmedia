@@ -34,12 +34,12 @@ const UserWidget = () => {
   const following =
     data && data[0]?.connectionCounts?.filter((e) => e.status === 2)[0]?.count;
 
-    function checkIsNumber(number){
-      if (number != null) {
-        return number
-      }
-      return 0;
+  function checkIsNumber(number) {
+    if (number != null) {
+      return number;
     }
+    return 0;
+  }
 
   if (isLoading) {
     <Loader />;
@@ -166,7 +166,10 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 2}
-            onClick={(event) => handleListItemClick(event, 2)}
+            onClick={(event) => {
+              handleListItemClick(event, 2),
+                dispatch(setDashboardView("schedule"));
+            }}
           >
             <ListItemIcon>
               <MailIcon />
@@ -176,7 +179,9 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 3}
-            onClick={(event) => handleListItemClick(event, 3)}
+            onClick={(event) => {
+              handleListItemClick(event, 3), dispatch(setDashboardView("news"));
+            }}
           >
             <ListItemIcon>
               <CalendarMonthIcon />
