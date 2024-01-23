@@ -6,7 +6,6 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  Avatar,
 } from "@mui/material";
 import {
   Search,
@@ -32,7 +31,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const chat = useSelector((state) => state.chat);
-	const signedIn = localStorage.getItem("amsSocialSignedIn");
+  const signedIn = localStorage.getItem("amsSocialSignedIn");
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -53,10 +52,8 @@ const Navbar = () => {
         >
           AllMasters
         </Typography>
-
       </FlexBetween>
       <FlexBetween gap="1.75rem">
-
         {isNonMobileScreens && (
           <FlexBetween
             backgroundColor={neutralLight}
@@ -95,21 +92,21 @@ const Navbar = () => {
             />
           )}
           {/* <Notifications sx={{ fontSize: "25px" }} /> */}
-          <Avatar sx={{ width: 30, height: 30 }} />
-          <ImSwitch style={{ fontSize: "25px" }} onClick={() => {
-            if(signedIn === "true"){
-
-              dispatch(removeProfileData());
-              localStorage.removeItem("amsSocialToken");
-              localStorage.removeItem("amsSocialId");
-              localStorage.removeItem("amsSocialSignedIn");
-            }else{
-              localStorage.removeItem("amsSocialSignedIn");
-
-            }
-            console.log("riunadf")
-            navigate("/login")
-          }} />
+          <ImSwitch
+            style={{ fontSize: "25px" }}
+            onClick={() => {
+              if (signedIn === "true") {
+                dispatch(removeProfileData());
+                localStorage.removeItem("amsSocialToken");
+                localStorage.removeItem("amsSocialId");
+                localStorage.removeItem("amsSocialSignedIn");
+              } else {
+                localStorage.removeItem("amsSocialSignedIn");
+              }
+              console.log("riunadf");
+              navigate("/login");
+            }}
+          />
         </FlexBetween>
       ) : (
         <IconButton

@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+
     isOpen: false,
-    isSingleChatOn: false
+    isSingleChatOn: false,
+    isEdit : false,
 };
 
 export const chatSlice = createSlice({
@@ -21,11 +23,16 @@ export const chatSlice = createSlice({
         setSingleChatModeOff: (state) => {
             state.isSingleChatOn = false;
         },
-
+        setEditOn:(state) => {
+            state.isEdit = true;
+        },
+        setEditOff:(state) => {
+            state.isEdit = false;
+        },
 
     },
 });
 
-export const { setChatModeOff, setChatModeOn, setSingleChatModeOff, setSingleChatModeOn } =
+export const { setChatModeOff, setChatModeOn, setSingleChatModeOff, setSingleChatModeOn , setEditOn , setEditOff } =
     chatSlice.actions;
 export default chatSlice.reducer;

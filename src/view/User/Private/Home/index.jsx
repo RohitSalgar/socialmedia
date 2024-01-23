@@ -9,14 +9,18 @@ import { useSelector } from "react-redux";
 import ChatLayout from "../chat/index";
 import OptionalTab from "../Tabs/Tabs";
 import { useGetTrendingPosts } from "../../../../hooks/posts";
+import Profile from "../../../../components/Profile/Profile";
+import EditProfile from "../../../../components/EditProfile/EditProfile";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const chat = useSelector((state) => state.chat);
-  const { data, isLoading } = useGetTrendingPosts()
+  const dashboardView = useSelector((state) => state.profile.dashboardView);
+  const { data, isLoading } = useGetTrendingPosts();
+  console.log(chat.isEdit, "chat.isEdit");
 
   if (isLoading) {
-    return
+    return;
   }
   return (
     <Box>
@@ -36,21 +40,34 @@ const HomePage = () => {
           />
         </Box>
         <Box
+          // sx={{ maxHeight: "84vh", overflowY: "scroll", paddingRight: "5px" }}
           flexBasis={isNonMobileScreens ? "50%" : undefined}
           mt={isNonMobileScreens ? undefined : "1rem"}
         >
-          <MyPostWidget />
-          <Box fullWidth width="100%">
-            <OptionalTab />
-          </Box>
-          {data && data.map((data)=><PostWidget key={data._id} postData = {data} />)}
+          {dashboardView === "home" && (
+            <>
+              <MyPostWidget />
+              <Box fullWidth width="100%">
+                <OptionalTab />
+              </Box>
+              {data &&
+                data.map((data) => (
+                  <PostWidget key={data._id} postData={data} />
+                ))}
+            </>
+          )}
+          {dashboardView === "profile" && <Profile />}
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="25%">
-            {chat.isOpen === false && <AdvertWidget />}
+            {(chat.isOpen === false && chat.isEdit === false) && (
+              <>
+                <AdvertWidget /> <Box m="2rem 0" />
+                <FriendListWidget />
+              </>
+            )}
             {chat.isOpen === true && <ChatLayout />}
-            <Box m="2rem 0" />
-            <FriendListWidget />
+            {chat.isEdit === true && <EditProfile />}
           </Box>
         )}
       </Box>
