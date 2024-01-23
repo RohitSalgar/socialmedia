@@ -3,10 +3,10 @@ import React, { useEffect, useState, useRef } from 'react'
 import { IoIosSend } from "react-icons/io";
 
 import InputField from './InputField'
-import { useInsertComment } from '../../hooks/likeComment';
+import { useInsertComment, useInsertReply } from '../../hooks/likeComment';
 import { useSelector } from 'react-redux';
 
-function CommentInputBox({ type, postData }) {
+function CommentInputBox({ type, postData, replyId, insertAt }) {
   const { palette } = useTheme();
   const { userId } = useSelector((state) => state.profile.profileData)
   const dark = palette.neutral.dark;
@@ -14,33 +14,32 @@ function CommentInputBox({ type, postData }) {
   const newId = 5;
   const [text, setText] = useState("");
   const inputField = useRef(null);
-
-  const { mutate, isloading } = useInsertComment()
-
+  const { mutate: insertComment, isloading: insertCommentLoading } = useInsertComment()
+  const { mutate: insertReply, isloading: insertReplyLoading } = useInsertReply()
+  useEffect(() => {
+    if (insertCommentLoading || insertReplyLoading) {
+      setText("");  
+    }
+  }, [insertCommentLoading, insertReplyLoading]);
+  console.log(text)
   function handleSubmit() {
-    console.log(text, userId, postData)
     if (type === 'comment') {
       const newComment = {
         postId: postData?._id,
         userId: userId,
         message: text,
       }
-      return mutate(newComment);
+      setText("")
+      return insertComment(newComment);
     } else if (type === 'reply') {
-      const updatedComments = state.comments;
       const newReply = {
-        id: newId,
-        content: text,
-        createdAt: new Date().toString(),
-        score: 0,
-        user: currentUser,
-        replyingTo: replyingTo
+        commentId: replyId?._id,
+        userId: userId,
+        message: text,
       }
-      updatedComments[insertAt].replies.push(newReply);
-      setState(prev => { return { ...prev, newId: newId + 1, comments: updatedComments } })
-      setSelected(0);
+      setText("")
+      return insertReply(newReply);
     }
-
   }
 
   return (
@@ -72,6 +71,7 @@ function CommentInputBox({ type, postData }) {
                 }}
                 onChange={(e) => setText(e.target.value)}
                 type={type}
+                value={text}
               />
               <IconButton
                 onClick={handleSubmit}

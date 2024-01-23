@@ -2,21 +2,36 @@ import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import {
   DeleteOutlined,
 } from "@mui/icons-material";
-import { useDeleteComment } from '../../hooks/likeComment';
+import { useDeleteComment, useDeleteReply } from '../../hooks/likeComment';
 import { useSelector } from 'react-redux';
+import ReplyIcon from '@mui/icons-material/Reply';
 
-function CommentAction({ type, sx, onClick, reply, edit }) {
+function CommentAction({ type, sx, onClick, reply, edit, postData,commentId }) {
+  console.log(commentId)
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
-  const { mutate, isLoading } = useDeleteComment()
   const { userId } = useSelector((state) => state.profile.profileData)
+  const { mutate: deleteComment } = useDeleteComment()
+  const { mutate: deleteReply } = useDeleteReply()
+  const deleteComments = () => {
+    if (Object.keys(postData).includes("userReplied")) {
+      console.log(postData)
+      const payload = {
+        commentId: commentId,
+        replyId:postData?._id,
+        userId: userId
+      }
+      deleteReply(payload)
 
-  const deleteComment = () => {
-    const postData = {
-      commentId: "65aa28c270cdd307c3c34413",
-      userId: userId
+    } else {
+      const postData = {
+        commentId: id._id,
+        userId: userId
+      }
+      deleteComment(postData)
     }
   }
+
   return (
     <>
       {(type === "reply") &&
@@ -33,7 +48,10 @@ function CommentAction({ type, sx, onClick, reply, edit }) {
           }}
           onClick={onClick}
         >
-          <Typography variant='primaryAction' sx={{ ml: 1 }}>Reply</Typography>
+          <IconButton
+          >
+            <ReplyIcon />
+          </IconButton>
         </Box>
       }
       {/* {(type === "edit") && 
@@ -63,7 +81,7 @@ function CommentAction({ type, sx, onClick, reply, edit }) {
             },
             ...sx
           }}
-          onClick={deleteComment}
+          onClick={() => deleteComments()}
         >
           <IconButton
           >

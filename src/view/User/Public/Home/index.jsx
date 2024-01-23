@@ -27,7 +27,6 @@ const HomePage = () => {
         gap="0.5rem"
         justifyContent="space-between"
       >
-        {console.log("asdasdada")}
         <Box flexBasis={isNonMobileScreens ? "23%" : undefined}>
           <AdvertWidget />
           <UserWidget
