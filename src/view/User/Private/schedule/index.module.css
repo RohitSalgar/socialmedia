@@ -60,6 +60,6 @@
   width: 150px !important;
   margin-bottom: 0.5rem;
 }
-.error {
+.error fieldset {
   border-color: red !important;
 }

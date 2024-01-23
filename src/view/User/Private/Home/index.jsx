@@ -19,7 +19,6 @@ const HomePage = () => {
   const chat = useSelector((state) => state.chat);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { data, isLoading } = useGetTrendingPosts();
-  console.log(chat.isEdit, "chat.isEdit");
 
   if (isLoading) {
     return;

@@ -59,7 +59,7 @@ export default function AdminApp() {
 			))}
 			<Route
 				path="*"
-				element={<Navigate to="/admin/schedules" replace />}
+				element={<Navigate to="/admin/users" replace />}
 			/>
 		</Routes>
 	);

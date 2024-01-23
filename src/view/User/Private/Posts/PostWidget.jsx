@@ -12,10 +12,12 @@ import { useState } from "react";
 import { Stack } from '@mui/material';
 import CommentBox from '../../../../components/Comments/CommentBox';
 import CommentInputBox from '../../../../components/Comments/CommentInputBox';
-import { useGetPostComment } from "../../../../hooks/likeComment";
+import { useGetPostComment, useLikeDisLike } from "../../../../hooks/likeComment";
 import searchlogo from "../../../../assets/Images/logis1.jpeg";
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { BsFillSendExclamationFill } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { useReportPost } from "../../../../hooks/posts";
 
 const PostWidget = ({ postData }) => {
   const [isComments, setIsComments] = useState(false);
@@ -24,7 +26,13 @@ const PostWidget = ({ postData }) => {
   const [reportText, setReportText] = useState("")
   const [selected, setSelected] = useState(0); //0 for none, -id for edit, id for reply
   const { data: postComment, isLoading: postCommentLoading } = useGetPostComment(postId)
-
+  const onSuccess = () => {
+    setReport(false)
+    setReportText("")
+  }
+  const { mutate, isLoading: reportPostLoading } = useReportPost(onSuccess)
+  const { mutate: likeMutate, isLoading: likeDislikeLoadingLoading } = useLikeDisLike(onSuccess)
+  const { userId } = useSelector((state) => state.profile.profileData)
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
@@ -50,16 +58,28 @@ const PostWidget = ({ postData }) => {
       return []
     }
   }
-  const reportPost = () =>{
+  const reportPost = () => {
     const payload = {
-
+      postId: postData._id,
+      userId: userId,
+      reason: reportText,
     }
+    mutate(payload)
+
   }
 
   if (postCommentLoading) {
     return
   }
-
+  console.log(postData)
+  const likeDislike = (status) => {
+    const payload = {
+      postId: postData._id,
+      userId: userId,
+      status: status
+    }
+    likeMutate(payload)
+  }
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
@@ -75,10 +95,13 @@ const PostWidget = ({ postData }) => {
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
-            <IconButton onClick={""}>
-              {/* <FavoriteOutlined sx={{ color: primary }} /> */}
-              <FavoriteBorderOutlined />
-            </IconButton>
+            {postData?.likedBy.includes(userId) ? <IconButton onClick={() => likeDislike(2)}>
+              <FavoriteOutlined sx={{ color: primary }} />
+            </IconButton> :
+              <IconButton onClick={() => likeDislike(1)}>
+                <FavoriteBorderOutlined onClo />
+              </IconButton>
+            }
             <Typography>{postData?.likes === 1 ? `1 like` : `${postData?.likes} likes`} </Typography>
           </FlexBetween>
 
@@ -119,7 +142,7 @@ const PostWidget = ({ postData }) => {
         />
           {reportText &&
             <IconButton
-            onClick={reportPost}
+              onClick={reportPost}
             >
               <BsFillSendExclamationFill size={25} />
             </IconButton>}

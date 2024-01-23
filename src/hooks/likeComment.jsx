@@ -21,6 +21,28 @@ const useGetPostComment = (id) => {
 		},
 	});
 };
+
+const useLikeDisLike = (onSuccessFunctions) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) =>
+            fetchData(
+                {
+                    url: URL + "post/updatePostLike",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [data] }
+            ),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ["trendingPost"] });
+        },
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
+};
+
 const useInsertComment = (onSuccessFunctions) => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -105,4 +127,4 @@ const useDeleteComment = (onSuccessFunctions) => {
 
 
 
-export { useInsertComment, useDeleteComment,useGetPostComment,useInsertReply,useDeleteReply };
+export { useInsertComment, useDeleteComment,useGetPostComment,useInsertReply,useDeleteReply,useLikeDisLike };

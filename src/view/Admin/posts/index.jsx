@@ -14,7 +14,6 @@ import PostModal from "../../../components/PostModal";
 
 const posts = () => {
   const { data: postData, isLoading } = useGetReportedPosts();
-  console.log(postData,"post data")
   const titleText = "Delete Post";
   const contentText = "Are you sure that you want to delete these post";
   const [selectedPostId, setSelectedPostId] = useState(null);
@@ -115,7 +114,7 @@ const posts = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className={classes.searchInput}
-          placeholder="Search by username..."
+          placeholder="Search by created user..."
         />
         <IconButton className={classes.searchBtn}>
           <Search />

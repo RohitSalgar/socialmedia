@@ -2,12 +2,11 @@ import styles from "./index.module.css";
 import { Box, useTheme, Button } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
-import { useState } from "react";
 import TextField from "@mui/material/TextField";
 // import { useSelector } from "react-redux";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useAddSchedule } from "../../../../hooks/schedule";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AddScheduleValidation } from "../../../../validation/addSchedule";
 
@@ -20,6 +19,8 @@ const AddSchedule = () => {
   const {
     handleSubmit,
     register,
+    control,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(AddScheduleValidation),
@@ -28,8 +29,8 @@ const AddSchedule = () => {
       pol: "",
       pod: "",
       description: "",
-      bookingDate: "",
-      openingDate: "",
+      bookingDate: null,
+      openingDate: null,
     },
   });
 
@@ -40,15 +41,15 @@ const AddSchedule = () => {
   //   const { data, isLoading } = useGetTrendingNews();
 
   const onSubmit = (data) => {
-    console.log(data, "dataa");
-    mutate(data);
+    let payload = { ...data };
+    console.log(payload, "payload");
+    mutate(payload);
+    reset();
   };
 
   //   if(isLoading){
   //     return <Loader/>
   //   }
-
-  console.log(errors, "erroe");
 
   return (
     <WidgetWrapper>
@@ -85,7 +86,7 @@ const AddSchedule = () => {
           <TextField
             id="outlined-multiline-static"
             multiline
-            className={errors.pod && styles.error}
+            className={errors.description && styles.error}
             rows={2}
             {...register("description")}
             placeholder="Description..."
@@ -102,15 +103,38 @@ const AddSchedule = () => {
           }}
         >
           <FlexBetween>
-            <DatePicker
-              label="Booking Cut off"
+            <Controller
               name="bookingDate"
-              sx={{ width: "270px" }}
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  {...field}
+                  className={errors.bookingDate && styles.error}
+                  format="DD-MM-YYYY"
+                  onChange={(e) => field.onChange(e)}
+                  sx={{
+                    width: "100%",
+                    borderRadius: "1rem",
+                  }}
+                />
+              )}
             />
-            <DatePicker
-              label="Opening Date"
+            <Controller
               name="openingDate"
-              sx={{ width: "270px" }}
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  {...field}
+                  className={errors.openingDate && styles.error}
+                  format="DD-MM-YYYY"
+                  onChange={(e) => field.onChange(e)}
+                  sx={{
+                    width: "100%",
+                    borderRadius: "1rem",
+                    marginLeft: "1%",
+                  }}
+                />
+              )}
             />
           </FlexBetween>
         </Box>

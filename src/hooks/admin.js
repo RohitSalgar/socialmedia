@@ -51,7 +51,6 @@ const useDeletePost = (onSuccessFunctions) => {
                 { data: [data] }
             ),
         onSuccess: (data) => {
-            console.log(data, "data")
             onSuccessFunctions()
             toast.success(data)
             queryClient.invalidateQueries({ queryKey: ["reportedPosts"] });
