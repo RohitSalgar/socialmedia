@@ -49,6 +49,7 @@ const Profile = () => {
   ) {
     <Loader />;
   }
+
   function checkIsNumber(number) {
     if (number != null) {
       return number;

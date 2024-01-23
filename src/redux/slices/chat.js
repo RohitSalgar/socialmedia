@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-
     isOpen: false,
     isSingleChatOn: false,
     isEdit : false,

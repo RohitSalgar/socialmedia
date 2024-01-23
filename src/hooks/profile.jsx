@@ -16,7 +16,6 @@ const useGetProfile = (id) => {
         { data: [{ id }] }
       ),
     onSuccess: (data) => {
-      console.log(data, "query");
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);

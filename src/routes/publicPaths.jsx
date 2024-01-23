@@ -27,7 +27,7 @@ const publicPaths = [
 		element: RegisterComponent,
 	},
 ];
-console.log("public")
+
 function PublicApp() {
 	const location = useLocation()
 	return (

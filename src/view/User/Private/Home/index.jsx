@@ -21,6 +21,7 @@ const HomePage = () => {
   if (isLoading) {
     return;
   }
+  
   return (
     <Box>
       <Navbar />

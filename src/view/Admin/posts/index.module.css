@@ -1,0 +1,25 @@
+.postSection{
+    padding: 30px 50px;
+}
+
+.searchContainer{
+    background: #fff;
+    border-radius: 5px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+.searchInput{
+    width: 100%;
+    padding: 10px;
+}
+
+.searchBtn{
+    position: absolute !important;
+    top: 28%;
+    right: 20px;
+}
+

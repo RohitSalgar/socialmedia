@@ -38,28 +38,70 @@ const useInsertPost = (onSuccessFunctions) => {
     },
   });
 };
-
-const useGetMyPostList = (userId, viewList) => {
-  return useQuery({
-    queryKey: ["postList", userId],
-    queryFn: () =>
-      fetchData(
-        {
-          url: URL + "post/getMyPost",
-          method: "POST",
-          isAuthRequired: true,
+const useDeletePost = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) =>
+            fetchData(
+                {
+                    url: URL + "post/deletePost",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [data] }
+            ),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["trendingPost"] });
         },
-        { data: [{ userId }] }
-      ),
-    enabled: viewList === "post",
-
-    onSuccess: (data) => {
-      console.log(data, "query");
-    },
-    onError: (error) => {
-      toast.error(error.message.split(":")[1]);
-    },
-  });
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
 };
 
-export { useInsertPost, useGetTrendingPosts, useGetMyPostList };
+const useReportPost = (onSuccessFunctions) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) =>
+            fetchData(
+                {
+                    url: URL + "post/reportPost",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [data] }
+            ),
+        onSuccess: () => {
+            onSuccessFunctions()
+            queryClient.invalidateQueries({ queryKey: ["trendingPost"] });
+        },
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
+};
+
+const useGetMyPostList = (userId, viewList) => {
+    return useQuery({
+      queryKey: ["postList", userId],
+      queryFn: () =>
+        fetchData(
+          {
+            url: URL + "post/getMyPost",
+            method: "POST",
+            isAuthRequired: true,
+          },
+          { data: [{ userId }] }
+        ),
+      enabled: viewList === "post",
+  
+      onSuccess: (data) => {
+        console.log(data, "query");
+      },
+      onError: (error) => {
+        toast.error(error.message.split(":")[1]);
+      },
+    });
+  };
+
+export { useInsertPost, useGetTrendingPosts,useDeletePost,useReportPost , useGetMyPostList };

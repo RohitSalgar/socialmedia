@@ -2,12 +2,16 @@ import { combineReducers } from "@reduxjs/toolkit";
 import profileSlice from "./profileSlice"
 import authSlice from "./authSlice";
 import chatSlice from "./chat";
+import sidebarSlice from "./sidebarSlice";
 import { postSlice } from "./post";
+import popupSlice from "./popupSlice";
 
 
 export const rootReducer = combineReducers({
 	auth: authSlice,
-	profile:profileSlice,
 	chat: chatSlice,
-	post:postSlice
+	sidebar: sidebarSlice,
+	profile:profileSlice,
+	post:postSlice,
+	popup: popupSlice,
 });

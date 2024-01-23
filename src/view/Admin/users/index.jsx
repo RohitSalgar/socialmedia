@@ -1,89 +1,141 @@
-import { useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import Dialog from "@mui/material/Dialog";
-import Button from "@mui/material/Button";
-import { AdminSideBar } from "../../../components/Admin/AdminSideBar";
-import "./index.css";
+import React, { useState } from 'react';
+import classes from '../posts/index.module.css'
+import {
+    IconButton,
+    Typography,
+    Pagination
+} from "@mui/material";
+import {
+    Search
+} from "@mui/icons-material";
+import { DataGrid } from '@mui/x-data-grid';
+import { useGetAllUsers } from '../../../hooks/admin';
+import styled from "@emotion/styled";
 
-export function UsersGrid() {
-  const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+const CustomDataGrid = styled(DataGrid)`
+	.MuiTablePagination-displayedRows {
+		display: none;
+	}
+	& .MuiTablePagination-actions {
+		display: none;
+	}
+	& .MuiTablePagination-root {
+		display: flex;
+		width: 100%;
+	}
+	& .MuiTablePagination-selectLabel {
+		margin-bottom: 0px;
+	}
+`;
 
-  const handleClose = () => {
-    setOpen(false);
-  };
 
-  const columns = [
-    { field: "col1", headerName: "Name", width: 150 },
-    { field: "col2", headerName: "Company", width: 150 },
-    { field: "col3", headerName: "MobileNumber", width: 150 },
-    {
-      field: "col4",
-      headerName: "view",
-      renderCell: () => (
-        <Button
-          type="button"
-          onClick={() => {
-            handleClickOpen();
-          }}
-        >
-          VIEW
-        </Button>
-      ),
-      width: 150,
-    },
-  ];
+const users = () => {
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(3);
+    const { data, isLoading, isFetching } = useGetAllUsers(page, limit)
+    const [searchTerm,setSearchTerm] = useState("")
 
-  const rows = [
-    {
-      id: 1,
-      col1: "Vishal Goud",
-      col2: "bluewatersPVT",
-      col3: "9875356878",
-    },
-    {
-      id: 2,
-      col1: "Gowtham nandha",
-      col2: "Star PVT",
-      col3: "9878763878",
-    },
-    {
-      id: 3,
-      col1: "sidhartha roy",
-      col2: "cargopvt",
-      col3: "9872518629",
-    },
-  ];
+    const columns = [
+        {
+            field: "fullName",
+            headerName: "User Name",
+            flex: 1.5,
+            headerAlign: 'center',
+            align: 'center',
+            headerClassName: 'tabel-header'
+        },
+        {
+            field: "email",
+            headerName: "Email",
+            flex: 1.5,
+            headerAlign: 'center',
+            align: 'center',
+            headerClassName: 'tabel-header'
+        },
+        {
+            field: "designation",
+            headerName: "Designation",
+            flex: 1.5,
+            headerAlign: 'center',
+            align: 'center',
+            headerClassName: 'tabel-header'
+        },
+        {
+            field: "country",
+            headerName: "Country",
+            flex: 1.5,
+            headerAlign: 'center',
+            align: 'center',
+            headerClassName: 'tabel-header'
+        }
+    ];
 
-  return (
-    <>
-      <div className="maindiv">
-        <AdminSideBar />
-        <div className="sidediv">
-        <div className="searchbox">
-					<input
-						type="text"
-						placeholder="Search Country"
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
+
+    return <section className={classes.postSection}>
+        <div>
+            <Typography variant='h2'>User List</Typography>
+        </div>
+        <div className={classes.searchContainer}>
+            <input onChange={(e) => setSearchTerm(e.target.value)} className={classes.searchInput} placeholder="Search by username..." />
+            <IconButton className={classes.searchBtn} >
+                <Search />
+            </IconButton>
+        </div>
+        <div
+				style={{
+					height: 430,
+					width: "100%",
+					marginTop: "10px",
+					borderRadius: "5px",
+                    position:"relative"
+				}}>
+				<CustomDataGrid
+					sx={{ textTransform: "capitalize" }}
+					getRowId={(row) => row._id}
+					rows={data.filter(user => user.fullName.includes(searchTerm.toLowerCase()))}
+					columns={columns.map((column) => ({
+						...column,
+						sortable: false,
+					}))}
+					initialState={{
+						pagination: {
+							paginationModel: {
+								pageSize: 3,
+							},
+						},
+					}}
+					pageSizeOptions={[3, 6, 9]}
+					onPaginationModelChange={(params) =>
+						setLimit(params.pageSize)
+					}
+					hideFooterSelectedRowCount={true}
+					loading={isFetching}
+				/>
+				<div
+					style={{
+						display: "flex",
+						justifyContent: "flex-end",
+						margin: "auto",
+						alignItems: "center",
+						position: "absolute",
+						right: "30px",
+						top: "90%",
+					}}>
+					<Pagination
+						count={Math.ceil(10 / limit)}
+						page={page}
+						onChange={(event, value) => setPage(value)}
+						variant="outlined"
+						color="primary"
 					/>
 				</div>
-        <div
-          style={{
-            height: 430,
-            width: "100%",
-            marginTop: "10px",
-            borderRadius: "5px",
-          }}
-        >
-          <DataGrid rows={rows} columns={columns} />
-          <Dialog open={open} onClose={handleClose}>
-            <div>Dialog Content</div>
-          </Dialog>
-        </div>
-        </div>
-      </div>
-    </>
-  );
+			</div>
+    </section>
 }
+
+export default users;

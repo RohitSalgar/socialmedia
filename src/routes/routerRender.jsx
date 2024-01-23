@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { useEffect } from "react";
 import { removeProfileData } from "../redux/slices/profileSlice";
-// import OperationAdminApp from "./operationAdminPaths";
 import PublicApp from "./publicPaths";
 import PrivateApp from "./privatePath";
 import PublicHomeApp from "./publicHome";
+import AdminApp from "./adminPaths";
 
 function RouteChecker() {
 	const dispatch = useDispatch();
@@ -14,19 +14,12 @@ function RouteChecker() {
 	const token = (localStorage.getItem("amsSocialToken"));
 	const signedIn = (localStorage.getItem("amsSocialSignedIn"));
 	const decodedData = localStorage.getItem("amsSocialToken") != null ? jwtDecode(localStorage.getItem("amsSocialToken")) : null;
-console.log("run")
 	useEffect(() => {
 		if (profileData?.signedIn === true) {
 			if (token === null) {
 				dispatch(removeProfileData());
 			}
 		}
-		if (profileData?.signedIn === false) {
-			if (token === null) {
-				localStorage.removeItem("amsSocialSignedIn");
-			}
-		}
-
 		if (signedIn != null && signedIn === "true" && token) {
 			const currentTimeInSeconds = Math.floor(Date.now() / 1000);
 			const issuedTimeInSeconds = decodedData.iat;
@@ -42,18 +35,15 @@ console.log("run")
 
 
 	if (token == null && signedIn == null) {
-		console.log("SDfsdf")
 		return <PublicApp />;
 	} else if(signedIn === "false" && token == null){
-		console.log("run")
 		return <PublicHomeApp />
 	}
 	else if (signedIn != null && signedIn === "true" && token) {
 		if (decodedData.role === 1) {
-			console.log("sdfadmvfsgfvn")
 			return <PrivateApp />
 		} else {
-			return  //admin
+			return  <AdminApp />
 		}
 	}
 }
