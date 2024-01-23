@@ -29,38 +29,58 @@
 .unfollowbtn {
   text-transform: capitalize !important;
 }
-.editform label{
-    font-weight: bold;
-    width: 100% !important;
-    color: #000 !important;
+.editform label {
+  font-weight: bold;
+  width: 100% !important;
+  color: #000 !important;
 }
-.editform input{
-    margin-bottom: 10px;
-    margin-top: 5px;
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #e2e2e2;
-    border-radius: 5px;
-    font-size: 16px;
-    outline: none;
+.editform input {
+  margin-bottom: 10px;
+  margin-top: 5px;
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
 }
-.editform textarea{
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #e2e2e2;
-    border-radius: 5px;
-    font-size: 16px;
-    outline: none;
+.editform textarea {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
 }
-.changeimgbtn{
-    margin-top: 10px !important;
-    color: #fff !important;
+.changeimgbtn {
+  margin-top: 10px !important;
+  color: #fff !important;
 }
-.submitbtn{
-    background-color: #0EBD60;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
+.submitbtn {
+  background-color: #0ebd60;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+}
+.file {
+  display: none !important;
+}
+.avatardiv {
+  position: relative !important;
+}
+.filelabel {
+  position: absolute;
+  top: 27px;
+  right: 72px;
+  background: rgb(234 234 234) !important;
+  border-radius: 50%;
+  padding: 4px 5px 0px 5px;
+}
+.filelabel svg path{
+  fill:#0ebd60 !important;
+}
+.error{
+  border-color: red !important;
 }

@@ -8,7 +8,13 @@ body,
   width: 100%;
   font-family: "Rubik", sans-serif;
 }
-
+body{
+  background-color: #cad1c9 !important;
+  /* background-image: url('../src/assets/Images/back3.jpg'); */
+  background-size: cover;
+  /* height: 100vh;
+  overflow: hidden; */
+}
 .css-1pbp6xm {
   padding: 1rem 3% !important;
 }
@@ -18,7 +24,7 @@ body,
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #fff;
+  background-color: #cad1c9;
   -webkit-border-radius: 10px;
   border-radius: 10px;
 }

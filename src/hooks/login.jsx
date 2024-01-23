@@ -12,7 +12,7 @@ export async function logInApi(data) {
 	// 	import.meta.env.VITE_ENCRYPTION_KEY
 	// ).toString();
 	try {
-		const response = await fetch(URL + "user/login", {
+		const response = await fetch(URL + "users/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
