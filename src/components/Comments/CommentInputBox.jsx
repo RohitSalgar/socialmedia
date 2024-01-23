@@ -21,7 +21,6 @@ function CommentInputBox({ type, postData, replyId, insertAt }) {
       setText("");  
     }
   }, [insertCommentLoading, insertReplyLoading]);
-  console.log(text)
   function handleSubmit() {
     if (type === 'comment') {
       const newComment = {

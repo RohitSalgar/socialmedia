@@ -3,8 +3,6 @@ import { toast } from "react-toastify";
 import { URL } from "../config";
 import { fetchData } from "../helper";
 
-
-
 const useGetTrendingPosts = (id) => {
     return useQuery({
         queryKey: ["trendingPost", id],
@@ -53,7 +51,28 @@ const useDeletePost = () => {
                 { data: [data] }
             ),
         onSuccess: () => {
-            console.log("runnnn")
+            queryClient.invalidateQueries({ queryKey: ["trendingPost"] });
+        },
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
+};
+
+const useReportPost = (onSuccessFunctions) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) =>
+            fetchData(
+                {
+                    url: URL + "post/reportPost",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [data] }
+            ),
+        onSuccess: () => {
+            onSuccessFunctions()
             queryClient.invalidateQueries({ queryKey: ["trendingPost"] });
         },
         onError: (error) => {
@@ -63,5 +82,4 @@ const useDeletePost = () => {
 };
 
 
-
-export { useInsertPost, useGetTrendingPosts,useDeletePost };
+export { useInsertPost, useGetTrendingPosts,useDeletePost,useReportPost };

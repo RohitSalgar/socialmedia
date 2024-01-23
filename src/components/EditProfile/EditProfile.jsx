@@ -37,7 +37,6 @@ const EditProfile = () => {
     },
   });
 
-  console.log(errors, "errors");
   const editData = {
     fullName: profiledate && profiledate[0]?.userData?.fullName,
     designation: profiledate && profiledate[0]?.userData?.designation,
