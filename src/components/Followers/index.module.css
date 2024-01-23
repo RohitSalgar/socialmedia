@@ -20,6 +20,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 2px solid #eaeaea;
+  padding: 5px;
 }
 .followmain {
   padding: 0px 10px 0px 0px !important;
