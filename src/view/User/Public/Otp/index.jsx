@@ -3,15 +3,20 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CssBaseline from '@mui/material/CssBaseline';
-// import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 // import { toast } from "react-toastify";
 import { CircularProgress, Grid, Paper, Typography, TextField, Button } from "@mui/material";
 // import { OTPValidation } from "../../../validationSchema/otpValidation";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import searchlogo from "../../widgets/logis1.jpeg";
+import searchlogo from "../../../../assets/Images/logis1.jpeg";
 import Box from '@mui/material/Box';
-
+import {getEmail} from '../../../../hooks/otp'
+import Loader from "../../../../components/Loader/Loader";
+import { URL } from "../../../../config";
 import styles from "./index.module.css";
+import { toast } from "react-toastify";
+import { fetchData } from "../../../../helper";
+fetchData
 const defaultTheme = createTheme();
 const OTPPage = () => {
   const [emailId, setEmailId] = useState("");
@@ -35,64 +40,65 @@ const OTPPage = () => {
     },
   });
 
-  // const emailData = useMutation({
-  //   mutationFn: () => getEmail(id),
-  //   onSuccess: ({ data }) => {
-  //     setEmailId(data);
-  //   },
-  //   onError: () => {
-  //     navigate("/login");
-  //   },
-  // });
+  const emailData = useMutation({
+    mutationFn: () => getEmail(id),
+    onSuccess: (response) => {
+      const responseData = JSON.parse(response.data);
+      setEmailId(responseData.email);
+    },
+    onError: () => {
+      navigate("/login");
+    },
+  });
 
-  // const otpPost = useMutation({
-  //   mutationFn: (data) => {
-  //     const postData = {
-  //       id: id,
-  //       otp: Object.values(data).join(""),
-  //     };
-  //     return fetchData(
-  //       {
-  //         url: URL + "user/verifyOtp",
-  //         method: "POST",
-  //         isAuthRequired: true,
-  //       },
-  //       { data: [postData] }
-  //     );
-  //   },
-  //   onSuccess: (response) => {
-  //     toast.success(response);
-  //     navigate("/login");
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error.message.split(":")[1]);
-  //   },
-  // });
+  const otpPost = useMutation({
+    mutationFn: (data) => {
+      const postData = {
+        id: id,
+        otp: Object.values(data).join(""),
+      };
+      return fetchData(
+        {
+          url: URL + "users/verifyOtp",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [postData] }
+      );
+    },
+    onSuccess: (response) => {
+      toast.success(response);
+      navigate("/login");
+    },
+    onError: (error) => {
+      toast.error(error.message.split(":")[1]);
+    },
+  });
 
-  // const resendOtpData = useMutation({
-  //   mutationFn: () =>
-  //     fetchData(
-  //       {
-  //         url: URL + "user/resendOtp",
-  //         method: "POST",
-  //         isAuthRequired: true,
-  //       },
-  //       { data: [{ id }] }
-  //     ),
-  //   onSuccess: (data) => {
-  //     toast.success(data);
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error.message.split(":")[1]);
-  //   },
-  // });
+  const resendOtpData = useMutation({
+    mutationFn: () =>
+      fetchData(
+        {
+          url: URL + "users/resendOtp",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [{ id }] }
+      ),
+    onSuccess: (data) => {
+      toast.success(data);
+    },
+    onError: (error) => {
+      toast.error(error.message.split(":")[1]);
+    },
+  });
 
-  // useEffect(() => {
-  //   emailData.mutate();
-  // }, []);
+  useEffect(() => {
+    emailData.mutate();
+  }, []);
 
-  const saveData = () => {
-    // otpPost.mutate(data, id);
+  const saveData = (data) => {
+    otpPost.mutate(data, id);
   };
 
   const codeChangeHandler = (event) => {
@@ -110,9 +116,9 @@ const OTPPage = () => {
     }
   };
 
-  // if (emailData.isLoading || resendOtpData.isLoading) {
-  //   return <Loader />;
-  // }
+  if (emailData.isLoading || resendOtpData.isLoading) {
+    return <Loader />;
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -295,22 +301,22 @@ const OTPPage = () => {
                 <Button
                   type="submit"
                   fullWidth
-                  // disabled={otpPost.isLoading || resendOtpData.isLoading}
+                  disabled={otpPost.isLoading || resendOtpData.isLoading}
                   variant="contained"
                   sx={{ mt: 3, mb: 2, py:1.4, fontWeight:"600", fontSize:"14px" }}
                 >
-                  {/* {otpPost.isLoading || resendOtpData.isLoading ? (
+                  {otpPost.isLoading || resendOtpData.isLoading ? (
                   <CircularProgress size={15} />
-                ) : ( */}
-                  Submit
-                  {/* )} */}
+                ) : (
+                  "Submit"
+                  )}
                 </Button>
               </Box>
               <div className={styles.receiveotp}>
                 <p
-                // onClick={() => 
-                //   resendOtpData.mutate()
-                //   }
+                onClick={() => 
+                  resendOtpData.mutate()
+                  }
                 >
                   Didnt Receive OTP?{" "}
                   <span className={styles.forgot}>Resend</span>
