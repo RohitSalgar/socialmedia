@@ -20,12 +20,6 @@ function RouteChecker() {
 				dispatch(removeProfileData());
 			}
 		}
-		if (profileData?.signedIn === false) {
-			if (token === null) {
-				localStorage.removeItem("amsSocialSignedIn");
-			}
-		}
-
 		if (signedIn != null && signedIn === "true" && token) {
 			const currentTimeInSeconds = Math.floor(Date.now() / 1000);
 			const issuedTimeInSeconds = decodedData.iat;

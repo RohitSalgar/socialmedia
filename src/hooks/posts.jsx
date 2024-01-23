@@ -40,7 +40,28 @@ const useInsertPost = (onSuccessFunctions) => {
         },
     });
 };
+const useDeletePost = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) =>
+            fetchData(
+                {
+                    url: URL + "post/deletePost",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [data] }
+            ),
+        onSuccess: () => {
+            console.log("runnnn")
+            queryClient.invalidateQueries({ queryKey: ["trendingPost"] });
+        },
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
+};
 
 
 
-export { useInsertPost, useGetTrendingPosts };
+export { useInsertPost, useGetTrendingPosts,useDeletePost };
