@@ -28,18 +28,13 @@ const UserWidget = () => {
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
-  const connection =
-    data && data[0]?.connectionCounts?.filter((e) => e.status === 1)[0]?.count;
 
-  const following =
-    data && data[0]?.connectionCounts?.filter((e) => e.status === 2)[0]?.count;
-
-    function checkIsNumber(number){
-      if (number != null) {
-        return number
-      }
-      return 0;
+  function checkIsNumber(number) {
+    if (number != null) {
+      return number;
     }
+    return 0;
+  }
 
   if (isLoading) {
     <Loader />;
@@ -58,7 +53,7 @@ const UserWidget = () => {
             <Avatar
               sx={{ width: 100, height: 100 }}
               alt="Remy Sharp"
-              src={data && data[0]?.userData?.profile}
+              src={data?.userData?.profile}
             />
           </Box>
           <div>
@@ -72,7 +67,7 @@ const UserWidget = () => {
               }}
             >
               <Typography color={dark} variant="h5" fontWeight="500">
-                {data && data[0]?.userData?.fullName}
+                {data?.userData?.fullName}
               </Typography>
               <Typography
                 sx={{ mt: 1, textTransform: "capitalize" }}
@@ -80,7 +75,7 @@ const UserWidget = () => {
                 variant="h6"
                 fontWeight="400"
               >
-                {data && data[0]?.userData?.designation}
+                {data?.userData?.designation}
               </Typography>
             </Box>
             <div
@@ -109,7 +104,7 @@ const UserWidget = () => {
                   }}
                 >
                   <Typography color={dark} variant="h5" fontWeight="500">
-                    {checkIsNumber(connection) + checkIsNumber(following)}
+                    {checkIsNumber(data?.detailsCounts?.followersCount)}
                   </Typography>
                   <Typography color={dark} variant="h6" fontWeight="400">
                     Followers
@@ -125,7 +120,7 @@ const UserWidget = () => {
                   }}
                 >
                   <Typography color={dark} variant="h5" fontWeight="500">
-                    {checkIsNumber(following)}
+                    {checkIsNumber(data?.detailsCounts?.followingCount)}
                   </Typography>
                   <Typography color={dark} variant="h6" fontWeight="400">
                     Following
