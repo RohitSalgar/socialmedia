@@ -11,7 +11,11 @@ import OptionalTab from "../Tabs/Tabs";
 import Profile from "../../../../components/Profile/Profile";
 import EditProfile from "../../../../components/EditProfile/EditProfile";
 import { useEffect, useState } from "react";
-import { useGetForYouPost, useGetFriendsPost, useGetTrendingPosts } from "../../../../hooks/posts";
+import {
+  useGetForYouPost,
+  useGetFriendsPost,
+  useGetTrendingPosts,
+} from "../../../../hooks/posts";
 import AddSchedule from "../schedule/AddSchedule";
 import ScheduleList from "../schedule/ScheduleList";
 
@@ -19,13 +23,15 @@ const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const chat = useSelector((state) => state.chat);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
-  const { userId } = useSelector((state) => state.profile.profileData)
-  const { tabView } = useSelector((state) => state.profile)
+  const { userId } = useSelector((state) => state.profile.profileData);
+  const { tabView } = useSelector((state) => state.profile);
 
-  const { data: trendingPost, } = useGetTrendingPosts(tabView);
+  const { data: trendingPost } = useGetTrendingPosts(tabView);
   const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
-  const { data: forYouData,  } = useGetForYouPost(tabView, { state: "Tamilnadu", country: "India" });
- 
+  const { data: forYouData } = useGetForYouPost(tabView, {
+    state: "Tamilnadu",
+    country: "India",
+  });
 
   return (
     <Box>
@@ -45,7 +51,6 @@ const HomePage = () => {
           />
         </Box>
         <Box
-          sx={{ maxHeight: "84vh", overflowY: "scroll", paddingRight: "5px" }}
           flexBasis={isNonMobileScreens ? "50%" : undefined}
           mt={isNonMobileScreens ? undefined : "1rem"}
         >
@@ -55,18 +60,28 @@ const HomePage = () => {
               <Box fullWidth width="100%">
                 <OptionalTab />
               </Box>
-              {tabView === "trending" && trendingPost &&
-                trendingPost.map((data) => (
-                  <PostWidget key={data._id} postData={data} />
-                ))}
-              {tabView === "forYou" && forYouData &&
-                forYouData.map((data) => (
-                  <PostWidget key={data._id} postData={data} />
-                ))}
-              {tabView === "friend" && friendPostData &&
-                friendPostData.map((data) => (
-                  <PostWidget key={data._id} postData={data} />
-                ))}
+              <Box
+                sx={{
+                  maxHeight: "45vh",
+                  overflowY: "scroll",
+                }}
+              >
+                {tabView === "trending" &&
+                  trendingPost &&
+                  trendingPost.map((data) => (
+                    <PostWidget key={data._id} postData={data} />
+                  ))}
+                {tabView === "forYou" &&
+                  forYouData &&
+                  forYouData.map((data) => (
+                    <PostWidget key={data._id} postData={data} />
+                  ))}
+                {tabView === "friend" &&
+                  friendPostData &&
+                  friendPostData.map((data) => (
+                    <PostWidget key={data._id} postData={data} />
+                  ))}
+              </Box>
             </>
           )}
           {dashboardView === "schedule" && (
@@ -86,7 +101,7 @@ const HomePage = () => {
               </>
             )}
             {chat.isOpen === true && <ChatLayout />}
-            {chat.isEdit === true && <EditProfile />}
+            {(chat.isEdit === true && chat.isOpen === false) && <EditProfile />}
           </Box>
         )}
       </Box>

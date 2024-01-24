@@ -9,12 +9,12 @@ import { useDispatch } from "react-redux";
 import { setTabView } from "../../../../redux/slices/profileSlice";
 
 export default function OptionalTab() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [value, setValue] = React.useState(1);
   const signedIn = localStorage.getItem("amsSocialSignedIn");
 
   const handleChange = (event, newValue) => {
-    console.log(newValue,"new")
+    console.log(newValue, "new");
     setValue(newValue);
   };
 
@@ -32,19 +32,24 @@ export default function OptionalTab() {
         {signedIn === "true" && (
           <Tab
             icon={<AllInboxIcon />}
-            color='red'
+            color="red"
             iconPosition="start"
             label="For You"
-            onClick={()=>dispatch(setTabView("forYou"))}
+            onClick={() => dispatch(setTabView("forYou"))}
           />
         )}
-        <Tab icon={<WhatshotIcon />} iconPosition="start" label="Trending"  onClick={()=>dispatch(setTabView("trending"))}/>
+        <Tab
+          icon={<WhatshotIcon />}
+          iconPosition="start"
+          label="Trending"
+          onClick={() => dispatch(setTabView("trending"))}
+        />
         {signedIn === "true" && (
           <Tab
             icon={<Diversity3Icon />}
             iconPosition="start"
             label="Friend's Post"
-            onClick={()=>dispatch(setTabView("friend"))}
+            onClick={() => dispatch(setTabView("friend"))}
           />
         )}
       </Tabs>

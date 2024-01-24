@@ -143,7 +143,7 @@ const PostWidget = ({ postData }) => {
             <IconButton
               onClick={reportPost}
             >
-              <BsFillSendExclamationFill size={25} />
+              <BsFillSendExclamationFill size={20} />
             </IconButton>}
         </FlexBetween>}
       {isComments && <Box mt="0.5rem">
