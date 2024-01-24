@@ -23,6 +23,10 @@ const publicPaths = [
 		element: OTPPageComponent,
 	},
 	{
+		path: "register/:id",
+		element: RegisterComponent,
+	},
+	{
 		path: "register",
 		element: RegisterComponent,
 	},
