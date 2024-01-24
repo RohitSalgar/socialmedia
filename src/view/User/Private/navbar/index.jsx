@@ -6,6 +6,7 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
+  Divider,
 } from "@mui/material";
 import {
   Search,
@@ -25,6 +26,7 @@ import { setMode } from "../../../../redux/slices/authSlice";
 import { setChatModeOff, setChatModeOn } from "../../../../redux/slices/chat";
 import ClearIcon from "@mui/icons-material/Clear";
 import { removeProfileData } from "../../../../redux/slices/profileSlice";
+import classes from "./index.module.css";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -41,6 +43,21 @@ const Navbar = () => {
   const background = theme.palette.background.default;
   const alt = theme.palette.background.alt;
 
+  const searchItems = [
+    {
+      _id:1,
+      name: "Mahendra",
+      profilePic:
+        "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
+    },
+    {
+      _id:2,
+      name: "Rohit",
+      profilePic:
+        "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
+    },
+  ];
+
   return (
     <FlexBetween padding="1rem 3%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
@@ -53,21 +70,35 @@ const Navbar = () => {
           AllMasters
         </Typography>
       </FlexBetween>
-      <FlexBetween gap="1.75rem">
-        {isNonMobileScreens && (
-          <FlexBetween
-            backgroundColor={neutralLight}
-            borderRadius="9px"
-            gap="3rem"
-            padding="0.1rem 1.5rem"
-          >
-            <InputBase placeholder="Search..." style={{ width: "250px" }} />
-            <IconButton>
-              <Search />
-            </IconButton>
-          </FlexBetween>
-        )}
-      </FlexBetween>
+      <div>
+        <FlexBetween gap="1.75rem">
+          {isNonMobileScreens && (
+            <FlexBetween
+              backgroundColor={neutralLight}
+              borderRadius="9px"
+              gap="3rem"
+              padding="0.1rem 1.5rem"
+            >
+              <InputBase placeholder="Search..." style={{ width: "250px" }} />
+              <IconButton>
+                <Search />
+              </IconButton>
+            </FlexBetween>
+          )}
+        </FlexBetween>
+        <div className={classes.searchitemsContainer}>
+          {searchItems.map((value) => {
+            return (
+              <div key={value._id} className={classes.profileContainer}>
+                <div>
+                  <img className={classes.profilePic} src={value.profilePic} alt="" />
+                </div>
+                <div>{value.name}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
       {/* DESKTOP NAV */}
       {isNonMobileScreens ? (
