@@ -17,7 +17,7 @@ const EditProfile = () => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
   const medium = palette.neutral.medium;
-  const profileheadclr = palette.black.medium;
+  const dark = palette.neutral.dark;
   const userId = useSelector((state) => state.profile.profileData.userId);
   const { data: profiledate, isLoading } = useGetProfile(userId);
   const { mutate, isLoading: mutateLoading } = useEditProfile();
@@ -67,8 +67,8 @@ const EditProfile = () => {
           }}
         >
           <Typography
-            color={profileheadclr}
-            sx={{ fontWeight: "bold", fontSize: "20px" }}
+            color={dark}
+            sx={{ fontWeight: "500", fontSize: "20px" }}
           >
             Edit profile
           </Typography>

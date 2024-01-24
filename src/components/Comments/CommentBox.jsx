@@ -7,6 +7,7 @@ import CommentInputBox from "./CommentInputBox";
 import DeleteDialog from "./DeleteDialog";
 import EditField from "./EditField";
 import { useGetPostComment } from "../../hooks/likeComment";
+import styles from "./index.module.css";
 
 function CommentBox({
   id,
@@ -92,8 +93,8 @@ function CommentBox({
           display: "flex",
           width: "100%",
           mb: 1,
-          borderRadius: "4px",
-          border: `1px solid ${dark}`,
+          borderRadius: "10px",
+          background: "#bae2cd54",
           p: 1,
         }}
       >
@@ -147,8 +148,8 @@ function CommentBox({
         />
       )}
       {replies && replies.length > 0 && (
-        <Box sx={{ display: "flex", width: "96%", ml: 3 }}>
-          <Box sx={{ width: "100%" }}>
+        <Box sx={{ display: "flex", width: "94%", ml: 4 }}>
+          <Box sx={{ width: "100%" }} className={styles.repliesdiv}>
             {replies.map((reply) => (
               <CommentBox
                 key={reply.id}

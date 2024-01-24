@@ -2,14 +2,23 @@
   width: 100%;
   margin-top: 5px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px dotted gray;
-  padding: 5px;
+  border-bottom: 1px solid #bebebe;
+  padding: 5px 0px !important;
   cursor: pointer;
+}
+
+.imgdiv {
+  display: flex;
+  align-items: center;
+  gap: 5px !important;
 }
 
 .ChatPersonName {
   font: bold;
   font-size: medium;
+}
+.svgimg path {
+  fill: #bebebe;
 }

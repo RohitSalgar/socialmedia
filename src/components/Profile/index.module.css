@@ -5,16 +5,16 @@
   gap: 10px;
 }
 .avatarname {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 20px !important;
   margin: 0;
   padding-top: 10px;
+  font-weight: 500 !important;
 }
 .profilemain {
   padding: 0px 40px;
 }
 .postdiv {
-  height: 230px;
+  height: 240px;
   overflow-y: scroll;
 }
 .nameandeditdiv {
@@ -24,9 +24,15 @@
 }
 .editbtn {
   text-transform: capitalize !important;
-  background-color: #f0f0f0 !important;
+  color: #fff !important;
+  background-color: #0EBD60 !important;
 }
 .closediv {
   display: flex;
   justify-content: end;
+}
+.closebtn{
+  padding: 0 !important;
+  min-width: 0 !important;
+  color: #adadad !important;
 }

@@ -29,7 +29,7 @@ function CommentHeader({ user, createdAt, onDelete, onEdit, onReply, reply, edit
         <Box className="header-left" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
           <Avatar
             alt="avatar"
-            sx={{ width: 32, height: 32 }}
+            sx={{ width: 25, height: 25 }}
           />
           <Box
             sx={{
@@ -42,7 +42,7 @@ function CommentHeader({ user, createdAt, onDelete, onEdit, onReply, reply, edit
                 <Typography variant="you" sx={{ ml: 1, height: 18, py: '2px', px: '6px', lineHeight: 1, borderRadius: '3px', textTransform:"capitalize" }}>you</Typography>
             :
             <>
-              <Typography color={dark} variant="fullName" textTransform={"capitalize"} fontWeight="400" sx={{ ml: 1 }}>{postData?.userInfo.fullName}</Typography>
+              <Typography color={dark} variant="fullName" textTransform={"capitalize"} fontWeight="400" sx={{ ml: 1 }}>{postData?.userInfo?.fullName}</Typography>
               <Typography sx={{ ml: 1 }} textTransform={"capitalize"} color={dark} variant="designation" fontWeight="300">
                 MERN stack Developer
               </Typography></> 

@@ -15,7 +15,7 @@
 }
 
 .user {
-  background-color: #dcf8c6;
+  background-color: #f8c6c6;
   padding: 8px;
   border-radius: 8px;
   align-self: flex-end;
@@ -29,10 +29,9 @@
 }
 
 .chatHeader {
-  background-color: #eeebc7;
+  background-color: #ebebeb;
   color: rgba(42, 40, 40, 0.744);
   padding: 3px;
-  border-radius: 5px;
   font-size: 18px;
   font-weight: bold;
 }
@@ -49,9 +48,10 @@
 .chatInput {
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 0px 10px;
   border-radius: 5px;
   background-color: #ededed;
+  margin-top: 10px;
 }
 
 .messageInput {
@@ -61,6 +61,7 @@
   border-radius: 5px;
   border: none;
   outline: none;
+  background-color: #ededed;
 }
 
 .sendButton {
@@ -75,7 +76,7 @@
   text-align: start;
   padding: 2% 4%;
   margin-top: 3% !important;
-  background-color: #cdd1c8d6;
+  background-color: #bae2cd54;
   color: black;
   width: fit-content;
   font-size: 11px !important;
@@ -83,7 +84,7 @@
 .receiver {
   text-align: end;
   border-radius: 5px;
-  background-color: #a0f3e9;
+  background-color: #ebebeb;
   width: fit-content;
   color: black;
   padding: 2% 4%;

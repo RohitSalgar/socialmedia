@@ -86,9 +86,9 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
       >
         {
           <>
-            <Box sx={{ display: "flex", width: "100%" }}>
+            <Box sx={{ display: "flex", width: "100%",alignItems:'center',mb:'5px' }}>
               <Avatar
-                sx={{ width: 40, height: 40, mr: 1 }}
+                sx={{ width: 25, height: 25, mr: 1 }}
                 alt="Remy Sharp"
                 src="/static/images/avatar/1.jpg"
               />
@@ -109,7 +109,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                 value={text}
               />
               <IconButton onClick={handleSubmit}>
-                <IoIosSend size={30} />
+                <IoIosSend size={25} />
               </IconButton>
             </Box>
           </>

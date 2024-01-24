@@ -6,11 +6,10 @@ body,
 .app {
   height: 100%;
   width: 100%;
-  font-family: "Rubik", sans-serif;
+  font-family: "Rubik", sans-serif !important;
 }
 body {
-  background-color: #cad1c9 !important;
-  /* background-image: url('../src/assets/Images/back3.jpg'); */
+  background-color: #bae2cd54 !important;
   background-size: cover;
   /* height: 100vh;
   overflow: hidden; */
@@ -18,19 +17,6 @@ body {
 .css-1pbp6xm {
   padding: 1rem 3% !important;
 }
-/* Scrollbar Styling */
 ::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: #cad1c9;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 5px;
-  background: #c5c5c5;
+  width: 0px;
 }

@@ -52,7 +52,7 @@ function Sidebar({ onClick }) {
               <Link
                 to={"users"}
                 className={`${styles.listitem} ${
-                  activeStep === "country" ? styles.activesidebar : ""
+                  activeStep === "users" ? styles.activesidebar : ""
                 }`}
               >
                 <PeopleOutlinedIcon />
@@ -65,7 +65,7 @@ function Sidebar({ onClick }) {
               <Link
                 to={"pages"}
                 className={`${styles.listitem} ${
-                  activeStep === "country" ? styles.activesidebar : ""
+                  activeStep === "pages" ? styles.activesidebar : ""
                 }`}
               >
                 <NewspaperOutlinedIcon />
@@ -78,7 +78,7 @@ function Sidebar({ onClick }) {
               <Link
                 to={"posts"}
                 className={`${styles.listitem} ${
-                  activeStep === "country" ? styles.activesidebar : ""
+                  activeStep === "posts" ? styles.activesidebar : ""
                 }`}
               >
                 <MailOutlineIcon />
@@ -93,7 +93,7 @@ function Sidebar({ onClick }) {
               <Link
                 to={"schedules"}
                 className={`${styles.listitem} ${
-                  activeStep === "country" ? styles.activesidebar : ""
+                  activeStep === "schedules" ? styles.activesidebar : ""
                 }`}
               >
                 <EventNoteIcon />

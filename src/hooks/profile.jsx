@@ -15,8 +15,6 @@ const useGetProfile = (id) => {
         },
         { data: [{ id }] }
       ),
-    onSuccess: (data) => {
-    },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },
@@ -55,9 +53,6 @@ const useGetFollowList = (id, viewList) => {
         { data: [{ id }] }
       ),
     enabled: viewList === "followers",
-    onSuccess: (data) => {
-      console.log(data, "query");
-    },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },
@@ -76,10 +71,6 @@ const useGetFollowingList = (id, viewList) => {
         { data: [{ id }] }
       ),
     enabled: viewList === "following",
-
-    onSuccess: (data) => {
-      console.log(data, "query");
-    },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },
@@ -98,9 +89,26 @@ const useGetConnectionList = (id, viewList) => {
         { data: [{ id }] }
       ),
     enabled: viewList === "connection",
-
-    onSuccess: (data) => {
-      console.log(data, "query");
+    onError: (error) => {
+      toast.error(error.message.split(":")[1]);
+    },
+  });
+};
+const useChangeConnectionStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) =>
+      fetchData(
+        {
+          url: URL + "users/changeConnectionStatus",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [data] }
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["followingList"] });
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
@@ -114,4 +122,5 @@ export {
   useGetFollowList,
   useGetFollowingList,
   useGetConnectionList,
+  useChangeConnectionStatus,
 };
