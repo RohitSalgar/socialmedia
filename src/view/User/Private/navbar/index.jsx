@@ -134,7 +134,6 @@ const Navbar = () => {
               } else {
                 localStorage.removeItem("amsSocialSignedIn");
               }
-              console.log("riunadf");
               navigate("/login");
             }}
           />

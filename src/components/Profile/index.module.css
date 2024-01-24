@@ -10,20 +10,28 @@
   margin: 0;
   padding-top: 10px;
 }
-.profilemain{
-    padding: 0px 40px;
+.profilemain {
+  padding: 0px 40px;
 }
-.postdiv{
-    height: 230px;
-    overflow-y: scroll;
-
+.postdiv {
+  height: 230px;
+  overflow-y: scroll;
 }
-.nameandeditdiv{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.nameandeditdiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.editbtn{
-    text-transform: capitalize !important;
-    background-color: #F0F0F0 !important;
+.editbtn {
+  text-transform: capitalize !important;
+  background-color: #f0f0f0 !important;
+}
+.closediv {
+  display: flex;
+  justify-content: end;
+}
+.closebtn{
+  padding: 0 !important;
+  min-width: 0 !important;
+  color: #adadad !important;
 }

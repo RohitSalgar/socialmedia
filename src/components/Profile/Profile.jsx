@@ -2,13 +2,22 @@ import { Box, Typography, Button, useTheme } from "@mui/material";
 import WidgetWrapper from "../WidgetWrapper";
 import Avatar from "@mui/material/Avatar";
 import styles from "./index.module.css";
-import ProfilePost from "../ProfilePosts";
 import Followers from "../Followers/Followers";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setEditOn } from "../../redux/slices/chat";
-import { useGetProfile } from "../../hooks/profile";
+import {
+  useGetFollowList,
+  useGetProfile,
+  useGetFollowingList,
+  useGetConnectionList,
+} from "../../hooks/profile";
 import Loader from "../Loader/Loader";
+import PostWidget from "../../view/User/Private/Posts/PostWidget";
+import { useGetMyPostList } from "../../hooks/posts";
+import { setViewProfileId } from "../../redux/slices/profileSlice";
+import LookingEmpty from "../LookingEmpty/LookingEmpty";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Profile = () => {
   const { palette } = useTheme();
@@ -18,18 +27,29 @@ const Profile = () => {
   const medium = palette.neutral.medium;
   const profileheadclr = palette.black.medium;
   const userId = useSelector((state) => state.profile.profileData.userId);
-  const { data, isLoading } = useGetProfile(userId);
-
-  const connection =
-    data && data[0]?.connectionCounts?.filter((e) => e.status === 1)[0]?.count;
-
-  const following =
-    data && data[0]?.connectionCounts?.filter((e) => e.status === 2)[0]?.count;
-
-  if (isLoading) {
+  const profileId = useSelector((state) => state.profile.viewProfileId);
+  const { data, isLoading } = useGetProfile(profileId);
+  const { data: followList, isLoading: followLoading } = useGetFollowList(
+    profileId,
+    viewList
+  );
+  const { data: followingList, isLoading: followingLoading } =
+    useGetFollowingList(profileId, viewList);
+  const { data: connectionList, isLoading: connectionLoading } =
+    useGetConnectionList(profileId, viewList);
+  const { data: postList, isLoading: postLoading } = useGetMyPostList(
+    profileId,
+    viewList
+  );
+  if (
+    isLoading ||
+    followLoading ||
+    followingLoading ||
+    connectionLoading ||
+    postLoading
+  ) {
     <Loader />;
   }
-  console.log(data && data, "data");
 
   function checkIsNumber(number) {
     if (number != null) {
@@ -40,12 +60,22 @@ const Profile = () => {
 
   return (
     <WidgetWrapper>
+      {profileId !== userId && (
+        <Box className={styles.closediv}>
+          <Button
+            className={styles.closebtn}
+            onClick={() => dispatch(setViewProfileId(userId))}
+          >
+            <CloseRoundedIcon />
+          </Button>
+        </Box>
+      )}
       <Box className={styles.profilemain}>
         <Typography color={medium} m="0.5rem 0">
           <Box className={styles.avatardiv}>
             <Avatar
               alt="B"
-              src={data && data[0]?.userData?.profile}
+              src={data?.userData?.profile}
               sx={{ width: 80, height: 80 }}
             />
             <Box
@@ -71,7 +101,7 @@ const Profile = () => {
                   onClick={() => setViewList("post")}
                 >
                   <Typography color={dark} variant="h5" fontWeight="500">
-                    {data && data[0]?.postCount}
+                    {checkIsNumber(data?.detailsCounts?.postCount)}
                   </Typography>
                   <Typography color={dark} variant="h6" fontWeight="400">
                     Posts
@@ -92,7 +122,7 @@ const Profile = () => {
                   onClick={() => setViewList("followers")}
                 >
                   <Typography color={dark} variant="h5" fontWeight="500">
-                    {checkIsNumber(connection) + checkIsNumber(following)}
+                    {checkIsNumber(data?.detailsCounts?.followersCount)}
                   </Typography>
                   <Typography color={dark} variant="h6" fontWeight="400">
                     Followers
@@ -108,12 +138,17 @@ const Profile = () => {
                   mt: "3px",
                 }}
               >
-                <Typography color={dark} variant="h5" fontWeight="500">
-                  {checkIsNumber(following)}
-                </Typography>
-                <Typography color={dark} variant="h6" fontWeight="400">
-                  Following
-                </Typography>
+                <Box
+                  sx={{ textAlign: "center", cursor: "pointer" }}
+                  onClick={() => setViewList("following")}
+                >
+                  <Typography color={dark} variant="h5" fontWeight="500">
+                    {checkIsNumber(data?.detailsCounts?.followingCount)}
+                  </Typography>
+                  <Typography color={dark} variant="h6" fontWeight="400">
+                    Following
+                  </Typography>
+                </Box>
               </Box>
               <Box
                 sx={{
@@ -124,12 +159,17 @@ const Profile = () => {
                   mt: "3px",
                 }}
               >
-                <Typography color={dark} variant="h5" fontWeight="500">
-                  {checkIsNumber(connection)}
-                </Typography>
-                <Typography color={dark} variant="h6" fontWeight="400">
-                  Connection
-                </Typography>
+                <Box
+                  sx={{ textAlign: "center", cursor: "pointer" }}
+                  onClick={() => setViewList("connection")}
+                >
+                  <Typography color={dark} variant="h5" fontWeight="500">
+                    {checkIsNumber(data?.detailsCounts?.connectionCount)}
+                  </Typography>
+                  <Typography color={dark} variant="h6" fontWeight="400">
+                    Connection
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -139,15 +179,17 @@ const Profile = () => {
               className={styles.avatarname}
               style={{ fontSize: "20px", fontWeight: "bold" }}
             >
-              {data && data[0]?.userData?.fullName}
+              {data?.userData?.fullName}
             </Typography>
-            <Button
-              variant="dark"
-              onClick={() => dispatch(setEditOn())}
-              className={styles.editbtn}
-            >
-              Edit Profile
-            </Button>
+            {profileId === userId && (
+              <Button
+                variant="dark"
+                onClick={() => dispatch(setEditOn())}
+                className={styles.editbtn}
+              >
+                Edit Profile
+              </Button>
+            )}
           </Box>
           <Typography
             variant="h6"
@@ -156,7 +198,7 @@ const Profile = () => {
               paddingTop: "10px",
             }}
           >
-            {data && data[0]?.userData?.about}
+            {data?.userData?.about}
           </Typography>
         </Typography>
         {viewList === "post" && (
@@ -165,7 +207,10 @@ const Profile = () => {
               <Typography sx={{ fontWeight: "bold" }}>Posts</Typography>
             </Box>
             <Box className={styles.postdiv}>
-              <ProfilePost />
+              {postList?.map((data) => (
+                <PostWidget key={data._id} postData={data} />
+              ))}
+              {postList?.length === 0 && <LookingEmpty />}
             </Box>
           </Box>
         )}
@@ -175,19 +220,61 @@ const Profile = () => {
               <Typography sx={{ fontWeight: "bold" }}>Followers</Typography>
             </Box>
             <Box className={styles.postdiv}>
-              <Followers />
-              <Followers />
-              <Followers />
-              <Followers />
-              <Followers />
-              <Followers />
-              <Followers />
-              <Followers />
-              <Followers />
-              <Followers />
-              <Followers />
-              <Followers />
-              <Followers />
+              {followList?.map((e, i) => {
+                return (
+                  <Followers
+                    key={i}
+                    id={e?.senderId}
+                    fullName={e?.senderName}
+                    data={e}
+                    type="followers"
+                  />
+                );
+              })}
+              {followList?.length === 0 && <LookingEmpty />}
+            </Box>
+          </Box>
+        )}
+        {viewList === "following" && (
+          <Box>
+            <Box>
+              <Typography sx={{ fontWeight: "bold" }}>Followings</Typography>
+            </Box>
+            <Box className={styles.postdiv}>
+              {followingList?.map((e, i) => {
+                return (
+                  <Followers
+                    key={i}
+                    id={e?.recipientId}
+                    fullName={e?.recipientName}
+                    data={e}
+                    type="following"
+                    unFollow={profileId === userId ? true : false}
+                  />
+                );
+              })}
+              {followingList?.length === 0 && <LookingEmpty />}
+            </Box>
+          </Box>
+        )}
+        {viewList === "connection" && (
+          <Box>
+            <Box>
+              <Typography sx={{ fontWeight: "bold" }}>Connections</Typography>
+            </Box>
+            <Box className={styles.postdiv}>
+              {connectionList?.map((e, i) => {
+                return (
+                  <Followers
+                    key={i}
+                    id={e?.recipientId}
+                    fullName={e?.recipientName}
+                    data={e}
+                    type="connection"
+                  />
+                );
+              })}
+              {connectionList?.length === 0 && <LookingEmpty />}
             </Box>
           </Box>
         )}

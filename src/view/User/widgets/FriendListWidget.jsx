@@ -6,24 +6,29 @@ const FriendListWidget = ({data}) => {
   const { palette } = useTheme();
 
 
+  const friendReq = [1, 2, 3];
   return (
     <WidgetWrapper>
       <Typography
         color={palette.neutral.dark}
         variant="h5"
         fontWeight="500"
-        sx={{ mb: "1.5rem" }}
+        sx={{ mb: "0.3rem" }}
       >
         Friend Request
       </Typography>
-      <Box display="flex" flexDirection="column" gap="1.5rem">
-        <Friend
-          key={"5050"}
-          friendId={"393939"}
-          name={"VIJAY"}
-          subtitle={"NOTIHNG"}
-          userPicturePath={"VVV"}
-        />
+      <Box display="flex" flexDirection="column" gap="0.2rem">
+        {friendReq.map((e, i) => {
+          return (
+            <Friend
+              key={i}
+              friendId={e.friendId}
+              name={e.name}
+              subtitle={e.subtitle}
+              userPicturePath={e.userPicturePath}
+            />
+          );
+        })}
       </Box>
     </WidgetWrapper>
   );

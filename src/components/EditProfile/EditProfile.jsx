@@ -37,11 +37,10 @@ const EditProfile = () => {
     },
   });
 
-  console.log(errors, "errors");
   const editData = {
-    fullName: profiledate && profiledate[0]?.userData?.fullName,
-    designation: profiledate && profiledate[0]?.userData?.designation,
-    about: profiledate && profiledate[0]?.userData?.about,
+    fullName: profiledate?.userData?.fullName,
+    designation: profiledate?.userData?.designation,
+    about: profiledate?.userData?.about,
   };
 
   useEffect(() => {
