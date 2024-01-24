@@ -4,51 +4,62 @@ import { URL } from "../config";
 import { fetchData } from "../helper";
 import { useSelector } from "react-redux";
 
-const useGetTrendingPosts = () => {
-    const { userId } = useSelector((state) => state.profile.profileData);
-    const { tabView } = useSelector((state) => state.profile);
-
-    const payload = () => {
-        if (tabView === "trending") {
-            return {
+const useGetTrendingPosts = (tabView) => {
+    return useQuery({
+        queryKey: ["trending"],
+        queryFn: () => {
+            return fetchData({
                 url: URL + "post/getTrendingPost",
                 isAuthRequired: true,
-            };
-        } else if (tabView === "friend") {
-            const dataPayload = {
-                userId
-            };
-            return {
-                url: URL + "post/getFriendsPost",
-                method: "POST",
-                data: [dataPayload]
-            };
-        } else {
-            const dataPayload = {
-                userId: userId
-            };
-            return {
-                url: URL + "post/getForYouPost",
-                method: "POST",
-                data: [dataPayload]
-            };
-        }
-    };
-
-    return useQuery({
-        queryKey: ["trendingPost", tabView],
-        queryFn: () => fetchData(payload(tabView)),
-        onSuccess: (data) => {
-            console.log(data, "sdf");
+            })
         },
-        enabled: !!tabView,
+        enabled: tabView === "trending",
+    });
+};
+
+const useGetFriendsPost = (tabView, payload, onSuccess) => {
+    return useQuery({
+        queryKey: ["friend"],
+        queryFn: () =>
+            fetchData(
+                {
+                    url: URL + "post/getFriendsPost",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [payload] }
+            ),
+        onSuccess: (data) => {
+            onSuccess(data)
+        },
+        enabled: tabView === "friend",
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
-            console.log(error);
         },
     });
 };
 
+const useGetForYouPost = (tabView, payload, onSuccess) => {
+    return useQuery({
+        queryKey: ["forYou"],
+        queryFn: () =>
+            fetchData(
+                {
+                    url: URL + "post/getForYouPost",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [payload] }
+            ),
+        onSuccess: (data) => {
+            onSuccess(data)
+        },
+        enabled: tabView === "forYou",
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
+};
 
 const useInsertPost = (onSuccessFunctions) => {
     const queryClient = useQueryClient();
@@ -63,14 +74,17 @@ const useInsertPost = (onSuccessFunctions) => {
                 { data: [data] }
             ),
         onSuccess: () => {
-            onSuccessFunctions();
-            queryClient.invalidateQueries({ queryKey: ["trendingPost"] });
+            onSuccessFunctions()
+            queryClient.invalidateQueries({ queryKey: ["trending"] });
+            queryClient.invalidateQueries({ queryKey: ["forYou"] });
+            queryClient.invalidateQueries({ queryKey: ["friend"] });
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
         },
     });
 };
+
 const useDeletePost = () => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -84,10 +98,9 @@ const useDeletePost = () => {
                 { data: [data] }
             ),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["trendingPost"] });
-            queryClient.invalidateQueries({ queryKey: ["forYouPost"] });
-            queryClient.invalidateQueries({ queryKey: ["friendPost"] });
-        },
+            queryClient.invalidateQueries({ queryKey: ["trending"] });
+            queryClient.invalidateQueries({ queryKey: ["forYou"] });
+            queryClient.invalidateQueries({ queryKey: ["friend"] });        },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
         },
@@ -108,7 +121,9 @@ const useReportPost = (onSuccessFunctions) => {
             ),
         onSuccess: () => {
             onSuccessFunctions()
-            queryClient.invalidateQueries({ queryKey: ["trendingPost"] });
+            queryClient.invalidateQueries({ queryKey: ["trending"] });
+            queryClient.invalidateQueries({ queryKey: ["friend"] });
+            queryClient.invalidateQueries({ queryKey: ["forYou"] });
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
@@ -129,14 +144,10 @@ const useGetMyPostList = (userId, viewList) => {
                 { data: [{ userId }] }
             ),
         enabled: viewList === "post",
-
-        onSuccess: (data) => {
-            console.log(data, "query");
-        },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
         },
     });
 };
 
-export { useInsertPost, useGetTrendingPosts, useDeletePost, useReportPost, useGetMyPostList };
+export { useInsertPost, useGetTrendingPosts, useDeletePost, useReportPost, useGetMyPostList, useGetForYouPost, useGetFriendsPost };

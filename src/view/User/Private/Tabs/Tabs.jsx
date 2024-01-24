@@ -10,10 +10,11 @@ import { setTabView } from "../../../../redux/slices/profileSlice";
 
 export default function OptionalTab() {
   const dispatch = useDispatch()
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
   const signedIn = localStorage.getItem("amsSocialSignedIn");
 
   const handleChange = (event, newValue) => {
+    console.log(newValue,"new")
     setValue(newValue);
   };
 

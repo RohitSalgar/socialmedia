@@ -7,12 +7,10 @@ import AdvertWidget from "./AdvertWidget";
 import FriendListWidget from "../../widgets/FriendListWidget";
 import { useSelector } from "react-redux";
 import OptionalTab from "../../Private/Tabs/Tabs";
-import { useGetTrendingPosts } from "../../../../hooks/posts";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const chat = useSelector((state) => state.chat);
-  const { data, isLoading } = useGetTrendingPosts()
 
   if (isLoading) {
     return
