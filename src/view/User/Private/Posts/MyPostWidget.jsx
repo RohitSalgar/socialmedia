@@ -25,7 +25,7 @@ import { useInsertPost } from "../../../../hooks/posts";
 const MyPostWidget = () => {
   const{userId} = useSelector((state)=>state.profile.profileData)
   const [isImage, setIsImage] = useState(false);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState([]);
   const [hashTag, setHashTags] = useState(false)
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([])
@@ -80,14 +80,21 @@ const onSuccess = ()=>{
   // }, []);
 
   const onSubmit = () => {
+    console.log(image)
+    const formData = new FormData();
+    formData.append('files', image);
+    formData.append('createdBy', userId);
+    formData.append('description', description);
+    console.log(formData)
     const postData = {
       ...location,
       createdBy:userId,
       description,
       hashTags:tags,
-      files:image
+      files:formData
     }
-    mutate(postData)
+    
+    mutate(formData)
 
   }
 
