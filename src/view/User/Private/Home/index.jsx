@@ -11,12 +11,30 @@ import OptionalTab from "../Tabs/Tabs";
 import { useGetTrendingPosts } from "../../../../hooks/posts";
 import Profile from "../../../../components/Profile/Profile";
 import EditProfile from "../../../../components/EditProfile/EditProfile";
+import { useGetAllFrdRequestByUserId } from "../../../../hooks/user";
+
+
+  const searchItems = [
+    {
+      _id:1,
+      name: "Mahendra",
+      profilePic:
+        "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
+    },
+    {
+      _id:2,
+      name: "Rohit",
+      profilePic:
+        "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
+    },
+  ];
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const chat = useSelector((state) => state.chat);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { data, isLoading } = useGetTrendingPosts();
+  const {data: frdRequestData, isLoading: frdRequestLoading} = useGetAllFrdRequestByUserId()
   console.log(chat.isEdit, "chat.isEdit");
 
   if (isLoading) {
@@ -64,7 +82,7 @@ const HomePage = () => {
             {(chat.isOpen === false && chat.isEdit === false) && (
               <>
                 <AdvertWidget /> <Box m="2rem 0" />
-                <FriendListWidget />
+                <FriendListWidget data={searchItems} />
               </>
             )}
             {chat.isOpen === true && <ChatLayout />}

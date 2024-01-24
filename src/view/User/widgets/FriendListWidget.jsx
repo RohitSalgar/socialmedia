@@ -2,8 +2,9 @@ import { Box, Typography, useTheme } from "@mui/material";
 import Friend from "../../../components/PostTitle";
 import WidgetWrapper from "../../../components/WidgetWrapper";
 
-const FriendListWidget = () => {
+const FriendListWidget = ({data}) => {
   const { palette } = useTheme();
+
 
   return (
     <WidgetWrapper>
@@ -13,7 +14,7 @@ const FriendListWidget = () => {
         fontWeight="500"
         sx={{ mb: "1.5rem" }}
       >
-        Friend List
+        Friend Request
       </Typography>
       <Box display="flex" flexDirection="column" gap="1.5rem">
         <Friend
