@@ -3,8 +3,6 @@ import { toast } from "react-toastify";
 import { URL } from "../config";
 import { fetchData } from "../helper";
 
-
-
 const useGetReportedPosts = () => {
     return useQuery({
         queryKey: ["reportedPosts"],

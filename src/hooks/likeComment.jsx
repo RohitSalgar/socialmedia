@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { URL } from "../config";
 import { fetchData } from "../helper";
+import { useSelector } from "react-redux";
 
 const useGetPostComment = (id) => {
 	return useQuery({
@@ -22,7 +23,7 @@ const useGetPostComment = (id) => {
 	});
 };
 
-const useLikeDisLike = (onSuccessFunctions) => {
+const useLikeDisLike = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) =>
@@ -34,8 +35,10 @@ const useLikeDisLike = (onSuccessFunctions) => {
                 },
                 { data: [data] }
             ),
-        onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ["trendingPost"] });
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["trending"] });
+            queryClient.invalidateQueries({ queryKey: ["forYou"] });
+            queryClient.invalidateQueries({ queryKey: ["friend"] });
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
@@ -43,7 +46,7 @@ const useLikeDisLike = (onSuccessFunctions) => {
     });
 };
 
-const useInsertComment = (onSuccessFunctions) => {
+const useInsertComment = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) =>
@@ -63,7 +66,7 @@ const useInsertComment = (onSuccessFunctions) => {
         },
     });
 };
-const useInsertReply = (onSuccessFunctions) => {
+const useInsertReply = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) =>
@@ -84,7 +87,7 @@ const useInsertReply = (onSuccessFunctions) => {
     });
 };
 
-const useDeleteComment = (onSuccessFunctions) => {
+const useDeleteComment = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) =>
@@ -103,7 +106,9 @@ const useDeleteComment = (onSuccessFunctions) => {
             toast.error(error.message.split(":")[1]);
         },
     });
-};const useDeleteReply = (onSuccessFunctions) => {
+};
+
+const useDeleteReply = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) =>
