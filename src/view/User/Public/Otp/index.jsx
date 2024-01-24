@@ -3,10 +3,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CssBaseline from '@mui/material/CssBaseline';
-import { useMutation } from "@tanstack/react-query";
+import { useMutation,useQueryClient } from "@tanstack/react-query";
 // import { toast } from "react-toastify";
 import { CircularProgress, Grid, Paper, Typography, TextField, Button } from "@mui/material";
-// import { OTPValidation } from "../../../validationSchema/otpValidation";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import searchlogo from "../../../../assets/Images/logis1.jpeg";
 import Box from '@mui/material/Box';
@@ -16,19 +15,37 @@ import { URL } from "../../../../config";
 import styles from "./index.module.css";
 import { toast } from "react-toastify";
 import { fetchData } from "../../../../helper";
-fetchData
+import { otpValidation } from "../../../../Validations/OtpValidations";
+import jwtDecode from "jwt-decode";
+import { useDispatch } from 'react-redux';
+import { setProfileData } from "../../../../redux/slices/profileSlice";
 const defaultTheme = createTheme();
 const OTPPage = () => {
   const [emailId, setEmailId] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
+  function checkRole(role) {
+    switch (role) {
+      case 1:
+        navigate("/user/home");
+        break;
+      case 2:
+        navigate("/admin/home");
+        break;
+
+      default:
+        break;
+    }
+  }
   const {
     handleSubmit,
     formState: { errors },
     control,
   } = useForm({
-    resolver: yupResolver(),
+    resolver: yupResolver(otpValidation),
     mode: "onSubmit",
     defaultValues: {
       otp1: "",
@@ -39,7 +56,6 @@ const OTPPage = () => {
       otp6: "",
     },
   });
-
   const emailData = useMutation({
     mutationFn: () => getEmail(id),
     onSuccess: (response) => {
@@ -51,29 +67,6 @@ const OTPPage = () => {
     },
   });
 
-  const otpPost = useMutation({
-    mutationFn: (data) => {
-      const postData = {
-        id: id,
-        otp: Object.values(data).join(""),
-      };
-      return fetchData(
-        {
-          url: URL + "users/verifyOtp",
-          method: "POST",
-          isAuthRequired: true,
-        },
-        { data: [postData] }
-      );
-    },
-    onSuccess: (response) => {
-      toast.success(response);
-      navigate("/login");
-    },
-    onError: (error) => {
-      toast.error(error.message.split(":")[1]);
-    },
-  });
 
   const resendOtpData = useMutation({
     mutationFn: () =>
@@ -93,13 +86,43 @@ const OTPPage = () => {
     },
   });
 
+  const otpPost = useMutation({
+    mutationFn: (data) => {
+      const postData = {
+        id: id,
+        otp: Object.values(data).join(""),
+      };
+      return fetchData(
+        {
+          url: URL + "users/verifyOtp",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [postData] }
+      );
+    },
+    onSuccess: async (data) => {
+
+        const decodedData = jwtDecode(data);
+        localStorage.setItem("amsSocialToken", data);
+        localStorage.setItem("amsSocialId", decodedData.userId);
+        localStorage.setItem("amsSocialSignedIn", true);
+        dispatch(setProfileData(decodedData));
+        await queryClient.refetchQueries({ queryKey: ["profileData"] });
+        checkRole(decodedData?.role)
+    },
+    onError: (error) => {
+      toast.error(error.message.split(":")[1]);
+    },
+  });
+
   useEffect(() => {
     emailData.mutate();
   }, []);
-
   const saveData = (data) => {
-    otpPost.mutate(data, id);
+    otpPost.mutate(data);
   };
+  
 
   const codeChangeHandler = (event) => {
     const currentId = event.target.id;
