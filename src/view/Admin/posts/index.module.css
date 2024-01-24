@@ -1,25 +1,23 @@
-.postSection{
-    padding: 30px 50px;
+.postSection {
+  padding: 30px 50px;
 }
 
-.searchContainer{
-    background: #fff;
-    border-radius: 5px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    position: relative;
+.searchContainer {
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 10px;
+  border: 1px solid rgb(211, 211, 211);
+  background-color: #ffffff;
+  margin-top: 10px;
 }
 
-.searchInput{
-    width: 100%;
-    padding: 10px;
+.searchInput {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  background: transparent;
 }
-
-.searchBtn{
-    position: absolute !important;
-    top: 28%;
-    right: 20px;
-}
-

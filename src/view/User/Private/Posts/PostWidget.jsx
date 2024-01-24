@@ -71,7 +71,6 @@ const PostWidget = ({ postData }) => {
   if (postCommentLoading) {
     return
   }
-  console.log(postData)
   const likeDislike = (status) => {
     const payload = {
       postId: postData._id,

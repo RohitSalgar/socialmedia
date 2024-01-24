@@ -30,3 +30,8 @@
   display: flex;
   justify-content: end;
 }
+.closebtn{
+  padding: 0 !important;
+  min-width: 0 !important;
+  color: #adadad !important;
+}

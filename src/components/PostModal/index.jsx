@@ -54,7 +54,7 @@ export default function PostModal({handleClose, data , open}) {
   return (
     <React.Fragment>
       <BootstrapDialog
-        fullWidth
+        fullWidth={'lg'}
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}

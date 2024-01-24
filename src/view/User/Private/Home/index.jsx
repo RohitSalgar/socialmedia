@@ -21,7 +21,7 @@ const HomePage = () => {
   if (isLoading) {
     return;
   }
-  
+
   return (
     <Box>
       <Navbar />
@@ -40,7 +40,7 @@ const HomePage = () => {
           />
         </Box>
         <Box
-          // sx={{ maxHeight: "84vh", overflowY: "scroll", paddingRight: "5px" }}
+          sx={{ maxHeight: "84vh", overflowY: "scroll", paddingRight: "5px" }}
           flexBasis={isNonMobileScreens ? "50%" : undefined}
           mt={isNonMobileScreens ? undefined : "1rem"}
         >
@@ -60,7 +60,7 @@ const HomePage = () => {
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="25%">
-            {(chat.isOpen === false && chat.isEdit === false) && (
+            {chat.isOpen === false && chat.isEdit === false && (
               <>
                 <AdvertWidget /> <Box m="2rem 0" />
                 <FriendListWidget />
