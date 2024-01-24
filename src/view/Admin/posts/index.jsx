@@ -1,5 +1,5 @@
 import classes from "./index.module.css";
-import { IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
@@ -11,10 +11,11 @@ import { closePopup, openPopup } from "../../../redux/slices/popupSlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import PostModal from "../../../components/PostModal";
+import { useTheme } from "@emotion/react";
+import Loader from '../../../components/Loader/Loader';
 
 const posts = () => {
   const { data: postData, isLoading } = useGetReportedPosts();
-  console.log(postData,"post data")
   const titleText = "Delete Post";
   const contentText = "Are you sure that you want to delete these post";
   const [selectedPostId, setSelectedPostId] = useState(null);
@@ -25,15 +26,17 @@ const posts = () => {
     dispatch(closePopup());
   };
   const { mutate, isPending } = useDeletePost(onSuccessFn);
+  const { palette } = useTheme();
+  const primary = palette.primary.main;
 
   const columns = [
     {
-        field: "fullName",
-        headerName: "Created User",
-        flex: 1,
-        headerAlign: 'center',
-        align: 'center',
-        headerClassName: 'tabel-header'
+      field: "fullName",
+      headerName: "Created User",
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      headerClassName: "tabel-header",
     },
     {
       field: "description",
@@ -64,12 +67,14 @@ const posts = () => {
     {
       field: "Options",
       headerName: "Options",
-      flex: 1,
+      flex: 2,
       headerAlign: "center",
       align: "center",
       headerClassName: "tabel-header",
       renderCell: ({ row }) => (
-        <>
+        <Box
+          sx={{ display: "flex", justifyContent: "space-between", gap: "30px" }}
+        >
           <Button
             variant="outlined"
             onClick={() => {
@@ -88,13 +93,13 @@ const posts = () => {
           >
             {isPending ? <CircularProgress /> : "Delete"}
           </Button>
-        </>
+        </Box>
       ),
     },
   ];
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   const postDelete = () => {
@@ -108,22 +113,24 @@ const posts = () => {
   return (
     <section className={classes.postSection}>
       <div>
-        <Typography variant="h2">Reported Posts</Typography>
+        <Typography variant="h2" bold color={primary}>
+          Reported Posts
+        </Typography>
       </div>
       <div className={classes.searchContainer}>
+        <IconButton className={classes.searchBtn}>
+          <Search />
+        </IconButton>
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className={classes.searchInput}
-          placeholder="Search by username..."
+          placeholder="Search by created user..."
         />
-        <IconButton className={classes.searchBtn}>
-          <Search />
-        </IconButton>
       </div>
       <div>
         <DataGrid
-          sx={{ textTransform: "capitalize" }}
+          sx={{ textTransform: "capitalize", minHeight: "450px" }}
           getRowId={(row) => row._id}
           rows={postData}
           columns={columns}

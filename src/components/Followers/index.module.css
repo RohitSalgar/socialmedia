@@ -5,8 +5,7 @@
   gap: 10px;
 }
 .avatarname {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 15px !important;
   margin: 0;
 }
 .profilemain {
@@ -20,6 +19,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 2px solid #eaeaea;
+  padding: 5px;
 }
 .followmain {
   padding: 0px 10px 0px 0px !important;

@@ -8,7 +8,6 @@ import CommentHeaderActions from './CommentHeaderActions';
 import { useSelector } from 'react-redux';
 
 function CommentHeader({ user, createdAt, onDelete, onEdit, onReply, reply, edit, deleted, commentAction, postData,commentId }) {
-  console.log(postData, "poascghavcgagcv")
   const { userId } = useSelector((state) => state.profile.profileData)
   const currentUser = "julie";
   const { palette } = useTheme();
@@ -24,7 +23,6 @@ function CommentHeader({ user, createdAt, onDelete, onEdit, onReply, reply, edit
   //   return () => clearInterval(interval)
   // },[createdAt])
   
-  console.log(postData,"asd")
   return (
     <>
       <Box sx={{ display: 'flex', height: 32, alignItems: 'center', justifyContent: 'space-between' }}>

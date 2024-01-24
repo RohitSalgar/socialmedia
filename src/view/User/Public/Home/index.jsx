@@ -7,12 +7,10 @@ import AdvertWidget from "./AdvertWidget";
 import FriendListWidget from "../../widgets/FriendListWidget";
 import { useSelector } from "react-redux";
 import OptionalTab from "../../Private/Tabs/Tabs";
-import { useGetTrendingPosts } from "../../../../hooks/posts";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const chat = useSelector((state) => state.chat);
-  const { data, isLoading } = useGetTrendingPosts()
 
   if (isLoading) {
     return
@@ -29,11 +27,11 @@ const HomePage = () => {
       >
         <Box flexBasis={isNonMobileScreens ? "23%" : undefined}>
           <AdvertWidget />
-          <UserWidget
+          {/* <UserWidget
             image={
               "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
             }
-          />
+          /> */}
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "75%" : undefined}
@@ -43,7 +41,7 @@ const HomePage = () => {
           <Box fullWidth width="100%">
             <OptionalTab />
           </Box>
-          {data && data.map((data) => <PostWidget key={data._id} postData={data} />)}
+          {/* {data && data.map((data) => <PostWidget key={data._id} postData={data} />)} */}
         </Box>
         
       </Box>

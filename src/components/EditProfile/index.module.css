@@ -57,7 +57,7 @@
   color: #fff !important;
 }
 .submitbtn {
-  background-color: #0ebd60;
+  background-color: #0EBD60;
   width: 100%;
   padding: 10px;
   border: none;
@@ -79,7 +79,7 @@
   padding: 4px 5px 0px 5px;
 }
 .filelabel svg path{
-  fill:#0ebd60 !important;
+  fill:#0EBD60 !important;
 }
 .error{
   border-color: red !important;

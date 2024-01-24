@@ -21,25 +21,24 @@ const UserWidget = () => {
   const { palette } = useTheme();
   const signedIn = localStorage.getItem("amsSocialSignedIn");
   const dark = palette.neutral.dark;
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const userId = useSelector((state) => state.profile.profileData.userId);
   const { data, isLoading } = useGetProfile(userId);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
-  const connection =
-    data && data[0]?.connectionCounts?.filter((e) => e.status === 1)[0]?.count;
 
   const following =
     data && data[0]?.connectionCounts?.filter((e) => e.status === 2)[0]?.count;
 
-    function checkIsNumber(number){
-      if (number != null) {
-        return number
-      }
-      return 0;
+  function checkIsNumber(number) {
+    if (number != null) {
+      return number;
     }
+    return 0;
+  }
+
 
   if (isLoading) {
     <Loader />;
@@ -58,7 +57,7 @@ const UserWidget = () => {
             <Avatar
               sx={{ width: 100, height: 100 }}
               alt="Remy Sharp"
-              src={data && data[0]?.userData?.profile}
+              src={data?.userData?.profile}
             />
           </Box>
           <div>
@@ -72,7 +71,7 @@ const UserWidget = () => {
               }}
             >
               <Typography color={dark} variant="h5" fontWeight="500">
-                {data && data[0]?.userData?.fullName}
+                {data?.userData?.fullName}
               </Typography>
               <Typography
                 sx={{ mt: 1, textTransform: "capitalize" }}
@@ -80,7 +79,7 @@ const UserWidget = () => {
                 variant="h6"
                 fontWeight="400"
               >
-                {data && data[0]?.userData?.designation}
+                {data?.userData?.designation}
               </Typography>
             </Box>
             <div
@@ -109,7 +108,7 @@ const UserWidget = () => {
                   }}
                 >
                   <Typography color={dark} variant="h5" fontWeight="500">
-                    {checkIsNumber(connection) + checkIsNumber(following)}
+                    {checkIsNumber(data?.detailsCounts?.followersCount)}
                   </Typography>
                   <Typography color={dark} variant="h6" fontWeight="400">
                     Followers
@@ -125,7 +124,7 @@ const UserWidget = () => {
                   }}
                 >
                   <Typography color={dark} variant="h5" fontWeight="500">
-                    {checkIsNumber(following)}
+                    {checkIsNumber(data?.detailsCounts?.followingCount)}
                   </Typography>
                   <Typography color={dark} variant="h6" fontWeight="400">
                     Following
@@ -156,7 +155,7 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 1}
-            onClick={(event) => handleListItemClick(event, 1)}
+            onClick={(event) => {handleListItemClick(event, 1); dispatch(setDashboardView("news"))}}
           >
             <ListItemIcon>
               <NewspaperIcon />
@@ -166,7 +165,10 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 2}
-            onClick={(event) => handleListItemClick(event, 2)}
+            onClick={(event) => {
+              handleListItemClick(event, 2),
+                dispatch(setDashboardView("schedule"));
+            }}
           >
             <ListItemIcon>
               <MailIcon />
@@ -176,7 +178,7 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 3}
-            onClick={(event) => handleListItemClick(event, 3)}
+            onClick={(event) => {handleListItemClick(event, 3); dispatch(setDashboardView("shipment"))}}
           >
             <ListItemIcon>
               <CalendarMonthIcon />
@@ -186,7 +188,7 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 4}
-            onClick={(event) => handleListItemClick(event, 3)}
+            onClick={(event) => {handleListItemClick(event, 4); dispatch(setDashboardView("pages"))}}
           >
             <ListItemIcon>
               <CalendarMonthIcon />
@@ -196,7 +198,7 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 5}
-            onClick={(event) => handleListItemClick(event, 0)}
+            onClick={(event) => {handleListItemClick(event, 5); dispatch(setDashboardView("qa"))}}
           >
             <ListItemIcon>
               <ContactSupportIcon />
@@ -205,9 +207,9 @@ const UserWidget = () => {
           </ListItemButton>
           <ListItemButton
             sx={{ padding: "1px 20px" }}
-            selected={selectedIndex === 5}
+            selected={selectedIndex === 6}
             onClick={(event) => {
-              handleListItemClick(event, 0),
+              handleListItemClick(event, 6),
                 dispatch(setDashboardView("profile"));
             }}
           >

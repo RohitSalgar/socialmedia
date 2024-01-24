@@ -8,21 +8,25 @@ import FriendListWidget from "../../widgets/FriendListWidget";
 import { useSelector } from "react-redux";
 import ChatLayout from "../chat/index";
 import OptionalTab from "../Tabs/Tabs";
-import { useGetTrendingPosts } from "../../../../hooks/posts";
 import Profile from "../../../../components/Profile/Profile";
 import EditProfile from "../../../../components/EditProfile/EditProfile";
+import { useEffect, useState } from "react";
+import { useGetForYouPost, useGetFriendsPost, useGetTrendingPosts } from "../../../../hooks/posts";
+import AddSchedule from "../schedule/AddSchedule";
+import ScheduleList from "../schedule/ScheduleList";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const chat = useSelector((state) => state.chat);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
-  const { data, isLoading } = useGetTrendingPosts();
-  console.log(chat.isEdit, "chat.isEdit");
+  const { userId } = useSelector((state) => state.profile.profileData)
+  const { tabView } = useSelector((state) => state.profile)
 
-  if (isLoading) {
-    return;
-  }
-  
+  const { data: trendingPost, } = useGetTrendingPosts(tabView);
+  const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
+  const { data: forYouData,  } = useGetForYouPost(tabView, { state: "Tamilnadu", country: "India" });
+ 
+
   return (
     <Box>
       <Navbar />
@@ -41,7 +45,7 @@ const HomePage = () => {
           />
         </Box>
         <Box
-          // sx={{ maxHeight: "84vh", overflowY: "scroll", paddingRight: "5px" }}
+          sx={{ maxHeight: "84vh", overflowY: "scroll", paddingRight: "5px" }}
           flexBasis={isNonMobileScreens ? "50%" : undefined}
           mt={isNonMobileScreens ? undefined : "1rem"}
         >
@@ -51,17 +55,31 @@ const HomePage = () => {
               <Box fullWidth width="100%">
                 <OptionalTab />
               </Box>
-              {data &&
-                data.map((data) => (
+              {tabView === "trending" && trendingPost &&
+                trendingPost.map((data) => (
+                  <PostWidget key={data._id} postData={data} />
+                ))}
+              {tabView === "forYou" && forYouData &&
+                forYouData.map((data) => (
+                  <PostWidget key={data._id} postData={data} />
+                ))}
+              {tabView === "friend" && friendPostData &&
+                friendPostData.map((data) => (
                   <PostWidget key={data._id} postData={data} />
                 ))}
             </>
+          )}
+          {dashboardView === "schedule" && (
+            <Box>
+              <AddSchedule />
+              <ScheduleList />
+            </Box>
           )}
           {dashboardView === "profile" && <Profile />}
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="25%">
-            {(chat.isOpen === false && chat.isEdit === false) && (
+            {chat.isOpen === false && chat.isEdit === false && (
               <>
                 <AdvertWidget /> <Box m="2rem 0" />
                 <FriendListWidget />
