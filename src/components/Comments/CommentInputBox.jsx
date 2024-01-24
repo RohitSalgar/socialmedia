@@ -12,8 +12,12 @@ import { IoIosSend } from "react-icons/io";
 import InputField from "./InputField";
 import { useInsertComment, useInsertReply } from "../../hooks/likeComment";
 import { useSelector } from "react-redux";
+import {
+  useReplyPostComment,
+  useUpdatePostComment,
+} from "../../hooks/schedule";
 
-function CommentInputBox({ type, postData, replyId, insertAt }) {
+function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   const { palette } = useTheme();
   const { userId } = useSelector((state) => state.profile.profileData);
   const dark = palette.neutral.dark;
@@ -21,24 +25,39 @@ function CommentInputBox({ type, postData, replyId, insertAt }) {
   const newId = 5;
   const [text, setText] = useState("");
   const inputField = useRef(null);
+  const dashboardView = useSelector((state) => state.profile.dashboardView);
+  console.log(dashboardView, "fff");
   const { mutate: insertComment, isloading: insertCommentLoading } =
     useInsertComment();
   const { mutate: insertReply, isloading: insertReplyLoading } =
     useInsertReply();
+  const { mutate: insertScheduleReply } = useReplyPostComment();
+  const { mutate: commentMutate } = useUpdatePostComment();
   useEffect(() => {
     if (insertCommentLoading || insertReplyLoading) {
       setText("");
     }
   }, [insertCommentLoading, insertReplyLoading]);
   function handleSubmit() {
+    console.log(postData, "ggg");
     if (type === "comment") {
-      const newComment = {
-        postId: postData?._id,
-        userId: userId,
-        message: text,
-      };
-      setText("");
-      return insertComment(newComment);
+      if (dashboardView === "schedule") {
+        const newComment = {
+          scheduleId,
+          userId: userId,
+          message: text,
+        };
+        setText("");
+        return commentMutate(newComment);
+      } else {
+        const newComment = {
+          postId: postData?._id,
+          userId: userId,
+          message: text,
+        };
+        setText("");
+        return insertComment(newComment);
+      }
     } else if (type === "reply") {
       const newReply = {
         commentId: replyId?._id,
@@ -46,7 +65,11 @@ function CommentInputBox({ type, postData, replyId, insertAt }) {
         message: text,
       };
       setText("");
-      return insertReply(newReply);
+      if (dashboardView === "schedule") {
+        return insertScheduleReply(newReply);
+      } else {
+        return insertComment(newReply);
+      }
     }
   }
 

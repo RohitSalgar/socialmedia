@@ -1,57 +1,78 @@
-import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { DeleteOutlined } from "@mui/icons-material";
+import { useDeleteComment, useDeleteReply } from "../../hooks/likeComment";
+import { useSelector } from "react-redux";
+import ReplyIcon from "@mui/icons-material/Reply";
 import {
-  DeleteOutlined,
-} from "@mui/icons-material";
-import { useDeleteComment, useDeleteReply } from '../../hooks/likeComment';
-import { useSelector } from 'react-redux';
-import ReplyIcon from '@mui/icons-material/Reply';
+  useDeletescheduleComments,
+  useDeletescheduleReply,
+} from "../../hooks/schedule";
 
-function CommentAction({ type, sx, onClick, reply, edit, postData,commentId }) {
+function CommentAction({
+  type,
+  sx,
+  onClick,
+  reply,
+  edit,
+  postData,
+  commentId,
+}) {
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
-  const { userId } = useSelector((state) => state.profile.profileData)
-  const { mutate: deleteComment } = useDeleteComment()
-  const { mutate: deleteReply } = useDeleteReply()
+  const { userId } = useSelector((state) => state.profile.profileData);
+  const { mutate: deleteComment } = useDeleteComment();
+  const { mutate: deleteReply } = useDeleteReply();
+  const dashboardView = useSelector((state) => state.profile.dashboardView);
+  const { mutate: deleteScheduleReply } = useDeletescheduleReply();
+  const { mutate: deleteScheduleComments } = useDeletescheduleComments();
   const deleteComments = () => {
     if (Object.keys(postData).includes("userReplied")) {
       const payload = {
         commentId: commentId,
-        replyId:postData?._id,
-        userId: userId
+        replyId: postData?._id,
+        userId: userId,
+      };
+      if (dashboardView === "schedule") {
+        return deleteScheduleReply(payload);
+      } else {
+        return deleteReply(payload);
       }
-      deleteReply(payload)
-
     } else {
-      const postData = {
-        commentId: id._id,
-        userId: userId
+      const payload = {
+        commentId: postData._id,
+        userId: userId,
+      };
+      if (dashboardView === "schedule") {
+        return deleteScheduleComments(payload);
+      } else {
+        return deleteComment(payload);
       }
-      deleteComment(postData)
     }
-  }
+  };
+
+  console.log(postData, "post");
 
   return (
     <>
-      {(type === "reply") &&
+      {type === "reply" && (
         <Box
           sx={{
-            userSelect: 'none',
+            userSelect: "none",
             ...(reply && {
-              '& *': {
+              "& *": {
                 color: dark,
                 fill: dark,
-              }
+              },
             }),
-            ...sx
+            ...sx,
           }}
           onClick={onClick}
         >
-          <IconButton
-          >
+          <IconButton>
             <ReplyIcon />
           </IconButton>
         </Box>
-      }
+      )}
       {/* {(type === "edit") && 
         <Box 
           sx={{
@@ -69,26 +90,25 @@ function CommentAction({ type, sx, onClick, reply, edit, postData,commentId }) {
           <Typography variant='primaryAction' sx={{ml: 1}}>Edit</Typography>
         </Box>
       } */}
-      {(type === "delete") &&
+      {type === "delete" && (
         <Box
           sx={{
-            userSelect: 'none',
-            '&:active *': {
+            userSelect: "none",
+            "&:active *": {
               color: dark,
-              fill: dark
+              fill: dark,
             },
-            ...sx
+            ...sx,
           }}
           onClick={() => deleteComments()}
         >
-          <IconButton
-          >
+          <IconButton>
             <DeleteOutlined />
           </IconButton>
         </Box>
-      }
+      )}
     </>
-  )
+  );
 }
 
-export default CommentAction
+export default CommentAction;
