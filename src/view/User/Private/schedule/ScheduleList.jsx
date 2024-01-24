@@ -5,7 +5,10 @@ import { Box, Typography } from "@mui/material";
 import styles from "./index.module.css";
 import LikeComment from "./LikeComment";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useGetAllMySchedules } from "../../../../hooks/schedule";
+import {
+  useDeleteSchedule,
+  useGetAllMySchedules,
+} from "../../../../hooks/schedule";
 import Loader from "../../../../components/Loader/Loader";
 import { useSelector } from "react-redux";
 import moment from "moment";
@@ -13,13 +16,20 @@ import moment from "moment";
 const ScheduleList = () => {
   const profileData = useSelector((state) => state.profile.profileData);
   const { data, isLoading } = useGetAllMySchedules(profileData?.userId);
+  const { mutate } = useDeleteSchedule();
 
-
-  let postList = [];
+  let postList = [1];
 
   if (isLoading) {
     return <Loader />;
   }
+
+  const deleteSchedule = (id) => {
+    let payload = {};
+    payload.scheduleId = id;
+    payload.companyId = profileData?.userId;
+    mutate(payload);
+  };
 
   return (
     <>
@@ -45,27 +55,33 @@ const ScheduleList = () => {
                 <Box>
                   <DeleteIcon
                     sx={{ cursor: "pointer" }}
-                    onClick={() => console.log("clicked")}
+                    onClick={() => deleteSchedule(e._id)}
                   />
                 </Box>
               </Box>
-              <FlexBetween flexDirection={"column"}>
-                <TextField
-                  id="outlined-multiline-static"
-                  multiline
-                  rows={2}
-                  value={e.description}
-                  disabled
-                  name="description"
-                  sx={{
-                    width: "100%",
-                    border: "none",
-                  }}
-                />
-              </FlexBetween>
+              {e.description !== "" && (
+                <FlexBetween flexDirection={"column"}>
+                  <TextField
+                    id="outlined-multiline-static"
+                    multiline
+                    rows={2}
+                    value={e.description}
+                    disabled
+                    name="description"
+                    sx={{
+                      width: "100%",
+                      border: "none",
+                    }}
+                  />
+                </FlexBetween>
+              )}
               <Box>
                 {postList?.map((data) => (
-                  <LikeComment key={data._id} postData={data} />
+                  <LikeComment
+                    key={data._id}
+                    postData={data}
+                    scheduleId={e._id}
+                  />
                 ))}
               </Box>
             </WidgetWrapper>

@@ -63,3 +63,6 @@
 .error fieldset {
   border: 1px solid red !important;
 }
+.replyCommentDiv {
+  margin-left: 5% !important;
+}
