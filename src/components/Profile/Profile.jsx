@@ -5,7 +5,11 @@ import styles from "./index.module.css";
 import Followers from "../Followers/Followers";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setEditOn } from "../../redux/slices/chat";
+import {
+  setEditOn,
+  setSingleChatModeOff,
+  setChatModeOff,
+} from "../../redux/slices/chat";
 import {
   useGetFollowList,
   useGetProfile,
@@ -25,7 +29,6 @@ const Profile = () => {
   const [viewList, setViewList] = useState("post");
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
-  const profileheadclr = palette.black.medium;
   const userId = useSelector((state) => state.profile.profileData.userId);
   const profileId = useSelector((state) => state.profile.viewProfileId);
   const { data, isLoading } = useGetProfile(profileId);
@@ -56,6 +59,11 @@ const Profile = () => {
       return number;
     }
     return 0;
+  }
+  function handleEdit() {
+    dispatch(setEditOn());
+    dispatch(setSingleChatModeOff());
+    dispatch(setChatModeOff());
   }
 
   return (
@@ -174,17 +182,13 @@ const Profile = () => {
             </Box>
           </Box>
           <Box className={styles.nameandeditdiv}>
-            <Typography
-              color={profileheadclr}
-              className={styles.avatarname}
-              style={{ fontSize: "20px", fontWeight: "bold" }}
-            >
+            <Typography color={dark} className={styles.avatarname}>
               {data?.userData?.fullName}
             </Typography>
             {profileId === userId && (
               <Button
                 variant="dark"
-                onClick={() => dispatch(setEditOn())}
+                onClick={() => handleEdit()}
                 className={styles.editbtn}
               >
                 Edit Profile
@@ -204,7 +208,9 @@ const Profile = () => {
         {viewList === "post" && (
           <Box>
             <Box>
-              <Typography sx={{ fontWeight: "bold" }}>Posts</Typography>
+              <Typography color={dark} sx={{ fontWeight: "bold" }}>
+                Posts
+              </Typography>
             </Box>
             <Box className={styles.postdiv}>
               {postList?.map((data) => (
@@ -217,7 +223,9 @@ const Profile = () => {
         {viewList === "followers" && (
           <Box>
             <Box>
-              <Typography sx={{ fontWeight: "bold" }}>Followers</Typography>
+              <Typography color={dark} sx={{ fontWeight: "bold" }}>
+                Followers
+              </Typography>
             </Box>
             <Box className={styles.postdiv}>
               {followList?.map((e, i) => {
@@ -238,7 +246,9 @@ const Profile = () => {
         {viewList === "following" && (
           <Box>
             <Box>
-              <Typography sx={{ fontWeight: "bold" }}>Followings</Typography>
+              <Typography color={dark} sx={{ fontWeight: "bold" }}>
+                Followings
+              </Typography>
             </Box>
             <Box className={styles.postdiv}>
               {followingList?.map((e, i) => {
@@ -260,7 +270,9 @@ const Profile = () => {
         {viewList === "connection" && (
           <Box>
             <Box>
-              <Typography sx={{ fontWeight: "bold" }}>Connections</Typography>
+              <Typography color={dark} sx={{ fontWeight: "bold" }}>
+                Connections
+              </Typography>
             </Box>
             <Box className={styles.postdiv}>
               {connectionList?.map((e, i) => {

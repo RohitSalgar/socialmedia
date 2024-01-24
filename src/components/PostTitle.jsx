@@ -26,7 +26,7 @@ const PostTitle = ({ data }) => {
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
-        <Avatar sx={{ width: 40, height: 40 }} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <Avatar sx={{ width: 35, height: 35 }} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         <Box onClick={() => { }}>
           <Typography
             color={main}

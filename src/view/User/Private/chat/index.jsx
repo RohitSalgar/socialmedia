@@ -5,22 +5,25 @@ import ChatPerson from "../../../../components/chat/ChatPersonList/ChatPerson";
 import { Box, InputBase, Typography } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { setChatModeOff } from "../../../../redux/slices/chat";
+import { useTheme } from "@emotion/react";
 
 const ChatLayout = () => {
+  const { palette } = useTheme();
+  const dark = palette.neutral.dark;
   let userList = [1, 2, 3, 3, 3, 3, 3];
   let chatToggle = useSelector((state) => state.chat.isSingleChatOn);
   const dispatch = useDispatch();
 
   return (
-    <WidgetWrapper>
+    <WidgetWrapper sx={{ minHeight: "82vh" }}>
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "space-between",
           alignContent: "center",
         }}
       >
-        <Typography sx={{ fontSize: "22px", fontWeight: "bold" }}>
+        <Typography color={dark} sx={{ fontSize: "22px", fontWeight: "bold" }}>
           Chats
         </Typography>
         <ClearIcon
@@ -34,11 +37,9 @@ const ChatLayout = () => {
         <InputBase
           placeholder="Search Contact..."
           style={{
-            width: "89%",
+            width: "100%",
             position: "static",
             borderRadius: "5px",
-            marginLeft: "5px",
-            paddingLeft: "5px",
           }}
         />
       )}
@@ -46,7 +47,7 @@ const ChatLayout = () => {
         <Box
           sx={{
             overflowY: "scroll",
-            height: "300px",
+            height: "70vh",
             marginRight: "5px",
           }}
         >

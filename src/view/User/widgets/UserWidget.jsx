@@ -12,7 +12,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import { useState } from "react";
 import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
 import { useDispatch, useSelector } from "react-redux";
-import { setDashboardView } from "../../../redux/slices/profileSlice";
+import {
+  setDashboardView,
+  setViewProfileId,
+} from "../../../redux/slices/profileSlice";
 import { useGetProfile } from "../../../hooks/profile";
 import Loader from "../../../components/Loader/Loader";
 
@@ -29,16 +32,12 @@ const UserWidget = () => {
     setSelectedIndex(index);
   };
 
-  const following =
-    data && data[0]?.connectionCounts?.filter((e) => e.status === 2)[0]?.count;
-
   function checkIsNumber(number) {
     if (number != null) {
       return number;
     }
     return 0;
   }
-
 
   if (isLoading) {
     <Loader />;
@@ -155,7 +154,10 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 1}
-            onClick={(event) => {handleListItemClick(event, 1); dispatch(setDashboardView("news"))}}
+            onClick={(event) => {
+              handleListItemClick(event, 1);
+              dispatch(setDashboardView("news"));
+            }}
           >
             <ListItemIcon>
               <NewspaperIcon />
@@ -178,7 +180,10 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 3}
-            onClick={(event) => {handleListItemClick(event, 3); dispatch(setDashboardView("shipment"))}}
+            onClick={(event) => {
+              handleListItemClick(event, 3);
+              dispatch(setDashboardView("shipment"));
+            }}
           >
             <ListItemIcon>
               <CalendarMonthIcon />
@@ -188,7 +193,10 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 4}
-            onClick={(event) => {handleListItemClick(event, 4); dispatch(setDashboardView("pages"))}}
+            onClick={(event) => {
+              handleListItemClick(event, 4);
+              dispatch(setDashboardView("pages"));
+            }}
           >
             <ListItemIcon>
               <CalendarMonthIcon />
@@ -198,7 +206,10 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 5}
-            onClick={(event) => {handleListItemClick(event, 5); dispatch(setDashboardView("qa"))}}
+            onClick={(event) => {
+              handleListItemClick(event, 5);
+              dispatch(setDashboardView("qa"));
+            }}
           >
             <ListItemIcon>
               <ContactSupportIcon />
@@ -211,6 +222,7 @@ const UserWidget = () => {
             onClick={(event) => {
               handleListItemClick(event, 6),
                 dispatch(setDashboardView("profile"));
+              dispatch(setViewProfileId(userId));
             }}
           >
             <ListItemIcon>
