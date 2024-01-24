@@ -61,18 +61,20 @@ const useGetForYouPost = (tabView, payload, onSuccess) => {
     });
 };
 
+
+const insertPost = async (data) => {
+    let response = fetch(URL + "post/addPost", {
+        method: 'POST',
+        body: data,
+    })
+    let responseData = response.json()
+    return responseData.response
+}
+
 const useInsertPost = (onSuccessFunctions) => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data) =>
-            fetchData(
-                {
-                    url: URL + "post/addPost",
-                    method: "POST",
-                    isAuthRequired: true,
-                },
-                { data: [data] }
-            ),
+        mutationFn: async (data) => await insertPost(data),
         onSuccess: () => {
             onSuccessFunctions()
             queryClient.invalidateQueries({ queryKey: ["trending"] });
@@ -84,6 +86,7 @@ const useInsertPost = (onSuccessFunctions) => {
         },
     });
 };
+
 
 const useDeletePost = () => {
     const queryClient = useQueryClient();
@@ -100,7 +103,8 @@ const useDeletePost = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["trending"] });
             queryClient.invalidateQueries({ queryKey: ["forYou"] });
-            queryClient.invalidateQueries({ queryKey: ["friend"] });        },
+            queryClient.invalidateQueries({ queryKey: ["friend"] });
+        },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
         },
