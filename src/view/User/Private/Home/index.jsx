@@ -12,6 +12,8 @@ import Profile from "../../../../components/Profile/Profile";
 import EditProfile from "../../../../components/EditProfile/EditProfile";
 import { useEffect, useState } from "react";
 import { useGetForYouPost, useGetFriendsPost, useGetTrendingPosts } from "../../../../hooks/posts";
+import AddSchedule from "../schedule/AddSchedule";
+import ScheduleList from "../schedule/ScheduleList";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -67,11 +69,17 @@ const HomePage = () => {
                 ))}
             </>
           )}
+          {dashboardView === "schedule" && (
+            <Box>
+              <AddSchedule />
+              <ScheduleList />
+            </Box>
+          )}
           {dashboardView === "profile" && <Profile />}
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="25%">
-            {(chat.isOpen === false && chat.isEdit === false) && (
+            {chat.isOpen === false && chat.isEdit === false && (
               <>
                 <AdvertWidget /> <Box m="2rem 0" />
                 <FriendListWidget />
