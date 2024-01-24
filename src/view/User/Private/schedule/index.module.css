@@ -61,5 +61,5 @@
   margin-bottom: 0.5rem;
 }
 .error fieldset {
-  border-color: red !important;
+  border: 1px solid red !important;
 }

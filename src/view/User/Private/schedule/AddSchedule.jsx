@@ -3,18 +3,16 @@ import { Box, useTheme, Button } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
 import TextField from "@mui/material/TextField";
-// import { useSelector } from "react-redux";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useAddSchedule } from "../../../../hooks/schedule";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AddScheduleValidation } from "../../../../validation/addSchedule";
-
-// import { useGetTrendingNews } from "../../../../hooks/news";
-// import Loader from "../../../../components/Loader/Loader";
+import { useSelector } from "react-redux";
 
 const AddSchedule = () => {
-  //   const { userId } = useSelector((state) => state.profile.profileData);
+  const { mutate } = useAddSchedule();
+  const profileData = useSelector((state) => state.profile.profileData);
 
   const {
     handleSubmit,
@@ -34,22 +32,20 @@ const AddSchedule = () => {
     },
   });
 
-  const { mutate } = useAddSchedule();
-
   const { palette } = useTheme();
-
-  //   const { data, isLoading } = useGetTrendingNews();
 
   const onSubmit = (data) => {
     let payload = { ...data };
-    console.log(payload, "payload");
+
+    let bookingDate = new Date(data.bookingDate);
+    let openingDate = new Date(data.openingDate);
+    payload.createBy = profileData?.userId;
+    payload.companyId = profileData?.userId;
+    payload.bookingCutOff = bookingDate?.toISOString();
+    payload.openingOn = openingDate?.toISOString();
     mutate(payload);
     reset();
   };
-
-  //   if(isLoading){
-  //     return <Loader/>
-  //   }
 
   return (
     <WidgetWrapper>
