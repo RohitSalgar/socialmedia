@@ -21,7 +21,7 @@ const UserWidget = () => {
   const { palette } = useTheme();
   const signedIn = localStorage.getItem("amsSocialSignedIn");
   const dark = palette.neutral.dark;
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const userId = useSelector((state) => state.profile.profileData.userId);
   const { data, isLoading } = useGetProfile(userId);
 
@@ -155,7 +155,7 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 1}
-            onClick={(event) => handleListItemClick(event, 1)}
+            onClick={(event) => {handleListItemClick(event, 1); dispatch(setDashboardView("news"))}}
           >
             <ListItemIcon>
               <NewspaperIcon />
@@ -178,9 +178,7 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 3}
-            onClick={(event) => {
-              handleListItemClick(event, 3), dispatch(setDashboardView("news"));
-            }}
+            onClick={(event) => {handleListItemClick(event, 3); dispatch(setDashboardView("shipment"))}}
           >
             <ListItemIcon>
               <CalendarMonthIcon />
@@ -190,7 +188,7 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 4}
-            onClick={(event) => handleListItemClick(event, 3)}
+            onClick={(event) => {handleListItemClick(event, 4); dispatch(setDashboardView("pages"))}}
           >
             <ListItemIcon>
               <CalendarMonthIcon />
@@ -200,7 +198,7 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 5}
-            onClick={(event) => handleListItemClick(event, 0)}
+            onClick={(event) => {handleListItemClick(event, 5); dispatch(setDashboardView("qa"))}}
           >
             <ListItemIcon>
               <ContactSupportIcon />
@@ -209,9 +207,9 @@ const UserWidget = () => {
           </ListItemButton>
           <ListItemButton
             sx={{ padding: "1px 20px" }}
-            selected={selectedIndex === 5}
+            selected={selectedIndex === 6}
             onClick={(event) => {
-              handleListItemClick(event, 0),
+              handleListItemClick(event, 6),
                 dispatch(setDashboardView("profile"));
             }}
           >
