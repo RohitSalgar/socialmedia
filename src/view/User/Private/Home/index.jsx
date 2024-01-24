@@ -45,7 +45,7 @@ const HomePage = () => {
           />
         </Box>
         <Box
-          // sx={{ maxHeight: "84vh", overflowY: "scroll", paddingRight: "5px" }}
+          sx={{ maxHeight: "84vh", overflowY: "scroll", paddingRight: "5px" }}
           flexBasis={isNonMobileScreens ? "50%" : undefined}
           mt={isNonMobileScreens ? undefined : "1rem"}
         >

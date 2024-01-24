@@ -16,6 +16,8 @@ import Loader from "../Loader/Loader";
 import PostWidget from "../../view/User/Private/Posts/PostWidget";
 import { useGetMyPostList } from "../../hooks/posts";
 import { setViewProfileId } from "../../redux/slices/profileSlice";
+import LookingEmpty from "../LookingEmpty/LookingEmpty";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Profile = () => {
   const { palette } = useTheme();
@@ -39,7 +41,6 @@ const Profile = () => {
     profileId,
     viewList
   );
-
   if (
     isLoading ||
     followLoading ||
@@ -61,7 +62,12 @@ const Profile = () => {
     <WidgetWrapper>
       {profileId !== userId && (
         <Box className={styles.closediv}>
-          <Button onClick={() => dispatch(setViewProfileId(userId))}>X</Button>
+          <Button
+            className={styles.closebtn}
+            onClick={() => dispatch(setViewProfileId(userId))}
+          >
+            <CloseRoundedIcon />
+          </Button>
         </Box>
       )}
       <Box className={styles.profilemain}>
@@ -69,7 +75,7 @@ const Profile = () => {
           <Box className={styles.avatardiv}>
             <Avatar
               alt="B"
-              src={data && data[0]?.userData?.profile}
+              src={data?.userData?.profile}
               sx={{ width: 80, height: 80 }}
             />
             <Box
@@ -175,13 +181,15 @@ const Profile = () => {
             >
               {data?.userData?.fullName}
             </Typography>
-            <Button
-              variant="dark"
-              onClick={() => dispatch(setEditOn())}
-              className={styles.editbtn}
-            >
-              Edit Profile
-            </Button>
+            {profileId === userId && (
+              <Button
+                variant="dark"
+                onClick={() => dispatch(setEditOn())}
+                className={styles.editbtn}
+              >
+                Edit Profile
+              </Button>
+            )}
           </Box>
           <Typography
             variant="h6"
@@ -202,6 +210,7 @@ const Profile = () => {
               {postList?.map((data) => (
                 <PostWidget key={data._id} postData={data} />
               ))}
+              {postList?.length === 0 && <LookingEmpty />}
             </Box>
           </Box>
         )}
@@ -215,13 +224,14 @@ const Profile = () => {
                 return (
                   <Followers
                     key={i}
-                    id={i.senderId}
+                    id={e?.senderId}
                     fullName={e?.senderName}
                     data={e}
                     type="followers"
                   />
                 );
               })}
+              {followList?.length === 0 && <LookingEmpty />}
             </Box>
           </Box>
         )}
@@ -235,13 +245,15 @@ const Profile = () => {
                 return (
                   <Followers
                     key={i}
-                    id={i.recipientId}
+                    id={e?.recipientId}
                     fullName={e?.recipientName}
                     data={e}
                     type="following"
+                    unFollow={profileId === userId ? true : false}
                   />
                 );
               })}
+              {followingList?.length === 0 && <LookingEmpty />}
             </Box>
           </Box>
         )}
@@ -255,13 +267,14 @@ const Profile = () => {
                 return (
                   <Followers
                     key={i}
-                    id={i.recipientId}
+                    id={e?.recipientId}
                     fullName={e?.recipientName}
                     data={e}
                     type="connection"
                   />
                 );
               })}
+              {connectionList?.length === 0 && <LookingEmpty />}
             </Box>
           </Box>
         )}

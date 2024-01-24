@@ -1,32 +1,31 @@
 .titletext {
 	word-wrap: break-word !important;
-	font-weight: bold !important;
-	font-family: "Rubik" !important;
 	font-size: 18px !important;
-	color: #f4da47 !important;
+	color: #0EBD60 !important;
 	display: flex !important;
 	justify-content: space-between !important;
+	align-items: center;
 }
 .contenttxt {
 	word-wrap: break-word;
 }
 .yesbtn,
 .yesbtn:hover {
-	background: #f4da47 !important;
+	background: #0EBD60 !important;
 	color: #272727 !important;
 	padding: 3px 20px !important;
 	font-family: "Rubik" !important;
 	font-size: 15px !important;
-	border: 1.5px solid #f4da47 !important;
+	border: 1.5px solid #0EBD60 !important;
 }
 .nobtn,
 .nobtn:hover {
 	background: #fff !important;
-	color: #f4da47 !important;
+	color: #0EBD60 !important;
 	padding: 3px 20px !important;
 	font-family: "Rubik" !important;
 	font-size: 15px !important;
-	border: 1.5px solid #f4da47 !important;
+	border: 1.5px solid #0EBD60 !important;
 }
 .closebtns {
 	padding: 0 !important;
@@ -35,7 +34,7 @@
 	display: contents !important;
 }
 .terms {
-	color: #f4da47 !important;
+	color: #0EBD60 !important;
 }
 @media (max-width: 480px) {
 	.contenttxt > ol {
@@ -44,4 +43,7 @@
 	.contenttxt > ol li {
 		font-size: 14px !important;
 	}
+}
+.titletext >p{
+	margin: 0 !important;
 }
