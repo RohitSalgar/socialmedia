@@ -18,8 +18,6 @@ const ScheduleList = () => {
   const { data, isLoading } = useGetAllMySchedules(profileData?.userId);
   const { mutate } = useDeleteSchedule();
 
-  let postList = [1];
-
   if (isLoading) {
     return <Loader />;
   }
@@ -76,13 +74,15 @@ const ScheduleList = () => {
                 </FlexBetween>
               )}
               <Box>
-                {postList?.map((data) => (
-                  <LikeComment
-                    key={data._id}
-                    postData={data}
-                    scheduleId={e._id}
-                  />
-                ))}
+                {data?.map((data) => {
+                  return (
+                    <LikeComment
+                      key={data._id}
+                      postData={data}
+                      scheduleId={e._id}
+                    />
+                  );
+                })}
               </Box>
             </WidgetWrapper>
           );

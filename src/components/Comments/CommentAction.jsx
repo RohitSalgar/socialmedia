@@ -50,8 +50,6 @@ function CommentAction({
     }
   };
 
-  console.log(postData, "post");
-
   return (
     <>
       {type === "reply" && (
