@@ -25,7 +25,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "../../../../redux/slices/authSlice";
 import { setChatModeOff, setChatModeOn } from "../../../../redux/slices/chat";
 import ClearIcon from "@mui/icons-material/Clear";
-import { removeProfileData } from "../../../../redux/slices/profileSlice";
+import {
+  removeProfileData,
+  setSideView,
+} from "../../../../redux/slices/profileSlice";
 import classes from "./index.module.css";
 
 const Navbar = () => {
@@ -34,6 +37,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const chat = useSelector((state) => state.chat);
   const signedIn = localStorage.getItem("amsSocialSignedIn");
+  const { sideView } = useSelector((state) => state.profile);
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -45,13 +49,13 @@ const Navbar = () => {
 
   const searchItems = [
     {
-      _id:1,
+      _id: 1,
       name: "Mahendra",
       profilePic:
         "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
     },
     {
-      _id:2,
+      _id: 2,
       name: "Rohit",
       profilePic:
         "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
@@ -91,7 +95,11 @@ const Navbar = () => {
             return (
               <div key={value._id} className={classes.profileContainer}>
                 <div>
-                  <img className={classes.profilePic} src={value.profilePic} alt="" />
+                  <img
+                    className={classes.profilePic}
+                    src={value.profilePic}
+                    alt=""
+                  />
                 </div>
                 <div>{value.name}</div>
               </div>
@@ -110,16 +118,16 @@ const Navbar = () => {
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
           </IconButton>
-          {chat.isOpen === false && (
+          {sideView === "companyPage" && (
             <Message
               sx={{ fontSize: "25px" }}
-              onClick={() => dispatch(setChatModeOn())}
+              onClick={() => dispatch(setSideView("chat"))}
             />
           )}
-          {chat.isOpen === true && (
+          {sideView === "chat" && (
             <ClearIcon
               sx={{ fontSize: "25px" }}
-              onClick={() => dispatch(setChatModeOff())}
+              onClick={() => dispatch(setSideView("companyPage"))}
             />
           )}
           {/* <Notifications sx={{ fontSize: "25px" }} /> */}

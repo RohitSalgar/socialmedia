@@ -4,15 +4,27 @@ import ChatPage from "../../../../components/chat/ChatPage/ChatPage";
 import ChatPerson from "../../../../components/chat/ChatPersonList/ChatPerson";
 import { Box, InputBase, Typography } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import { setChatModeOff } from "../../../../redux/slices/chat";
 import { useTheme } from "@emotion/react";
+import { usegetAllChatInfo } from "../../../../hooks/chat";
+import Loader from "../../../../components/Loader/Loader";
+import { setSideView } from "../../../../redux/slices/profileSlice";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
-  let userList = [1, 2, 3, 3, 3, 3, 3];
-  let chatToggle = useSelector((state) => state.chat.isSingleChatOn);
+  const { userId } = useSelector((state) => state.profile.profileData);
+  const { sideView } = useSelector((state) => state.profile);
+  const { isSingleChatOn } = useSelector((state) => state.chat);
+
+  const { data, isLoading } = usegetAllChatInfo(userId);
   const dispatch = useDispatch();
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  const userList = [1, 2];
+
 
   return (
     <WidgetWrapper sx={{ minHeight: "82vh" }}>
@@ -28,12 +40,12 @@ const ChatLayout = () => {
         </Typography>
         <ClearIcon
           sx={{ fontSize: "24px", marginTop: "5px", cursor: "pointer" }}
-          onClick={() => dispatch(setChatModeOff())}
+          onClick={() => dispatch(setSideView("companyPage"))}
         />
       </Box>
-      {chatToggle === true && <ChatPage />}
+      {isSingleChatOn && <ChatPage data={data} />}
 
-      {chatToggle === false && (
+      {!isSingleChatOn && (
         <InputBase
           placeholder="Search Contact..."
           style={{
@@ -43,7 +55,7 @@ const ChatLayout = () => {
           }}
         />
       )}
-      {chatToggle === false && (
+      {!isSingleChatOn && (
         <Box
           sx={{
             overflowY: "scroll",
@@ -59,7 +71,7 @@ const ChatLayout = () => {
                   margin: "1px",
                 }}
               >
-                <ChatPerson id={i} />
+                <ChatPerson id={i} data={e} />
               </Box>
             );
           })}

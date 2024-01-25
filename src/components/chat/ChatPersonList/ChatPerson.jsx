@@ -4,9 +4,16 @@ import styles from "./ChatPerson.module.css";
 import { setSingleChatModeOn } from "../../../redux/slices/chat";
 import { Box, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
+import { useGetChatById } from "../../../hooks/chat";
+import Loader from "../../Loader/Loader";
 
 const ChatPerson = ({ id }) => {
   const dispatch = useDispatch();
+  const { data, isLoading } = useGetChatById(id);
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <Box className={styles.ChatPersonDiv}>
       <Box className={styles.imgdiv}>
@@ -19,7 +26,7 @@ const ChatPerson = ({ id }) => {
         <Typography className={styles.ChatPersonName}>Rohit Salgar</Typography>
       </Box>
       <ChatIcon
-        onClick={() => dispatch(setSingleChatModeOn(id))}
+        onClick={() => dispatch(setSingleChatModeOn())}
         className={styles.svgimg}
       />
     </Box>
