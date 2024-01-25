@@ -7,7 +7,8 @@ const initialState = {
   type: null,
   dashboardView: "",
   viewProfileId: null,
-  tabView:""
+  tabView: "",
+  sideView: "",
 };
 
 export const profileSlice = createSlice({
@@ -19,7 +20,8 @@ export const profileSlice = createSlice({
       state.dashboardView = "home";
       state.signedIn = true;
       state.tabView = "trending";
-      state.role = action.payload.role;
+      state.sideView = "companyPage",
+        state.role = action.payload.role;
       state.viewProfileId = action.payload.userId;
     },
     removeProfileData: (state) => {
@@ -45,6 +47,10 @@ export const profileSlice = createSlice({
     setTabView: (state, action) => {
       state.tabView = action.payload;
     },
+    setSideView: (state, action) => {
+      state.sideView = action.payload;
+    },
+
   },
 });
 
@@ -55,6 +61,7 @@ export const {
   updateProfileData,
   setDashboardView,
   setViewProfileId,
-  setTabView
+  setTabView,
+  setSideView
 } = profileSlice.actions;
 export default profileSlice.reducer;

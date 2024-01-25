@@ -12,21 +12,20 @@ import Profile from "../../../../components/Profile/Profile";
 import EditProfile from "../../../../components/EditProfile/EditProfile";
 import { useGetAllFrdRequestByUserId } from "../../../../hooks/user";
 
-
-  const searchItems = [
-    {
-      _id:1,
-      name: "Mahendra",
-      profilePic:
-        "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
-    },
-    {
-      _id:2,
-      name: "Rohit",
-      profilePic:
-        "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-    },
-  ];
+const searchItems = [
+  {
+    _id: 1,
+    name: "Mahendra",
+    profilePic:
+      "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
+  },
+  {
+    _id: 2,
+    name: "Rohit",
+    profilePic:
+      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
+  },
+];
 import { useEffect, useState } from "react";
 import {
   useGetForYouPost,
@@ -41,9 +40,11 @@ const HomePage = () => {
   const chat = useSelector((state) => state.chat);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { data, isLoading } = useGetTrendingPosts();
-  const {data: frdRequestData, isLoading: frdRequestLoading} = useGetAllFrdRequestByUserId()
-  const { userId } = useSelector((state) => state.profile.profileData)
-  const { tabView } = useSelector((state) => state.profile)
+  const { data: frdRequestData, isLoading: frdRequestLoading } =
+    useGetAllFrdRequestByUserId();
+  const { userId } = useSelector((state) => state.profile.profileData);
+  const { tabView } = useSelector((state) => state.profile);
+  const { sideView } = useSelector((state) => state.profile);
 
   const { data: trendingPost } = useGetTrendingPosts(tabView);
   const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
@@ -113,14 +114,14 @@ const HomePage = () => {
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="25%">
-            {chat.isOpen === false && chat.isEdit === false && (
+            {sideView === "companyPage" && (
               <>
                 <AdvertWidget /> <Box m="2rem 0" />
                 <FriendListWidget data={searchItems} />
               </>
             )}
-            {chat.isOpen === true && <ChatLayout />}
-            {(chat.isEdit === true && chat.isOpen === false) && <EditProfile />}
+            {sideView === "chat" && <ChatLayout />}
+            {chat.isEdit === true && chat.isOpen === false && <EditProfile />}
           </Box>
         )}
       </Box>
