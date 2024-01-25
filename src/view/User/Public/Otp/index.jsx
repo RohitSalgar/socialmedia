@@ -76,7 +76,7 @@ const OTPPage = () => {
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [{ id }] }
+        { data: [{ email :emailId }] }
       ),
     onSuccess: (data) => {
       toast.success(data);
@@ -86,41 +86,46 @@ const OTPPage = () => {
     },
   });
 
-  const otpPost = useMutation({
-    mutationFn: (data) => {
-      const postData = {
-        id: id,
-        otp: Object.values(data).join(""),
-      };
-      return fetchData(
-        {
-          url: URL + "users/verifyOtp",
-          method: "POST",
-          isAuthRequired: true,
+  const otpPost = async (data) => {
+    try {
+      const response = await fetch(URL + "users/verifyOtp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        { data: [postData] }
-      );
-    },
-    onSuccess: async (data) => {
-
-        const decodedData = jwtDecode(data);
-        localStorage.setItem("amsSocialToken", data);
+        credentials: "include",
+        body: JSON.stringify({
+          data: [
+            {
+              id: id,
+              otp: Object.values(data).join(""),
+            },
+          ],
+        }),
+      });
+      const responseJson = await response.json();
+      if (response.ok) {
+        const decodedData = jwtDecode(responseJson.data);
+        localStorage.setItem("amsSocialToken", responseJson.data);
         localStorage.setItem("amsSocialId", decodedData.userId);
         localStorage.setItem("amsSocialSignedIn", true);
         dispatch(setProfileData(decodedData));
         await queryClient.refetchQueries({ queryKey: ["profileData"] });
-        checkRole(decodedData?.role)
-    },
-    onError: (error) => {
-      toast.error(error.message.split(":")[1]);
-    },
-  });
+        checkRole(decodedData?.role);
+      } else {
+        throw new Error(responseJson.message || "Failed to verify OTP");
+      }
+    } catch (error) {
+      console.error("Error during OTP verification:", error);
+      toast.error(error.message.split(":")[1] || "An error occurred");
+    }
+  };
 
   useEffect(() => {
     emailData.mutate();
   }, []);
   const saveData = (data) => {
-    otpPost.mutate(data);
+    otpPost(data);
   };
   
 
@@ -265,6 +270,7 @@ const OTPPage = () => {
                         type="text"
                         onChange={(event) =>
                           field.onChange(event.target.value.replace(/[^\d]+/g, ""))
+
                         }
                         maxLength={1}
                         id="4"

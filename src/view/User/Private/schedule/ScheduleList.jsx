@@ -12,6 +12,7 @@ import {
 import Loader from "../../../../components/Loader/Loader";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import PostTitle from "./PostTitle";
 
 const ScheduleList = () => {
   const profileData = useSelector((state) => state.profile.profileData);
@@ -34,7 +35,8 @@ const ScheduleList = () => {
       {data &&
         data.map((e, i) => {
           return (
-            <WidgetWrapper sx={{ marginTop: "1rem" }} key={i}>
+            <WidgetWrapper key={i}  sx={{ marginBottom: "20px" }} >
+              <PostTitle data={e} />
               <Box className={styles.scheduleListDiv}>
                 <Box className={styles.scheduleListSubDiv}>
                   <Typography>POL: </Typography>{" "}
@@ -49,12 +51,6 @@ const ScheduleList = () => {
                   <Typography>
                     {moment(e.bookingCutOff).format("DD-MM-YYYY")}
                   </Typography>
-                </Box>
-                <Box>
-                  <DeleteIcon
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => deleteSchedule(e._id)}
-                  />
                 </Box>
               </Box>
               {e.description !== "" && (
