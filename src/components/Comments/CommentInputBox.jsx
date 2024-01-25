@@ -26,7 +26,6 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   const [text, setText] = useState("");
   const inputField = useRef(null);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
-  console.log(dashboardView, "fff");
   const { mutate: insertComment, isloading: insertCommentLoading } =
     useInsertComment();
   const { mutate: insertReply, isloading: insertReplyLoading } =
@@ -39,7 +38,6 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
     }
   }, [insertCommentLoading, insertReplyLoading]);
   function handleSubmit() {
-    console.log(postData, "ggg");
     if (type === "comment") {
       if (dashboardView === "schedule") {
         const newComment = {

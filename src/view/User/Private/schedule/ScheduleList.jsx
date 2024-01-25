@@ -7,7 +7,7 @@ import LikeComment from "./LikeComment";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
   useDeleteSchedule,
-  useGetAllMySchedules,
+  useGetAllSchedules,
 } from "../../../../hooks/schedule";
 import Loader from "../../../../components/Loader/Loader";
 import { useSelector } from "react-redux";
@@ -15,7 +15,7 @@ import moment from "moment";
 
 const ScheduleList = () => {
   const profileData = useSelector((state) => state.profile.profileData);
-  const { data, isLoading } = useGetAllMySchedules(profileData?.userId);
+  const { data, isLoading } = useGetAllSchedules();
   const { mutate } = useDeleteSchedule();
 
   if (isLoading) {
@@ -74,15 +74,7 @@ const ScheduleList = () => {
                 </FlexBetween>
               )}
               <Box>
-                {data?.map((data) => {
-                  return (
-                    <LikeComment
-                      key={data._id}
-                      postData={data}
-                      scheduleId={e._id}
-                    />
-                  );
-                })}
+                <LikeComment key={e._id} postData={e} scheduleId={e._id} />
               </Box>
             </WidgetWrapper>
           );
