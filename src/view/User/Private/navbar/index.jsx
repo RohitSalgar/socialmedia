@@ -47,20 +47,20 @@ const Navbar = () => {
   const background = theme.palette.background.default;
   const alt = theme.palette.background.alt;
 
-  const searchItems = [
-    {
-      _id: 1,
-      name: "Mahendra",
-      profilePic:
-        "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
-    },
-    {
-      _id: 2,
-      name: "Rohit",
-      profilePic:
-        "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-    },
-  ];
+  // const searchItems = [
+  //   {
+  //     _id: 1,
+  //     name: "Mahendra",
+  //     profilePic:
+  //       "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
+  //   },
+  //   {
+  //     _id: 2,
+  //     name: "Mahendra",
+  //     profilePic:
+  //       "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
+  //   },
+  // ];
 
   return (
     <FlexBetween padding="1rem 3%" backgroundColor={alt}>
@@ -90,7 +90,7 @@ const Navbar = () => {
             </FlexBetween>
           )}
         </FlexBetween>
-        <div className={classes.searchitemsContainer}>
+        {/* <div className={classes.searchitemsContainer}>
           {searchItems.map((value) => {
             return (
               <div key={value._id} className={classes.profileContainer}>
@@ -105,7 +105,7 @@ const Navbar = () => {
               </div>
             );
           })}
-        </div>
+        </div> */}
       </div>
 
       {/* DESKTOP NAV */}

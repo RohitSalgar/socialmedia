@@ -38,6 +38,7 @@
 
 .contactName {
   margin: 10px;
+  text-transform: capitalize;
 }
 .lastSeen {
   text-align: end;
