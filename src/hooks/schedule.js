@@ -17,6 +17,7 @@ const useAddSchedule = () => {
             ),
         onSuccess: () => {
             queryclient.invalidateQueries(['schedules'])
+            queryclient.invalidateQueries(['allschedules'])
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
@@ -38,6 +39,7 @@ const useDeleteSchedule = () => {
             ),
         onSuccess: () => {
             queryclient.invalidateQueries(['schedules'])
+            queryclient.invalidateQueries(['allschedules'])
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
@@ -58,6 +60,7 @@ const useDeletescheduleReply = () => {
             ),
         onSuccess: () => {
             queryclient.invalidateQueries(['schedules'])
+            queryclient.invalidateQueries(['allschedules'])
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
@@ -78,6 +81,7 @@ const useDeletescheduleComments = () => {
             ),
         onSuccess: () => {
             queryclient.invalidateQueries(['schedules'])
+            queryclient.invalidateQueries(['allschedules'])
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
@@ -99,6 +103,7 @@ const useUpdateScheduleLikes = () => {
             ),
         onSuccess: () => {
             queryclient.invalidateQueries(['schedules'])
+            queryclient.invalidateQueries(['allschedules'])
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
@@ -119,6 +124,7 @@ const useUpdatePostComment = () => {
             ),
         onSuccess: () => {
             queryclient.invalidateQueries(['schedules'])
+            queryclient.invalidateQueries(['allschedules'])
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
@@ -140,6 +146,7 @@ const useReplyPostComment = () => {
             ),
         onSuccess: () => {
             queryclient.invalidateQueries(['schedules'])
+            queryclient.invalidateQueries(['allschedules'])
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
@@ -184,4 +191,21 @@ const useGetAllMyCommentAndReply = (id) => {
     })
 }
 
-export { useAddSchedule, useDeletescheduleComments, useReplyPostComment, useDeleteSchedule, useDeletescheduleReply, useUpdatePostComment, useGetAllMySchedules, useGetAllMyCommentAndReply, useUpdateScheduleLikes }
+const useGetAllSchedules = () => {
+    return useQuery({
+        queryKey: ['allschedules'],
+        queryFn: () => {
+            return fetchData({
+                url: URL + "schedule/getAllSchedule",
+                method: "GET",
+                isAuthRequired: true
+            })
+        },
+        onSuccess: () => {
+            console.log('success')
+        }
+
+    })
+}
+
+export { useGetAllSchedules, useAddSchedule, useDeletescheduleComments, useReplyPostComment, useDeleteSchedule, useDeletescheduleReply, useUpdatePostComment, useGetAllMySchedules, useGetAllMyCommentAndReply, useUpdateScheduleLikes }

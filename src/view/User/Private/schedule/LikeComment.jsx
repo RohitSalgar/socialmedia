@@ -24,7 +24,6 @@ import CommentInputBox from "../../../../components/Comments/CommentInputBox";
 import CommentBox from "../../../../components/Comments/CommentBox";
 
 const LikeComment = (props) => {
-  console.log(props, "pross");
   const { palette } = useTheme();
   const primary = palette.primary.main;
   const [isComments, setIsComments] = useState(false);
@@ -81,6 +80,7 @@ const LikeComment = (props) => {
       return i === userId;
     });
   };
+
 
   return (
     <Box gap="1rem">
