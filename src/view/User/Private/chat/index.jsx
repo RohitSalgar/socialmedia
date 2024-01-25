@@ -5,26 +5,27 @@ import ChatPerson from "../../../../components/chat/ChatPersonList/ChatPerson";
 import { Box, InputBase, Typography } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useTheme } from "@emotion/react";
-import { usegetAllChatInfo } from "../../../../hooks/chat";
+import { useGetChatById, usegetAllChatInfo } from "../../../../hooks/chat";
 import Loader from "../../../../components/Loader/Loader";
 import { setSideView } from "../../../../redux/slices/profileSlice";
+import { useGetConnectionList } from "../../../../hooks/profile";
+import { useEffect, useState } from "react";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
+  let viewList = "connection";
   const dark = palette.neutral.dark;
+  const [text, setText] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
-  const { sideView } = useSelector((state) => state.profile);
+  const profileId = useSelector((state) => state.profile.viewProfileId);
   const { isSingleChatOn } = useSelector((state) => state.chat);
-
-  const { data, isLoading } = usegetAllChatInfo(userId);
+  const { data: connectionData, isLoading: connectionLoading } =
+    useGetConnectionList(profileId, viewList);
   const dispatch = useDispatch();
 
-  if (isLoading) {
+  if (connectionLoading) {
     return <Loader />;
   }
-
-  const userList = [1, 2];
-
 
   return (
     <WidgetWrapper sx={{ minHeight: "82vh" }}>
@@ -43,7 +44,6 @@ const ChatLayout = () => {
           onClick={() => dispatch(setSideView("companyPage"))}
         />
       </Box>
-      {isSingleChatOn && <ChatPage data={data} />}
 
       {!isSingleChatOn && (
         <InputBase
@@ -53,30 +53,31 @@ const ChatLayout = () => {
             position: "static",
             borderRadius: "5px",
           }}
+          onChange={(e) => setText(e.target.value)}
         />
       )}
-      {!isSingleChatOn && (
-        <Box
-          sx={{
-            overflowY: "scroll",
-            height: "70vh",
-            marginRight: "5px",
-          }}
-        >
-          {userList.map((e, i) => {
-            return (
-              <Box
-                key={i}
-                sx={{
-                  margin: "1px",
-                }}
-              >
-                <ChatPerson id={i} data={e} />
-              </Box>
-            );
-          })}
-        </Box>
-      )}
+      <Box
+        sx={{
+          marginRight: "5px",
+        }}
+      >
+        {connectionData &&
+          connectionData
+            .filter((e) => e.recipientName.includes(text.trim()))
+            .map((e, i) => {
+              return (
+                <Box
+                  key={i}
+                  sx={{
+                    margin: "1px",
+                  }}
+                >
+                  {!isSingleChatOn && <ChatPerson id={i} data={e} />}
+                  {isSingleChatOn && <ChatPage data={e} />}
+                </Box>
+              );
+            })}
+      </Box>
     </WidgetWrapper>
   );
 };
