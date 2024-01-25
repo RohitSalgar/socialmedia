@@ -34,6 +34,8 @@ import {
 } from "../../../../hooks/posts";
 import AddSchedule from "../schedule/AddSchedule";
 import ScheduleList from "../schedule/ScheduleList";
+import Myqa from "../Qa/MyQaPost";
+import { useGetProfile } from "../../../../hooks/profile";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -52,7 +54,8 @@ const HomePage = () => {
     state: "Tamilnadu",
     country: "India",
   });
-
+  const { data } = useGetProfile(userId);
+  console.log(data,"page")
   return (
     <Box>
       <Navbar />
@@ -106,18 +109,35 @@ const HomePage = () => {
           )}
           {dashboardView === "schedule" && (
             <Box>
-              <AddSchedule />
+              {data?.pageData != null && <AddSchedule />}
               <ScheduleList />
             </Box>
           )}
           {dashboardView === "profile" && <Profile />}
+          {dashboardView === "qa" && (
+            <>
+              <Myqa />
+              <Box
+                sx={{
+                  maxHeight: "45vh",
+                  overflowY: "scroll",
+                }}
+              >
+                {tabView === "forYou" &&
+                  trendingPost &&
+                  trendingPost.map((data) => (
+                    <PostWidget key={data._id} postData={data} />
+                  ))}
+              </Box>
+            </>
+          )}
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="25%">
             {sideView === "companyPage" && (
               <>
                 <AdvertWidget /> <Box m="2rem 0" />
-                <FriendListWidget data={searchItems} />
+                <FriendListWidget />
               </>
             )}
             {sideView === "chat" && <ChatLayout />}

@@ -90,7 +90,7 @@ const Navbar = () => {
             </FlexBetween>
           )}
         </FlexBetween>
-        <div className={classes.searchitemsContainer}>
+        {/* <div className={classes.searchitemsContainer}>
           {searchItems.map((value) => {
             return (
               <div key={value._id} className={classes.profileContainer}>
@@ -105,7 +105,7 @@ const Navbar = () => {
               </div>
             );
           })}
-        </div>
+        </div> */}
       </div>
 
       {/* DESKTOP NAV */}
