@@ -76,19 +76,15 @@ const MyPostWidget = () => {
   // }, []);
 
   const onSubmit = () => {
-    console.log(image);
     const formData = new FormData();
-    formData.append("files", image);
-    formData.append("createdBy", userId);
-    formData.append("description", description);
-    console.log(formData);
-    const postData = {
-      ...location,
-      createdBy: userId,
-      description,
-      hashTags: tags,
-      files: formData,
-    };
+    formData.append('file', image);
+    formData.append('createdBy', userId);
+    formData.append('description', description);
+    formData.append('hashTags', tags);
+    formData.append('state', location.state);
+    formData.append('country', location.country);
+ 
+    mutate(formData)
 
     mutate(formData);
   };
