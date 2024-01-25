@@ -9,8 +9,10 @@ import moment from "moment";
 import { CancelScheduleSend } from "@mui/icons-material";
 import { setSideView } from "../../../redux/slices/profileSlice";
 import { setSingleChatModeOff } from "../../../redux/slices/chat";
+import { useGetChatById } from "../../../hooks/chat";
+import Loader from "../../Loader/Loader";
 
-const ChatPage = () => {
+const ChatPage = ({ data }) => {
   const dispatch = useDispatch();
   const socket = useSocket();
   const messagesDivRef = useRef(null);
@@ -18,6 +20,7 @@ const ChatPage = () => {
   const [chatMessage, setChatMessage] = useState([]);
   const [sendMessage, setSendMessage] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
+  const { data: chatData, isLoading: chatLoading } = useGetChatById(data._id);
 
   useEffect(() => {
     if (messagesDivRef.current) {
@@ -61,14 +64,18 @@ const ChatPage = () => {
     setSendMessage("");
   };
 
+  if (chatLoading) {
+    return <Loader />;
+  }
+
   return (
-    <Box className={styles.chatPage} ref={messagesDivRef}>
+    <Box className={styles.chatPage} ref={messagesDivRef} sx={{ overflow: "" }}>
       <KeyboardBackspaceIcon
         sx={{ cursor: "pointer", margin: "5px" }}
         onClick={() => dispatch(setSingleChatModeOff())}
       />
       <Box className={styles.chatHeader}>
-        <span className={styles.contactName}>John Doe</span>
+        <span className={styles.contactName}>{data.recipientName}</span>
         <span className={styles.lastSeen}>today 5:30</span>
       </Box>
       <Box className={styles.chatMessages}>

@@ -18,11 +18,12 @@ const usegetAllChatInfo = (id) =>
         }
       );
     },
+    enabled: !!id,
   });
 
-const useGetChatById = (id) =>
+const useGetChatById = (connectionId) =>
   useQuery({
-    queryKey: ["chatuser", id],
+    queryKey: ["chatuser", connectionId],
     queryFn: () => {
       return fetchData(
         {
@@ -31,16 +32,11 @@ const useGetChatById = (id) =>
           isAuthRequired: true,
         },
         {
-          data: [{ connectionId: id }],
+          data: [{ connectionId }],
         }
       );
     },
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
+    enabled: !!connectionId,
   });
 
 const useUpdateChatStatus = () => {
