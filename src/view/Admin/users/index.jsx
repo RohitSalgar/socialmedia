@@ -100,13 +100,14 @@ const users = () => {
         <CustomDataGrid
           sx={{ textTransform: "capitalize" }}
           getRowId={(row) => row._id}
-          rows={data.filter((user) =>
+          rows={data?.userData?.filter((user) =>
             user.fullName.includes(searchTerm.toLowerCase())
           )}
-          columns={columns.map((column) => ({
-            ...column,
-            sortable: false,
-          }))}
+        //   columns={columns.map((column) => ({
+        //     ...column,
+        //     sortable: false,
+        //   }))}
+          columns={columns}
           initialState={{
             pagination: {
               paginationModel: {

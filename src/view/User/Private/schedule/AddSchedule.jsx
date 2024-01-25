@@ -9,11 +9,13 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AddScheduleValidation } from "../../../../validation/addSchedule";
 import { useSelector } from "react-redux";
+import { useGetProfile } from "../../../../hooks/profile";
 
 const AddSchedule = () => {
   const { mutate } = useAddSchedule();
   const profileData = useSelector((state) => state.profile.profileData);
-
+  const userId = useSelector((state) => state.profile.profileData.userId);
+  const { data} = useGetProfile(userId);
   const {
     handleSubmit,
     register,
@@ -48,10 +50,11 @@ const AddSchedule = () => {
   };
 
   return (
+    <>
     <WidgetWrapper>
       <form action="post" onSubmit={handleSubmit(onSubmit)}>
         <FlexBetween>
-          <Box className={styles.AddScheduleDiv}>
+          <Box className={styles.AddScheduleDiv} sx={{marginBottom:"1 rem"}}>
             <TextField
               id="outlined-multiline-static"
               className={errors.pol && styles.error}
@@ -149,6 +152,7 @@ const AddSchedule = () => {
         </Box>
       </form>
     </WidgetWrapper>
+    </>
   );
 };
 
