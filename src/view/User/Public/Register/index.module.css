@@ -53,3 +53,19 @@ dob */
   color: red;
 	margin: 0;
 }
+.loginformdiv {
+  width: 350px;
+}
+.loginformdiv > div > div > input {
+  padding: 10px !important;
+}
+.loginforminputs > div > div > input {
+  padding: 10px !important;
+}
+
+.forminput > input {
+  padding: 10px !important;
+}
+.forminputlabel{
+  padding-top: 10px;
+}

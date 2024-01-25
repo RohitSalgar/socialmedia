@@ -25,14 +25,25 @@
 .editbtn {
   text-transform: capitalize !important;
   color: #fff !important;
-  background-color: #0EBD60 !important;
+  background-color: #0ebd60 !important;
 }
 .closediv {
   display: flex;
   justify-content: end;
 }
-.closebtn{
+.closebtn {
   padding: 0 !important;
   min-width: 0 !important;
   color: #adadad !important;
+}
+.createbtn {
+  background-color: transparent;
+  color: #0ebd60;
+  border: 1px solid #0ebd60 !important;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.createbtn svg path{
+  fill: #0ebd60 !important;
 }
