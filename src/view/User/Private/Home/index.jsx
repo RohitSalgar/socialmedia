@@ -34,6 +34,8 @@ import {
 } from "../../../../hooks/posts";
 import AddSchedule from "../schedule/AddSchedule";
 import ScheduleList from "../schedule/ScheduleList";
+import CreateCompany from "../../../../components/CreateCompany/CreateCompany";
+import PagesOTP from "../../../../components/PagesOTP/PagesOTP";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -121,7 +123,9 @@ const HomePage = () => {
               </>
             )}
             {sideView === "chat" && <ChatLayout />}
-            {chat.isEdit === true && chat.isOpen === false && <EditProfile />}
+            {sideView === "editprofile" && <EditProfile />}
+            {sideView === "createcompany" && <CreateCompany />}
+            {sideView === "pagesotp" && <PagesOTP />}
           </Box>
         )}
       </Box>

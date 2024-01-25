@@ -29,6 +29,9 @@
 .unfollowbtn {
   text-transform: capitalize !important;
 }
+.editform {
+  padding-top: 20px !important;
+}
 .editform label {
   font-weight: bold;
   width: 100% !important;

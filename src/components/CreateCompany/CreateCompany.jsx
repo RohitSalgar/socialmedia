@@ -1,59 +1,47 @@
-import { Box, Button, Input, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import WidgetWrapper from "../WidgetWrapper";
-import Avatar from "@mui/material/Avatar";
 import styles from "./index.module.css";
-import rohitimg from "../../assets/images/sanjai.png";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { setEditOff } from "../../redux/slices/chat";
 import { useEditProfile, useGetProfile } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
 import { useEffect } from "react";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import { editProfile } from "../../validation/editProfile";
+import { createCompany } from "../../validation/createCompany";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { setSideView } from "../../redux/slices/profileSlice";
+import { useCreateCompany } from "../../hooks/pages";
 
-const EditProfile = () => {
+const CreateCompany = () => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
   const medium = palette.neutral.medium;
   const dark = palette.neutral.dark;
   const userId = useSelector((state) => state.profile.profileData.userId);
-  const { data: profiledate, isLoading } = useGetProfile(userId);
-  const { mutate, isLoading: mutateLoading } = useEditProfile();
+  // const { data: profiledate, isLoading } = useGetProfile(userId);
+  const { mutate, isLoading: mutateLoading } = useCreateCompany();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
-    resolver: yupResolver(editProfile),
+    resolver: yupResolver(createCompany),
     mode: "onChange",
     defaultValues: {
-      fullName: "",
-      designation: "",
+      companyName: "",
+      email: "",
+      licenseNo: "",
       about: "",
     },
   });
 
-  const editData = {
-    fullName: profiledate?.userData?.fullName,
-    designation: profiledate?.userData?.designation,
-    about: profiledate?.userData?.about,
-  };
-
-  useEffect(() => {
-    reset(editData);
-  }, [profiledate]);
-
   const onSubmit = (data) => {
-    data.id = userId;
+    data.createdBy = userId;
     mutate(data);
   };
 
-  if (isLoading || mutateLoading) {
-    <Loader />;
+  if (mutateLoading) {
+    return <Loader />;
   }
 
   return (
@@ -67,7 +55,7 @@ const EditProfile = () => {
           }}
         >
           <Typography color={dark} sx={{ fontWeight: "500", fontSize: "20px" }}>
-            Edit profile
+            Create Company Page
           </Typography>
           <Button
             sx={{
@@ -76,36 +64,30 @@ const EditProfile = () => {
               minWidth: "0px",
               color: "#585858",
             }}
-            onClick={() => dispatch(setSideView("companyPage"))}
+            onClick={() => dispatch(setEditOff())}
           >
             X
           </Button>
         </Box>
-        <Box className={styles.avatardiv}>
-          <Avatar
-            alt="B"
-            src={rohitimg}
-            sx={{ width: 100, height: 100 }}
-            className={styles.avathar}
-          />
-          <label htmlFor="file" className={styles.filelabel}>
-            <ModeEditIcon />
-          </label>
-          <Input type="file" id="file" className={styles.file}></Input>
-        </Box>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.editform}>
-            <label htmlFor="fullName">Full Name</label>
+            <label htmlFor="companyName">Company Name</label>
             <input
-              className={errors.name && styles.error}
-              id="fullName"
-              {...register("fullName")}
+              className={errors.companyName && styles.error}
+              id="companyName"
+              {...register("companyName")}
             />
-            <label htmlFor="designation">Designation</label>
+            <label htmlFor="email">Email</label>
             <input
-              className={errors.designation && styles.error}
-              id="designation"
-              {...register("designation")}
+              className={errors.email && styles.error}
+              id="email"
+              {...register("email")}
+            />
+            <label htmlFor="licenseNo">License No</label>
+            <input
+              className={errors.licenseNo && styles.error}
+              id="licenseNo"
+              {...register("licenseNo")}
             />
             <label htmlFor="about">About</label>
             <textarea
@@ -114,7 +96,11 @@ const EditProfile = () => {
               id="about"
               {...register("about")}
             />
-            <button className={styles.submitbtn} type="submit">
+            <button
+              className={styles.submitbtn}
+              type="submit"
+              style={{ marginTop: "20px" }}
+            >
               Submit
             </button>
           </form>
@@ -124,4 +110,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default CreateCompany;
