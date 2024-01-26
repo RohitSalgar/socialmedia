@@ -75,7 +75,7 @@ const Myqa = () => {
           id="outlined-multiline-static"
           multiline
           rows={1}
-          placeholder="What's Happening..."
+          placeholder="What's your Question ?...."
           onChange={(e) => setquestion(e.target.value)}
           value={question}
           sx={{
@@ -135,7 +135,7 @@ const Myqa = () => {
               borderRadius: "1rem",
             }}
           >
-            Post
+            Ask
           </Button>
         </Box>
       </FlexBetween>

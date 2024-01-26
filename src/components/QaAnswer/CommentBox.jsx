@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Divider, useTheme } from "@mui/material";
 
-import CommentHeader from "./CommentHeader";
-import CommentHeaderActions from "./CommentHeaderActions";
-import CommentInputBox from "./CommentInputBox";
-import DeleteDialog from "./DeleteDialog";
-import EditField from "./EditField";
+import CommentHeader from "../Comments/CommentHeader";
+import CommentInputBox from "../Comments/CommentInputBox";
+import DeleteDialog from "../Comments/DeleteDialog";
+import EditField from "../Comments/EditField";
 import { useGetPostComment } from "../../hooks/likeComment";
 import styles from "./index.module.css";
 
 function CommentBox({
   id,
+  answer,
   message,
   createdAt,
   user,
@@ -22,15 +22,20 @@ function CommentBox({
   postData,
   commentId,
 }) {
-  console.log(message,"message")
+  let data
+  if(message != null){
+    data = message
+  }else{
+    data = answer
+  }
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
-  const [editText, setEditText] = useState(message);
+  const [editText, setEditText] = useState(data);
   const [replyId, setReplyId] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleConfirmDelete = () => {
-    const updatedComments = updateCommentmessage(message, "\0");
+    const updatedComments = updateCommentanswer(data, "\0");
     setState((prev) => ({ ...prev, updatedComments }));
     setDialogOpen(false);
   };
@@ -41,26 +46,26 @@ function CommentBox({
   const handleEditTextChange = (e) => setEditText(e.target.value);
 
   const handleEditSubmit = () => {
-    const updatedComments = updateCommentmessage(message, editText);
+    const updatedComments = updateCommentanswer(data, editText);
     setState((prev) => ({ ...prev, updatedComments }));
     setSelected(0);
   };
 
   const handleDelete = () => setDialogOpen(true);
 
-  function updateCommentmessage(originalmessage, newmessage) {
+  function updateCommentanswer(originalanswer, newanswer) {
     const indices = findIndex(id);
     const updatedComments = [...reorderedComments];
 
     if (indices.c !== -1 && indices.r === -1) {
       updatedComments[indices.c] = {
         ...updatedComments[indices.c],
-        message: newmessage,
+        data: newanswer,
       };
     } else if (indices.r !== -1 && indices.c !== -1) {
       updatedComments[indices.c].replies[indices.r] = {
         ...updatedComments[indices.c].replies[indices.r],
-        message: newmessage,
+        data: newanswer,
       };
     }
 
@@ -106,15 +111,15 @@ function CommentBox({
             onReply={handleReply}
             reply={selected === id}
             edit={selected === -id}
-            deleted={message === "\0"}
+            deleted={data === "\0"}
             commentAction={commentAction}
             postData={postData}
             commentId={commentId}
           />
-          {message !== "\0" ? (
+          {data !== "\0" ? (
             selected === -id ? (
               <EditField
-                defaultValue={message}
+                defaultValue={data}
                 onChange={handleEditTextChange}
                 onSubmit={handleEditSubmit}
               />
@@ -124,7 +129,8 @@ function CommentBox({
                 sx={{ flexGrow: 1, mt: 1, ml: 1 }}
                 component="p"
               >
-                {message.split("\n").map((line, i) => (
+                {console.log(data,"as")}
+                {data.split("\n").map((line, i) => (
                   <React.Fragment key={i}>
                     {line}
                     <br />

@@ -14,6 +14,7 @@ import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setDashboardView,
+  setTabView,
   setViewProfileId,
 } from "../../../redux/slices/profileSlice";
 import { useGetProfile } from "../../../hooks/profile";
@@ -26,6 +27,7 @@ const UserWidget = () => {
   const dark = palette.neutral.dark;
   const [selectedIndex, setSelectedIndex] = useState(0);
   const userId = useSelector((state) => state.profile.profileData.userId);
+  const {dashboardView} = useSelector((state)=>state.profile)
   const { data, isLoading } = useGetProfile(userId);
 
   const handleListItemClick = (event, index) => {
@@ -141,9 +143,11 @@ const UserWidget = () => {
         <List component="nav" aria-label="main mailbox folders">
           <ListItemButton
             sx={{ padding: "1px 20px" }}
-            selected={selectedIndex === 0}
+            selected={ dashboardView === "home"}
             onClick={(event) => {
-              handleListItemClick(event, 0), dispatch(setDashboardView("home"));
+              handleListItemClick(event, 0);
+              dispatch(setDashboardView("home"));
+              dispatch(setTabView("trending"))
             }}
           >
             <ListItemIcon>
@@ -153,10 +157,10 @@ const UserWidget = () => {
           </ListItemButton>
           <ListItemButton
             sx={{ padding: "1px 20px" }}
-            selected={selectedIndex === 1}
-            onClick={(event) => {
-              handleListItemClick(event, 1);
+            selected={dashboardView === "news"}
+            onClick={() => {
               dispatch(setDashboardView("news"));
+              dispatch(setTabView("news"))
             }}
           >
             <ListItemIcon>
@@ -166,9 +170,8 @@ const UserWidget = () => {
           </ListItemButton>
           <ListItemButton
             sx={{ padding: "1px 20px" }}
-            selected={selectedIndex === 2}
-            onClick={(event) => {
-              handleListItemClick(event, 2),
+            selected={dashboardView === "schedule"}
+            onClick={() => {
                 dispatch(setDashboardView("schedule"));
             }}
           >
@@ -177,38 +180,37 @@ const UserWidget = () => {
             </ListItemIcon>
             <ListItemText primary="Schedule" />
           </ListItemButton>
-          <ListItemButton
+          {/* <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={selectedIndex === 3}
             onClick={(event) => {
               handleListItemClick(event, 3);
               dispatch(setDashboardView("shipment"));
             }}
-          >
-            <ListItemIcon>
+          > */}
+            {/* <ListItemIcon>
               <CalendarMonthIcon />
             </ListItemIcon>
-            <ListItemText primary="Shipments News" />
-          </ListItemButton>
+            <ListItemText primary="Shipments News" /> */}
+          {/* </ListItemButton> */}
           <ListItemButton
             sx={{ padding: "1px 20px" }}
-            selected={selectedIndex === 4}
-            onClick={(event) => {
-              handleListItemClick(event, 4);
+            selected={dashboardView === "pages"}
+            onClick={() => {
               dispatch(setDashboardView("pages"));
             }}
           >
             <ListItemIcon>
               <CalendarMonthIcon />
             </ListItemIcon>
-            <ListItemText primary="Pages" />
+            <ListItemText primary=" Company Pages" />
           </ListItemButton>
           <ListItemButton
             sx={{ padding: "1px 20px" }}
-            selected={selectedIndex === 5}
-            onClick={(event) => {
-              handleListItemClick(event, 5);
+            selected={dashboardView === "qa"}
+            onClick={() => {
               dispatch(setDashboardView("qa"));
+              dispatch(setTabView("qa"))
             }}
           >
             <ListItemIcon>
@@ -218,9 +220,8 @@ const UserWidget = () => {
           </ListItemButton>
           <ListItemButton
             sx={{ padding: "1px 20px" }}
-            selected={selectedIndex === 6}
-            onClick={(event) => {
-              handleListItemClick(event, 6),
+            selected={dashboardView === "profile"}
+            onClick={() => {
                 dispatch(setDashboardView("profile"));
               dispatch(setViewProfileId(userId));
             }}
