@@ -26,6 +26,7 @@ import { setMode } from "../../../../redux/slices/authSlice";
 import { setChatModeOff, setChatModeOn } from "../../../../redux/slices/chat";
 import ClearIcon from "@mui/icons-material/Clear";
 import {
+  clearSkip,
   removeProfileData,
   setSideView,
 } from "../../../../redux/slices/profileSlice";
@@ -127,13 +128,16 @@ const Navbar = () => {
           <ImSwitch
             style={{ fontSize: "25px" }}
             onClick={() => {
+              // console.log("sdfsdf")
               if (signedIn === "true") {
                 dispatch(removeProfileData());
                 localStorage.removeItem("amsSocialToken");
                 localStorage.removeItem("amsSocialId");
                 localStorage.removeItem("amsSocialSignedIn");
               } else {
+                localStorage.clear()
                 localStorage.removeItem("amsSocialSignedIn");
+                dispatch(clearSkip())
               }
               navigate("/login");
             }}

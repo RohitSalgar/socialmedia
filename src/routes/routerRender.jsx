@@ -10,11 +10,12 @@ import AdminApp from "./adminPaths";
 
 function RouteChecker() {
 	const dispatch = useDispatch();
-	const profileData = useSelector((state) => state.profile.profileData);
+	const {profileData, skip} = useSelector((state) => state.profile);
 	const token = (localStorage.getItem("amsSocialToken"));
 	const signedIn = (localStorage.getItem("amsSocialSignedIn"));
 	const decodedData = localStorage.getItem("amsSocialToken") != null ? jwtDecode(localStorage.getItem("amsSocialToken")) : null;
 	useEffect(() => {
+		
 		if (profileData?.signedIn === true) {
 			if (token === null) {
 				dispatch(removeProfileData());
@@ -36,7 +37,7 @@ function RouteChecker() {
 
 	if (token == null && signedIn == null) {
 		return <PublicApp />;
-	} else if(signedIn === "false" && token == null){
+	} else if(skip === true && token == null){
 		return <PublicHomeApp />
 	}
 	else if (signedIn != null && signedIn === "true" && token) {
@@ -49,6 +50,7 @@ function RouteChecker() {
 }
 
 export default function RouterRender() {
+	
 	return (
 		<BrowserRouter>
 			<RouteChecker />
