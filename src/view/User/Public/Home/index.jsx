@@ -12,9 +12,6 @@ const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const chat = useSelector((state) => state.chat);
 
-  if (isLoading) {
-    return
-  }
   return (
     <Box>
       <Navbar />
@@ -39,7 +36,7 @@ const HomePage = () => {
         >
           {/* <MyPostWidget /> */}
           <Box fullWidth width="100%">
-            <OptionalTab />
+            {/* <OptionalTab /> */}
           </Box>
           {/* {data && data.map((data) => <PostWidget key={data._id} postData={data} />)} */}
         </Box>
