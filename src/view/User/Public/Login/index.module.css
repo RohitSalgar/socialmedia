@@ -6,9 +6,6 @@ conf
 location
 dob */
 
-
-
-
 /* Animation for sliding in from the left */
 @keyframes slideInLeft {
   from {
@@ -50,7 +47,18 @@ dob */
   animation: registerSlideInRight 1s ease-out;
 }
 
-.errormsg{
+.errormsg {
   color: red;
-	margin: 0;
+  margin: 0;
+}
+
+.loginformdiv {
+  width: 350px;
+}
+.loginformdiv > div > div > input {
+  padding: 10px !important;
+}
+
+.forminput > input {
+  padding: 10px !important;
 }

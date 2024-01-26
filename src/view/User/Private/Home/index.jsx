@@ -141,7 +141,9 @@ const HomePage = () => {
               </>
             )}
             {sideView === "chat" && <ChatLayout />}
-            {chat.isEdit === true && chat.isOpen === false && <EditProfile />}
+            {sideView === "editprofile" && <EditProfile />}
+            {sideView === "createcompany" && <CreateCompany />}
+            {sideView === "pagesotp" && <PagesOTP />}
           </Box>
         )}
       </Box>
