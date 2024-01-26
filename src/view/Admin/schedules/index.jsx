@@ -1,77 +1,81 @@
+import { useState } from "react";
 import classes from "../posts/index.module.css";
 import { IconButton, Typography } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
-import Button from "@mui/material/Button";
 import { useTheme } from "@emotion/react";
+import { useGetAllSchedules } from "../../../hooks/admin";
+import Loader from "../../../components/Loader/Loader";
+import moment from "moment";
 
 const schedules = () => {
   const { palette } = useTheme();
   const primary = palette.primary.main;
+  const { data: scheduleData, isLoading } = useGetAllSchedules();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const columns = [
     {
-      field: "createdBy",
-      headerName: "Created User",
+      field: "companyName",
+      headerName: "Company Name",
       flex: 1,
       headerAlign: "center",
       align: "center",
       headerClassName: "tabel-header",
     },
     {
-      field: "description",
-      headerName: "Description",
-      flex: 1.5,
-      headerAlign: "center",
-      align: "center",
-      headerClassName: "tabel-header",
-    },
-    {
-      field: "reportCount",
-      headerAlign: "center",
-      headerName: "Reported Users",
-      flex: 1,
-    },
-    {
-      field: "createdAt",
-      headerName: "Created Time",
+      field: "pol",
+      headerName: "POL",
       flex: 1,
       headerAlign: "center",
       align: "center",
       headerClassName: "tabel-header",
     },
     {
-      field: "Options",
-      headerName: "Options",
+      field: "pod",
+      headerName: "POD",
       flex: 1,
       headerAlign: "center",
       align: "center",
       headerClassName: "tabel-header",
-      renderCell: ({ row }) => <Button variant="contained">Delete</Button>,
+    },
+    {
+      field: "openingOn",
+      headerName: "Bookings Open",
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      headerClassName: "tabel-header",
+      valueGetter: ({ value }) => moment(value).format("DD-MM-YYYY"),
+    },
+    {
+      field: "bookingCutOff",
+      headerName: "Bookings Close",
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      headerClassName: "tabel-header",
+      valueGetter: ({ value }) => moment(value).format("DD-MM-YYYY"),
     },
   ];
 
-  const rows = [
-    {
-      _id: 1,
-      createdBy: "Mahendra",
-      description: "sdfsdfsdf sadfasdf sdfadfa awdfadfasdf",
-      reportCount: [{ name: "mahi" }, { name: "balue" }],
-      createdAt: "11/01/2024",
-    },
-  ];
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <section className={classes.postSection}>
       <div>
         <Typography variant="h2" color={primary}>
-          Schedules
+          Schedules List
         </Typography>
       </div>
       <div className={classes.searchContainer}>
         <input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className={classes.searchInput}
-          placeholder="Search by username..."
+          placeholder="Search by company name..."
         />
         <IconButton className={classes.searchBtn}>
           <Search />
@@ -79,9 +83,11 @@ const schedules = () => {
       </div>
       <div>
         <DataGrid
-          sx={{ textTransform: "capitalize" , minHeight:'450px' }}
+          sx={{ textTransform: "capitalize", minHeight: "450px" }}
           getRowId={(row) => row._id}
-          rows={rows}
+          rows={scheduleData.filter((schedule) =>
+            schedule.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+          )}
           columns={columns}
           initialState={{
             pagination: {
