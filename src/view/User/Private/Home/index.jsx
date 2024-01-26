@@ -25,6 +25,24 @@ const searchItems = [
     profilePic:
       "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
   },
+  {
+    _id: 2,
+    name: "Rohit",
+    profilePic:
+      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
+  },
+  {
+    _id: 2,
+    name: "Rohit",
+    profilePic:
+      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
+  },
+  {
+    _id: 2,
+    name: "Rohit",
+    profilePic:
+      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
+  },
 ];
 import { useEffect, useState } from "react";
 import {
@@ -39,12 +57,12 @@ import { useGetProfile } from "../../../../hooks/profile";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const { userId } = useSelector((state) => state.profile.profileData);
   const chat = useSelector((state) => state.chat);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
-  const { data, isLoading } = useGetTrendingPosts();
   const { data: frdRequestData, isLoading: frdRequestLoading } =
-    useGetAllFrdRequestByUserId();
-  const { userId } = useSelector((state) => state.profile.profileData);
+    useGetAllFrdRequestByUserId(userId);
+
   const { tabView } = useSelector((state) => state.profile);
   const { sideView } = useSelector((state) => state.profile);
 
@@ -137,7 +155,7 @@ const HomePage = () => {
             {sideView === "companyPage" && (
               <>
                 <AdvertWidget /> <Box m="2rem 0" />
-                <FriendListWidget />
+                <FriendListWidget data={frdRequestData} />
               </>
             )}
             {sideView === "chat" && <ChatLayout />}

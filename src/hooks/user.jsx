@@ -10,7 +10,7 @@ const useGetAllFrdRequestByUserId = (id) => {
         queryFn: ({queryKey}) =>
           { 
             return fetchData({
-                url: URL + "users/getConnectionListById",
+                url: URL + "users/getConnectionRequestListById",
                 isAuthRequired: true,
                 method: "POST"
             },
@@ -21,4 +21,50 @@ const useGetAllFrdRequestByUserId = (id) => {
         });
 };
 
-export { useGetAllFrdRequestByUserId };
+const useChangeConnectionStatus = (onSuccessFunctions) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) =>
+            fetchData(
+                {
+                    url: URL + "users/changeConnectionStatus",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [data] }
+            ),
+        onSuccess: (data) => {
+            onSuccessFunctions()
+            toast.success(data)
+            queryClient.invalidateQueries({ queryKey: ["allFrdRequests"] });
+        },
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
+};
+
+
+
+const useNavSearch = (onSuccessFunctions) => {
+    return useMutation({
+        mutationFn: (data) =>
+            fetchData(
+                {
+                    url: URL + "users/navSearch",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [data] }
+            ),
+        onSuccess: (data) => {
+            console.log(data,"data in hook")
+            onSuccessFunctions(data)
+        },
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
+};
+
+export { useGetAllFrdRequestByUserId, useChangeConnectionStatus, useNavSearch };
