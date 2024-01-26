@@ -20,11 +20,11 @@ const ChatPage = ({ data }) => {
   const [chatMessage, setChatMessage] = useState([]);
   const [sendMessage, setSendMessage] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
-  const { data: chatData, isLoading: chatLoading } = useGetChatById(data._id);
-
-  console.log(data, "data");
-
   let filteredData = data?.filter((e) => e._id === singleConnectionId);
+
+  const { data: chatData, isLoading: chatLoading } = useGetChatById(
+    filteredData[0]._id
+  );
 
   useEffect(() => {
     if (messagesDivRef.current) {
@@ -33,38 +33,45 @@ const ChatPage = ({ data }) => {
   }, [socket, messagesDivRef.current, chatMessage]);
 
   useEffect(() => {
+    if (chatData) {
+      setChatMessage(chatData);
+    }
+  }, [chatData]);
+
+  useEffect(() => {
+    socket?.on("getMessage", (data) => {
+      console.log(data, "dataa he kys ");
+      // const newChat = {
+      //   message: { message: data.message, createdAt: data.createdAt },
+      //   senderId: data.senderId,
+      //   senderName: data.senderName,
+      // };
+
+      setChatMessage((prev) => [...prev]);
+    });
+
     socket?.emit("users", userId);
     socket?.on("getUsers", (users) => {
       setLiveUser(users);
     });
-
-    socket?.on("getMessage", (data) => {
-      const newChat = {
-        message: { message: data.message, createdAt: data.createdAt },
-        senderId: data.senderId,
-        senderName: data.senderName,
-      };
-
-      setChatMessage((prev) => [...prev, newChat]);
-    });
-  }, [socket, userId]);
-
-  console.log(chatMessage, "chatmess");
+  }, [socket, userId, chatMessage]);
 
   const sendChatMessage = (e) => {
     e.preventDefault();
     const newChat = {
       message: sendMessage,
       senderId: userId,
-      receiverId: data?.recipientId,
-      connectionId: data?._id,
+      senderName: filteredData[0].senderName,
+      receiverId: filteredData[0].recipientId,
+      connectionId: filteredData[0]._id,
     };
 
     setChatMessage((prev) => [...prev, newChat]);
     socket.emit("sendMessage", {
       senderId: userId,
-      receiverId: data?.recipientId,
-      connectionId: data?._id,
+      receiverId: filteredData[0].recipientId,
+      connectionId: filteredData[0]._id,
+      senderName: filteredData[0].senderName,
       message: sendMessage.trim(),
       createdAt: moment().toISOString(),
     });
@@ -94,9 +101,18 @@ const ChatPage = ({ data }) => {
         {chatMessage?.map((message) => (
           <Box key={message.id} className={styles.messageContainer}>
             {chatMessage && (
-              <Typography className={styles.sender}>
-                {message.message}
-              </Typography>
+              <Box>
+                {message.senderId !== userId && (
+                  <Typography className={styles.sender}>
+                    {message.message}
+                  </Typography>
+                )}
+                {message.senderId === userId && (
+                  <Typography className={styles.receiver}>
+                    {message.message}
+                  </Typography>
+                )}
+              </Box>
             )}
           </Box>
         ))}
