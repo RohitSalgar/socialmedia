@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
@@ -30,6 +30,7 @@ import {
   setSideView,
 } from "../../../../redux/slices/profileSlice";
 import classes from "./index.module.css";
+import { useNavSearch } from "../../../../hooks/user";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -38,6 +39,13 @@ const Navbar = () => {
   const chat = useSelector((state) => state.chat);
   const signedIn = localStorage.getItem("amsSocialSignedIn");
   const { sideView } = useSelector((state) => state.profile);
+  const [searchText, setSearchText] = useState("")
+  const [searchData, setSearchData] = useState([])
+  const onSuccess = (data) => {
+    setSearchData(data)
+  }
+  const {mutate: navesearchMutate} = useNavSearch(onSuccess)
+
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -62,6 +70,11 @@ const Navbar = () => {
     },
   ];
 
+  useEffect(() => {
+    let data = navesearchMutate({term: searchText})
+    setSearchData(data)
+  }, [searchText])
+
   return (
     <FlexBetween padding="1rem 3%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
@@ -83,29 +96,29 @@ const Navbar = () => {
               gap="3rem"
               padding="0.1rem 1.5rem"
             >
-              <InputBase placeholder="Search..." style={{ width: "250px" }} />
+              <InputBase value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Search..." style={{ width: "250px" }} />
               <IconButton>
                 <Search />
               </IconButton>
             </FlexBetween>
           )}
         </FlexBetween>
-        <div className={classes.searchitemsContainer}>
-          {searchItems.map((value) => {
+        {searchData && searchData.length > 0 && <div className={classes.searchitemsContainer}>
+          {searchData && searchData.map((value) => {
             return (
               <div key={value._id} className={classes.profileContainer}>
                 <div>
                   <img
                     className={classes.profilePic}
-                    src={value.profilePic}
+                    src={value.profile}
                     alt=""
                   />
                 </div>
-                <div>{value.name}</div>
+                <div>{value.fullName}</div>
               </div>
             );
           })}
-        </div>
+        </div>}
       </div>
 
       {/* DESKTOP NAV */}
