@@ -13,21 +13,18 @@ import {
   useTheme,
 } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
-import PostTitle from "../../../../components/PostTitle";
+import PostTitle from "./PostTitle";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
 import { useState } from "react";
 import { Stack } from "@mui/material";
-import CommentBox from "../../../../components/Comments/CommentBox";
+import CommentBox from "../../../../components/QaAnswer/CommentBox";
 import CommentInputBox from "../../../../components/Comments/CommentInputBox";
-import {
-  useGetPostComment,
-  useLikeDisLike,
-} from "../../../../hooks/likeComment";
 import searchlogo from "../../../../assets/Images/logis1.jpeg";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
+import { useGetQaComment, useQaLikeDisLike } from "../../../../hooks/qa";
 
 const QaWidget = ({ postData }) => {
   const [isComments, setIsComments] = useState(false);
@@ -36,14 +33,14 @@ const QaWidget = ({ postData }) => {
   const [reportText, setReportText] = useState("");
   const [selected, setSelected] = useState(0); //0 for none, -id for edit, id for reply
   const { data: postComment, isLoading: postCommentLoading } =
-    useGetPostComment(postId);
+    useGetQaComment(postId);
   const onSuccess = () => {
     setReport(false);
     setReportText("");
   };
   const { mutate, isLoading: reportPostLoading } = useReportPost(onSuccess);
   const { mutate: likeMutate, isLoading: likeDislikeLoadingLoading } =
-    useLikeDisLike(onSuccess);
+    useQaLikeDisLike(onSuccess);
   const { userId } = useSelector((state) => state.profile.profileData);
 
   const { palette } = useTheme();
@@ -83,20 +80,18 @@ const QaWidget = ({ postData }) => {
   }
   const likeDislike = (status) => {
     const payload = {
-      postId: postData._id,
+      questionId: postData._id,
       userId: userId,
       status: status,
     };
     likeMutate(payload);
   };
+  console.log(postData)
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
-        {postData?.description}
-      </Typography>
-      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
-        {postData?.hashtags.map((hash) => `#${hash} `)}
+        Question : {postData?.question}
       </Typography>
       {/* <img
         width="100%"
@@ -137,7 +132,7 @@ const QaWidget = ({ postData }) => {
               <IconButton>
                 <ChatBubbleOutlineOutlined />
               </IconButton>
-              <Typography sx={{ cursor: "pointer" }}>{"comments"}</Typography>
+              <Typography sx={{ cursor: "pointer" }}>{"Your Answer"}</Typography>
             </Box>
           </FlexBetween>
           <FlexBetween gap="0.3rem">
@@ -151,10 +146,6 @@ const QaWidget = ({ postData }) => {
                 alignItems: "center",
               }}
             >
-              <IconButton>
-                <ReportProblemIcon />
-              </IconButton>
-              <Typography sx={{ cursor: "pointer" }}>{"report"}</Typography>
             </Box>
           </FlexBetween>
         </FlexBetween>
@@ -190,6 +181,7 @@ const QaWidget = ({ postData }) => {
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {
+                console.log(c,"c")
                 return (
                   <CommentBox
                     key={c.id}

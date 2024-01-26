@@ -10,7 +10,7 @@ const useGetAllFrdRequestByUserId = (id) => {
         queryFn: ({queryKey}) =>
           { 
             return fetchData({
-                url: URL + "users/getConnectionListById",
+                url: URL + "users/getConnectionListByUserId",
                 isAuthRequired: true,
                 method: "POST"
             },

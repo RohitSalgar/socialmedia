@@ -16,6 +16,7 @@ import {
   useReplyPostComment,
   useUpdatePostComment,
 } from "../../hooks/schedule";
+import { useInsertQaComment, useInsertQaReply } from "../../hooks/qa";
 
 function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   const { palette } = useTheme();
@@ -28,10 +29,12 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { mutate: insertComment, isloading: insertCommentLoading } =
     useInsertComment();
+    const { mutate: commentMutate } = useUpdatePostComment();
+    const { mutate: mutateQaComment } = useInsertQaComment();
   const { mutate: insertReply, isloading: insertReplyLoading } =
     useInsertReply();
   const { mutate: insertScheduleReply } = useReplyPostComment();
-  const { mutate: commentMutate } = useUpdatePostComment();
+  const { mutate: insertQaReply } = useInsertQaReply();
   useEffect(() => {
     if (insertCommentLoading || insertReplyLoading) {
       setText("");
@@ -47,16 +50,32 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
         };
         setText("");
         return commentMutate(newComment);
+      } else if(dashboardView === "qa"){
+        const newComment = {
+          questionId:postData?._id,
+          userId,
+          answer: text,
+        };
+        setText("");
+        return mutateQaComment(newComment);
+
       } else {
         const newComment = {
           postId: postData?._id,
-          userId: userId,
+          userId,
           message: text,
         };
         setText("");
         return insertComment(newComment);
       }
     } else if (type === "reply") {
+      if(dashboardView ==="qa"){
+        return insertQaReply({
+          answerId: replyId?._id,
+          userId: userId,
+          message: text
+        })
+      }
       const newReply = {
         commentId: replyId?._id,
         userId: userId,
@@ -66,7 +85,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
       if (dashboardView === "schedule") {
         return insertScheduleReply(newReply);
       } else {
-        return insertComment(newReply);
+        return insertReply(newReply);
       }
     }
   }

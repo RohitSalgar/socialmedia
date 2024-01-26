@@ -30,18 +30,20 @@ import { useEffect, useState } from "react";
 import {
   useGetForYouPost,
   useGetFriendsPost,
+  useGetNewsPosts,
   useGetTrendingPosts,
 } from "../../../../hooks/posts";
 import AddSchedule from "../schedule/AddSchedule";
 import ScheduleList from "../schedule/ScheduleList";
 import Myqa from "../Qa/MyQaPost";
 import { useGetProfile } from "../../../../hooks/profile";
+import { useGetAllQa } from "../../../../hooks/qa";
+import QaWidget from "../Qa/QaPost";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const chat = useSelector((state) => state.chat);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
-  const { data, isLoading } = useGetTrendingPosts();
   const { data: frdRequestData, isLoading: frdRequestLoading } =
     useGetAllFrdRequestByUserId();
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -50,6 +52,8 @@ const HomePage = () => {
 
   const { data: trendingPost } = useGetTrendingPosts(tabView);
   const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
+  const { data: newsPostData } = useGetNewsPosts(tabView);
+  const { data: allQaData } = useGetAllQa(tabView);
   const { data: forYouData } = useGetForYouPost(tabView, {
     state: "Tamilnadu",
     country: "India",
@@ -77,12 +81,12 @@ const HomePage = () => {
           flexBasis={isNonMobileScreens ? "50%" : undefined}
           mt={isNonMobileScreens ? undefined : "1rem"}
         >
-          {dashboardView === "home" && (
+          {(dashboardView === "home" || dashboardView === "news") && (
             <>
               <MyPostWidget />
-              <Box fullWidth width="100%">
+              {dashboardView === "home" && <Box fullWidth width="100%">
                 <OptionalTab />
-              </Box>
+              </Box>}
               <Box
                 sx={{
                   maxHeight: "45vh",
@@ -104,6 +108,11 @@ const HomePage = () => {
                   friendPostData.map((data) => (
                     <PostWidget key={data._id} postData={data} />
                   ))}
+                {tabView === "news" &&
+                  newsPostData &&
+                  newsPostData.map((data) => (
+                    <PostWidget key={data._id} postData={data} />
+                  ))}
               </Box>
             </>
           )}
@@ -123,10 +132,10 @@ const HomePage = () => {
                   overflowY: "scroll",
                 }}
               >
-                {tabView === "forYou" &&
-                  trendingPost &&
-                  trendingPost.map((data) => (
-                    <PostWidget key={data._id} postData={data} />
+                {tabView === "qa" &&
+                  allQaData &&
+                  allQaData.map((data) => (
+                    <QaWidget key={data._id} postData={data} />
                   ))}
               </Box>
             </>

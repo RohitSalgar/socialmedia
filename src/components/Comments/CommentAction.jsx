@@ -7,6 +7,7 @@ import {
   useDeletescheduleComments,
   useDeletescheduleReply,
 } from "../../hooks/schedule";
+import { useDeleteQaComment, useDeleteQaReply } from "../../hooks/qa";
 
 function CommentAction({
   type,
@@ -25,8 +26,18 @@ function CommentAction({
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { mutate: deleteScheduleReply } = useDeletescheduleReply();
   const { mutate: deleteScheduleComments } = useDeletescheduleComments();
+  const { mutate: deleteQaComments } = useDeleteQaComment();
+  const { mutate: deleteQaReply } = useDeleteQaReply();
   const deleteComments = () => {
     if (Object.keys(postData).includes("userReplied")) {
+      if(dashboardView === "qa"){
+        return deleteQaReply({
+          answerId:commentId,
+          userId:userId,
+          replyId:postData?._id
+
+        })
+      }
       const payload = {
         commentId: commentId,
         replyId: postData?._id,
@@ -38,10 +49,18 @@ function CommentAction({
         return deleteReply(payload);
       }
     } else {
+      if(dashboardView === "qa"){
+        console.log(postData,"post")
+        return deleteQaComments({
+          answerId:postData._id,
+          userId:userId,
+        })
+      }
       const payload = {
         commentId: postData._id,
         userId: userId,
       };
+      console.log("run")
       if (dashboardView === "schedule") {
         return deleteScheduleComments(payload);
       } else {
