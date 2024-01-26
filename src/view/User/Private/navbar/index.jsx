@@ -30,6 +30,7 @@ import {
   setSideView,
 } from "../../../../redux/slices/profileSlice";
 import classes from "./index.module.css";
+import { useNavSearch } from "../../../../hooks/user";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -38,6 +39,13 @@ const Navbar = () => {
   const chat = useSelector((state) => state.chat);
   const signedIn = localStorage.getItem("amsSocialSignedIn");
   const { sideView } = useSelector((state) => state.profile);
+  const [searchText, setSearchText] = useState("")
+  const [searchData, setSearchData] = useState([])
+  const onSearchSuccess = (data) => {
+    setSearchData(data)
+  }
+  const {mutate: navesearchMutate} = useNavSearch(onSearchSuccess)
+
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -46,21 +54,6 @@ const Navbar = () => {
   const dark = theme.palette.neutral.dark;
   const background = theme.palette.background.default;
   const alt = theme.palette.background.alt;
-
-  // const searchItems = [
-  //   {
-  //     _id: 1,
-  //     name: "Mahendra",
-  //     profilePic:
-  //       "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
-  //   },
-  //   {
-  //     _id: 2,
-  //     name: "Mahendra",
-  //     profilePic:
-  //       "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-  //   },
-  // ];
 
   return (
     <FlexBetween padding="1rem 3%" backgroundColor={alt}>
@@ -83,29 +76,29 @@ const Navbar = () => {
               gap="3rem"
               padding="0.1rem 1.5rem"
             >
-              <InputBase placeholder="Search..." style={{ width: "250px" }} />
+              <InputBase value={searchText} onChange={(e) => {setSearchText(e.target.value); navesearchMutate({term: e.target.value})}} placeholder="Search..." style={{ width: "250px" }} />
               <IconButton>
                 <Search />
               </IconButton>
             </FlexBetween>
           )}
         </FlexBetween>
-        {/* <div className={classes.searchitemsContainer}>
-          {searchItems.map((value) => {
+        {searchData && searchData.length > 0 && <div className={classes.searchitemsContainer}>
+          {searchData && searchData.map((value) => {
             return (
               <div key={value._id} className={classes.profileContainer}>
                 <div>
                   <img
                     className={classes.profilePic}
-                    src={value.profilePic}
+                    src={value.profile}
                     alt=""
                   />
                 </div>
-                <div>{value.name}</div>
+                <div>{value.fullName}</div>
               </div>
             );
           })}
-        </div> */}
+        </div>}
       </div>
 
       {/* DESKTOP NAV */}

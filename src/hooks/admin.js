@@ -36,6 +36,20 @@ const useGetAllUsers = (page, limit) => {
     });
 };
 
+const useGetAllSchedules = () => {
+    return useQuery({
+        queryKey: ["allSchedules"],
+        queryFn: () =>
+        fetchData({
+                url: URL + "schedule/getAllSchedule",
+                isAuthRequired: true,
+            }),
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        }
+    });
+};
+
 const useDeletePost = (onSuccessFunctions) => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -60,4 +74,4 @@ const useDeletePost = (onSuccessFunctions) => {
 };
 
 
-export { useDeletePost, useGetReportedPosts, useGetAllUsers };
+export { useDeletePost, useGetReportedPosts, useGetAllUsers, useGetAllSchedules };
