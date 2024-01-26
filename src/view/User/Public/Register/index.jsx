@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styles from "./index.module.css";
 import FormControl from "@mui/material/FormControl";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import searchlogo from "../../../../assets/Images/logis1.jpeg";
+import searchlogo from "../../../../assets/Images/background.jpg";
 import { useState, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
@@ -23,10 +23,13 @@ import Loader from "../../../../components/Loader/Loader";
 import { URL } from "../../../../config";
 import { fetchData } from "../../../../helper";
 import moment from "moment";
+import { useTheme } from "@emotion/react";
 
 const defaultTheme = createTheme();
 
 export default function RegisterPage() {
+  const { palette } = useTheme();
+  const primary = palette.primary.main;
   const navigate = useNavigate();
   const [location, setLocation] = useState({ state: "", country: "" });
   // const [files, setFiles] = useState([]);
@@ -150,7 +153,7 @@ export default function RegisterPage() {
   const onSubmit = (data) => {
     if (id) {
       data.id = id;
-      updateEmailData.mutate({ ...data, ...location});
+      updateEmailData.mutate({ ...data, ...location });
     } else {
       postRegistrationData.mutate({ ...data, ...location });
     }
@@ -218,7 +221,15 @@ export default function RegisterPage() {
                 borderRadius: "50%",
               }}
             >
-              <Typography component="h1" variant="h5">
+              <Typography
+                component="h1"
+                variant="h4"
+                color={primary}
+                sx={{
+                  fontWeight: "bold",
+                  pb: "10px",
+                }}
+              >
                 Create Account
               </Typography>
               <Box
@@ -226,58 +237,82 @@ export default function RegisterPage() {
                 noValidate
                 onSubmit={handleSubmit(onSubmit)}
                 sx={{ mt: 1 }}
+                className={styles.loginformdiv}
               >
+                <label className={styles.forminputlabel} htmlFor="fullName">
+                  Full Name
+                </label>
                 <Controller
                   name="fullName"
+                  id="fullName"
                   control={control}
                   render={({ field }) => (
                     <TextField
                       {...field}
                       margin="normal"
-                      style={{ marginBottom: "1px", fontSize: "10px" }}
+                      style={{
+                        marginBottom: "1px",
+                        fontSize: "10px",
+                        marginTop: "0px",
+                      }}
                       required
                       fullWidth
                       id="fullName"
-                      label="Full Name"
                       name="fullName"
                       autoComplete="given-name"
-                      autoFocus
                     />
                   )}
                 />
                 {errors.fullName && (
                   <p className={styles.errormsg}>{errors.fullName.message}</p>
                 )}
-                <Controller
-                  name="email"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      margin="normal"
-                      style={{ marginBottom: "1px" }}
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
-                    />
+                <Box className={styles.loginforminputs} sx={{ pt: "10px" }}>
+                  <label className={styles.forminputlabel} htmlFor="email">
+                    Email Address
+                  </label>
+                  <Controller
+                    name="email"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        margin="normal"
+                        style={{
+                          marginBottom: "1px",
+                          fontSize: "10px",
+                          marginTop: "0px",
+                        }}
+                        required
+                        fullWidth
+                        id="email"
+                        name="email"
+                        autoComplete="email"
+                      />
+                    )}
+                  />
+                  {errors.email && (
+                    <p className={styles.errormsg}>{errors.email.message}</p>
                   )}
-                />
-                {errors.email && (
-                  <p className={styles.errormsg}>{errors.email.message}</p>
-                )}
+                </Box>
                 <div
                   style={{
-                    marginTop: "10px",
                     display: "flex",
                     flexDirection: "row",
                     gap: "10px",
-                    alignItems: "center",
+                    alignItems: "baseline",
                   }}
                 >
-                  <FormControl fullWidth>
+                  <FormControl
+                    fullWidth
+                    className={styles.loginforminputs}
+                    width="50%"
+                  >
+                    <label
+                      className={styles.forminputlabel}
+                      htmlFor="designation"
+                    >
+                      Designation
+                    </label>
                     <Controller
                       name="designation"
                       control={control}
@@ -285,11 +320,14 @@ export default function RegisterPage() {
                         <TextField
                           {...field}
                           margin="normal"
-                          style={{ marginBottom: "1px", fontSize: "10px" }}
+                          style={{
+                            marginBottom: "1px",
+                            fontSize: "10px",
+                            marginTop: "0px",
+                          }}
                           required
                           fullWidth
                           id="designation"
-                          label="designation"
                           name="designation"
                         />
                       )}
@@ -300,14 +338,21 @@ export default function RegisterPage() {
                       </p>
                     )}
                   </FormControl>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
+                  <Box className={styles.loginforminputs} width="100%">
+                    <label className={styles.forminputlabel} htmlFor="dob">
+                      Date of Birth
+                    </label>
                     <Controller
                       name="dob"
                       control={control}
                       render={({ field }) => (
                         <DatePicker
                           {...field}
-                          sx={{ width: "100%", marginBottom: "1px" }}
+                          style={{
+                            marginBottom: "1px",
+                            fontSize: "10px",
+                            marginTop: "0px",
+                          }}
                           fullWidth
                           className="datepicker form-control"
                           slotProps={{
@@ -316,7 +361,6 @@ export default function RegisterPage() {
                             },
                           }}
                           id="dob"
-                          label="Date of birth"
                           views={["year", "month", "day"]}
                           format="MM-DD-YYYY"
                         />
@@ -325,17 +369,21 @@ export default function RegisterPage() {
                     {errors.dob && (
                       <p className={styles.errormsg}>{errors.dob.message}</p>
                     )}
-                  </div>
+                  </Box>
                 </div>
                 <div
                   style={{
                     display: "flex",
                     flexDirection: "row",
                     gap: "10px",
-                    alignItems: "center",
+                    alignItems: "baseline",
+                    paddingTop: "10px",
                   }}
                 >
-                  <div style={{ display: "flex", flexDirection: "column" }}>
+                  <Box className={styles.loginforminputs} width="100%">
+                    <label className={styles.forminputlabel} htmlFor="password">
+                      Password
+                    </label>
                     <Controller
                       name="password"
                       control={control}
@@ -343,11 +391,14 @@ export default function RegisterPage() {
                         <TextField
                           {...field}
                           margin="normal"
-                          style={{ marginBottom: "1px" }}
+                          style={{
+                            marginBottom: "1px",
+                            fontSize: "10px",
+                            marginTop: "0px",
+                          }}
                           required
                           fullWidth
                           name="password"
-                          label="Password"
                           type="password"
                           id="password"
                           autoComplete="new-password"
@@ -359,21 +410,29 @@ export default function RegisterPage() {
                         {errors.password.message}
                       </p>
                     )}
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
+                  </Box>
+                  <Box className={styles.loginforminputs}>
+                    <label
+                      className={styles.forminputlabel}
+                      htmlFor="conPassword"
+                    >
+                      Confirm Password
+                    </label>
                     <Controller
                       name="conPassword"
                       control={control}
-                      style={{ marginBottom: "1px" }}
                       render={({ field }) => (
                         <TextField
-                          style={{ marginBottom: "1px" }}
+                          style={{
+                            marginBottom: "1px",
+                            fontSize: "10px",
+                            marginTop: "0px",
+                          }}
                           {...field}
                           margin="normal"
                           required
                           fullWidth
                           name="conPassword"
-                          label="Confirm Password"
                           type="Password"
                           id="conPassword"
                           autoComplete="new-password"
@@ -385,7 +444,7 @@ export default function RegisterPage() {
                         {errors.conPassword.message}
                       </p>
                     )}
-                  </div>
+                  </Box>
                 </div>
                 {/* <div style={{marginTop:"10px",marginBottom:"10px"}}> */}
                 {/* <input
@@ -397,7 +456,7 @@ export default function RegisterPage() {
                   id="imageInput"
                   multiple={false} // Allow only one file to be selected
                 />
-                <label htmlFor="imageInput">
+                <label className={styles.forminputlabel} htmlFor="imageInput">
                   <Button
                     variant="contained"
                     component="span"
@@ -409,22 +468,30 @@ export default function RegisterPage() {
                 <Button
                   type="submit"
                   fullWidth
-                  variant="contained"
+                  variant='primary'
                   sx={{
                     mt: 3,
                     mb: 2,
-                    py: 1.4,
-                    fontWeight: "600",
-                    fontSize: "14px",
+                    background: `${primary}`,
+                    color: "#fff",
+                    fontWeight: "bold",
                   }}
                 >
                   Register
                 </Button>
                 {/* </div> */}
                 <Grid container style={{ width: "100%" }}>
-                  <Grid item style={{ width: "100%", textAlign: "center" }}>
+                  <Grid item style={{ width: "100%", textAlign: "left" }}>
                     <span>Already have an account?</span>
-                    <Link href="/" variant="body2">
+                    <Link
+                      href="/"
+                      variant="body2"
+                      color={primary}
+                      sx={{
+                        ml: 1,
+                        textDecoration: "unset",
+                      }}
+                    >
                       Login
                     </Link>
                   </Grid>

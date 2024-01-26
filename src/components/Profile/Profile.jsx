@@ -19,9 +19,10 @@ import {
 import Loader from "../Loader/Loader";
 import PostWidget from "../../view/User/Private/Posts/PostWidget";
 import { useGetMyPostList } from "../../hooks/posts";
-import { setViewProfileId } from "../../redux/slices/profileSlice";
+import { setSideView, setViewProfileId } from "../../redux/slices/profileSlice";
 import LookingEmpty from "../LookingEmpty/LookingEmpty";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import BusinessIcon from "@mui/icons-material/Business";
 
 const Profile = () => {
   const { palette } = useTheme();
@@ -61,9 +62,7 @@ const Profile = () => {
     return 0;
   }
   function handleEdit() {
-    dispatch(setEditOn());
-    dispatch(setSingleChatModeOff());
-    dispatch(setChatModeOff());
+    dispatch(setSideView("editprofile"));
   }
 
   return (
@@ -193,6 +192,17 @@ const Profile = () => {
               >
                 Edit Profile
               </Button>
+            )}
+            {profileId === userId && (
+              <Box className={styles.closediv}>
+                <Button
+                  className={styles.createbtn}
+                  onClick={() => dispatch(setSideView("createcompany"))}
+                >
+                  Create Page
+                  <BusinessIcon />
+                </Button>
+              </Box>
             )}
           </Box>
           <Typography

@@ -52,13 +52,14 @@ import {
 } from "../../../../hooks/posts";
 import AddSchedule from "../schedule/AddSchedule";
 import ScheduleList from "../schedule/ScheduleList";
+import Myqa from "../Qa/MyQaPost";
+import { useGetProfile } from "../../../../hooks/profile";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { userId } = useSelector((state) => state.profile.profileData);
   const chat = useSelector((state) => state.chat);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
-  const { data, isLoading } = useGetTrendingPosts();
   const { data: frdRequestData, isLoading: frdRequestLoading } =
     useGetAllFrdRequestByUserId(userId);
 
@@ -71,7 +72,8 @@ const HomePage = () => {
     state: "Tamilnadu",
     country: "India",
   });
-
+  const { data } = useGetProfile(userId);
+  console.log(data,"page")
   return (
     <Box>
       <Navbar />
@@ -125,11 +127,28 @@ const HomePage = () => {
           )}
           {dashboardView === "schedule" && (
             <Box>
-              <AddSchedule />
+              {data?.pageData != null && <AddSchedule />}
               <ScheduleList />
             </Box>
           )}
           {dashboardView === "profile" && <Profile />}
+          {dashboardView === "qa" && (
+            <>
+              <Myqa />
+              <Box
+                sx={{
+                  maxHeight: "45vh",
+                  overflowY: "scroll",
+                }}
+              >
+                {tabView === "forYou" &&
+                  trendingPost &&
+                  trendingPost.map((data) => (
+                    <PostWidget key={data._id} postData={data} />
+                  ))}
+              </Box>
+            </>
+          )}
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="25%">
@@ -140,7 +159,9 @@ const HomePage = () => {
               </>
             )}
             {sideView === "chat" && <ChatLayout />}
-            {chat.isEdit === true && chat.isOpen === false && <EditProfile />}
+            {sideView === "editprofile" && <EditProfile />}
+            {sideView === "createcompany" && <CreateCompany />}
+            {sideView === "pagesotp" && <PagesOTP />}
           </Box>
         )}
       </Box>

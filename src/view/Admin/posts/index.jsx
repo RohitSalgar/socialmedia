@@ -53,7 +53,7 @@ const posts = () => {
       align: "center",
       headerName: "Reported Users",
       flex: 1,
-      valueGetter: ({ value }) => value.length,
+      valueGetter: ({ value }) => value?.length,
     },
     {
       field: "createdAt",

@@ -41,10 +41,10 @@ const Navbar = () => {
   const { sideView } = useSelector((state) => state.profile);
   const [searchText, setSearchText] = useState("")
   const [searchData, setSearchData] = useState([])
-  const onSuccess = (data) => {
+  const onSearchSuccess = (data) => {
     setSearchData(data)
   }
-  const {mutate: navesearchMutate} = useNavSearch(onSuccess)
+  const {mutate: navesearchMutate} = useNavSearch(onSearchSuccess)
 
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
@@ -55,24 +55,8 @@ const Navbar = () => {
   const background = theme.palette.background.default;
   const alt = theme.palette.background.alt;
 
-  const searchItems = [
-    {
-      _id: 1,
-      name: "Mahendra",
-      profilePic:
-        "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
-    },
-    {
-      _id: 2,
-      name: "Rohit",
-      profilePic:
-        "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-    },
-  ];
-
   useEffect(() => {
-    let data = navesearchMutate({term: searchText})
-    setSearchData(data)
+    navesearchMutate({term: searchText})
   }, [searchText])
 
   return (
