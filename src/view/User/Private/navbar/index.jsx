@@ -84,7 +84,7 @@ const Navbar = () => {
             </FlexBetween>
           )}
         </FlexBetween>
-        {searchData && searchData.length > 0 && <div className={classes.searchitemsContainer}>
+        {searchText != "" && searchData && searchData.length > 0 && <div className={classes.searchitemsContainer}>
           {searchData && searchData.map((value) => {
             return (
               <div key={value._id} className={classes.profileContainer}>
