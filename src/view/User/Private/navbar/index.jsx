@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Box,
   IconButton,
@@ -55,10 +55,6 @@ const Navbar = () => {
   const background = theme.palette.background.default;
   const alt = theme.palette.background.alt;
 
-  useEffect(() => {
-    navesearchMutate({term: searchText})
-  }, [searchText])
-
   return (
     <FlexBetween padding="1rem 3%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
@@ -80,7 +76,7 @@ const Navbar = () => {
               gap="3rem"
               padding="0.1rem 1.5rem"
             >
-              <InputBase value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Search..." style={{ width: "250px" }} />
+              <InputBase value={searchText} onChange={(e) => {setSearchText(e.target.value); navesearchMutate({term: e.target.value})}} placeholder="Search..." style={{ width: "250px" }} />
               <IconButton>
                 <Search />
               </IconButton>
