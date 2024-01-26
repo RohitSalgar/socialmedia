@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./ChatPerson.module.css";
 import { setSingleChatModeOn } from "../../../redux/slices/chat";
 import { Box, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 
 const ChatPerson = ({ data }) => {
+  console.log(data, "data");
   const dispatch = useDispatch();
+  const { userId } = useSelector((state) => state.profile.profileData);
 
   return (
     <Box className={styles.ChatPersonDiv}>
@@ -18,11 +20,11 @@ const ChatPerson = ({ data }) => {
           alt="alt"
         />
         <Typography className={styles.ChatPersonName}>
-          {data.recipientName}
+          {data.senderId === userId ? data.recipientName : data.senderName}
         </Typography>
       </Box>
       <ChatIcon
-        onClick={() => dispatch(setSingleChatModeOn())}
+        onClick={() => dispatch(setSingleChatModeOn(data._id))}
         className={styles.svgimg}
       />
     </Box>

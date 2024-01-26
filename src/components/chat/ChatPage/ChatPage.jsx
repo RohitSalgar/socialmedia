@@ -4,23 +4,27 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Box, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useEffect, useRef, useState } from "react";
-import { useSocket } from "../../../hooks/socket";
 import moment from "moment";
 import { CancelScheduleSend } from "@mui/icons-material";
-import { setSideView } from "../../../redux/slices/profileSlice";
 import { setSingleChatModeOff } from "../../../redux/slices/chat";
 import { useGetChatById } from "../../../hooks/chat";
 import Loader from "../../Loader/Loader";
+import { useSocket } from "../../../hooks/socket";
 
 const ChatPage = ({ data }) => {
   const dispatch = useDispatch();
   const socket = useSocket();
   const messagesDivRef = useRef(null);
+  const { singleConnectionId } = useSelector((state) => state.chat);
   const [liveUser, setLiveUser] = useState(null);
   const [chatMessage, setChatMessage] = useState([]);
   const [sendMessage, setSendMessage] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
   const { data: chatData, isLoading: chatLoading } = useGetChatById(data._id);
+
+  console.log(data, "data");
+
+  let filteredData = data?.filter((e) => e._id === singleConnectionId);
 
   useEffect(() => {
     if (messagesDivRef.current) {
@@ -36,7 +40,7 @@ const ChatPage = ({ data }) => {
 
     socket?.on("getMessage", (data) => {
       const newChat = {
-        message: { message: data.text, createdAt: data.createdAt },
+        message: { message: data.message, createdAt: data.createdAt },
         senderId: data.senderId,
         senderName: data.senderName,
       };
@@ -45,19 +49,23 @@ const ChatPage = ({ data }) => {
     });
   }, [socket, userId]);
 
+  console.log(chatMessage, "chatmess");
+
   const sendChatMessage = (e) => {
     e.preventDefault();
     const newChat = {
-      message: { message: sendMessage, createdAt: moment().toISOString() },
+      message: sendMessage,
       senderId: userId,
-      receiverId: userId,
+      receiverId: data?.recipientId,
+      connectionId: data?._id,
     };
 
     setChatMessage((prev) => [...prev, newChat]);
     socket.emit("sendMessage", {
       senderId: userId,
-      receiverId: [userId],
-      text: sendMessage.trim(),
+      receiverId: data?.recipientId,
+      connectionId: data?._id,
+      message: sendMessage.trim(),
       createdAt: moment().toISOString(),
     });
 
@@ -75,7 +83,11 @@ const ChatPage = ({ data }) => {
         onClick={() => dispatch(setSingleChatModeOff())}
       />
       <Box className={styles.chatHeader}>
-        <span className={styles.contactName}>{data.recipientName}</span>
+        <span className={styles.contactName}>
+          {filteredData[0].senderId === userId
+            ? filteredData[0].recipientName
+            : filteredData[0].senderName}
+        </span>
         <span className={styles.lastSeen}>today 5:30</span>
       </Box>
       <Box className={styles.chatMessages}>
@@ -83,7 +95,7 @@ const ChatPage = ({ data }) => {
           <Box key={message.id} className={styles.messageContainer}>
             {chatMessage && (
               <Typography className={styles.sender}>
-                {message.message.message}
+                {message.message}
               </Typography>
             )}
           </Box>

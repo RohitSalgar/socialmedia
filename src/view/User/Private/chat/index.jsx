@@ -73,10 +73,10 @@ const ChatLayout = () => {
                   }}
                 >
                   {!isSingleChatOn && <ChatPerson id={i} data={e} />}
-                  {isSingleChatOn && <ChatPage data={e} />}
                 </Box>
               );
             })}
+        {isSingleChatOn && <ChatPage data={connectionData} />}
       </Box>
     </WidgetWrapper>
   );

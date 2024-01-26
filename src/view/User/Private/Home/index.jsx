@@ -54,7 +54,7 @@ const HomePage = () => {
     state: "Tamilnadu",
     country: "India",
   });
-  const { data } = useGetProfile(userId);
+  const { datas } = useGetProfile(userId);
   console.log(data,"page")
   return (
     <Box>
