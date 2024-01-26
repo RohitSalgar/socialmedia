@@ -50,6 +50,20 @@ const useGetAllSchedules = () => {
     });
 };
 
+const useGetAllUnverifiedPages = () => {
+    return useQuery({
+        queryKey: ["unverifiedPages"],
+        queryFn: () =>
+        fetchData({
+                url: URL + "pages/getAllUnverifiedPages",
+                isAuthRequired: true,
+            }),
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        }
+    });
+};
+
 const useDeletePost = (onSuccessFunctions) => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -73,5 +87,28 @@ const useDeletePost = (onSuccessFunctions) => {
     });
 };
 
+const useVerifyPage = (onSuccessFunctions) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) =>
+            fetchData(
+                {
+                    url: URL + "pages/verifiyCompanyPages",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [data] }
+            ),
+        onSuccess: (data) => {
+            console.log(data,"data")
+            queryClient.invalidateQueries({ queryKey: ["unverifiedPages"] });
+            toast.success(data)
+        },
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
+};
 
-export { useDeletePost, useGetReportedPosts, useGetAllUsers, useGetAllSchedules };
+
+export { useDeletePost, useGetReportedPosts, useGetAllUsers, useGetAllSchedules, useGetAllUnverifiedPages, useVerifyPage };
