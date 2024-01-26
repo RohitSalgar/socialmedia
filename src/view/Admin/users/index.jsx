@@ -26,7 +26,7 @@ const CustomDataGrid = styled(DataGrid)`
 
 const users = () => {
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(10);
   const { data, isLoading, isFetching } = useGetAllUsers(page, limit);
   const [searchTerm, setSearchTerm] = useState("");
   const { palette } = useTheme();
@@ -103,19 +103,15 @@ const users = () => {
           rows={data?.userData?.filter((user) =>
             user.fullName.includes(searchTerm.toLowerCase())
           )}
-        //   columns={columns.map((column) => ({
-        //     ...column,
-        //     sortable: false,
-        //   }))}
           columns={columns}
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 3,
+                pageSize: 10,
               },
             },
           }}
-          pageSizeOptions={[3, 6, 9]}
+          pageSizeOptions={[10, 20, 30]}
           onPaginationModelChange={(params) => setLimit(params.pageSize)}
           hideFooterSelectedRowCount={true}
           loading={isFetching}
@@ -132,7 +128,7 @@ const users = () => {
           }}
         >
           <Pagination
-            count={Math.ceil(10 / limit)}
+            count={Math.ceil(data.userCount / limit)}
             page={page}
             onChange={(event, value) => setPage(value)}
             variant="outlined"
