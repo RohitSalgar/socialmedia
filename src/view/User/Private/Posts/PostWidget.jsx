@@ -89,6 +89,7 @@ const PostWidget = ({ postData }) => {
     };
     likeMutate(payload);
   };
+  console.log(postData)
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
@@ -190,6 +191,7 @@ const PostWidget = ({ postData }) => {
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {
+                console.log(c,"c")
                 return (
                   <CommentBox
                     key={c.id}

@@ -21,8 +21,9 @@ import { useInsertPost } from "../../../../hooks/posts";
 
 const MyPostWidget = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
+  const dashboardView = useSelector((state) => state.profile.dashboardView);
   const [isImage, setIsImage] = useState(false);
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState(null);
   const [hashTag, setHashTags] = useState(false);
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
@@ -36,7 +37,8 @@ const MyPostWidget = () => {
   const mediumMain = palette.neutral.mediumMain;
   // const medium = palette.neutral.medium;
   const onSuccess = () => {
-    setTags({});
+    console.log("Run")
+    setTags([]);
     setDescription("");
     setHashTags(false);
     setIsImage(false);
@@ -56,37 +58,21 @@ const MyPostWidget = () => {
     setTags(tags.filter((el, i) => i !== index));
   }
 
-  // useEffect(() => {
-  //   const fetchIPAddress = async () => {
-  //     try {
-  //       let ipAddress = await fetch("https:api.ipify.org");
-  //       ipAddress = await ipAddress.text()
-  //       let location = await fetch(`http://ip-api.com/json/${ipAddress}`)
-  //       location = await location.json()
-  //       setLocation({
-  //         state:location.regionName,
-  //         country:location.country
-  //       })
-  //     } catch (error) {
-  //       console.error('Error fetching IP address:', error);
-  //     }
-  //   };
 
-  //   fetchIPAddress();
-  // }, []);
-
-  const onSubmit = () => {
+  const onSubmit = (post) => {
+    let hashTagss = tags
+    if (post === "news") {
+      hashTagss = [...hashTagss, "news"]
+    }
+    console.log(hashTagss)
     const formData = new FormData();
     formData.append('file', image);
     formData.append('createdBy', userId);
     formData.append('description', description);
-    formData.append('hashTags', tags);
+    formData.append('hashTags', JSON.stringify(hashTagss));
     formData.append('state', location.state);
     formData.append('country', location.country);
- 
     mutate(formData)
-
-    mutate(formData);
   };
 
   return (
@@ -174,7 +160,7 @@ const MyPostWidget = () => {
           <Button
             disabled={!description}
             className={styles.btns}
-            onClick={""}
+            onClick={() => onSubmit("news")}
             sx={{
               borderRadius: "1rem",
               mr: "10px",
@@ -182,7 +168,7 @@ const MyPostWidget = () => {
           >
             Feed News
           </Button>
-          <Button
+          {dashboardView != "news" && <Button
             disabled={!description}
             className={styles.btns}
             onClick={onSubmit}
@@ -191,7 +177,7 @@ const MyPostWidget = () => {
             }}
           >
             Post
-          </Button>
+          </Button>}
         </Box>
       </FlexBetween>
     </WidgetWrapper>
