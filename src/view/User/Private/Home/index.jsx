@@ -1,4 +1,4 @@
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery} from "@mui/material";
 import Navbar from "../navbar/index";
 import UserWidget from "../../widgets/UserWidget";
 import MyPostWidget from "../../Private/Posts/MyPostWidget";
@@ -57,12 +57,10 @@ import Myqa from "../Qa/MyQaPost";
 import { useGetProfile } from "../../../../hooks/profile";
 import { useGetAllQa } from "../../../../hooks/qa";
 import QaWidget from "../Qa/QaPost";
-import PagePost from "../CompanyPage/PagePost";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { userId } = useSelector((state) => state.profile.profileData);
-  const chat = useSelector((state) => state.chat);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { data: frdRequestData, isLoading: frdRequestLoading } =
     useGetAllFrdRequestByUserId(userId);

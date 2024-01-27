@@ -1,4 +1,4 @@
-import { Typography, useTheme } from "@mui/material";
+import { Button, Typography, useTheme } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
 
@@ -7,23 +7,32 @@ const AdvertWidget = () => {
   const dark = palette.neutral.dark;
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
+  const primary = palette.primary.main;
 
   return (
-    <WidgetWrapper sx={{mb:2}}>
+    <WidgetWrapper sx={{ mb: 2 }}>
       <FlexBetween>
-        <Typography color={dark} variant="h5" fontWeight="500">
-          Register 
+        <Typography color={dark} variant="h6" fontWeight="500">
+          Welcome
         </Typography>
       </FlexBetween>
-      
-      <FlexBetween>
-        <Typography color={main}>Login</Typography>
-        {/* <Typography color={medium}>mikacosmetics.com</Typography> */}
-      </FlexBetween>
       <Typography color={medium} m="0.5rem 0">
-        Your pathway to stunning and immaculate beauty and made sure your skin
-        is exfoliating skin and shining like light.
+        Unlock the full potential of our Allmaster social media feature by  Registering Today
       </Typography>
+      <Button
+        type="submit"
+        fullWidth
+        variant='primary'
+        sx={{
+          mt: 1,
+          mb: 2,
+          background: `${primary}`,
+          color: "#fff",
+          fontWeight: "bold",
+        }}
+      >
+        Register
+      </Button>
     </WidgetWrapper>
   );
 };
