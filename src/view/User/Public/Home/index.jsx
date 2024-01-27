@@ -132,7 +132,7 @@ const HomePage = () => {
           mt={isNonMobileScreens ? undefined : "1rem"}
         >
           <Box fullWidth width="100%">
-            {/* <OptionalTab /> */}
+            <OptionalTab />
           </Box>
           {trendingPost !=null && trendingPost.length > 0 &&
             trendingPost.map((data) => (

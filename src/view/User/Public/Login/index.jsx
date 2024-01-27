@@ -133,11 +133,34 @@ export default function Register() {
             component={Paper}
             elevation={6}
           >
-            <img
-              src={searchlogo}
-              style={{ width: "100%", height: "100%" }}
-              alt="Image"
-            />
+            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+              {/* Image */}
+              <img
+                src={searchlogo}
+                style={{ width: "100%", height: "100%" }}
+                alt="Image"
+              />
+              {/* Text overlay */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '30%',
+                  transform: 'translate(-50%, -50%)',
+                  textAlign: 'center',
+                  color: '#fff',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                }}
+              >
+               <h6> Welcome Back to Allmaster's SocialMedia</h6>
+               <h5>  Where Logistics Meets Connectivity!</h5>
+               <h6>  Benefits of Joining:</h6>
+               <h6>  Global Connectivity: Connect with logistics professionals from around the world.</h6>
+               <h6>  Stay Informed about schedules: Stay ahead with the latest trends, industry news, and schedules. .</h6>
+               <h6>  Build Partnerships: Foster meaningful partnerships. Allmaster's socialMedia is the place to build lasting collaborations.</h6>
+              </div>
+            </div>
           </Grid>
           <Grid
             item
