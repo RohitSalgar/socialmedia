@@ -9,6 +9,7 @@ const initialState = {
   viewProfileId: null,
   tabView: "",
   sideView: "",
+  skip: false
 };
 
 export const profileSlice = createSlice({
@@ -50,6 +51,12 @@ export const profileSlice = createSlice({
     setSideView: (state, action) => {
       state.sideView = action.payload;
     },
+    setSkip: (state) => {
+state.skip = true
+    },
+    clearSkip: (state) => {
+      state.skip = false
+    }
 
   },
 });
@@ -62,6 +69,8 @@ export const {
   setDashboardView,
   setViewProfileId,
   setTabView,
-  setSideView
+  setSideView,
+  setSkip,
+  clearSkip
 } = profileSlice.actions;
 export default profileSlice.reducer;

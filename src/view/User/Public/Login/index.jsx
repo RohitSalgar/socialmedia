@@ -23,7 +23,7 @@ import { logInApi } from "../../../../hooks/login";
 import jwtDecode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { setProfileData } from "../../../../redux/slices/profileSlice";
+import { setProfileData, setSkip } from "../../../../redux/slices/profileSlice";
 import { useNavigate } from "react-router";
 import { useTheme } from "@emotion/react";
 import { Button } from "@mui/material";
@@ -275,7 +275,9 @@ export default function Register() {
                     borderRadius: "5px",
                   }}
                   onClick={() =>
+                   { dispatch(setSkip());
                     localStorage.setItem("amsSocialSignedIn", false)
+                   }
                   }
                 >
                   <Link
