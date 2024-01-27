@@ -25,7 +25,7 @@ const ChatPage = ({ data }) => {
   const { data: chatData, isLoading: chatLoading } = useGetChatById(
     filteredData[0]._id
   );
-
+  // console.log(chatMessage, "chat")
   useEffect(() => {
     if (messagesDivRef.current) {
       messagesDivRef.current.scrollTop = messagesDivRef.current.scrollHeight;
@@ -37,25 +37,25 @@ const ChatPage = ({ data }) => {
       setChatMessage(chatData);
     }
   }, [chatData]);
-
+  // console.log(liveUser, "liveUser")
   useEffect(() => {
     socket?.emit("users", filteredData[0]._id, userId);
     socket?.on("getUsers", (users) => {
       setLiveUser(users);
     });
+
     socket?.on(
       "getMessage",
       (data) => {
-        console.log(data, "dataa he kys ");
         const newChat = {
-          message: { message: data.message, createdAt: data.createdAt },
+          message: data.message,
+          createdAt: data.createdAt,
           senderId: data.senderId,
-          senderName: data.senderName,
         };
+          console.log(data, "dataa he kys ");
 
-        setChatMessage((prev) => [...prev], newChat);
-      },
-      [socket, chatMessage, data]
+        setChatMessage((prev) => [...prev, newChat]);
+      }
     );
   }, [socket, userId, chatMessage, data]);
 
