@@ -73,7 +73,8 @@ const HomePage = () => {
   const { data: trendingPost } = useGetTrendingPosts(tabView);
   const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
   const { data: newsPostData } = useGetNewsPosts(tabView);
-  const { data: pagePostData } = useGetPagePost();
+  const { data: pagePostData } = useGetPagePost(tabView);
+  console.log(pagePostData)
   const { data: allQaData } = useGetAllQa(tabView);
   const { data: forYouData } = useGetForYouPost(tabView, {
     state: "Tamilnadu",
@@ -145,23 +146,6 @@ const HomePage = () => {
             </Box>
           )}
           {dashboardView === "profile" && <Profile />}
-          {dashboardView === "qa" && (
-            <>
-              <Myqa />
-              <Box
-                sx={{
-                  maxHeight: "45vh",
-                  overflowY: "scroll",
-                }}
-              >
-                {tabView === "qa" &&
-                  pagePostData &&
-                  pagePostData.map((data) => (
-                    <PostWidget key={data._id} postData={data} />
-                  ))}
-              </Box>
-            </>
-          )}
           {dashboardView === "pages" && (
             <>
               <MyPostWidget />
@@ -171,10 +155,28 @@ const HomePage = () => {
                   overflowY: "scroll",
                 }}
               >
+                {console.log(pagePostData)}
+                {
+                  pagePostData &&
+                  pagePostData.map((data) => (
+                    <PostWidget key={data._id} postData={data} />
+                  ))}
+              </Box>
+            </>
+          )}
+          {dashboardView === "qa" && (
+            <>
+              <Myqa />
+              <Box
+                sx={{
+                  maxHeight: "45vh",
+                  overflowY: "scroll",
+                }}
+              >
                 {
                   allQaData &&
                   allQaData.map((data) => (
-                    <PagePost key={data._id} postData={data} />
+                    <QaWidget key={data._id} postData={data} />
                   ))}
               </Box>
             </>
