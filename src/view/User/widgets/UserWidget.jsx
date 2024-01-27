@@ -27,7 +27,7 @@ const UserWidget = () => {
   const dark = palette.neutral.dark;
   const [selectedIndex, setSelectedIndex] = useState(0);
   const userId = useSelector((state) => state.profile.profileData.userId);
-  const {dashboardView} = useSelector((state)=>state.profile)
+  const { dashboardView } = useSelector((state) => state.profile);
   const { data, isLoading } = useGetProfile(userId);
 
   const handleListItemClick = (event, index) => {
@@ -143,11 +143,11 @@ const UserWidget = () => {
         <List component="nav" aria-label="main mailbox folders">
           <ListItemButton
             sx={{ padding: "1px 20px" }}
-            selected={ dashboardView === "home"}
+            selected={dashboardView === "home"}
             onClick={(event) => {
               handleListItemClick(event, 0);
               dispatch(setDashboardView("home"));
-              dispatch(setTabView("trending"))
+              dispatch(setTabView("trending"));
             }}
           >
             <ListItemIcon>
@@ -160,7 +160,7 @@ const UserWidget = () => {
             selected={dashboardView === "news"}
             onClick={() => {
               dispatch(setDashboardView("news"));
-              dispatch(setTabView("news"))
+              dispatch(setTabView("news"));
             }}
           >
             <ListItemIcon>
@@ -172,7 +172,7 @@ const UserWidget = () => {
             sx={{ padding: "1px 20px" }}
             selected={dashboardView === "schedule"}
             onClick={() => {
-                dispatch(setDashboardView("schedule"));
+              dispatch(setDashboardView("schedule"));
             }}
           >
             <ListItemIcon>
@@ -188,7 +188,7 @@ const UserWidget = () => {
               dispatch(setDashboardView("shipment"));
             }}
           > */}
-            {/* <ListItemIcon>
+          {/* <ListItemIcon>
               <CalendarMonthIcon />
             </ListItemIcon>
             <ListItemText primary="Shipments News" /> */}
@@ -211,7 +211,7 @@ const UserWidget = () => {
             selected={dashboardView === "qa"}
             onClick={() => {
               dispatch(setDashboardView("qa"));
-              dispatch(setTabView("qa"))
+              dispatch(setTabView("qa"));
             }}
           >
             <ListItemIcon>
@@ -223,7 +223,7 @@ const UserWidget = () => {
             sx={{ padding: "1px 20px" }}
             selected={dashboardView === "profile"}
             onClick={() => {
-                dispatch(setDashboardView("profile"));
+              dispatch(setDashboardView("profile"));
               dispatch(setViewProfileId(userId));
             }}
           >
