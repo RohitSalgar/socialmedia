@@ -17,6 +17,19 @@ const useGetTrendingPosts = (tabView) => {
     });
 };
 
+const useGetPagePost = (tabView) => {
+    return useQuery({
+        queryKey: ["pagePost"],
+        queryFn: () => {
+            return fetchData({
+                url: URL + "post/getPagePost",
+                isAuthRequired: true,
+            });
+        },
+        enabled: tabView === "pages",
+    });
+};
+
 const useGetNewsPosts = (tabView) => {
     return useQuery({
         queryKey: ["news"],
@@ -74,7 +87,7 @@ const useGetForYouPost = (tabView, payload, onSuccess) => {
     });
 };
 
-const useGetPagePost = ( payload, onSuccess) => {
+const useGetMyPagePost = ( payload, onSuccess) => {
     const {dashboardView} = useSelector((state)=>state.profile)
     return useQuery({
         queryKey: ["PagePost"],
@@ -134,6 +147,7 @@ const useInsertPost = (onSuccessFunctions) => {
             onSuccessFunctions()
             queryClient.invalidateQueries({ queryKey: ["trending"] });
             queryClient.invalidateQueries({ queryKey: ["forYou"] });
+            queryClient.invalidateQueries({ queryKey: ["pagePost"] });
             queryClient.invalidateQueries({ queryKey: ["friend"] });
         },
         onError: (error) => {
@@ -156,6 +170,7 @@ const useDeletePost = () => {
                 { data: [data] }
             ),
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["pagePost"] });
             queryClient.invalidateQueries({ queryKey: ["trending"] });
             queryClient.invalidateQueries({ queryKey: ["forYou"] });
             queryClient.invalidateQueries({ queryKey: ["friend"] });
@@ -180,6 +195,7 @@ const useReportPost = (onSuccessFunctions) => {
             ),
         onSuccess: () => {
             onSuccessFunctions();
+            queryClient.invalidateQueries({ queryKey: ["pagePost"] });
             queryClient.invalidateQueries({ queryKey: ["trending"] });
             queryClient.invalidateQueries({ queryKey: ["friend"] });
             queryClient.invalidateQueries({ queryKey: ["forYou"] });

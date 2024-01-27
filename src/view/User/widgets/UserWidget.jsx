@@ -198,6 +198,7 @@ const UserWidget = () => {
             selected={dashboardView === "pages"}
             onClick={() => {
               dispatch(setDashboardView("pages"));
+              dispatch(setTabView("pages"))
             }}
           >
             <ListItemIcon>

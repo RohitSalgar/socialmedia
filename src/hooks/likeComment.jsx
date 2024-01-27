@@ -38,6 +38,7 @@ const useLikeDisLike = () => {
       ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["trending"] });
+      queryClient.invalidateQueries({ queryKey: ["pagePost"] });
       queryClient.invalidateQueries({ queryKey: ["forYou"] });
       queryClient.invalidateQueries({ queryKey: ["friend"] });
       dashboardView === "profile" &&
