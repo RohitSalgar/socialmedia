@@ -92,6 +92,12 @@ const ChatPage = ({ data }) => {
     return <Loader />;
   }
 
+  console.log(liveUser, "live");
+  console.log(data, "data");
+  console.log(singleConnectionId, "singlechat");
+  console.log(liveUser, "live");
+  console.log(filteredData[0].recipientId, "recid");
+
   return (
     <Box className={styles.chatPage} sx={{ overflow: "" }}>
       <KeyboardBackspaceIcon
@@ -104,12 +110,6 @@ const ChatPage = ({ data }) => {
             ? filteredData[0].recipientName
             : filteredData[0].senderName}
         </span>
-        {liveUser?.length > 0 &&
-          liveUser?.filter((e) => e.userrId === userId) && (
-            <>
-            <p className={styles.onlineuser}></p>
-            </>
-          )}
       </Box>
       <Box className={styles.chatMessages} ref={messagesDivRef}>
         {chatMessage?.map((message) => (
