@@ -48,6 +48,7 @@ import {
   useGetForYouPost,
   useGetFriendsPost,
   useGetNewsPosts,
+  useGetPagePost,
   useGetTrendingPosts,
 } from "../../../../hooks/posts";
 import AddSchedule from "../schedule/AddSchedule";
@@ -56,6 +57,7 @@ import Myqa from "../Qa/MyQaPost";
 import { useGetProfile } from "../../../../hooks/profile";
 import { useGetAllQa } from "../../../../hooks/qa";
 import QaWidget from "../Qa/QaPost";
+import PagePost from "../CompanyPage/PagePost";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -71,6 +73,7 @@ const HomePage = () => {
   const { data: trendingPost } = useGetTrendingPosts(tabView);
   const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
   const { data: newsPostData } = useGetNewsPosts(tabView);
+  const { data: pagePostData } = useGetPagePost();
   const { data: allQaData } = useGetAllQa(tabView);
   const { data: forYouData } = useGetForYouPost(tabView, {
     state: "Tamilnadu",
@@ -152,9 +155,26 @@ const HomePage = () => {
                 }}
               >
                 {tabView === "qa" &&
+                  pagePostData &&
+                  pagePostData.map((data) => (
+                    <PostWidget key={data._id} postData={data} />
+                  ))}
+              </Box>
+            </>
+          )}
+          {dashboardView === "pages" && (
+            <>
+              <MyPostWidget />
+              <Box
+                sx={{
+                  maxHeight: "45vh",
+                  overflowY: "scroll",
+                }}
+              >
+                {
                   allQaData &&
                   allQaData.map((data) => (
-                    <QaWidget key={data._id} postData={data} />
+                    <PagePost key={data._id} postData={data} />
                   ))}
               </Box>
             </>

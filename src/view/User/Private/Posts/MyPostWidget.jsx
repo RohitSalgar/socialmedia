@@ -18,6 +18,7 @@ import TextField from "@mui/material/TextField";
 import { HiMiniHashtag } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { useInsertPost } from "../../../../hooks/posts";
+import { useGetProfile } from "../../../../hooks/profile";
 
 const MyPostWidget = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -32,6 +33,7 @@ const MyPostWidget = () => {
     country: "India",
   });
   const { palette } = useTheme();
+  const { data } = useGetProfile(userId);
 
   // const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
@@ -64,7 +66,7 @@ const MyPostWidget = () => {
     if (post === "news") {
       hashTagss = [...hashTagss, "news"]
     }
-    console.log(hashTagss)
+    console.log(data.pageData._id,"data")
     const formData = new FormData();
     formData.append('file', image);
     formData.append('createdBy', userId);
@@ -72,6 +74,9 @@ const MyPostWidget = () => {
     formData.append('hashTags', JSON.stringify(hashTagss));
     formData.append('state', location.state);
     formData.append('country', location.country);
+    if(dashboardView === "pages"){
+      formData.append('companyId', data.pageData._id);
+    }
     mutate(formData)
   };
 
@@ -157,7 +162,7 @@ const MyPostWidget = () => {
           />
         </FlexBetween>
         <Box>
-          <Button
+          {dashboardView != "pages" && <Button
             disabled={!description}
             className={styles.btns}
             onClick={() => onSubmit("news")}
@@ -167,7 +172,7 @@ const MyPostWidget = () => {
             }}
           >
             Feed News
-          </Button>
+          </Button>}
           {dashboardView != "news" && <Button
             disabled={!description}
             className={styles.btns}

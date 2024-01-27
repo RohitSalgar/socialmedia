@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { URL } from "../config";
 import { fetchData } from "../helper";
+import { useSelector } from "react-redux";
 
 const useGetTrendingPosts = (tabView) => {
     return useQuery({
@@ -72,6 +73,30 @@ const useGetForYouPost = (tabView, payload, onSuccess) => {
         },
     });
 };
+
+const useGetPagePost = ( payload, onSuccess) => {
+    const {dashboardView} = useSelector((state)=>state.profile)
+    return useQuery({
+        queryKey: ["PagePost"],
+        queryFn: () =>
+            fetchData(
+                {
+                    url: URL + "post/getPagePost",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [payload] }
+            ),
+        onSuccess: (data) => {
+            onSuccess(data);
+        },
+        enabled: dashboardView === "pages",
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
+};
+
 const useGetMyPostList = (userId, viewList) => {
     return useQuery({
         queryKey: ["postList", userId],
@@ -173,5 +198,6 @@ export {
     useGetMyPostList,
     useGetForYouPost,
     useGetFriendsPost,
-    useGetNewsPosts
+    useGetNewsPosts,
+    useGetPagePost
 };
