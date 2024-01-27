@@ -92,12 +92,6 @@ const ChatPage = ({ data }) => {
     return <Loader />;
   }
 
-  console.log(liveUser, "live");
-  console.log(data, "data");
-  console.log(singleConnectionId, "singlechat");
-  console.log(liveUser, "live");
-  console.log(filteredData[0].recipientId, "recid");
-
   return (
     <Box className={styles.chatPage} sx={{ overflow: "" }}>
       <KeyboardBackspaceIcon
