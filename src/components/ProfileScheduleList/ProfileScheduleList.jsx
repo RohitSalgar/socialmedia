@@ -1,23 +1,26 @@
-import FlexBetween from "../../../../components/FlexBetween";
-import WidgetWrapper from "../../../../components/WidgetWrapper";
+import FlexBetween from "../FlexBetween";
+import WidgetWrapper from "../WidgetWrapper";
 import TextField from "@mui/material/TextField";
 import { Box, Typography } from "@mui/material";
 import styles from "./index.module.css";
 import LikeComment from "./LikeComment";
-import DeleteIcon from "@mui/icons-material/Delete";
 import {
   useDeleteSchedule,
   useGetAllSchedules,
-} from "../../../../hooks/schedule";
-import Loader from "../../../../components/Loader/Loader";
+} from "../../hooks/schedule";
+import Loader from "../Loader/Loader";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import PostTitle from "./PostTitle";
+import { useGetAllMySchedules } from "../../hooks/schedule";
 
-const ScheduleList = () => {
+const ProfileScheduleList = () => {
   const profileData = useSelector((state) => state.profile.profileData);
-  const { data, isLoading } = useGetAllSchedules();
+  const companyId = useSelector((state) => state.profile.companyId);
+  //   const { data, isLoading } = useGetAllSchedules();
   const { mutate } = useDeleteSchedule();
+
+  const { data, isLoading } = useGetAllMySchedules(companyId);
 
   if (isLoading) {
     return <Loader />;
@@ -79,4 +82,4 @@ const ScheduleList = () => {
   );
 };
 
-export default ScheduleList;
+export default ProfileScheduleList;

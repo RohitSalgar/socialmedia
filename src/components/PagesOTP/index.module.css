@@ -85,6 +85,7 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 20px;
+    padding-bottom: 10px;
   }
   .otplabel > a {
     text-decoration: none;
@@ -168,4 +169,8 @@
   }
   .errormsg{
       color: red !important;
+  }
+  .submitbtn{
+    background-color: #0ebd60 !important;
+    margin-top: 40px !important;
   }
