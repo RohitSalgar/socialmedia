@@ -44,7 +44,6 @@ const searchItems = [
       "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
   },
 ];
-import { useEffect, useState } from "react";
 import {
   useGetForYouPost,
   useGetFriendsPost,
@@ -78,7 +77,6 @@ const HomePage = () => {
     country: "India",
   });
   const { data } = useGetProfile(userId);
-  console.log(data,"page")
   return (
     <Box>
       <Navbar />
@@ -103,9 +101,11 @@ const HomePage = () => {
           {(dashboardView === "home" || dashboardView === "news") && (
             <>
               <MyPostWidget />
-              {dashboardView === "home" && <Box fullWidth width="100%">
-                <OptionalTab />
-              </Box>}
+              {dashboardView === "home" && (
+                <Box fullWidth width="100%">
+                  <OptionalTab />
+                </Box>
+              )}
               <Box
                 sx={{
                   maxHeight: "45vh",

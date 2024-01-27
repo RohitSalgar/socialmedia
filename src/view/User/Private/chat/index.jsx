@@ -5,11 +5,11 @@ import ChatPerson from "../../../../components/chat/ChatPersonList/ChatPerson";
 import { Box, InputBase, Typography } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useTheme } from "@emotion/react";
-import { useGetChatById, usegetAllChatInfo } from "../../../../hooks/chat";
+import { usegetAllChatInfo } from "../../../../hooks/chat";
 import Loader from "../../../../components/Loader/Loader";
 import { setSideView } from "../../../../redux/slices/profileSlice";
 import { useGetConnectionList } from "../../../../hooks/profile";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
@@ -21,9 +21,10 @@ const ChatLayout = () => {
   const { isSingleChatOn } = useSelector((state) => state.chat);
   const { data: connectionData, isLoading: connectionLoading } =
     useGetConnectionList(profileId, viewList);
+  const { data: allChatInfo, isLoading } = usegetAllChatInfo(userId);
   const dispatch = useDispatch();
 
-  if (connectionLoading) {
+  if (connectionLoading || isLoading) {
     return <Loader />;
   }
 
@@ -61,8 +62,8 @@ const ChatLayout = () => {
           marginRight: "5px",
         }}
       >
-        {connectionData &&
-          connectionData
+        {allChatInfo &&
+          allChatInfo
             .filter((e) => e.recipientName.includes(text.trim()))
             .map((e, i) => {
               return (
@@ -73,10 +74,10 @@ const ChatLayout = () => {
                   }}
                 >
                   {!isSingleChatOn && <ChatPerson id={i} data={e} />}
-                  {isSingleChatOn && <ChatPage data={e} />}
                 </Box>
               );
             })}
+        {isSingleChatOn && <ChatPage data={connectionData} />}
       </Box>
     </WidgetWrapper>
   );

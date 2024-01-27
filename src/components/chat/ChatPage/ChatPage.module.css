@@ -34,6 +34,7 @@
   padding: 3px;
   font-size: 18px;
   font-weight: bold;
+  display: flex;
 }
 
 .contactName {
@@ -44,6 +45,13 @@
   text-align: end;
   font-weight: 400 !important;
   font-size: 10px;
+}
+
+.onlineuser {
+  width: 10px !important;
+  height: 10px !important;
+  background-color: green;
+  border-radius: 50%;
 }
 
 .chatInput {
@@ -86,6 +94,7 @@
   text-align: end;
   border-radius: 5px;
   background-color: #ebebeb;
+  margin-top: 3% !important;
   width: fit-content;
   color: black;
   padding: 2% 4%;
