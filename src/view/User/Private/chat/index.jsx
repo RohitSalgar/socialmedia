@@ -9,13 +9,14 @@ import { usegetAllChatInfo } from "../../../../hooks/chat";
 import Loader from "../../../../components/Loader/Loader";
 import { setSideView } from "../../../../redux/slices/profileSlice";
 import { useGetConnectionList } from "../../../../hooks/profile";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
   let viewList = "connection";
   const dark = palette.neutral.dark;
   const [text, setText] = useState("");
+  let [connectId, setConnectId] = useState(null);
   const { userId } = useSelector((state) => state.profile.profileData);
   const profileId = useSelector((state) => state.profile.viewProfileId);
   const { isSingleChatOn } = useSelector((state) => state.chat);
@@ -24,9 +25,21 @@ const ChatLayout = () => {
   const { data: allChatInfo, isLoading } = usegetAllChatInfo(userId);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (connectionData !== null) {
+      let connectId =
+        connectionData &&
+        connectionData?.filter(
+          (e) => e.recipientId === userId || e.senderId === userId
+        )[0]._id;
+      setConnectId(connectId);
+    }
+  }, [connectionData]);
+
   if (connectionLoading || isLoading) {
     return <Loader />;
   }
+
 
   return (
     <WidgetWrapper sx={{ minHeight: "82vh" }}>
@@ -73,7 +86,9 @@ const ChatLayout = () => {
                     margin: "1px",
                   }}
                 >
-                  {!isSingleChatOn && <ChatPerson id={i} data={e} />}
+                  {!isSingleChatOn && (
+                    <ChatPerson id={i} data={e} connectionId={connectId} />
+                  )}
                 </Box>
               );
             })}

@@ -2,12 +2,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./ChatPerson.module.css";
 import { setSingleChatModeOn } from "../../../redux/slices/chat";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
+import { useUpdateChatStatus } from "../../../hooks/chat";
 
-const ChatPerson = ({ data }) => {
+const ChatPerson = ({ data, connectionId }) => {
   const dispatch = useDispatch();
   const { userId } = useSelector((state) => state.profile.profileData);
+  const { mutate } = useUpdateChatStatus();
+
+  const handleSubmit = () => {
+    let payload = {};
+    payload.userId = userId;
+    payload.connectionId = connectionId;
+    dispatch(setSingleChatModeOn(data._id));
+    mutate(payload);
+  };
 
   return (
     <Box className={styles.ChatPersonDiv}>
@@ -21,11 +31,15 @@ const ChatPerson = ({ data }) => {
         <Typography className={styles.ChatPersonName}>
           {data.senderId === userId ? data.recipientName : data.senderName}
         </Typography>
+        <Box>
+          <Typography className={styles.msgCount}>
+            {data.unSeenCount}
+          </Typography>
+        </Box>
       </Box>
-      <ChatIcon
-        onClick={() => dispatch(setSingleChatModeOn(data._id))}
-        className={styles.svgimg}
-      />
+      <IconButton onClick={() => handleSubmit()}>
+        <ChatIcon className={styles.svgimg} />
+      </IconButton>
     </Box>
   );
 };

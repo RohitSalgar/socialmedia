@@ -21,11 +21,10 @@ const ChatPage = ({ data }) => {
   const [sendMessage, setSendMessage] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
   let filteredData = data?.filter((e) => e._id === singleConnectionId);
-
+  const [messageEmitted, setMessageEmitted] = useState(false);
   const { data: chatData, isLoading: chatLoading } = useGetChatById(
     filteredData[0]._id
   );
-  // console.log(chatMessage, "chat")
   useEffect(() => {
     if (messagesDivRef.current) {
       messagesDivRef.current.scrollTop = messagesDivRef.current.scrollHeight;
@@ -37,30 +36,33 @@ const ChatPage = ({ data }) => {
       setChatMessage(chatData);
     }
   }, [chatData]);
-  // console.log(liveUser, "liveUser")
+
   useEffect(() => {
+    emitMessageOnce();
+  }, [chatMessage, userId]);
+
+  const emitMessageOnce = () => {
     socket?.emit("users", filteredData[0]._id, userId);
     socket?.on("getUsers", (users) => {
       setLiveUser(users);
     });
 
-    socket?.on(
-      "getMessage",
-      (data) => {
+    if (messageEmitted === false) {
+      socket?.on("getMessage", (data) => {
+        console.log(data, "dataa");
         const newChat = {
           message: data.message,
           createdAt: data.createdAt,
           senderId: data.senderId,
         };
-          console.log(data, "dataa he kys ");
 
         setChatMessage((prev) => [...prev, newChat]);
-      }
-    );
-  }, [socket, userId, chatMessage, data]);
+      });
+      setMessageEmitted(true);
+    }
+  };
 
-  const sendChatMessage = (e) => {
-    e.preventDefault();
+  const sendChatMessage = () => {
     const newChat = {
       message: sendMessage,
       senderId: userId,
@@ -84,13 +86,15 @@ const ChatPage = ({ data }) => {
       message: sendMessage.trim(),
       createdAt: moment().toISOString(),
     });
-
     setSendMessage("");
+    setMessageEmitted(false);
   };
 
   if (chatLoading) {
     return <Loader />;
   }
+
+  console.log(data, 'data')
 
   return (
     <Box className={styles.chatPage} sx={{ overflow: "" }}>

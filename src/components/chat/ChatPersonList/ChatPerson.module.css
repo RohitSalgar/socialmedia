@@ -22,3 +22,14 @@
 .svgimg path {
   fill: #bebebe;
 }
+
+.msgCount {
+  width: 20px;
+  height: 20px;
+  background-color: green;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
