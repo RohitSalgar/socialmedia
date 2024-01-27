@@ -11,7 +11,6 @@ import OptionalTab from "../Tabs/Tabs";
 import Profile from "../../../../components/Profile/Profile";
 import EditProfile from "../../../../components/EditProfile/EditProfile";
 import { useGetAllFrdRequestByUserId } from "../../../../hooks/user";
-
 const searchItems = [
   {
     _id: 1,
@@ -57,6 +56,9 @@ import Myqa from "../Qa/MyQaPost";
 import { useGetProfile } from "../../../../hooks/profile";
 import { useGetAllQa } from "../../../../hooks/qa";
 import QaWidget from "../Qa/QaPost";
+import PostProfile from "../../../../components/PostProfile/PostProfile";
+import PagesOTP from "../../../../components/PagesOTP/PagesOTP";
+import CreateCompany from "../../../../components/CreateCompany/CreateCompany";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -72,7 +74,7 @@ const HomePage = () => {
   const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
   const { data: newsPostData } = useGetNewsPosts(tabView);
   const { data: pagePostData } = useGetPagePost(tabView);
-  console.log(pagePostData)
+  console.log(pagePostData);
   const { data: allQaData } = useGetAllQa(tabView);
   const { data: forYouData } = useGetForYouPost(tabView, {
     state: "Tamilnadu",
@@ -144,6 +146,7 @@ const HomePage = () => {
             </Box>
           )}
           {dashboardView === "profile" && <Profile />}
+          {dashboardView === "postprofile" && <PostProfile />}
           {dashboardView === "pages" && (
             <>
               <MyPostWidget />
@@ -154,8 +157,7 @@ const HomePage = () => {
                 }}
               >
                 {console.log(pagePostData)}
-                {
-                  pagePostData &&
+                {pagePostData &&
                   pagePostData.map((data) => (
                     <PostWidget key={data._id} postData={data} />
                   ))}
@@ -171,8 +173,7 @@ const HomePage = () => {
                   overflowY: "scroll",
                 }}
               >
-                {
-                  allQaData &&
+                {allQaData &&
                   allQaData.map((data) => (
                     <QaWidget key={data._id} postData={data} />
                   ))}

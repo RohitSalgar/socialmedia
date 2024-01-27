@@ -4,48 +4,114 @@ import styles from "./index.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setEditOff } from "../../redux/slices/chat";
 import Loader from "../Loader/Loader";
-import { createCompany } from "../../validation/createCompany";
-import { useCreateCompany } from "../../hooks/pages";
 import { Link } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField } from "@mui/material";
+import { useGetProfile } from "../../hooks/profile";
+import { otpValidation } from "../../Validations/OtpValidations";
+import { URL } from "../../config";
+import { setSideView } from "../../redux/slices/profileSlice";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { fetchData } from "../../helper";
+import { toast } from "react-toastify";
 
-const CreateCompany = () => {
+const PagesOTP = () => {
+  const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const { palette } = useTheme();
   const medium = palette.neutral.medium;
   const dark = palette.neutral.dark;
   const primary = palette.neutral.primary;
-  const userId = useSelector((state) => state.profile.profileData.userId);
-  const { mutate, isLoading: mutateLoading } = useCreateCompany();
+  const profileId = useSelector((state) => state.profile.viewProfileId);
+  const { data, isLoading } = useGetProfile(profileId);
+  const pagesId = data?.pageData?._id;
+  const pagesEmail = data?.pageData?.email;
 
   const {
+    handleSubmit,
     control,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(createCompany),
-    mode: "onChange",
+    resolver: yupResolver(otpValidation),
+    mode: "onSubmit",
     defaultValues: {
-      companyName: "",
-      email: "",
-      licenseNo: "",
-      about: "",
+      otp1: "",
+      otp2: "",
+      otp3: "",
+      otp4: "",
+      otp5: "",
+      otp6: "",
+    },
+  });
+
+  const otpPost = async (data) => {
+    try {
+      const response = await fetch(URL + "pages/verifyOtp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          data: [
+            {
+              id: pagesId,
+              otp: Object.values(data).join(""),
+            },
+          ],
+        }),
+      });
+      if (response.status) {
+        dispatch(setSideView("companyPage"));
+        queryClient.invalidateQueries({ queryKey: ["profile"] });
+      }
+    } catch (error) {
+      console.error("Error during OTP verification:", error);
+    }
+  };
+
+  const resendOtpData = useMutation({
+    mutationFn: () =>
+      fetchData(
+        {
+          url: URL + "pages/resendOtp",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [{ email: pagesEmail }] }
+      ),
+    onSuccess: (data) => {
+      toast.success(data);
+    },
+    onError: (error) => {
+      toast.error(error.message.split(":")[1]);
     },
   });
 
   const onSubmit = (data) => {
-    data.createdBy = userId;
-    mutate(data);
+    otpPost(data);
+  };
+  const codeChangeHandler = (event) => {
+    const currentId = event.target.id;
+    const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+    const element = event.target;
+    if (keys.includes(event.key) && currentId < 6) {
+      const nextSibling = document.getElementById(`${parseInt(currentId) + 1}`);
+      nextSibling ? nextSibling.focus() : element.blur();
+    } else if (event.key === "Backspace" && currentId > 0) {
+      const prevSibling = document.getElementById(currentId - 1);
+      prevSibling ? prevSibling.focus() : element.blur();
+    }
   };
 
-  if (mutateLoading) {
+  if (isLoading) {
     return <Loader />;
   }
 
   return (
     <WidgetWrapper className={styles.editdiv}>
-      <Typography color={medium} m="0.5rem 0" sx={{minHeight:'75vh'}}>
+      <Typography color={medium} m="0.5rem 0" sx={{ minHeight: "75vh" }}>
         <Box
           sx={{
             display: "flex",
@@ -63,7 +129,9 @@ const CreateCompany = () => {
               minWidth: "0px",
               color: "#585858",
             }}
-            onClick={() => dispatch(setEditOff())}
+            onClick={() => {
+              dispatch(setSideView("companyPage"));
+            }}
           >
             X
           </Button>
@@ -78,39 +146,17 @@ const CreateCompany = () => {
             borderRadius: "50%",
           }}
         >
-          {/* <Typography
-            component="h1"
-            variant="h4"
-            color={primary}
-            sx={{
-              fontWeight: "bold",
-              pb: "10px",
-            }}
-          >
-            Enter OTP
-          </Typography>
-          <Typography paragraph color={dark}>
-            OTP sent to
-          </Typography> */}
           <Box
             component="form"
             noValidate
-            // onSubmit={handleSubmit(saveData)}
+            onSubmit={handleSubmit(onSubmit)}
             sx={{ mt: 1 }}
             className={styles.loginformdiv}
           >
             <div className={styles.otplabel}>
               <Typography className={styles.otptxt} color={dark}>
-                OTP <span style={{ color: "red" }}>*</span>
+                OTP
               </Typography>
-              <Link
-                to={`/register`}
-                className={styles.changeEmail}
-                color={primary}
-                sx={{ color: "red" }}
-              >
-                Change Email
-              </Link>
             </div>
             <div className={styles.otpdiv}>
               <Controller
@@ -126,7 +172,7 @@ const CreateCompany = () => {
                     maxLength={1}
                     id="1"
                     className={styles.otp}
-                    // placeholder="*"
+                    placeholder="*"
                     onKeyUp={(event) => {
                       codeChangeHandler(event);
                     }}
@@ -249,6 +295,7 @@ const CreateCompany = () => {
                 color: "#fff",
                 fontWeight: "bold",
               }}
+              className={styles.submitbtn}
             >
               Submit
             </Button>
@@ -256,7 +303,7 @@ const CreateCompany = () => {
           <div className={styles.receiveotp}>
             <p>Didnt Receive OTP? </p>
             <p
-              //   onClick={() => resendOtpData.mutate()}
+              onClick={() => resendOtpData.mutate()}
               className={styles.forgot}
               //   color={primary}
             >
@@ -269,4 +316,4 @@ const CreateCompany = () => {
   );
 };
 
-export default CreateCompany;
+export default PagesOTP;
