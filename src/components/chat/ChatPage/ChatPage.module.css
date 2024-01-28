@@ -34,11 +34,10 @@
   padding: 3px;
   font-size: 18px;
   font-weight: bold;
-  display: flex;
 }
 
 .contactName {
-  margin: 10px;
+  margin-left: 10px ;
   text-transform: capitalize;
 }
 .lastSeen {
@@ -107,10 +106,14 @@
   float: right;
   font-size: 11px !important;
 }
+.activeLogo {
+  font-size: 10px !important;
+  margin-left: 10px;
+  color: green !important;
+}
 
 .receiverTime {
   font-size: 8px !important;
   text-align: end !important;
   padding-top: 40px !important;
-
 }

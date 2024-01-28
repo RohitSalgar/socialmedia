@@ -93,19 +93,26 @@ const ChatPage = ({ data }) => {
     return <Loader />;
   }
 
+  console.log(liveUser, "livre");
+
   if (socket && socket.connected) {
     return (
-      <Box className={styles.chatPage} sx={{ overflow: "" }}>
+      <Box className={styles.chatPage}>
         <KeyboardBackspaceIcon
           sx={{ cursor: "pointer", margin: "5px" }}
           onClick={() => dispatch(setSingleChatModeOff())}
         />
         <Box className={styles.chatHeader}>
-          <span className={styles.contactName}>
+          <p className={styles.contactName}>
             {filteredData[0].senderId === userId
               ? filteredData[0].recipientName
               : filteredData[0].senderName}
-          </span>
+          </p>
+          <p className={styles.activeLogo}>
+            {liveUser && liveUser.some((element) => element.userId === filteredData[0].recipientId)
+              ? "Actvie Now"
+              : "Offline"}
+          </p>
         </Box>
         <Box className={styles.chatMessages} ref={messagesDivRef}>
           {chatMessage?.map((message) => (
