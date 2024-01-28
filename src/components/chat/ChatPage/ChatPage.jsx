@@ -10,6 +10,8 @@ import { setSingleChatModeOff } from "../../../redux/slices/chat";
 import { useGetChatById } from "../../../hooks/chat";
 import Loader from "../../Loader/Loader";
 import { useSocket } from "../../../hooks/socket";
+import { IoIosEyeOff } from "react-icons/io";
+import { IoIosEye } from "react-icons/io";
 
 const ChatPage = ({ data }) => {
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ const ChatPage = ({ data }) => {
       setChatMessage(chatData);
       emitMessageOnce();
     }
-  }, [chatData , socket]);
+  }, [chatData, socket]);
 
   const emitMessageOnce = () => {
     socket?.emit("users", filteredData[0]._id, userId);
@@ -58,7 +60,6 @@ const ChatPage = ({ data }) => {
       });
     }
   };
-
 
   const sendChatMessage = () => {
     const newChat = {
@@ -114,7 +115,8 @@ const ChatPage = ({ data }) => {
                   {message.senderId !== userId && (
                     <Box>
                       <Typography className={styles.sender}>
-                        {message.message}
+                        {message.message}{" "}
+                        {message.status === 1 ? <IoIosEye /> : <IoIosEyeOff />}
                       </Typography>
                       <p className={styles.senderTime}>
                         {moment(message?.createdAt).format(
@@ -127,7 +129,9 @@ const ChatPage = ({ data }) => {
                     <Box>
                       <Typography className={styles.receiver}>
                         {message.message}
+                        {message.status === 1 ? <IoIosEye /> : <IoIosEyeOff />}
                       </Typography>
+
                       <p className={`${styles.receiverTime}`}>
                         {moment(message?.createdAt).format(
                           "DD MM YYYY, h:mm A"
