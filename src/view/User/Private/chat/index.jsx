@@ -92,7 +92,7 @@ const ChatLayout = () => {
                 </Box>
               );
             })}
-        {isSingleChatOn && <ChatPage data={connectionData} />}
+        {isSingleChatOn && <ChatPage data={allChatInfo} />}
       </Box>
     </WidgetWrapper>
   );

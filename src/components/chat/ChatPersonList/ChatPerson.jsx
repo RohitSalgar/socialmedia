@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./ChatPerson.module.css";
 import { setSingleChatModeOn } from "../../../redux/slices/chat";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Badge, Box, IconButton, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import { useUpdateChatStatus } from "../../../hooks/chat";
 
@@ -31,14 +31,12 @@ const ChatPerson = ({ data, connectionId }) => {
         <Typography className={styles.ChatPersonName}>
           {data.senderId === userId ? data.recipientName : data.senderName}
         </Typography>
-        <Box>
-          <Typography className={styles.msgCount}>
-            {data.unSeenCount}
-          </Typography>
-        </Box>
+        <Box></Box>
       </Box>
       <IconButton onClick={() => handleSubmit()}>
-        <ChatIcon className={styles.svgimg} />
+        <Badge badgeContent={data?.unSeenCount} color="primary">
+          <ChatIcon className={styles.svgimg} />
+        </Badge>
       </IconButton>
     </Box>
   );
