@@ -21,11 +21,10 @@ const ChatPage = ({ data }) => {
   const [sendMessage, setSendMessage] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
   let filteredData = data?.filter((e) => e._id === singleConnectionId);
-
+  const [messageEmitted, setMessageEmitted] = useState(false);
   const { data: chatData, isLoading: chatLoading } = useGetChatById(
     filteredData[0]._id
   );
-  // console.log(chatMessage, "chat")
   useEffect(() => {
     if (messagesDivRef.current) {
       messagesDivRef.current.scrollTop = messagesDivRef.current.scrollHeight;
@@ -35,32 +34,33 @@ const ChatPage = ({ data }) => {
   useEffect(() => {
     if (chatData) {
       setChatMessage(chatData);
+      emitMessageOnce();
     }
-  }, [chatData]);
-  // console.log(liveUser, "liveUser")
-  useEffect(() => {
+  }, [chatData , socket]);
+
+  const emitMessageOnce = () => {
     socket?.emit("users", filteredData[0]._id, userId);
     socket?.on("getUsers", (users) => {
       setLiveUser(users);
     });
 
-    socket?.on(
-      "getMessage",
-      (data) => {
+    if (messageEmitted === false) {
+      socket?.on("getMessage", (data) => {
+        console.log(data, "dataa");
         const newChat = {
           message: data.message,
           createdAt: data.createdAt,
           senderId: data.senderId,
         };
-          console.log(data, "dataa he kys ");
 
         setChatMessage((prev) => [...prev, newChat]);
-      }
-    );
-  }, [socket, userId, chatMessage, data]);
+        setMessageEmitted(true);
+      });
+    }
+  };
 
-  const sendChatMessage = (e) => {
-    e.preventDefault();
+
+  const sendChatMessage = () => {
     const newChat = {
       message: sendMessage,
       senderId: userId,
@@ -84,63 +84,79 @@ const ChatPage = ({ data }) => {
       message: sendMessage.trim(),
       createdAt: moment().toISOString(),
     });
-
     setSendMessage("");
+    setMessageEmitted(false);
   };
 
   if (chatLoading) {
     return <Loader />;
   }
 
-  return (
-    <Box className={styles.chatPage} sx={{ overflow: "" }}>
-      <KeyboardBackspaceIcon
-        sx={{ cursor: "pointer", margin: "5px" }}
-        onClick={() => dispatch(setSingleChatModeOff())}
-      />
-      <Box className={styles.chatHeader}>
-        <span className={styles.contactName}>
-          {filteredData[0].senderId === userId
-            ? filteredData[0].recipientName
-            : filteredData[0].senderName}
-        </span>
-      </Box>
-      <Box className={styles.chatMessages} ref={messagesDivRef}>
-        {chatMessage?.map((message) => (
-          <Box key={message.id} className={styles.messageContainer}>
-            {chatMessage && (
-              <Box>
-                {message.senderId !== userId && (
-                  <Typography className={styles.sender}>
-                    {message.message}
-                  </Typography>
-                )}
-                {message.senderId === userId && (
-                  <Typography className={styles.receiver}>
-                    {message.message}
-                  </Typography>
-                )}
-              </Box>
-            )}
-          </Box>
-        ))}
-      </Box>
-      <Box className={styles.chatInput}>
-        <input
-          type="text"
-          placeholder="Type a message..."
-          className={styles.messageInput}
-          value={sendMessage}
-          onChange={(e) => setSendMessage(e.target.value)}
+  if (socket && socket.connected) {
+    return (
+      <Box className={styles.chatPage} sx={{ overflow: "" }}>
+        <KeyboardBackspaceIcon
+          sx={{ cursor: "pointer", margin: "5px" }}
+          onClick={() => dispatch(setSingleChatModeOff())}
         />
-        {sendMessage.length > 0 ? (
-          <SendIcon className={styles.sendButton} onClick={sendChatMessage} />
-        ) : (
-          <CancelScheduleSend />
-        )}
+        <Box className={styles.chatHeader}>
+          <span className={styles.contactName}>
+            {filteredData[0].senderId === userId
+              ? filteredData[0].recipientName
+              : filteredData[0].senderName}
+          </span>
+        </Box>
+        <Box className={styles.chatMessages} ref={messagesDivRef}>
+          {chatMessage?.map((message) => (
+            <Box key={message.id} className={styles.messageContainer}>
+              {chatMessage && (
+                <Box>
+                  {message.senderId !== userId && (
+                    <Box>
+                      <Typography className={styles.sender}>
+                        {message.message}
+                      </Typography>
+                      <p className={styles.senderTime}>
+                        {moment(message?.createdAt).format(
+                          "DD MM YYYY, h:mm A"
+                        )}
+                      </p>
+                    </Box>
+                  )}
+                  {message.senderId === userId && (
+                    <Box>
+                      <Typography className={styles.receiver}>
+                        {message.message}
+                      </Typography>
+                      <p className={`${styles.receiverTime}`}>
+                        {moment(message?.createdAt).format(
+                          "DD MM YYYY, h:mm A"
+                        )}
+                      </p>
+                    </Box>
+                  )}
+                </Box>
+              )}
+            </Box>
+          ))}
+        </Box>
+        <Box className={styles.chatInput}>
+          <input
+            type="text"
+            placeholder="Type a message..."
+            className={styles.messageInput}
+            value={sendMessage}
+            onChange={(e) => setSendMessage(e.target.value)}
+          />
+          {sendMessage.length > 0 ? (
+            <SendIcon className={styles.sendButton} onClick={sendChatMessage} />
+          ) : (
+            <CancelScheduleSend />
+          )}
+        </Box>
       </Box>
-    </Box>
-  );
+    );
+  }
 };
 
 export default ChatPage;

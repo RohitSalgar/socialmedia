@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchData } from "../helper";
 import { URL } from "../config";
-import { toast } from "react-toastify";
 
 const usegetAllChatInfo = (id) =>
   useQuery({
@@ -54,9 +53,6 @@ const useUpdateChatStatus = () => {
     onSuccess: () => {
       queryclient.invalidateQueries(["chat"]);
       queryclient.invalidateQueries(["chatuser"]);
-    },
-    onError: (error) => {
-      toast.error(error.message.split(":")[1]);
     },
   });
 };
