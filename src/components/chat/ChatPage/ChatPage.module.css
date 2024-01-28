@@ -37,9 +37,11 @@
 }
 
 .contactName {
-  margin-left: 10px ;
+  margin-left: 10px;
   text-transform: capitalize;
+  margin-bottom: -10px !important;
 }
+
 .lastSeen {
   text-align: end;
   font-weight: 400 !important;
