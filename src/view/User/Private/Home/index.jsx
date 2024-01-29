@@ -49,11 +49,10 @@ const HomePage = () => {
     country: "India",
   });
   const { data } = useGetProfile(userId);
-  if (isLoading) {
+  if (isLoading || frdRequestLoading) {
     return <Loader />;
   }
 
-  console.log(pagePostData, "pagePostData");
   return (
     <Box >
       <Navbar />

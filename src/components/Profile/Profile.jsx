@@ -1,4 +1,4 @@
-import { Box, Typography, Button, useTheme } from "@mui/material";
+import { Box, Typography, Button, useTheme, CircularProgress } from "@mui/material";
 import WidgetWrapper from "../WidgetWrapper";
 import Avatar from "@mui/material/Avatar";
 import styles from "./index.module.css";
@@ -15,6 +15,8 @@ import {
   useGetProfile,
   useGetFollowingList,
   useGetConnectionList,
+  useGetMainUserFollowingList,
+  useGetUserFollowList,
 } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
 import PostWidget from "../../view/User/Private/Posts/PostWidget";
@@ -28,6 +30,9 @@ import {
 import LookingEmpty from "../LookingEmpty/LookingEmpty";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BusinessIcon from "@mui/icons-material/Business";
+import { useSendFrdRequest } from "../../hooks/user";
+import { toast } from "react-toastify";
+
 
 const Profile = () => {
   const { palette } = useTheme();
@@ -50,6 +55,14 @@ const Profile = () => {
     profileId,
     viewList
   );
+  const { data: mainUserfollowList, isLoading: mainUserfollowLoading } = useGetUserFollowList(
+    userId,
+  );
+
+  const frdRequestSentSuccess = (data) => {
+    toast.success(data)
+  }
+  const {mutate: frdRequestMutate, isPending} = useSendFrdRequest(frdRequestSentSuccess)
   const companyId = data?.pageData?._id;
 
   if (
@@ -57,7 +70,7 @@ const Profile = () => {
     followLoading ||
     followingLoading ||
     connectionLoading ||
-    postLoading
+    postLoading || mainUserfollowLoading
   ) {
     <Loader />;
   }
@@ -198,6 +211,22 @@ const Profile = () => {
                 className={styles.editbtn}
               >
                 Edit Profile
+              </Button>
+            )}
+              {profileId !== userId && ( mainUserfollowList.some(item => item.recipientId === profileId) ? 
+              <Button
+                disabled={isPending}
+                variant="dark"
+                onClick={() => frdRequestMutate({senderId: userId, recipientId: profileId}) }
+                className={styles.editbtn}
+              >
+                {isPending ? <CircularProgress /> : "Follow"}
+              </Button> : <Button
+                disabled={isPending}
+                variant="dark"
+                className={styles.editbtn}
+              >
+                {isPending ? <CircularProgress /> : "Following"}
               </Button>
             )}
             {profileId === userId && data?.pageData === null && (

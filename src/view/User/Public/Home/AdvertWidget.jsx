@@ -2,17 +2,23 @@ import { Button, Typography, useTheme } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
 import styles from "./index.module.css";
+import { useDispatch } from "react-redux";
+import { clearSkip } from "../../../../redux/slices/profileSlice";
+import { useNavigate } from "react-router";
 
 const AdvertWidget = (widgetname) => {
-  console.log(
-    widgetname?.widgetname,
-    "widgetnamewidgetnamewidgetnamewidgetname"
-  );
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
   const primary = palette.primary.main;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const registerFn = () => {
+    dispatch(clearSkip())
+    navigate("/register")
+  }
 
   return (
     <WidgetWrapper
@@ -41,6 +47,7 @@ const AdvertWidget = (widgetname) => {
           color: "#fff",
           fontWeight: "bold",
         }}
+        onClick={registerFn}
       >
         Register
       </Button>

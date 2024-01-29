@@ -1,7 +1,7 @@
 import classes from "./index.module.css"
-import { Button } from "@mui/material"
+import { Button, CircularProgress } from "@mui/material"
 
-const FrdRequest = ({data, changeConnectionStatusFn}) => {
+const FrdRequest = ({data, changeConnectionStatusFn, isPending}) => {
 
     return <div className={classes.FrdRequestsection}>
         <div>
@@ -12,8 +12,8 @@ const FrdRequest = ({data, changeConnectionStatusFn}) => {
              <p><b>{data.senderName}</b></p>
            </div>
            <div className={classes.buttonContainer}>
-            <Button onClick={() => changeConnectionStatusFn(data._id,1)} variant="contained">Accept</Button>
-            <Button onClick={() => changeConnectionStatusFn(data._id,3)} variant="outlined">Reject</Button>
+            <Button disabled={isPending} onClick={() => changeConnectionStatusFn(data._id,1)} variant="contained">{isPending ? <CircularProgress /> : "Accept" }</Button>
+            <Button disabled={isPending} onClick={() => changeConnectionStatusFn(data._id,3)} variant="outlined">{isPending ? <CircularProgress /> : "Reject" }</Button>
            </div>
         </div>
     </div>
