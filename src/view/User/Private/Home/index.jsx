@@ -69,7 +69,6 @@ const HomePage = () => {
 
   const { tabView } = useSelector((state) => state.profile);
   const { sideView } = useSelector((state) => state.profile);
-
   const { data: trendingPost } = useGetTrendingPosts(tabView);
   const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
   const { data: newsPostData } = useGetNewsPosts(tabView);

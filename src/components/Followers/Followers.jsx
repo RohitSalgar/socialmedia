@@ -8,37 +8,45 @@ import NewReleasesRoundedIcon from "@mui/icons-material/NewReleasesRounded";
 import { useDispatch } from "react-redux";
 import {
   setDashboardView,
+  setViewCompanyId,
   setViewProfileId,
 } from "../../redux/slices/profileSlice";
 import { useChangeConnectionStatus } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
+import { usePostUnfollow } from "../../hooks/posts";
 
 const Followers = (data) => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
   const medium = palette.neutral.medium;
   const { mutate, isLoading } = useChangeConnectionStatus();
+  const { mutate: postUnfollowMutate, isLoading: postUnfollowLoading } =
+    usePostUnfollow();
 
   const postData = {
     id: data?.data?._id,
     status: 3,
   };
 
-  console.log(data?.data, "data");
-
   function handleUnfollow() {
-    mutate(postData);
+    if (data?.data?.followerName) {
+      postUnfollowMutate(postData);
+    } else {
+      mutate(postData);
+    }
   }
 
   function handleClick() {
-    if (data?.id) {
+    if (data?.data?.followerName) {
+      dispatch(setViewCompanyId(data?.data?.companyId));
+      dispatch(setDashboardView("postprofile"));
+    } else {
       dispatch(setViewProfileId(data?.id));
-    }
-    dispatch(setViewProfileId(data?.data?.followerId)),
       dispatch(setDashboardView("profile"));
+    }
   }
 
-  if (isLoading) {
+  if (isLoading || postUnfollowLoading) {
     <Loader />;
   }
 
@@ -49,7 +57,7 @@ const Followers = (data) => {
           <Box className={styles.avatardiv} onClick={() => handleClick()}>
             <Avatar
               alt="B"
-              src={data?.fullName ? rohitimg : data?.data?.profile}
+              src={data?.fullName ? data?.data?.profile : data?.data?.profile}
               sx={{ width: 40, height: 40 }}
             />
             <Typography className={styles.avatarname}>

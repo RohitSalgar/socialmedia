@@ -204,18 +204,43 @@ const useReportPost = (onSuccessFunctions) => {
   });
 };
 
-const useGetMyPagePostList = (companyId) => {
+const useGetMyPagePostList = (companyId, userId, viewList) => {
+  console.log(companyId, userId, viewList, "testapi");
   return useQuery({
     queryKey: ["pagepostList", companyId],
     queryFn: () =>
       fetchData(
         {
-          url: URL + "post/getPagePost",
+          url: URL + "post/getMyPagePost",
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [{ companyId }] }
+        { data: [{ companyId, userId }] }
       ),
+    enabled: viewList === "post",
+    onError: (error) => {
+      toast.error(error.message.split(":")[1]);
+    },
+  });
+};
+
+const usePostUnfollow = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) =>
+      fetchData(
+        {
+          url: URL + "pages/unfollowPages",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [data] }
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["postprofile"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["followingList"] });
+    },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },
@@ -234,4 +259,5 @@ export {
   useGetPagePost,
   useGetMyPagePostList,
   useGetMyPagePost,
+  usePostUnfollow,
 };
