@@ -1,4 +1,4 @@
-import { Box, useMediaQuery} from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import Navbar from "../navbar/index";
 import UserWidget from "../../widgets/UserWidget";
 import MyPostWidget from "../../Private/Posts/MyPostWidget";
@@ -11,38 +11,6 @@ import OptionalTab from "../Tabs/Tabs";
 import Profile from "../../../../components/Profile/Profile";
 import EditProfile from "../../../../components/EditProfile/EditProfile";
 import { useGetAllFrdRequestByUserId } from "../../../../hooks/user";
-const searchItems = [
-  {
-    _id: 1,
-    name: "Mahendra",
-    profilePic:
-      "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
-  },
-  {
-    _id: 2,
-    name: "Rohit",
-    profilePic:
-      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-  },
-  {
-    _id: 2,
-    name: "Rohit",
-    profilePic:
-      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-  },
-  {
-    _id: 2,
-    name: "Rohit",
-    profilePic:
-      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-  },
-  {
-    _id: 2,
-    name: "Rohit",
-    profilePic:
-      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-  },
-];
 import {
   useGetForYouPost,
   useGetFriendsPost,
@@ -59,6 +27,8 @@ import QaWidget from "../Qa/QaPost";
 import PostProfile from "../../../../components/PostProfile/PostProfile";
 import PagesOTP from "../../../../components/PagesOTP/PagesOTP";
 import CreateCompany from "../../../../components/CreateCompany/CreateCompany";
+import Loader from "../../../../components/Loader/Loader";
+import CompanyPage from "../CompanyPage";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -72,15 +42,19 @@ const HomePage = () => {
   const { data: trendingPost } = useGetTrendingPosts(tabView);
   const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
   const { data: newsPostData } = useGetNewsPosts(tabView);
-  const { data: pagePostData } = useGetPagePost(tabView);
+  const { data: pagePostData, isLoading } = useGetPagePost(tabView);
   const { data: allQaData } = useGetAllQa(tabView);
   const { data: forYouData } = useGetForYouPost(tabView, {
     state: "Tamilnadu",
     country: "India",
   });
   const { data } = useGetProfile(userId);
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <Box>
+    <Box >
       <Navbar />
       <Box
         width="100%"
@@ -147,7 +121,7 @@ const HomePage = () => {
           {dashboardView === "postprofile" && <PostProfile />}
           {dashboardView === "pages" && (
             <>
-              <MyPostWidget />
+              {data?.pageData != null && <MyPostWidget />}
               <Box
                 sx={{
                   maxHeight: "45vh",
@@ -156,7 +130,7 @@ const HomePage = () => {
               >
                 {pagePostData &&
                   pagePostData.map((data) => (
-                    <PostWidget key={data._id} postData={data} />
+                    <CompanyPage key={data._id} postData={data} />
                   ))}
               </Box>
             </>

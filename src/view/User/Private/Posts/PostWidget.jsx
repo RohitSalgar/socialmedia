@@ -2,7 +2,6 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  ShareOutlined,
 } from "@mui/icons-material";
 import {
   Box,
@@ -23,7 +22,6 @@ import {
   useGetPostComment,
   useLikeDisLike,
 } from "../../../../hooks/likeComment";
-import searchlogo from "../../../../assets/Images/logis1.jpeg";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
@@ -98,13 +96,15 @@ const PostWidget = ({ postData }) => {
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
         {postData?.hashtags.map((hash) => `#${hash} `)}
       </Typography>
-      {postData.files && postData.files.length > 0 && <img
-        width="100%"
-        height="auto"
-        alt="post"
-        style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-        src={postData.files[0]}
-      />}
+      {postData.files && postData.files.length > 0 && (
+        <img
+          width="100%"
+          height="auto"
+          alt="post"
+          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
+          src={postData.files[0]}
+        />
+      )}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
@@ -190,7 +190,7 @@ const PostWidget = ({ postData }) => {
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {
-                console.log(c,"c")
+                console.log(c, "c");
                 return (
                   <CommentBox
                     key={c.id}

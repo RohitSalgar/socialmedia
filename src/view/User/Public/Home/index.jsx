@@ -22,15 +22,24 @@ import WidgetWrapper from "../../../../components/WidgetWrapper";
 import { useGetTrendingPosts } from "../../../../hooks/posts";
 
 const HomePage = () => {
-  const { tabView } = useSelector((state) => state.profile)
+  const { tabView } = useSelector((state) => state.profile);
+  const [widgetname, setWidgetname] = useState(false);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
-  const dispatch = useDispatch()
+  console.log(widgetname, "widgetname");
+  const dispatch = useDispatch();
   const { data: trendingPost } = useGetTrendingPosts(tabView);
-  console.log(trendingPost)
+
+  function handleClassname() {
+    setWidgetname(true);
+    setTimeout(() => {
+      setWidgetname(false);
+    }, 1000);
+  }
+
   return (
     <Box>
       <Navbar />
@@ -42,104 +51,125 @@ const HomePage = () => {
         justifyContent="space-between"
       >
         <Box flexBasis={isNonMobileScreens ? "23%" : undefined}>
-          <AdvertWidget />
-          <WidgetWrapper><Box p="0">
-            <List component="nav" aria-label="main mailbox folders">
-              <ListItemButton
-                sx={{ padding: "1px 20px" }}
-                selected={selectedIndex === 0}
-                onClick={(event) => {
-                  handleListItemClick(event, 0), dispatch(setDashboardView("home"));
-                }}
-              >
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ padding: "1px 20px" }}
-                selected={selectedIndex === 1}
-                onClick={(event) => { handleListItemClick(event, 1); dispatch(setDashboardView("news")) }}
-              >
-                <ListItemIcon>
-                  <NewspaperIcon />
-                </ListItemIcon>
-                <ListItemText primary="News Feed" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ padding: "1px 20px" }}
-                selected={selectedIndex === 2}
-                onClick={(event) => {
-                  handleListItemClick(event, 2),
-                    dispatch(setDashboardView("schedule"));
-                }}
-              >
-                <ListItemIcon>
-                  <MailIcon />
-                </ListItemIcon>
-                <ListItemText primary="Schedule" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ padding: "1px 20px" }}
-                selected={selectedIndex === 3}
-                onClick={(event) => { handleListItemClick(event, 3); dispatch(setDashboardView("shipment")) }}
-              >
-                <ListItemIcon>
-                  <CalendarMonthIcon />
-                </ListItemIcon>
-                <ListItemText primary="Shipments News" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ padding: "1px 20px" }}
-                selected={selectedIndex === 4}
-                onClick={(event) => { handleListItemClick(event, 4); dispatch(setDashboardView("pages")) }}
-              >
-                <ListItemIcon>
-                  <CalendarMonthIcon />
-                </ListItemIcon>
-                <ListItemText primary="Pages" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ padding: "1px 20px" }}
-                selected={selectedIndex === 5}
-                onClick={(event) => { handleListItemClick(event, 5); dispatch(setDashboardView("qa")) }}
-              >
-                <ListItemIcon>
-                  <ContactSupportIcon />
-                </ListItemIcon>
-                <ListItemText primary="QA" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ padding: "1px 20px" }}
-                selected={selectedIndex === 6}
-                onClick={(event) => {
-                  handleListItemClick(event, 6),
-                    dispatch(setDashboardView("profile"));
-                }}
-              >
-                <ListItemIcon>
-                  <SwitchAccountIcon />
-                </ListItemIcon>
-                <ListItemText primary="Profile" />
-              </ListItemButton>
-            </List>
-          </Box>
+          <AdvertWidget widgetname={widgetname} />
+          <WidgetWrapper>
+            <Box p="0">
+              <List component="nav" aria-label="main mailbox folders">
+                <ListItemButton
+                  sx={{ padding: "1px 20px" }}
+                  selected={selectedIndex === 0}
+                  onClick={(event) => {
+                    handleListItemClick(event, 0),
+                      dispatch(setDashboardView("home"));
+                  }}
+                >
+                  <ListItemIcon>
+                    <InboxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Home" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ padding: "1px 20px" }}
+                  selected={selectedIndex === 1}
+                  onClick={(event) => {
+                    handleListItemClick(event, 1);
+                    dispatch(setDashboardView("news"));
+                    handleClassname();
+                  }}
+                >
+                  <ListItemIcon>
+                    <NewspaperIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="News Feed" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ padding: "1px 20px" }}
+                  selected={selectedIndex === 2}
+                  onClick={(event) => {
+                    handleListItemClick(event, 2),
+                      dispatch(setDashboardView("schedule"));
+                    handleClassname();
+                  }}
+                >
+                  <ListItemIcon>
+                    <MailIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Schedule" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ padding: "1px 20px" }}
+                  selected={selectedIndex === 3}
+                  onClick={(event) => {
+                    handleListItemClick(event, 3);
+                    dispatch(setDashboardView("shipment"));
+                    handleClassname();
+                  }}
+                >
+                  <ListItemIcon>
+                    <CalendarMonthIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Shipments News" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ padding: "1px 20px" }}
+                  selected={selectedIndex === 4}
+                  onClick={(event) => {
+                    handleListItemClick(event, 4);
+                    dispatch(setDashboardView("pages"));
+                    handleClassname();
+                  }}
+                >
+                  <ListItemIcon>
+                    <CalendarMonthIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Pages" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ padding: "1px 20px" }}
+                  selected={selectedIndex === 5}
+                  onClick={(event) => {
+                    handleListItemClick(event, 5);
+                    dispatch(setDashboardView("qa"));
+                    handleClassname();
+                  }}
+                >
+                  <ListItemIcon>
+                    <ContactSupportIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="QA" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ padding: "1px 20px" }}
+                  selected={selectedIndex === 6}
+                  onClick={(event) => {
+                    handleListItemClick(event, 6),
+                      dispatch(setDashboardView("profile"));
+                    handleClassname();
+                  }}
+                >
+                  <ListItemIcon>
+                    <SwitchAccountIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Profile" />
+                </ListItemButton>
+              </List>
+            </Box>
           </WidgetWrapper>
         </Box>
         <Box
+          sx={{ maxHeight: "100vh", overflow: "scroll" }}
           flexBasis={isNonMobileScreens ? "75%" : undefined}
           mt={isNonMobileScreens ? undefined : "1rem"}
         >
           <Box fullWidth width="100%">
             <OptionalTab />
           </Box>
-          {trendingPost !=null && trendingPost.length > 0 &&
+          {trendingPost != null &&
+            trendingPost.length > 0 &&
             trendingPost.map((data) => (
               <PostWidget key={data._id} postData={data} />
             ))}
         </Box>
-
       </Box>
     </Box>
   );

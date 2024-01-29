@@ -358,8 +358,8 @@ const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
                 return (
                   <Followers
                     key={i}
-                    id={e?.recipientId}
-                    fullName={e?.recipientName}
+                    id={e?.senderId}
+                    fullName={e?.senderName}
                     data={e}
                     type="connection"
                   />

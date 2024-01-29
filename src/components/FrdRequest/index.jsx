@@ -5,7 +5,7 @@ const FrdRequest = ({data, changeConnectionStatusFn}) => {
 
     return <div className={classes.FrdRequestsection}>
         <div>
-          <img className={classes.profilePic} src="https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp" alt="profile-pic" />
+          <img className={classes.profilePic} src={data.senderProfile} alt="profile-pic" />
         </div>
         <div>
            <div>

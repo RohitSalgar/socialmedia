@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styles from "./index.module.css";
 import FormControl from "@mui/material/FormControl";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import searchlogo from "../../../../assets/Images/background.jpg";
+import searchlogo from "../../../../assets/Images/background.jpeg";
 import { useState, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
@@ -535,27 +535,30 @@ export default function RegisterPage() {
               />
               {/* Text overlay */}
               <div
+                className={styles.contantdiv}
                 style={{
                   position: "absolute",
                   top: "50%",
-                  left: "55%",
+                  left: "62%",
                   transform: "translate(-50%, -50%)",
                   textAlign: "center",
                   color: "#fff",
                   fontWeight: "bold",
                   fontSize: "2rem",
+                  padding: "1rem 2rem",
+                  width: "65%",
                 }}
               >
-                <h6> Welcome to Allmaster's SocialMedia</h6>
-                <h5> The Hub of Logistics Connectivity!</h5>
-                <h6>
+                <h5> Welcome to Allmaster's SocialMedia</h5>
+                <h6> The Hub of Logistics Connectivity!</h6>
+                <p>
                   {" "}
                   Join our growing community of logistics enthusiasts and
                   professionals. Whether you're a seasoned logistics expert or
                   just stepping into the world of supply chain management,
                   Allmaster SocialMedia is here to revolutionize the way we
                   connect, collaborate, and innovate in the logistics industry..
-                </h6>
+                </p>
               </div>
             </div>
           </Grid>
