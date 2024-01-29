@@ -21,9 +21,13 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logInApi } from "../../../../hooks/login";
 import jwtDecode from "jwt-decode";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { setProfileData, setSkip } from "../../../../redux/slices/profileSlice";
+import {
+  setProfileData,
+  setSkip,
+  setViewCompanyId,
+} from "../../../../redux/slices/profileSlice";
 import { useNavigate } from "react-router";
 import { useTheme } from "@emotion/react";
 import { Button } from "@mui/material";
@@ -42,6 +46,7 @@ const defaultTheme = createTheme();
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const companyId = useSelector((state) => state.profile.companyId);
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { palette } = useTheme();
@@ -71,6 +76,7 @@ export default function Register() {
         localStorage.setItem("amsSocialId", decodedData.userId);
         localStorage.setItem("amsSocialSignedIn", true);
         dispatch(setProfileData(decodedData));
+        dispatch(setViewCompanyId(companyId));
         await queryClient.refetchQueries({ queryKey: ["profileData"] });
         checkRole(decodedData.role);
       } else {
@@ -297,11 +303,10 @@ export default function Register() {
                     padding: "6px",
                     borderRadius: "5px",
                   }}
-                  onClick={() =>
-                   { dispatch(setSkip());
-                    localStorage.setItem("amsSocialSignedIn", false)
-                   }
-                  }
+                  onClick={() => {
+                    dispatch(setSkip());
+                    localStorage.setItem("amsSocialSignedIn", false);
+                  }}
                 >
                   <Link
                     sx={{
@@ -309,7 +314,7 @@ export default function Register() {
                       mb: 2,
                       color: "#0EBD60",
                       fontWeight: "bold",
-                      textDecoration:'unset'
+                      textDecoration: "unset",
                     }}
                     href="/public/home"
                   >
@@ -319,10 +324,15 @@ export default function Register() {
                 <Grid>
                   <Grid item style={{ width: "100%", paddingTop: "10px" }}>
                     <span>Do not have an account?</span>
-                    <Link href="/register" variant="body2" color={primary}  sx={{
-                      ml: 1,
-                      textDecoration:'unset'
-                    }}>
+                    <Link
+                      href="/register"
+                      variant="body2"
+                      color={primary}
+                      sx={{
+                        ml: 1,
+                        textDecoration: "unset",
+                      }}
+                    >
                       Register
                     </Link>
                   </Grid>

@@ -30,7 +30,7 @@ const useCreateCompany = () => {
 
 const useGetCompanyProfile = (id) => {
   return useQuery({
-    queryKey: ["profile", id],
+    queryKey: ["companyprofile", id],
     queryFn: () =>
       fetchData(
         {

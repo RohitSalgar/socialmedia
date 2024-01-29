@@ -43,6 +43,8 @@ const useLikeDisLike = () => {
       queryClient.invalidateQueries({ queryKey: ["friend"] });
       dashboardView === "profile" &&
         queryClient.invalidateQueries({ queryKey: ["postList"] });
+      dashboardView === "postprofile" &&
+        queryClient.invalidateQueries({ queryKey: ["pagepostList"] });
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
@@ -67,6 +69,8 @@ const useInsertComment = () => {
       queryClient.invalidateQueries({ queryKey: ["postComment"] });
       dashboardView === "profile" &&
         queryClient.invalidateQueries({ queryKey: ["postList"] });
+      dashboardView === "postprofile" &&
+        queryClient.invalidateQueries({ queryKey: ["pagepostList"] });
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
@@ -90,6 +94,8 @@ const useInsertReply = () => {
       queryClient.invalidateQueries({ queryKey: ["postComment"] });
       dashboardView === "profile" &&
         queryClient.invalidateQueries({ queryKey: ["postList"] });
+      dashboardView === "postprofile" &&
+        queryClient.invalidateQueries({ queryKey: ["pagepostList"] });
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
@@ -114,6 +120,8 @@ const useDeleteComment = () => {
       queryClient.invalidateQueries({ queryKey: ["postComment"] });
       dashboardView === "profile" &&
         queryClient.invalidateQueries({ queryKey: ["postList"] });
+      dashboardView === "postprofile" &&
+        queryClient.invalidateQueries({ queryKey: ["pagepostList"] });
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
@@ -138,6 +146,8 @@ const useDeleteReply = () => {
       queryClient.invalidateQueries({ queryKey: ["postComment"] });
       dashboardView === "profile" &&
         queryClient.invalidateQueries({ queryKey: ["postList"] });
+      dashboardView === "postprofile" &&
+        queryClient.invalidateQueries({ queryKey: ["pagepostList"] });
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);

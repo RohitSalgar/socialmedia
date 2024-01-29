@@ -28,7 +28,10 @@ import ClearIcon from "@mui/icons-material/Clear";
 import {
   clearSkip,
   removeProfileData,
+  setDashboardView,
   setSideView,
+  setViewCompanyId,
+  setViewProfileId,
 } from "../../../../redux/slices/profileSlice";
 import classes from "./index.module.css";
 import { useNavSearch } from "../../../../hooks/user";
@@ -37,16 +40,14 @@ const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const chat = useSelector((state) => state.chat);
   const signedIn = localStorage.getItem("amsSocialSignedIn");
   const { sideView } = useSelector((state) => state.profile);
-  const [searchText, setSearchText] = useState("")
-  const [searchData, setSearchData] = useState([])
+  const [searchText, setSearchText] = useState("");
+  const [searchData, setSearchData] = useState([]);
   const onSearchSuccess = (data) => {
-    setSearchData(data)
-  }
-  const {mutate: navesearchMutate} = useNavSearch(onSearchSuccess)
-
+    setSearchData(data);
+  };
+  const { mutate: navesearchMutate } = useNavSearch(onSearchSuccess);
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -55,6 +56,17 @@ const Navbar = () => {
   const dark = theme.palette.neutral.dark;
   const background = theme.palette.background.default;
   const alt = theme.palette.background.alt;
+
+  function handleClick(value) {
+    setSearchText("");
+    if (value.fullName) {
+      dispatch(setViewProfileId(value?._id));
+      dispatch(setDashboardView("profile"));
+    } else {
+      dispatch(setViewCompanyId(value?._id));
+      dispatch(setDashboardView("postprofile"));
+    }
+  }
 
   return (
     <FlexBetween padding="1rem 3%" backgroundColor={alt}>
@@ -77,29 +89,46 @@ const Navbar = () => {
               gap="3rem"
               padding="0.1rem 1.5rem"
             >
-              <InputBase value={searchText} onChange={(e) => {setSearchText(e.target.value); navesearchMutate({term: e.target.value})}} placeholder="Search..." style={{ width: "250px" }} />
+              <InputBase
+                value={searchText}
+                onChange={(e) => {
+                  setSearchText(e.target.value);
+                  navesearchMutate({ term: e.target.value });
+                }}
+                placeholder="Search..."
+                style={{ width: "250px" }}
+              />
               <IconButton>
                 <Search />
               </IconButton>
             </FlexBetween>
           )}
         </FlexBetween>
-        {searchText != "" && searchData && searchData.length > 0 && <div className={classes.searchitemsContainer}>
-          {searchData && searchData.map((value) => {
-            return (
-              <div key={value._id} className={classes.profileContainer}>
-                <div>
-                  <img
-                    className={classes.profilePic}
-                    src={value.profile}
-                    alt=""
-                  />
-                </div>
-                <div>{value.fullName}</div>
-              </div>
-            );
-          })}
-        </div>}
+        {searchText != "" && searchData && searchData.length > 0 && (
+          <div className={classes.searchitemsContainer}>
+            {searchData &&
+              searchData.map((value) => {
+                return (
+                  <div
+                    onClick={() => handleClick(value)}
+                    key={value._id}
+                    className={classes.profileContainer}
+                  >
+                    <div>
+                      <img
+                        className={classes.profilePic}
+                        src={value.profile}
+                        alt=""
+                      />
+                    </div>
+                    <div>
+                      {value.fullName ? value.fullName : value.companyName}
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        )}
       </div>
 
       {/* DESKTOP NAV */}
@@ -128,16 +157,15 @@ const Navbar = () => {
           <ImSwitch
             style={{ fontSize: "25px" }}
             onClick={() => {
-              // console.log("sdfsdf")
               if (signedIn === "true") {
                 dispatch(removeProfileData());
                 localStorage.removeItem("amsSocialToken");
                 localStorage.removeItem("amsSocialId");
                 localStorage.removeItem("amsSocialSignedIn");
               } else {
-                localStorage.clear()
+                localStorage.clear();
                 localStorage.removeItem("amsSocialSignedIn");
-                dispatch(clearSkip())
+                dispatch(clearSkip());
               }
               navigate("/login");
             }}

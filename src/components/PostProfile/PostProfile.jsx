@@ -8,13 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetProfile } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
 import PostWidget from "../../view/User/Private/Posts/PostWidget";
-import {
-  useGetMyPagePost,
-  useGetMyPagePostList,
-  useGetMyPostList,
-} from "../../hooks/posts";
+import { useGetMyPagePostList } from "../../hooks/posts";
 import {
   setDashboardView,
+  setViewCompanyId,
   setViewProfileId,
 } from "../../redux/slices/profileSlice";
 import LookingEmpty from "../LookingEmpty/LookingEmpty";
@@ -30,21 +27,22 @@ const PostProfile = () => {
   const medium = palette.neutral.medium;
   const userId = useSelector((state) => state.profile.profileData.userId);
   const profileId = useSelector((state) => state.profile.viewProfileId);
+  const profileCompanyId = useSelector((state) => state.profile.viewCompanyId);
   const companyId = useSelector((state) => state.profile.companyId);
+  console.log(companyId, profileCompanyId, "companyId");
   const { data, isLoading } = useGetProfile(profileId);
   const { data: followList, isLoading: followLoading } = useGetPageFollowList(
-    companyId,
+    profileCompanyId,
     viewList
   );
   const { data: companyData, isLoading: companyLoading } =
-    useGetCompanyProfile(companyId);
+    useGetCompanyProfile(profileCompanyId);
 
   const { data: postList, isLoading: postLoading } = useGetMyPagePostList(
-    companyId,
+    profileCompanyId,
+    userId,
     viewList
   );
-
-  console.log(postList, "postList");
 
   if (isLoading || followLoading || postLoading || companyLoading) {
     <Loader />;
@@ -57,14 +55,17 @@ const PostProfile = () => {
     return 0;
   }
 
+  function handleClick() {
+    dispatch(setViewProfileId(userId));
+    dispatch(setDashboardView("profile"));
+    dispatch(setViewCompanyId(companyId));
+  }
+
   return (
     <WidgetWrapper>
-      {profileId !== userId && (
+      {(profileId !== userId || companyId !== profileCompanyId) && (
         <Box className={styles.closediv}>
-          <Button
-            className={styles.closebtn}
-            onClick={() => dispatch(setViewProfileId(userId))}
-          >
+          <Button className={styles.closebtn} onClick={() => handleClick()}>
             <CloseRoundedIcon />
           </Button>
         </Box>
@@ -155,16 +156,18 @@ const PostProfile = () => {
             <Typography color={dark} className={styles.avatarname}>
               {companyData?.companyPageData?.companyName}
             </Typography>
-            {profileId === userId && data?.pageData?.status === 1 && (
-              <Box className={styles.closediv}>
-                <Button
-                  className={styles.createbtn}
-                  onClick={() => dispatch(setDashboardView("profile"))}
-                >
-                  Switch Personal Acount
-                </Button>
-              </Box>
-            )}
+            {profileId === userId &&
+              data?.pageData?.status === 1 &&
+              companyId === profileCompanyId && (
+                <Box className={styles.closediv}>
+                  <Button
+                    className={styles.createbtn}
+                    onClick={() => dispatch(setDashboardView("profile"))}
+                  >
+                    Switch Personal Acount
+                  </Button>
+                </Box>
+              )}
           </Box>
           <Typography
             variant="h6"

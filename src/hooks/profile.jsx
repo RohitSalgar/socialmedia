@@ -15,6 +15,7 @@ const useGetProfile = (id) => {
         },
         { data: [{ id }] }
       ),
+      enabled:id !== null,
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },

@@ -7,6 +7,7 @@ const initialState = {
   type: null,
   dashboardView: "",
   viewProfileId: null,
+  viewCompanyId: null,
   tabView: "",
   sideView: "",
   skip: false,
@@ -46,6 +47,9 @@ export const profileSlice = createSlice({
     setViewProfileId: (state, action) => {
       state.viewProfileId = action.payload;
     },
+    setViewCompanyId: (state, action) => {
+      state.viewCompanyId = action.payload;
+    },
     setCompanyId: (state, action) => {
       state.companyId = action.payload;
     },
@@ -71,6 +75,7 @@ export const {
   updateProfileData,
   setDashboardView,
   setViewProfileId,
+  setViewCompanyId,
   setCompanyId,
   setTabView,
   setSideView,
