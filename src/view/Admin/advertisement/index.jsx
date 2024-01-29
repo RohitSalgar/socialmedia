@@ -67,7 +67,7 @@ const Advertisement = () => {
     <section className={classes.postSection}>
       <div>
         <Typography variant="h2" color={primary}>
-          Schedules List
+          Advertisement List
         </Typography>
       </div>
       <div className={classes.searchContainer}>
@@ -86,7 +86,7 @@ const Advertisement = () => {
           sx={{ textTransform: "capitalize", minHeight: "450px" }}
           getRowId={(row) => row._id}
           rows={scheduleData.filter((schedule) =>
-            schedule.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+            schedule.companyName && schedule.companyName.toLowerCase().includes(searchTerm.toLowerCase())
           )}
           columns={columns}
           initialState={{

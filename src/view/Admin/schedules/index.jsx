@@ -63,6 +63,8 @@ const schedules = () => {
     return <Loader />;
   }
 
+  console.log(scheduleData,"sdf")
+
   return (
     <section className={classes.postSection}>
       <div>
@@ -86,7 +88,7 @@ const schedules = () => {
           sx={{ textTransform: "capitalize", minHeight: "450px" }}
           getRowId={(row) => row._id}
           rows={scheduleData.filter((schedule) =>
-            schedule.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+            schedule.companyName && schedule.companyName.toLowerCase().includes(searchTerm.toLowerCase())
           )}
           columns={columns}
           initialState={{
