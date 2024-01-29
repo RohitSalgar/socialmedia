@@ -20,19 +20,23 @@ const useGetProfile = (id) => {
     },
   });
 };
-const useEditProfile = () => {
+
+const editProfile = async (data) => {
+  let response = await fetch(URL + "users/updateUserDetails", {
+    method: "POST",
+    body: data,
+  });
+  let responseData = await response.json();
+  return responseData.response;
+};
+const useEditProfile = (onSuccessFunctions) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) =>
-      fetchData(
-        {
-          url: URL + "users/updateUserDetails",
-          method: "POST",
-          isAuthRequired: true,
-        },
-        { data: [data] }
-      ),
-    onSuccess: () => {
+    editProfile(data),
+    onSuccess: (data) => {
+      console.log("sdfsdf")
+      onSuccessFunctions(data)
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (error) => {

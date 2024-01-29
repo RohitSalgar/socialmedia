@@ -39,7 +39,6 @@ const MyPostWidget = () => {
   const mediumMain = palette.neutral.mediumMain;
   // const medium = palette.neutral.medium;
   const onSuccess = () => {
-    console.log("Run")
     setTags([]);
     setDescription("");
     setHashTags(false);
@@ -66,7 +65,6 @@ const MyPostWidget = () => {
     if (post === "news") {
       hashTagss = [...hashTagss, "news"]
     }
-    console.log(data.pageData._id,"data")
     const formData = new FormData();
     formData.append('file', image);
     formData.append('createdBy', userId);
