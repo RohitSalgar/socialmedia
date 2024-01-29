@@ -2,7 +2,6 @@ import { Box, Button, Input, Typography, useTheme } from "@mui/material";
 import WidgetWrapper from "../WidgetWrapper";
 import Avatar from "@mui/material/Avatar";
 import styles from "./index.module.css";
-import rohitimg from "../../assets/images/sanjai.png";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useEditProfile, useGetProfile } from "../../hooks/profile";
@@ -12,6 +11,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { editProfile } from "../../validation/editProfile";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { setSideView } from "../../redux/slices/profileSlice";
+import { toast } from "react-toastify";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,12 @@ const EditProfile = () => {
   const dark = palette.neutral.dark;
   const userId = useSelector((state) => state.profile.profileData.userId);
   const { data: profiledate, isLoading } = useGetProfile(userId);
-  const { mutate, isLoading: mutateLoading } = useEditProfile();
+  const editProfileSucess = (data) => {
+    dispatch(setSideView("companyPage"))
+    toast.success(data)
+   console.log(data,"data")
+  }
+  const { mutate, isLoading: mutateLoading } = useEditProfile(editProfileSucess);
   const [profilePic, setProfilePic] = useState("")
   const [profilePicUrl, setProfilePicUrl] = useState("")
 
@@ -50,13 +55,13 @@ const EditProfile = () => {
   }, [profiledate]);
 
   const onSubmit = (data) => {
-    data.id = userId;
     const formData = new FormData()
     formData.append("file", profilePic)
     formData.append("fullName", data.fullName)
     formData.append("designation", data.designation)
     formData.append("about", data.about)
-    mutate(data);
+    formData.append("id", userId)
+    mutate(formData);
   };
 
   if (isLoading || mutateLoading) {
@@ -101,7 +106,7 @@ const EditProfile = () => {
         <Box className={styles.avatardiv}>
           <Avatar
             alt="B"
-            src={profilePicUrl ? profilePicUrl : rohitimg}
+            src={profilePicUrl ? profilePicUrl : profiledate.userData.profile}
             sx={{ width: 100, height: 100 }}
             className={styles.avathar}
           />
