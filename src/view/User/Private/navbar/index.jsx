@@ -40,13 +40,12 @@ const Navbar = () => {
   const chat = useSelector((state) => state.chat);
   const signedIn = localStorage.getItem("amsSocialSignedIn");
   const { sideView } = useSelector((state) => state.profile);
-  const [searchText, setSearchText] = useState("")
-  const [searchData, setSearchData] = useState([])
+  const [searchText, setSearchText] = useState("");
+  const [searchData, setSearchData] = useState([]);
   const onSearchSuccess = (data) => {
-    setSearchData(data)
-  }
-  const {mutate: navesearchMutate} = useNavSearch(onSearchSuccess)
-
+    setSearchData(data);
+  };
+  const { mutate: navesearchMutate } = useNavSearch(onSearchSuccess);
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -77,29 +76,40 @@ const Navbar = () => {
               gap="3rem"
               padding="0.1rem 1.5rem"
             >
-              <InputBase value={searchText} onChange={(e) => {setSearchText(e.target.value); navesearchMutate({term: e.target.value})}} placeholder="Search..." style={{ width: "250px" }} />
+              <InputBase
+                value={searchText}
+                onChange={(e) => {
+                  setSearchText(e.target.value);
+                  navesearchMutate({ term: e.target.value });
+                }}
+                placeholder="Search..."
+                style={{ width: "250px" }}
+              />
               <IconButton>
                 <Search />
               </IconButton>
             </FlexBetween>
           )}
         </FlexBetween>
-        {searchText != "" && searchData && searchData.length > 0 && <div className={classes.searchitemsContainer}>
-          {searchData && searchData.map((value) => {
-            return (
-              <div key={value._id} className={classes.profileContainer}>
-                <div>
-                  <img
-                    className={classes.profilePic}
-                    src={value.profile}
-                    alt=""
-                  />
-                </div>
-                <div>{value.fullName}</div>
-              </div>
-            );
-          })}
-        </div>}
+        {searchText != "" && searchData && searchData.length > 0 && (
+          <div className={classes.searchitemsContainer}>
+            {searchData &&
+              searchData.map((value) => {
+                return (
+                  <div key={value._id} className={classes.profileContainer}>
+                    <div>
+                      <img
+                        className={classes.profilePic}
+                        src={value.profile}
+                        alt=""
+                      />
+                    </div>
+                    <div>{value.fullName}</div>
+                  </div>
+                );
+              })}
+          </div>
+        )}
       </div>
 
       {/* DESKTOP NAV */}
@@ -114,13 +124,13 @@ const Navbar = () => {
           </IconButton>
           {sideView === "companyPage" && (
             <Message
-              sx={{ fontSize: "25px" }}
+              sx={{ fontSize: "25px", cursor: "pointer" }}
               onClick={() => dispatch(setSideView("chat"))}
             />
           )}
           {sideView === "chat" && (
             <ClearIcon
-              sx={{ fontSize: "25px" }}
+              sx={{ fontSize: "25px", cursor: "pointer" }}
               onClick={() => dispatch(setSideView("companyPage"))}
             />
           )}
@@ -135,9 +145,9 @@ const Navbar = () => {
                 localStorage.removeItem("amsSocialId");
                 localStorage.removeItem("amsSocialSignedIn");
               } else {
-                localStorage.clear()
+                localStorage.clear();
                 localStorage.removeItem("amsSocialSignedIn");
-                dispatch(clearSkip())
+                dispatch(clearSkip());
               }
               navigate("/login");
             }}

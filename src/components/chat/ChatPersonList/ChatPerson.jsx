@@ -6,7 +6,7 @@ import { Badge, Box, IconButton, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import { useUpdateChatStatus } from "../../../hooks/chat";
 
-const ChatPerson = ({ data, connectionId }) => {
+const ChatPerson = ({ data }) => {
   const dispatch = useDispatch();
   const { userId } = useSelector((state) => state.profile.profileData);
   const { mutate } = useUpdateChatStatus();
@@ -14,7 +14,7 @@ const ChatPerson = ({ data, connectionId }) => {
   const handleSubmit = () => {
     let payload = {};
     payload.userId = userId;
-    payload.connectionId = connectionId;
+    payload.connectionId = data._id;
     dispatch(setSingleChatModeOn(data._id));
     mutate(payload);
   };

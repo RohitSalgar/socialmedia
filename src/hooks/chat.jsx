@@ -17,6 +17,8 @@ const usegetAllChatInfo = (id) =>
         }
       );
     },
+    refetchInterval: true,
+    refetchOnWindowFocus: true,
     enabled: !!id,
   });
 
