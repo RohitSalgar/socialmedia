@@ -8,27 +8,22 @@ import { useTheme } from "@emotion/react";
 import { usegetAllChatInfo } from "../../../../hooks/chat";
 import Loader from "../../../../components/Loader/Loader";
 import { setSideView } from "../../../../redux/slices/profileSlice";
-import { useGetConnectionList, useGetProfile } from "../../../../hooks/profile";
-import { useState, useEffect } from "react";
+import { useState, } from "react";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
-  let viewList = "connection";
   const dark = palette.neutral.dark;
   const [text, setText] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
-  const profileId = useSelector((state) => state.profile.viewProfileId);
   const { isSingleChatOn } = useSelector((state) => state.chat);
-  const { data: connectionData, isLoading: connectionLoading } =
-    useGetConnectionList(profileId, viewList);
   const { data: allChatInfo, isLoading } = usegetAllChatInfo(userId);
-  const { data: profileData, isLoading: profileLoading } =
-    useGetProfile(userId);
   const dispatch = useDispatch();
 
-  if (connectionLoading || isLoading || profileLoading) {
+  if (isLoading) {
     return <Loader />;
   }
+
+  console.log(allChatInfo , 'all')
 
   return (
     <WidgetWrapper sx={{ minHeight: "82vh" }}>
@@ -68,13 +63,10 @@ const ChatLayout = () => {
           allChatInfo
             .filter(
               (e) =>
-                e.senderName !== profileData.userData.fullName ||
-                e.recipientName !== profileData.userData.fullName
-            )
-            .filter(
-              (e) =>
-                e.recipientName.includes(text.trim()) ||
-                e.senderName.includes(text.trim())
+                e.recipientName
+                  .toLowerCase()
+                  .includes(text.toLowerCase().trim()) ||
+                e.senderName.toLowerCase().includes(text.toLowerCase().trim())
             )
             .map((e, i) => {
               return (

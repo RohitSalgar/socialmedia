@@ -36,9 +36,12 @@ const ChatPage = ({ data }) => {
   useEffect(() => {
     if (chatData) {
       setChatMessage(chatData);
-      emitMessageOnce();
     }
   }, [chatData, socket]);
+
+  useEffect(() => {
+    emitMessageOnce();
+  }, [socket]);
 
   const emitMessageOnce = () => {
     socket?.emit("users", filteredData[0]._id, userId);
@@ -93,8 +96,6 @@ const ChatPage = ({ data }) => {
     return <Loader />;
   }
 
-  console.log(liveUser, "livre");
-
   if (socket && socket.connected) {
     return (
       <Box className={styles.chatPage}>
@@ -109,7 +110,10 @@ const ChatPage = ({ data }) => {
               : filteredData[0].senderName}
           </p>
           <p className={styles.activeLogo}>
-            {liveUser && liveUser.some((element) => element.userId === filteredData[0].recipientId)
+            {liveUser &&
+            liveUser.some(
+              (element) => element.userId === filteredData[0].recipientId
+            )
               ? "Actvie Now"
               : "Offline"}
           </p>
@@ -123,7 +127,6 @@ const ChatPage = ({ data }) => {
                     <Box>
                       <Typography className={styles.sender}>
                         {message.message}{" "}
-                        {message.status === 1 ? <IoIosEye /> : <IoIosEyeOff />}
                       </Typography>
                       <p className={styles.senderTime}>
                         {moment(message?.createdAt).format(

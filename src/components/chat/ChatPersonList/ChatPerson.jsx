@@ -19,6 +19,7 @@ const ChatPerson = ({ data }) => {
     mutate(payload);
   };
 
+
   return (
     <Box className={styles.ChatPersonDiv}>
       <Box className={styles.imgdiv}>

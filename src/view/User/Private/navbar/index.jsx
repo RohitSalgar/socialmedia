@@ -6,7 +6,6 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  Divider,
 } from "@mui/material";
 import {
   Search,
@@ -23,7 +22,6 @@ import FlexBetween from "../../../../components/FlexBetween";
 import { ImSwitch } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "../../../../redux/slices/authSlice";
-import { setChatModeOff, setChatModeOn } from "../../../../redux/slices/chat";
 import ClearIcon from "@mui/icons-material/Clear";
 import {
   clearSkip,
