@@ -30,6 +30,7 @@ import {
 } from "../../../../redux/slices/profileSlice";
 import classes from "./index.module.css";
 import { useNavSearch } from "../../../../hooks/user";
+import { setRemoveChatState } from "../../../../redux/slices/chat";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -139,6 +140,7 @@ const Navbar = () => {
               // console.log("sdfsdf")
               if (signedIn === "true") {
                 dispatch(removeProfileData());
+                dispatch(setRemoveChatState());
                 localStorage.removeItem("amsSocialToken");
                 localStorage.removeItem("amsSocialId");
                 localStorage.removeItem("amsSocialSignedIn");

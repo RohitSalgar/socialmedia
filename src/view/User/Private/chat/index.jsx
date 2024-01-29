@@ -8,7 +8,7 @@ import { useTheme } from "@emotion/react";
 import { usegetAllChatInfo } from "../../../../hooks/chat";
 import Loader from "../../../../components/Loader/Loader";
 import { setSideView } from "../../../../redux/slices/profileSlice";
-import { useState, } from "react";
+import { useState } from "react";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
@@ -22,8 +22,6 @@ const ChatLayout = () => {
   if (isLoading) {
     return <Loader />;
   }
-
-  console.log(allChatInfo , 'all')
 
   return (
     <WidgetWrapper sx={{ minHeight: "82vh" }}>
@@ -61,6 +59,7 @@ const ChatLayout = () => {
       >
         {allChatInfo &&
           allChatInfo
+            .filter((e) => e.senderId === userId || e.recipientId === userId)
             .filter(
               (e) =>
                 e.recipientName

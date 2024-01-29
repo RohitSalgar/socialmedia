@@ -33,3 +33,6 @@
   justify-content: center;
   align-items: center;
 }
+.imgdiv > img {
+  border-radius: 50%;
+}

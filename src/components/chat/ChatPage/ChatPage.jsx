@@ -39,6 +39,11 @@ const ChatPage = ({ data }) => {
     }
   }, [chatData, socket]);
 
+  socket &&
+    socket.on("connect", () => {
+      console.warn("connected");
+    });
+
   useEffect(() => {
     emitMessageOnce();
   }, [socket]);

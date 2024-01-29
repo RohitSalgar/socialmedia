@@ -29,10 +29,14 @@ export const chatSlice = createSlice({
         setEditOff: (state) => {
             state.isEdit = false;
         },
+        setRemoveChatState: (state) => {
+            state.isSingleChatOn = false;
+            state.singleConnectionId = null
+        }
 
     },
 });
 
-export const { setChatModeOff, setChatModeOn, setSingleChatModeOff, setSingleChatModeOn, setEditOn, setEditOff } =
+export const { setChatModeOff, setChatModeOn, setSingleChatModeOff, setSingleChatModeOn, setEditOn, setEditOff, setRemoveChatState } =
     chatSlice.actions;
 export default chatSlice.reducer;
