@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import posts from "../view/Admin/posts";
+import Advertisement from "../view/Admin/advertisement";
 
 const InternalUserLayoutComponent = lazy(() =>
 	import("../components/AdminLayout/index")
@@ -31,6 +32,10 @@ const AdminPaths = [
 			{
 				path: "posts",
 				element: posts,
+			},
+			{
+				path: "advertisements",
+				element: Advertisement,
 			}
 		],
 	},
