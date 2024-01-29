@@ -11,38 +11,6 @@ import OptionalTab from "../Tabs/Tabs";
 import Profile from "../../../../components/Profile/Profile";
 import EditProfile from "../../../../components/EditProfile/EditProfile";
 import { useGetAllFrdRequestByUserId } from "../../../../hooks/user";
-const searchItems = [
-  {
-    _id: 1,
-    name: "Mahendra",
-    profilePic:
-      "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg",
-  },
-  {
-    _id: 2,
-    name: "Rohit",
-    profilePic:
-      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-  },
-  {
-    _id: 2,
-    name: "Rohit",
-    profilePic:
-      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-  },
-  {
-    _id: 2,
-    name: "Rohit",
-    profilePic:
-      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-  },
-  {
-    _id: 2,
-    name: "Rohit",
-    profilePic:
-      "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp",
-  },
-];
 import {
   useGetForYouPost,
   useGetFriendsPost,
@@ -82,7 +50,7 @@ const HomePage = () => {
   const { data } = useGetProfile(userId);
   console.log(forYouData,"post data")
   return (
-    <Box>
+    <Box >
       <Navbar />
       <Box
         width="100%"

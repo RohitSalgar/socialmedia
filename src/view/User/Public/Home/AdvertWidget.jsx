@@ -1,8 +1,13 @@
 import { Button, Typography, useTheme } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
+import styles from "./index.module.css";
 
-const AdvertWidget = () => {
+const AdvertWidget = (widgetname) => {
+  console.log(
+    widgetname?.widgetname,
+    "widgetnamewidgetnamewidgetnamewidgetname"
+  );
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
   const main = palette.neutral.main;
@@ -10,19 +15,25 @@ const AdvertWidget = () => {
   const primary = palette.primary.main;
 
   return (
-    <WidgetWrapper sx={{ mb: 2 }}>
+    <WidgetWrapper
+      sx={{ mb: 2 }}
+      className={`${
+        widgetname?.widgetname === true ? styles.welcomediv : styles.welcomedivs
+      }`}
+    >
       <FlexBetween>
         <Typography color={dark} variant="h6" fontWeight="500">
           Welcome
         </Typography>
       </FlexBetween>
       <Typography color={medium} m="0.5rem 0">
-        Unlock the full potential of our Allmaster social media feature by  Registering Today
+        Unlock the full potential of our Allmaster social media feature by
+        Registering Today
       </Typography>
       <Button
         type="submit"
         fullWidth
-        variant='primary'
+        variant="primary"
         sx={{
           mt: 1,
           mb: 2,

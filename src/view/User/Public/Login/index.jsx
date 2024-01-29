@@ -9,7 +9,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styles from "./index.module.css";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
-import searchlogo from "../../../../assets/Images/background.jpg";
+import searchlogo from "../../../../assets/Images/background.jpeg";
 import * as yup from "yup";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -119,7 +119,7 @@ export default function Register() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={defaultTheme} className={styles.maindiv}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <div
@@ -139,7 +139,9 @@ export default function Register() {
             component={Paper}
             elevation={6}
           >
-            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <div
+              style={{ position: "relative", width: "100%", height: "100%" }}
+            >
               {/* Image */}
               <img
                 src={searchlogo}
@@ -148,23 +150,35 @@ export default function Register() {
               />
               {/* Text overlay */}
               <div
+                className={styles.contantdiv}
                 style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '30%',
-                  transform: 'translate(-50%, -50%)',
-                  textAlign: 'center',
-                  color: '#fff',
-                  fontWeight: 'bold',
-                  fontSize: '2rem',
+                  position: "absolute",
+                  top: "50%",
+                  left: "36%",
+                  transform: "translate(-50%, -50%)",
+                  textAlign: "center",
+                  color: "#fff",
+                  fontWeight: "bold",
+                  fontSize: "2rem",
+                  padding:'2rem',
                 }}
               >
-               <h6> Welcome Back to Allmaster's SocialMedia</h6>
-               <h5>  Where Logistics Meets Connectivity!</h5>
-               <h6>  Benefits of Joining:</h6>
-               <h6>  Global Connectivity: Connect with logistics professionals from around the world.</h6>
-               <h6>  Stay Informed about schedules: Stay ahead with the latest trends, industry news, and schedules. .</h6>
-               <h6>  Build Partnerships: Foster meaningful partnerships. Allmaster's socialMedia is the place to build lasting collaborations.</h6>
+                <h5> Welcome Back to Allmaster's SocialMedia</h5>
+                <h6> Where Logistics Meets Connectivity!</h6>
+                <h6 className={styles.headtxt}> Benefits of Joining:</h6>
+                <p>
+                  Global Connectivity: Connect with logistics professionals from
+                  around the world.
+                </p>
+                <p>
+                  Stay Informed about schedules: Stay ahead with the latest
+                  trends, industry news, and schedules. .
+                </p>
+                <p>
+                  Build Partnerships: Foster meaningful partnerships.
+                  Allmaster's socialMedia is the place to build lasting
+                  collaborations.
+                </p>
               </div>
             </div>
           </Grid>
@@ -298,7 +312,7 @@ export default function Register() {
                   item
                   style={{
                     width: "100%",
-                    background: "#0ebd6030",
+                    background: "#ff950030",
                     textAlign: "center",
                     padding: "6px",
                     borderRadius: "5px",
@@ -312,7 +326,7 @@ export default function Register() {
                     sx={{
                       mt: 1,
                       mb: 2,
-                      color: "#0EBD60",
+                      color: "#ff9500",
                       fontWeight: "bold",
                       textDecoration: "unset",
                     }}
