@@ -1,4 +1,4 @@
-import { Box, useMediaQuery} from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import Navbar from "../navbar/index";
 import UserWidget from "../../widgets/UserWidget";
 import MyPostWidget from "../../Private/Posts/MyPostWidget";
@@ -59,6 +59,8 @@ import QaWidget from "../Qa/QaPost";
 import PostProfile from "../../../../components/PostProfile/PostProfile";
 import PagesOTP from "../../../../components/PagesOTP/PagesOTP";
 import CreateCompany from "../../../../components/CreateCompany/CreateCompany";
+import Loader from "../../../../components/Loader/Loader";
+import CompanyPage from "../CompanyPage";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -72,15 +74,18 @@ const HomePage = () => {
   const { data: trendingPost } = useGetTrendingPosts(tabView);
   const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
   const { data: newsPostData } = useGetNewsPosts(tabView);
-  const { data: pagePostData } = useGetPagePost(tabView);
-  console.log(pagePostData);
+  const { data: pagePostData, isLoading } = useGetPagePost(tabView);
   const { data: allQaData } = useGetAllQa(tabView);
   const { data: forYouData } = useGetForYouPost(tabView, {
     state: "Tamilnadu",
     country: "India",
   });
   const { data } = useGetProfile(userId);
-  console.log(forYouData,"post data")
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  console.log(pagePostData, "pagePostData");
   return (
     <Box>
       <Navbar />
@@ -149,7 +154,7 @@ const HomePage = () => {
           {dashboardView === "postprofile" && <PostProfile />}
           {dashboardView === "pages" && (
             <>
-              <MyPostWidget />
+              {data?.pageData != null && <MyPostWidget />}
               <Box
                 sx={{
                   maxHeight: "45vh",
@@ -158,7 +163,7 @@ const HomePage = () => {
               >
                 {pagePostData &&
                   pagePostData.map((data) => (
-                    <PostWidget key={data._id} postData={data} />
+                    <CompanyPage key={data._id} postData={data} />
                   ))}
               </Box>
             </>

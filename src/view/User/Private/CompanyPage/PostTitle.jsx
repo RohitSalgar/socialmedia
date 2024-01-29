@@ -5,7 +5,8 @@ import Avatar from "@mui/material/Avatar";
 import { useSelector } from "react-redux";
 import { DeleteOutlined } from "@mui/icons-material";
 import moment from "moment";
-import { useDeleteQa } from "../../../../hooks/qa";
+import { useDeletePost } from "../../../../hooks/posts";
+
 const PostTitle = ({ data }) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -13,21 +14,22 @@ const PostTitle = ({ data }) => {
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
   const { userId } = useSelector((state) => state.profile.profileData);
-  const { mutate, isLoading } = useDeleteQa();
+  const { mutate } = useDeletePost();
   const deletePost = (id) => {
     const postData = {
-      questionId: id,
+      postId: id,
       userId,
     };
     mutate(postData);
   };
+
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
         <Avatar
           sx={{ width: 35, height: 35 }}
           alt="Remy Sharp"
-          src="/static/images/avatar/1.jpg"
+          src={data.companyProfile}
         />
         <Box onClick={() => {}}>
           <Typography
@@ -40,10 +42,7 @@ const PostTitle = ({ data }) => {
               },
             }}
           >
-            {data?.fullName}
-          </Typography>
-          <Typography color={medium} fontSize="0.75rem">
-            {data?.designation}
+            {data?.companyName}
           </Typography>
         </Box>
         <Typography color={medium} fontSize="0.75rem">
