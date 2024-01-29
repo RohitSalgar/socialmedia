@@ -2,7 +2,6 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  ShareOutlined,
 } from "@mui/icons-material";
 import {
   Box,
@@ -17,30 +16,32 @@ import PostTitle from "./PostTitle";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
 import { useState } from "react";
 import { Stack } from "@mui/material";
-import CommentBox from "../../../../components/QaAnswer/CommentBox";
+import CommentBox from "../../../../components/Comments/CommentBox";
 import CommentInputBox from "../../../../components/Comments/CommentInputBox";
-import searchlogo from "../../../../assets/Images/logis1.jpeg";
+import {
+  useGetPostComment,
+  useLikeDisLike,
+} from "../../../../hooks/likeComment";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
-import { useGetQaComment, useQaLikeDisLike } from "../../../../hooks/qa";
 
-const PagePost = ({ postData }) => {
+const CompanyPage = ({ postData }) => {
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
   const [report, setReport] = useState(false);
   const [reportText, setReportText] = useState("");
   const [selected, setSelected] = useState(0); //0 for none, -id for edit, id for reply
   const { data: postComment, isLoading: postCommentLoading } =
-    useGetQaComment(postId);
+    useGetPostComment(postId);
   const onSuccess = () => {
     setReport(false);
     setReportText("");
   };
   const { mutate, isLoading: reportPostLoading } = useReportPost(onSuccess);
   const { mutate: likeMutate, isLoading: likeDislikeLoadingLoading } =
-    useQaLikeDisLike(onSuccess);
+    useLikeDisLike(onSuccess);
   const { userId } = useSelector((state) => state.profile.profileData);
 
   const { palette } = useTheme();
@@ -80,26 +81,30 @@ const PagePost = ({ postData }) => {
   }
   const likeDislike = (status) => {
     const payload = {
-      questionId: postData._id,
+      postId: postData._id,
       userId: userId,
       status: status,
     };
     likeMutate(payload);
   };
-  console.log(postData)
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
-        Question : {postData?.question}
+        {postData?.description}
       </Typography>
-      {/* <img
-        width="100%"
-        height="auto"
-        alt="post"
-        style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-        src={searchlogo}
-      /> */}
+      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
+        {postData?.hashtags.map((hash) => `#${hash} `)}
+      </Typography>
+      {postData.files && postData.files.length > 0 && (
+        <img
+          width="100%"
+          height="auto"
+          alt="post"
+          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
+          src={postData.files[0]}
+        />
+      )}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
@@ -132,7 +137,7 @@ const PagePost = ({ postData }) => {
               <IconButton>
                 <ChatBubbleOutlineOutlined />
               </IconButton>
-              <Typography sx={{ cursor: "pointer" }}>{"Your Answer"}</Typography>
+              <Typography sx={{ cursor: "pointer" }}>{"comments"}</Typography>
             </Box>
           </FlexBetween>
           <FlexBetween gap="0.3rem">
@@ -146,6 +151,10 @@ const PagePost = ({ postData }) => {
                 alignItems: "center",
               }}
             >
+              <IconButton>
+                <ReportProblemIcon />
+              </IconButton>
+              <Typography sx={{ cursor: "pointer" }}>{"report"}</Typography>
             </Box>
           </FlexBetween>
         </FlexBetween>
@@ -181,7 +190,7 @@ const PagePost = ({ postData }) => {
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {
-                console.log(c,"c")
+                console.log(c, "c");
                 return (
                   <CommentBox
                     key={c.id}
@@ -202,4 +211,4 @@ const PagePost = ({ postData }) => {
   );
 };
 
-export default PagePost;
+export default CompanyPage;

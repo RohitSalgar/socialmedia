@@ -20,12 +20,12 @@ const useGetTrendingPosts = (tabView) => {
 const useGetPagePost = (tabView) => {
   return useQuery({
     queryKey: ["pagePost"],
-    queryFn: () => {
-      return fetchData({
+    queryFn: () =>
+      fetchData({
         url: URL + "post/getPagePost",
         isAuthRequired: true,
-      });
-    },
+      }),
+
     enabled: tabView === "pages",
   });
 };
