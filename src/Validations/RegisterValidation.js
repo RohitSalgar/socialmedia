@@ -23,7 +23,7 @@ export const registerValidation = yup.object({
       ),
     dob: yup
       .string()
-      .required("ETD is required")
+      .required("DOB is required")
       .transform((value) =>
         value !== null ? moment(value).format("MM-DD-YYYY") : value
       ),
