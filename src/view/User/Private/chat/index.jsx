@@ -8,38 +8,20 @@ import { useTheme } from "@emotion/react";
 import { usegetAllChatInfo } from "../../../../hooks/chat";
 import Loader from "../../../../components/Loader/Loader";
 import { setSideView } from "../../../../redux/slices/profileSlice";
-import { useGetConnectionList } from "../../../../hooks/profile";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
-  let viewList = "connection";
   const dark = palette.neutral.dark;
   const [text, setText] = useState("");
-  let [connectId, setConnectId] = useState(null);
   const { userId } = useSelector((state) => state.profile.profileData);
-  const profileId = useSelector((state) => state.profile.viewProfileId);
   const { isSingleChatOn } = useSelector((state) => state.chat);
-  const { data: connectionData, isLoading: connectionLoading } =
-    useGetConnectionList(profileId, viewList);
   const { data: allChatInfo, isLoading } = usegetAllChatInfo(userId);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (connectionData !== null) {
-      let connectId =
-        connectionData &&
-        connectionData?.filter(
-          (e) => e.recipientId === userId || e.senderId === userId
-        )[0]._id;
-      setConnectId(connectId);
-    }
-  }, [connectionData]);
-
-  if (connectionLoading || isLoading) {
+  if (isLoading) {
     return <Loader />;
   }
-
 
   return (
     <WidgetWrapper sx={{ minHeight: "82vh" }}>
@@ -77,7 +59,14 @@ const ChatLayout = () => {
       >
         {allChatInfo &&
           allChatInfo
-            .filter((e) => e.recipientName.includes(text.trim()))
+            .filter((e) => e.senderId === userId || e.recipientId === userId)
+            .filter(
+              (e) =>
+                e.recipientName
+                  .toLowerCase()
+                  .includes(text.toLowerCase().trim()) ||
+                e.senderName.toLowerCase().includes(text.toLowerCase().trim())
+            )
             .map((e, i) => {
               return (
                 <Box
@@ -86,9 +75,7 @@ const ChatLayout = () => {
                     margin: "1px",
                   }}
                 >
-                  {!isSingleChatOn && (
-                    <ChatPerson id={i} data={e} connectionId={connectId} />
-                  )}
+                  {!isSingleChatOn && <ChatPerson id={i} data={e} />}
                 </Box>
               );
             })}
