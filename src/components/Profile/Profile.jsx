@@ -1,4 +1,4 @@
-import { Box, Typography, Button, useTheme } from "@mui/material";
+import { Box, Typography, Button, useTheme, CircularProgress } from "@mui/material";
 import WidgetWrapper from "../WidgetWrapper";
 import Avatar from "@mui/material/Avatar";
 import styles from "./index.module.css";
@@ -28,6 +28,9 @@ import {
 import LookingEmpty from "../LookingEmpty/LookingEmpty";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BusinessIcon from "@mui/icons-material/Business";
+import { useSendFrdRequest } from "../../hooks/user";
+import { toast } from "react-toastify";
+
 
 const Profile = () => {
   const { palette } = useTheme();
@@ -50,6 +53,17 @@ const Profile = () => {
     profileId,
     viewList
   );
+  const { data: mainUserFollowingList, isLoading: mainUserFollowingLoading } =
+  useGetFollowingList(userId, viewList);
+const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
+  useGetConnectionList(userId, viewList);
+
+  const frdRequestSentSuccess = (data) => {
+    toast.success(data)
+  }
+  const {mutate: frdRequestMutate, isPending} = useSendFrdRequest(frdRequestSentSuccess)
+
+  
   const companyId = data?.pageData?._id;
 
   if (
@@ -57,7 +71,7 @@ const Profile = () => {
     followLoading ||
     followingLoading ||
     connectionLoading ||
-    postLoading
+    postLoading || mainUserFollowingLoading || mainUserConnectionLoading
   ) {
     <Loader />;
   }
@@ -71,6 +85,15 @@ const Profile = () => {
   function handleEdit() {
     dispatch(setSideView("editprofile"));
   }
+
+  const checkFrds = (id) => {
+    
+     if(mainUserConnectionList.contains(id) || mainUserConnectionList.contains(id)){
+      true
+     }
+     return false
+  }
+  console.log(mainUserConnectionList,"main user")
 
   return (
     <WidgetWrapper>
@@ -198,6 +221,16 @@ const Profile = () => {
                 className={styles.editbtn}
               >
                 Edit Profile
+              </Button>
+            )}
+              {profileId !== userId && (
+              <Button
+                disabled={isPending}
+                variant="dark"
+                onClick={() => frdRequestMutate({senderId: userId, recipientId: profileId}) }
+                className={styles.editbtn}
+              >
+                {isPending ? <CircularProgress /> : "Follow"}
               </Button>
             )}
             {profileId === userId && data?.pageData === null && (
