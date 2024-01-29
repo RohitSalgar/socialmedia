@@ -69,3 +69,17 @@ dob */
 .forminputlabel{
   padding-top: 10px;
 }
+
+.imageContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imageContainer p{
+  color: blue;
+}
+.deleteIcon{
+  color: red;
+  cursor: pointer;
+}
