@@ -50,7 +50,6 @@ const Profile = () => {
     profileId,
     viewList
   );
-
   const companyId = data?.pageData?._id;
 
   if (

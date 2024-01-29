@@ -26,7 +26,10 @@ import ClearIcon from "@mui/icons-material/Clear";
 import {
   clearSkip,
   removeProfileData,
+  setDashboardView,
   setSideView,
+  setViewCompanyId,
+  setViewProfileId,
 } from "../../../../redux/slices/profileSlice";
 import classes from "./index.module.css";
 import { useNavSearch } from "../../../../hooks/user";
@@ -36,7 +39,6 @@ const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const chat = useSelector((state) => state.chat);
   const signedIn = localStorage.getItem("amsSocialSignedIn");
   const { sideView } = useSelector((state) => state.profile);
   const [searchText, setSearchText] = useState("");
@@ -53,6 +55,17 @@ const Navbar = () => {
   const dark = theme.palette.neutral.dark;
   const background = theme.palette.background.default;
   const alt = theme.palette.background.alt;
+
+  function handleClick(value) {
+    setSearchText("");
+    if (value.fullName) {
+      dispatch(setViewProfileId(value?._id));
+      dispatch(setDashboardView("profile"));
+    } else {
+      dispatch(setViewCompanyId(value?._id));
+      dispatch(setDashboardView("postprofile"));
+    }
+  }
 
   return (
     <FlexBetween padding="1rem 3%" backgroundColor={alt}>
@@ -95,7 +108,11 @@ const Navbar = () => {
             {searchData &&
               searchData.map((value) => {
                 return (
-                  <div key={value._id} className={classes.profileContainer}>
+                  <div
+                    onClick={() => handleClick(value)}
+                    key={value._id}
+                    className={classes.profileContainer}
+                  >
                     <div>
                       <img
                         className={classes.profilePic}
@@ -103,7 +120,9 @@ const Navbar = () => {
                         alt=""
                       />
                     </div>
-                    <div>{value.fullName}</div>
+                    <div>
+                      {value.fullName ? value.fullName : value.companyName}
+                    </div>
                   </div>
                 );
               })}
@@ -137,7 +156,6 @@ const Navbar = () => {
           <ImSwitch
             style={{ fontSize: "25px" }}
             onClick={() => {
-              // console.log("sdfsdf")
               if (signedIn === "true") {
                 dispatch(removeProfileData());
                 dispatch(setRemoveChatState());
