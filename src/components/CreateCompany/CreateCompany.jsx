@@ -1,4 +1,4 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme, Input } from "@mui/material";
 import WidgetWrapper from "../WidgetWrapper";
 import styles from "./index.module.css";
 import { useForm } from "react-hook-form";
@@ -8,6 +8,10 @@ import Loader from "../Loader/Loader";
 import { createCompany } from "../../validation/createCompany";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCreateCompany } from "../../hooks/pages";
+import Avatar from "@mui/material/Avatar";
+import { useState } from "react";
+import { useGetProfile } from "../../hooks/profile";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 const CreateCompany = () => {
   const dispatch = useDispatch();
@@ -15,9 +19,10 @@ const CreateCompany = () => {
   const medium = palette.neutral.medium;
   const dark = palette.neutral.dark;
   const userId = useSelector((state) => state.profile.profileData.userId);
-  // const { data: profiledate, isLoading } = useGetProfile(userId);
+  const { data: profiledate ,isLoading:profileLoading } = useGetProfile(userId);
   const { mutate, isLoading: mutateLoading } = useCreateCompany();
-
+  const [profilePic, setProfilePic] = useState("");
+  const [profilePicUrl, setProfilePicUrl] = useState("");
   const {
     register,
     handleSubmit,
@@ -32,13 +37,27 @@ const CreateCompany = () => {
       about: "",
     },
   });
-
-  const onSubmit = (data) => {
-    data.createdBy = userId;
-    mutate(data);
+  const handleFileChange = (event) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      setProfilePicUrl(reader.result);
+    };
+    reader.readAsDataURL(event.target.files[0]);
+    setProfilePic(event.target.files[0]);
   };
 
-  if (mutateLoading) {
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    formData.append("file", profilePic);
+    formData.append("companyName", data.companyName);
+    formData.append("email", data.email);
+    formData.append("licenseNo", data.licenseNo);
+    formData.append("about", data.about);
+    formData.append('createdBy', userId);
+    mutate(formData);
+  };
+
+  if (mutateLoading || profileLoading) {
     return <Loader />;
   }
 
@@ -52,6 +71,25 @@ const CreateCompany = () => {
             alignItems: "center",
           }}
         >
+          <Box className={styles.avatardiv}>
+            <Avatar
+              alt="B"
+              src={profilePicUrl ? profilePicUrl : profiledate.userData.profile}
+              sx={{ width: 100, height: 100 }}
+              className={styles.avathar}
+            />
+            <label htmlFor="file" className={styles.filelabel}>
+              <ModeEditIcon />
+            </label>
+            <Input
+              onChange={handleFileChange}
+              type="file"
+              id="file"
+              accept="image/*"
+              className={styles.file}
+            ></Input>
+          </Box>
+
           <Typography color={dark} sx={{ fontWeight: "500", fontSize: "20px" }}>
             Create Company Page
           </Typography>

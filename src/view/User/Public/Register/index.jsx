@@ -24,6 +24,7 @@ import { URL } from "../../../../config";
 import { fetchData } from "../../../../helper";
 import moment from "moment";
 import { useTheme } from "@emotion/react";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const defaultTheme = createTheme();
 
@@ -32,7 +33,7 @@ export default function RegisterPage() {
   const primary = palette.primary.main;
   const navigate = useNavigate();
   const [location, setLocation] = useState({ state: "", country: "" });
-  // const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState(null);
 
   const {
     handleSubmit,
@@ -86,17 +87,18 @@ export default function RegisterPage() {
     fetchIPAddress();
   }, []);
 
+  const updateEmailFn = async (data) => {
+    let response = await fetch(URL + "post/addPost", {
+      method: "POST",
+      body: data,
+    });
+    let responseData = await response.json();
+    return responseData.response;
+  };
+
   const updateEmailData = useMutation({
     mutationFn: (data) =>
-      fetchData(
-        {
-          url: URL + "users/updateRegisterData",
-          method: "POST",
-        },
-        {
-          data: [data],
-        }
-      ),
+     updateEmailFn(data),
     onSuccess: (data) => {
       toast.success(data);
       navigate("/otp/" + id);
@@ -151,11 +153,22 @@ export default function RegisterPage() {
   });
 
   const onSubmit = (data) => {
+    const formData = new FormData()
+    formData.append("file",files)
+    formData.append("fullName",data.fullName)
+    formData.append("email",data.email)
+    formData.append("dob",data.dob)
+    formData.append("password",data.password)
+    formData.append("designation",data.designation)
+    formData.append("state",location.state)
+    formData.append("country",location.country)
     if (id) {
+      formData.append("id",id)
       data.id = id;
-      updateEmailData.mutate({ ...data, ...location });
+      updateEmailData.mutate(formData)
     } else {
-      postRegistrationData.mutate({ ...data, ...location });
+   
+      postRegistrationData.mutate(formData);
     }
   };
   useEffect(() => {
@@ -168,14 +181,9 @@ export default function RegisterPage() {
     return <Loader />;
   }
 
-  // const onImageChange = (e) => {
-  //   setFiles([e.target.files[0]]);
-  // };
-
-  // const handleChange = (event) => {
-  //   setValue("designation",`${event.target.value}`)
-  //   setDesignation(event.target.value);
-  // };
+  const onImageChange = (e) => {
+    setFiles(e.target.files[0]);
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -446,40 +454,43 @@ export default function RegisterPage() {
                     )}
                   </Box>
                 </div>
-                {/* <div style={{marginTop:"10px",marginBottom:"10px"}}> */}
-                {/* <input
-                  type="file"
-                  accept="image/*"
-                  name="files"
-                  onChange={onImageChange}
-                  style={{ display: "none" }}
-                  id="imageInput"
-                  multiple={false} // Allow only one file to be selected
-                />
-                <label className={styles.forminputlabel} htmlFor="imageInput">
-                  <Button
-                    variant="contained"
-                    component="span"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    Upload Image
-                  </Button>
-                </label> */}
+                {files ? <div className={styles.imageContainer}>
+                  <p>{files.name}</p>
+                  <DeleteIcon onClick={() => setFiles(null)} className={styles.deleteIcon} />
+                </div> :<div style={{ marginTop: "10px", marginBottom: "10px" }}>
+                  <input
+                    type="file"
+                    accept="image/jpeg, image/png, image/jpg, image/webp"
+                    name="files"
+                    onChange={onImageChange}
+                    style={{ display: "none" }}
+                    id="imageInput"
+                    multiple={false} 
+                  />
+                  <label className={styles.forminputlabel} htmlFor="imageInput">
+                    <Button
+                      variant="contained"
+                      component="span"
+                      sx={{ mt: 3, mb: 2 }}
+                    >
+                      Upload Image
+                    </Button>
+                  </label>
+                </div>}
                 <Button
-                  type="submit"
-                  fullWidth
-                  variant='primary'
-                  sx={{
-                    mt: 3,
-                    mb: 2,
-                    background: `${primary}`,
-                    color: "#fff",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Register
-                </Button>
-                {/* </div> */}
+                    type="submit"
+                    fullWidth
+                    variant="primary"
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      background: `${primary}`,
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Register
+                  </Button>
                 <Grid container style={{ width: "100%" }}>
                   <Grid item style={{ width: "100%", textAlign: "left" }}>
                     <span>Already have an account?</span>
@@ -513,7 +524,9 @@ export default function RegisterPage() {
             component={Paper}
             elevation={6}
           >
-            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <div
+              style={{ position: "relative", width: "100%", height: "100%" }}
+            >
               {/* Image */}
               <img
                 src={searchlogo}
@@ -523,19 +536,26 @@ export default function RegisterPage() {
               {/* Text overlay */}
               <div
                 style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '55%',
-                  transform: 'translate(-50%, -50%)',
-                  textAlign: 'center',
-                  color: '#fff',
-                  fontWeight: 'bold',
-                  fontSize: '2rem',
+                  position: "absolute",
+                  top: "50%",
+                  left: "55%",
+                  transform: "translate(-50%, -50%)",
+                  textAlign: "center",
+                  color: "#fff",
+                  fontWeight: "bold",
+                  fontSize: "2rem",
                 }}
               >
-               <h6> Welcome to Allmaster's SocialMedia</h6>
-               <h5>  The Hub of Logistics Connectivity!</h5>
-               <h6>  Join our growing community of logistics enthusiasts and professionals. Whether you're a seasoned logistics expert or just stepping into the world of supply chain management, Allmaster SocialMedia is here to revolutionize the way we connect, collaborate, and innovate in the logistics industry..</h6>
+                <h6> Welcome to Allmaster's SocialMedia</h6>
+                <h5> The Hub of Logistics Connectivity!</h5>
+                <h6>
+                  {" "}
+                  Join our growing community of logistics enthusiasts and
+                  professionals. Whether you're a seasoned logistics expert or
+                  just stepping into the world of supply chain management,
+                  Allmaster SocialMedia is here to revolutionize the way we
+                  connect, collaborate, and innovate in the logistics industry..
+                </h6>
               </div>
             </div>
           </Grid>

@@ -242,11 +242,15 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        onChange={(event) =>
-                          field.onChange(
-                            event.target.value.replace(/[^\d]+/g, "")
-                          )
-                        }
+                        // onChange={(event) =>
+                        //   field.onChange(
+                        //     event.target.value.replace(/[^\d]+/g, "")
+                        //   )
+                        // }
+                        onChange={(e) => {
+                          const newValue = e.target.value.slice(-1); 
+                          field.onChange(newValue);
+                        }}
                         maxLength={1}
                         id="1"
                         className={styles.otp}
@@ -264,11 +268,15 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        onChange={(event) =>
-                          field.onChange(
-                            event.target.value.replace(/[^\d]+/g, "")
-                          )
-                        }
+                        // onChange={(event) =>
+                        //   field.onChange(
+                        //     event.target.value.replace(/[^\d]+/g, "")
+                        //   )
+                        // }
+                        onChange={(e) => {
+                          const newValue = e.target.value.slice(-1);
+                          field.onChange(newValue);
+                        }}
                         maxLength={1}
                         id="2"
                         className={styles.otp}
@@ -286,11 +294,15 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        onChange={(event) =>
-                          field.onChange(
-                            event.target.value.replace(/[^\d]+/g, "")
-                          )
-                        }
+                        // onChange={(event) =>
+                        //   field.onChange(
+                        //     event.target.value.replace(/[^\d]+/g, "")
+                        //   )
+                        // }
+                        onChange={(e) => {
+                          const newValue = e.target.value.slice(-1);
+                          field.onChange(newValue);
+                        }}
                         maxLength={1}
                         id="3"
                         className={styles.otp}
@@ -308,10 +320,14 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        onChange={(event) =>
-                          field.onChange(event.target.value.replace(/[^\d]+/g, ""))
+                        // onChange={(event) =>
+                        //   field.onChange(event.target.value.replace(/[^\d]+/g, ""))
 
-                        }
+                        // }
+                        onChange={(e) => {
+                          const newValue = e.target.value.slice(-1); 
+                          field.onChange(newValue);
+                        }}
                         maxLength={1}
                         id="4"
                         className={styles.otp}
@@ -329,11 +345,15 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        onChange={(event) =>
-                          field.onChange(
-                            event.target.value.replace(/[^\d]+/g, "")
-                          )
-                        }
+                        // onChange={(event) =>
+                        //   field.onChange(
+                        //     event.target.value.replace(/[^\d]+/g, "")
+                        //   )
+                        // }
+                        onChange={(e) => {
+                          const newValue = e.target.value.slice(-1);
+                          field.onChange(newValue);
+                        }}
                         maxLength={1}
                         id="5"
                         className={styles.otp}
@@ -351,11 +371,15 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        onChange={(event) =>
-                          field.onChange(
-                            event.target.value.replace(/[^\d]+/g, "")
-                          )
-                        }
+                        // onChange={(event) =>
+                        //   field.onChange(
+                        //     event.target.value.replace(/[^\d]+/g, "")
+                        //   )
+                        // }
+                        onChange={(e) => {
+                          const newValue = e.target.value.slice(-1);
+                          field.onChange(newValue);
+                        }}
                         maxLength={1}
                         id="6"
                         className={styles.otp}
