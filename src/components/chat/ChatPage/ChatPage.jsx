@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./ChatPage.module.css";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
@@ -64,7 +64,8 @@ const ChatPage = ({ data }) => {
     }
   };
 
-  const sendChatMessage = () => {
+  const sendChatMessage = (e) => {
+    e.preventDefault();
     const newChat = {
       message: sendMessage,
       senderId: userId,
@@ -155,18 +156,27 @@ const ChatPage = ({ data }) => {
           ))}
         </Box>
         <Box className={styles.chatInput}>
-          <input
-            type="text"
-            placeholder="Type a message..."
-            className={styles.messageInput}
-            value={sendMessage}
-            onChange={(e) => setSendMessage(e.target.value)}
-          />
-          {sendMessage.length > 0 ? (
-            <SendIcon className={styles.sendButton} onClick={sendChatMessage} />
-          ) : (
-            <CancelScheduleSend />
-          )}
+          <form onSubmit={sendChatMessage} className={styles.sendform}>
+            <input
+              type="text"
+              placeholder="Type a message..."
+              className={styles.messageInput}
+              value={sendMessage}
+              onChange={(e) => setSendMessage(e.target.value)}
+            />
+            <Box>
+              {sendMessage.length > 0 ? (
+                <IconButton
+                  onClick={sendChatMessage}
+                  className={styles.sendButton}
+                >
+                  <SendIcon />
+                </IconButton>
+              ) : (
+                <CancelScheduleSend className={styles.sendButton} />
+              )}
+            </Box>
+          </form>
         </Box>
       </Box>
     );
