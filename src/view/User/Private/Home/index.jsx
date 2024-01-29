@@ -73,14 +73,12 @@ const HomePage = () => {
   const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
   const { data: newsPostData } = useGetNewsPosts(tabView);
   const { data: pagePostData } = useGetPagePost(tabView);
-  console.log(pagePostData);
   const { data: allQaData } = useGetAllQa(tabView);
   const { data: forYouData } = useGetForYouPost(tabView, {
     state: "Tamilnadu",
     country: "India",
   });
   const { data } = useGetProfile(userId);
-  console.log(forYouData,"post data")
   return (
     <Box>
       <Navbar />

@@ -5,7 +5,7 @@ import styles from "./index.module.css";
 import rohitimg from "../../assets/images/sanjai.png";
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 import NewReleasesRoundedIcon from "@mui/icons-material/NewReleasesRounded";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setDashboardView,
   setViewCompanyId,
@@ -18,6 +18,7 @@ import { usePostUnfollow } from "../../hooks/posts";
 const Followers = (data) => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
+  const {profileData} = useSelector(state => state.profile)
   const medium = palette.neutral.medium;
   const { mutate, isLoading } = useChangeConnectionStatus();
   const { mutate: postUnfollowMutate, isLoading: postUnfollowLoading } =
@@ -57,11 +58,11 @@ const Followers = (data) => {
           <Box className={styles.avatardiv} onClick={() => handleClick()}>
             <Avatar
               alt="B"
-              src={data?.fullName ? data?.data?.profile : data?.data?.profile}
+              src= {profileData.userId === data.data.recipientId ? data.data.senderProfile : data.data.recipientProfile}
               sx={{ width: 40, height: 40 }}
             />
             <Typography className={styles.avatarname}>
-              {data?.fullName ? data?.fullName : data?.data?.followerName}
+              {profileData.userId === data.data.recipientId ? data.data.senderName : data.data.recipientName}
             </Typography>
           </Box>
           <Box className={styles.unfollowdiv}>

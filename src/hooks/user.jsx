@@ -34,8 +34,34 @@ const useChangeConnectionStatus = (onSuccessFunctions) => {
                 { data: [data] }
             ),
         onSuccess: (data) => {
-            onSuccessFunctions()
+            onSuccessFunctions(data)
             toast.success(data)
+            queryClient.invalidateQueries({ queryKey: ["allFrdRequests"] });
+        },
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
+};
+
+const useSendFrdRequest = (onSuccessFunctions) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) =>
+            fetchData(
+                {
+                    url: URL + "users/userConnectionRequest",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [data] }
+            ),
+        onSuccess: (data) => {
+            onSuccessFunctions(data)
+            queryClient.invalidateQueries({ queryKey: ["trending"] });
+            queryClient.invalidateQueries({ queryKey: ["forYou"] });
+            queryClient.invalidateQueries({ queryKey: ["pagePost"] });
+            queryClient.invalidateQueries({ queryKey: ["friend"] });
             queryClient.invalidateQueries({ queryKey: ["allFrdRequests"] });
         },
         onError: (error) => {
@@ -67,4 +93,4 @@ const useNavSearch = (onSuccessFunctions) => {
     });
 };
 
-export { useGetAllFrdRequestByUserId, useChangeConnectionStatus, useNavSearch };
+export { useGetAllFrdRequestByUserId, useChangeConnectionStatus, useNavSearch, useSendFrdRequest };
