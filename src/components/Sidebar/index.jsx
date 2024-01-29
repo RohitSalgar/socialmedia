@@ -10,6 +10,7 @@ import NewspaperOutlinedIcon from "@mui/icons-material/NewspaperOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
 import { removeProfileData } from "../../redux/slices/profileSlice";
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 function Sidebar({ onClick }) {
   const location = useLocation();
@@ -98,6 +99,19 @@ function Sidebar({ onClick }) {
               >
                 <EventNoteIcon />
                 Schedules
+              </Link>
+            </li>
+            <li
+              className={activeStep === "advertisements" ? styles.activesidebarstep : ""}
+            >
+              <Link
+                to={"advertisements"}
+                className={`${styles.listitem} ${
+                  activeStep === "advertisements" ? styles.activesidebar : ""
+                }`}
+              >
+                <AddAPhotoIcon />
+                Advertisement
               </Link>
             </li>
           </ul>
