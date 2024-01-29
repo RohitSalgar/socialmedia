@@ -81,6 +81,7 @@ const HomePage = () => {
     country: "India",
   });
   const { data } = useGetProfile(userId);
+  console.log(forYouData,"post data")
   return (
     <Box>
       <Navbar />
@@ -156,7 +157,6 @@ const HomePage = () => {
                   overflowY: "scroll",
                 }}
               >
-                {console.log(pagePostData)}
                 {pagePostData &&
                   pagePostData.map((data) => (
                     <PostWidget key={data._id} postData={data} />
