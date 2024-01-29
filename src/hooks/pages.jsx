@@ -5,19 +5,22 @@ import { fetchData } from "../helper";
 import { useDispatch } from "react-redux";
 import { setSideView } from "../redux/slices/profileSlice";
 
+
+const createCompany = async (data) => {
+  let response = await fetch(URL + "pages/addCompanyPages", {
+    method: "POST",
+    body: data,
+  });
+  let responseData = await response.json();
+  return responseData.response;
+};
+
 const useCreateCompany = () => {
   const queryClient = useQueryClient();
   const dispath = useDispatch();
   return useMutation({
     mutationFn: (data) =>
-      fetchData(
-        {
-          url: URL + "pages/addCompanyPages",
-          method: "POST",
-          isAuthRequired: true,
-        },
-        { data: [data] }
-      ),
+    createCompany(data),
     onSuccess: () => {
       dispath(setSideView("pagesotp"));
       queryClient.invalidateQueries({ queryKey: ["profile"] });
