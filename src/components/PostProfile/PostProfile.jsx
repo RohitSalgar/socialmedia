@@ -29,7 +29,6 @@ const PostProfile = () => {
   const profileId = useSelector((state) => state.profile.viewProfileId);
   const profileCompanyId = useSelector((state) => state.profile.viewCompanyId);
   const companyId = useSelector((state) => state.profile.companyId);
-  console.log(companyId, profileCompanyId, "companyId");
   const { data, isLoading } = useGetProfile(profileId);
   const { data: followList, isLoading: followLoading } = useGetPageFollowList(
     profileCompanyId,

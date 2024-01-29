@@ -1,7 +1,7 @@
 .titletext {
 	word-wrap: break-word !important;
 	font-size: 18px !important;
-	color: #0EBD60 !important;
+	color: #ff9500 !important;
 	display: flex !important;
 	justify-content: space-between !important;
 	align-items: center;
@@ -11,21 +11,21 @@
 }
 .yesbtn,
 .yesbtn:hover {
-	background: #0EBD60 !important;
+	background: #ff9500 !important;
 	color: #272727 !important;
 	padding: 3px 20px !important;
 	font-family: "Rubik" !important;
 	font-size: 15px !important;
-	border: 1.5px solid #0EBD60 !important;
+	border: 1.5px solid #ff9500 !important;
 }
 .nobtn,
 .nobtn:hover {
 	background: #fff !important;
-	color: #0EBD60 !important;
+	color: #ff9500 !important;
 	padding: 3px 20px !important;
 	font-family: "Rubik" !important;
 	font-size: 15px !important;
-	border: 1.5px solid #0EBD60 !important;
+	border: 1.5px solid #ff9500 !important;
 }
 .closebtns {
 	padding: 0 !important;
@@ -34,7 +34,7 @@
 	display: contents !important;
 }
 .terms {
-	color: #0EBD60 !important;
+	color: #ff9500 !important;
 }
 @media (max-width: 480px) {
 	.contenttxt > ol {

@@ -9,7 +9,7 @@ body,
   font-family: "Rubik", sans-serif !important;
 }
 body {
-  background-color: #bae2cd54 !important;
+  background-color: #ff95001c !important;
   background-size: cover;
 }
 .css-1pbp6xm {
@@ -17,4 +17,9 @@ body {
 }
 ::-webkit-scrollbar {
   width: 0px;
+}
+
+.MuiDataGrid-root {
+	background: #fff !important;
+	border-radius: 5px !important;
 }
