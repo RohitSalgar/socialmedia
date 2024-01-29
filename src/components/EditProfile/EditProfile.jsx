@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useEditProfile, useGetProfile } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { editProfile } from "../../validation/editProfile";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,6 +21,8 @@ const EditProfile = () => {
   const userId = useSelector((state) => state.profile.profileData.userId);
   const { data: profiledate, isLoading } = useGetProfile(userId);
   const { mutate, isLoading: mutateLoading } = useEditProfile();
+  const [profilePic, setProfilePic] = useState("")
+  const [profilePicUrl, setProfilePicUrl] = useState("")
 
   const {
     register,
@@ -49,12 +51,27 @@ const EditProfile = () => {
 
   const onSubmit = (data) => {
     data.id = userId;
+    const formData = new FormData()
+    formData.append("file", profilePic)
+    formData.append("fullName", data.fullName)
+    formData.append("designation", data.designation)
+    formData.append("about", data.about)
     mutate(data);
   };
 
   if (isLoading || mutateLoading) {
     <Loader />;
   }
+
+  const handleFileChange = (event) => {
+    const reader = new FileReader(); 
+    reader.onload = () => {
+      setProfilePicUrl(reader.result);
+    };
+    reader.readAsDataURL(event.target.files[0]);
+    setProfilePic(event.target.files[0]);
+  };
+
 
   return (
     <WidgetWrapper className={styles.editdiv}>
@@ -84,14 +101,14 @@ const EditProfile = () => {
         <Box className={styles.avatardiv}>
           <Avatar
             alt="B"
-            src={rohitimg}
+            src={profilePicUrl ? profilePicUrl : rohitimg}
             sx={{ width: 100, height: 100 }}
             className={styles.avathar}
           />
           <label htmlFor="file" className={styles.filelabel}>
             <ModeEditIcon />
           </label>
-          <Input type="file" id="file" className={styles.file}></Input>
+          <Input onChange={handleFileChange} type="file" id="file" accept="image/*" className={styles.file}></Input>
         </Box>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.editform}>
