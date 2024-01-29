@@ -15,6 +15,8 @@ import {
   useGetProfile,
   useGetFollowingList,
   useGetConnectionList,
+  useGetMainUserFollowingList,
+  useGetUserFollowList,
 } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
 import PostWidget from "../../view/User/Private/Posts/PostWidget";
@@ -53,17 +55,14 @@ const Profile = () => {
     profileId,
     viewList
   );
-  const { data: mainUserFollowingList, isLoading: mainUserFollowingLoading } =
-  useGetFollowingList(userId, viewList);
-const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
-  useGetConnectionList(userId, viewList);
+  const { data: mainUserfollowList, isLoading: mainUserfollowLoading } = useGetUserFollowList(
+    userId,
+  );
 
   const frdRequestSentSuccess = (data) => {
     toast.success(data)
   }
   const {mutate: frdRequestMutate, isPending} = useSendFrdRequest(frdRequestSentSuccess)
-
-  
   const companyId = data?.pageData?._id;
 
   if (
@@ -71,7 +70,7 @@ const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
     followLoading ||
     followingLoading ||
     connectionLoading ||
-    postLoading || mainUserFollowingLoading || mainUserConnectionLoading
+    postLoading || mainUserfollowLoading
   ) {
     <Loader />;
   }
@@ -85,15 +84,6 @@ const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
   function handleEdit() {
     dispatch(setSideView("editprofile"));
   }
-
-  const checkFrds = (id) => {
-    
-     if(mainUserConnectionList.contains(id) || mainUserConnectionList.contains(id)){
-      true
-     }
-     return false
-  }
-  console.log(mainUserConnectionList,"main user")
 
   return (
     <WidgetWrapper>
@@ -223,7 +213,7 @@ const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
                 Edit Profile
               </Button>
             )}
-              {profileId !== userId && (
+              {profileId !== userId && ( mainUserfollowList.some(item => item.recipientId === profileId) ? 
               <Button
                 disabled={isPending}
                 variant="dark"
@@ -231,6 +221,12 @@ const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
                 className={styles.editbtn}
               >
                 {isPending ? <CircularProgress /> : "Follow"}
+              </Button> : <Button
+                disabled={isPending}
+                variant="dark"
+                className={styles.editbtn}
+              >
+                {isPending ? <CircularProgress /> : "Following"}
               </Button>
             )}
             {profileId === userId && data?.pageData === null && (

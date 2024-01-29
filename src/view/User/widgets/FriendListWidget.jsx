@@ -2,13 +2,18 @@ import { Box, Typography, useTheme } from "@mui/material";
 import WidgetWrapper from "../../../components/WidgetWrapper";
 import FrdRequest from "../../../components/FrdRequest";
 import { useChangeConnectionStatus } from "../../../hooks/profile";
+import Loader from "../../../components/Loader/Loader";
 
 const FriendListWidget = ({data}) => {
   const { palette } = useTheme();
-  const {mutate} = useChangeConnectionStatus()
+  const {mutate, isPending } = useChangeConnectionStatus()
 
   const changeConnectionStatusFn = (id,status) => {
     mutate({id: id, status})
+  }
+
+  if(isPending){
+    return <Loader />
   }
 
   return (
@@ -24,7 +29,7 @@ const FriendListWidget = ({data}) => {
       <Box display="flex" flexDirection="column" gap="0.2rem">
         {data && data.map((e, i) => {
           return (
-            <FrdRequest key={e._id} changeConnectionStatusFn={changeConnectionStatusFn} data = {e} />
+            <FrdRequest key={e._id} isPending={isPending} changeConnectionStatusFn={changeConnectionStatusFn} data = {e} />
           );
         })}
       </Box>

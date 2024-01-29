@@ -63,6 +63,23 @@ const useGetFollowList = (id, viewList) => {
     },
   });
 };
+const useGetUserFollowList = (id) => {
+  return useQuery({
+    queryKey: ["followList", id],
+    queryFn: () =>
+      fetchData(
+        {
+          url: URL + "users/getFollowListByUserId",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [{ id }] }
+      ),
+    onError: (error) => {
+      toast.error(error.message.split(":")[1]);
+    },
+  });
+};
 const useGetFollowingList = (id, viewList) => {
   return useQuery({
     queryKey: ["followingList", id],
@@ -76,6 +93,23 @@ const useGetFollowingList = (id, viewList) => {
         { data: [{ id }] }
       ),
     enabled: viewList === "following",
+    onError: (error) => {
+      toast.error(error.message.split(":")[1]);
+    },
+  });
+};
+const useGetMainUserFollowingList = (id) => {
+  return useQuery({
+    queryKey: ["followingList", id],
+    queryFn: () =>
+      fetchData(
+        {
+          url: URL + "users/getFollowingListByUserId",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [{ id }] }
+      ),
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },
@@ -128,4 +162,6 @@ export {
   useGetFollowingList,
   useGetConnectionList,
   useChangeConnectionStatus,
+  useGetMainUserFollowingList,
+  useGetUserFollowList
 };
