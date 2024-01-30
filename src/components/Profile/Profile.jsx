@@ -55,9 +55,8 @@ const Profile = () => {
     profileId,
     viewList
   );
-  const { data: mainUserfollowList, isLoading: mainUserfollowLoading } = useGetUserFollowList(
-    userId,
-  );
+
+  const { data: mainUserfollowingList, isLoading: mainUserfollowingLoading } = useGetMainUserFollowingList(userId)
 
   const frdRequestSentSuccess = (data) => {
     toast.success(data)
@@ -70,7 +69,7 @@ const Profile = () => {
     followLoading ||
     followingLoading ||
     connectionLoading ||
-    postLoading || mainUserfollowLoading
+    postLoading || mainUserfollowingLoading
   ) {
     <Loader />;
   }
@@ -213,20 +212,20 @@ const Profile = () => {
                 Edit Profile
               </Button>
             )}
-              {profileId !== userId && (mainUserfollowList && mainUserfollowList.some(item => item.recipientId != profileId) ? 
+              {profileId !== userId && (mainUserfollowingList && mainUserfollowingList.some(item => item?.recipientId === profileId) ? 
               <Button
-                disabled={isPending}
+                // disabled={isPending}
                 variant="dark"
-                onClick={() => frdRequestMutate({senderId: userId, recipientId: profileId}) }
                 className={styles.editbtn}
               >
-                {isPending ? <CircularProgress /> : "Follow"}
+                {isPending ? <CircularProgress /> : "Unfollow"}
               </Button> : <Button
                 disabled={isPending}
+                onClick={() => frdRequestMutate({senderId: userId, recipientId: profileId}) }
                 variant="dark"
                 className={styles.editbtn}
               >
-                {isPending ? <CircularProgress /> : "Following"}
+                {isPending ? <CircularProgress /> : "Connect"}
               </Button>
             )}
             {profileId === userId && data?.pageData === null && (

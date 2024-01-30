@@ -65,7 +65,7 @@ const useGetFollowList = (id, viewList) => {
 };
 const useGetUserFollowList = (id) => {
   return useQuery({
-    queryKey: ["followList", id],
+    queryKey: ["mainUserfollowList", id],
     queryFn: () =>
       fetchData(
         {
@@ -100,7 +100,7 @@ const useGetFollowingList = (id, viewList) => {
 };
 const useGetMainUserFollowingList = (id) => {
   return useQuery({
-    queryKey: ["followingList", id],
+    queryKey: ["mainUserfollowingList", id],
     queryFn: () =>
       fetchData(
         {
