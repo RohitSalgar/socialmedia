@@ -133,6 +133,23 @@ const useGetConnectionList = (id, viewList) => {
     },
   });
 };
+const useGetMainUserConnectionList = (id) => {
+  return useQuery({
+    queryKey: ["mainUserconnectionList", id],
+    queryFn: () =>
+      fetchData(
+        {
+          url: URL + "users/getConnectionListByUserId",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [{ id }] }
+      ),
+    onError: (error) => {
+      toast.error(error.message.split(":")[1]);
+    },
+  });
+};
 const useChangeConnectionStatus = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -148,6 +165,7 @@ const useChangeConnectionStatus = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       queryClient.invalidateQueries({ queryKey: ["followingList"] });
+      queryClient.invalidateQueries({ queryKey: ["allFrdRequests"] });
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
@@ -163,5 +181,6 @@ export {
   useGetConnectionList,
   useChangeConnectionStatus,
   useGetMainUserFollowingList,
-  useGetUserFollowList
+  useGetUserFollowList,
+  useGetMainUserConnectionList
 };

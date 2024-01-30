@@ -94,7 +94,7 @@ const Navbar = () => {
                 value={searchText}
                 onChange={(e) => {
                   setSearchText(e.target.value);
-                  navesearchMutate({ term: e.target.value });
+                  navesearchMutate({ term: e.target.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') });
                 }}
                 placeholder="Search..."
                 style={{ width: "250px" }}

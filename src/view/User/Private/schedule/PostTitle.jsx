@@ -64,7 +64,7 @@ const PostTitle = ({ data }) => {
         </IconButton>
       ) : (
         <IconButton sx={{ p: "0.6rem" }} onClick={() => deletePost(data?._id)}>
-          <DeleteOutlined />
+          <DeleteOutlined className="deleteIcon" />
         </IconButton>
       )}
     </FlexBetween>
