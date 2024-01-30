@@ -25,7 +25,7 @@
 .editbtn {
   text-transform: capitalize !important;
   color: #fff !important;
-  background-color: #ff9500 !important;
+  background-color: #0EBD60 !important;
 }
 .closediv {
   display: flex;
@@ -38,14 +38,14 @@
 }
 .createbtn {
   background-color: transparent;
-  color: #ff9500;
-  border: 1px solid #ff9500 !important;
+  color: #0EBD60;
+  border: 1px solid #0EBD60 !important;
   display: flex;
   gap: 5px;
   align-items: center;
 }
 .createbtn svg path {
-  fill: #ff9500 !important;
+  fill: #0EBD60 !important;
 }
 
 .pendingdiv {
