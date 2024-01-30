@@ -39,12 +39,35 @@ const Followers = ({ data, type }) => {
     }
   }
 
+  // if (data?.data?.followerName) {
+  //   dispatch(setViewCompanyId(data?.data?.companyId));
+  //   dispatch(setDashboardView("postprofile"));
+  // } else {
+  //   dispatch(setViewProfileId(data?.recipientId));
+  //   dispatch(setDashboardView("profile"));
+  // }
+
   function handleClick() {
-    if (data?.data?.followerName) {
-      dispatch(setViewCompanyId(data?.data?.companyId));
-      dispatch(setDashboardView("postprofile"));
-    } else {
-      dispatch(setViewProfileId(data?.id));
+    if (type === "connection") {
+      console.log(data, type, "data");
+      dispatch(setViewProfileId(data?.recipientId));
+      dispatch(setDashboardView("profile"));
+    } else if (type === "followers") {
+      console.log(data, type, "data");
+      dispatch(setViewProfileId(data?.senderId));
+      dispatch(setDashboardView("profile"));
+    } else if (type === "following") {
+      console.log(data, type, "data");
+      if (data?.companyId) {
+        dispatch(setViewCompanyId(data?.companyId));
+        dispatch(setDashboardView("postprofile"));
+      } else {
+        dispatch(setViewProfileId(data?.recipientId));
+        dispatch(setDashboardView("profile"));
+      }
+    } else if (type === "companyfollowers") {
+      console.log(data, type, "data");
+      dispatch(setViewProfileId(data?.followerId));
       dispatch(setDashboardView("profile"));
     }
   }
@@ -62,6 +85,8 @@ const Followers = ({ data, type }) => {
       return data?.senderName;
     } else if (type === "following") {
       return data?.recipientName ?? data.followerName;
+    } else if (type === "companyfollowers") {
+      return data?.followerName;
     }
     return 0;
   };
@@ -74,6 +99,8 @@ const Followers = ({ data, type }) => {
     } else if (type === "followers") {
       return data?.profile;
     } else if (type === "following") {
+      return data?.profile;
+    } else if (type === "companyfollowers") {
       return data?.profile;
     }
     return 0;
@@ -94,7 +121,7 @@ const Followers = ({ data, type }) => {
             </Typography>
           </Box>
           <Box className={styles.unfollowdiv}>
-            {data?.type === "following" && data?.unFollow && (
+            {type === "following" && data?.unFollow && (
               <Button
                 className={styles.unfollowbtn}
                 onClick={() => handleUnfollow()}
@@ -103,11 +130,10 @@ const Followers = ({ data, type }) => {
                 Unfollow
               </Button>
             )}
-            {data?.type === "following" && !data?.unFollow && (
-              <VerifiedRoundedIcon />
-            )}
-            {data?.type === "connection" && <VerifiedRoundedIcon />}
-            {data?.type === "followers" && <NewReleasesRoundedIcon />}
+            {type === "following" && !data?.unFollow && <VerifiedRoundedIcon />}
+            {type === "connection" && <VerifiedRoundedIcon />}
+            {type === "followers" && <NewReleasesRoundedIcon />}
+            {type === "companyfollowers" && <VerifiedRoundedIcon />}
           </Box>
         </Box>
       </Typography>

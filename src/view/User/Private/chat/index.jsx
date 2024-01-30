@@ -24,7 +24,7 @@ const ChatLayout = () => {
   }
 
   return (
-    <WidgetWrapper sx={{ minHeight: "82vh" }}>
+    <WidgetWrapper sx={{ height: "80vh" }}>
       <Box
         sx={{
           display: "flex",
@@ -55,6 +55,9 @@ const ChatLayout = () => {
       <Box
         sx={{
           marginRight: "5px",
+          height:'68vh',
+          overflow:'scroll',
+          paddingBottom:'10px'
         }}
       >
         {allChatInfo &&
