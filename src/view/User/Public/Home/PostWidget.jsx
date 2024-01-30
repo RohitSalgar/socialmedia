@@ -28,7 +28,6 @@ import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import { BsFillSendExclamationFill } from "react-icons/bs";
 
 const PostWidget = ({ postData }) => {
-  console.log(postData);
 
   const { palette } = useTheme();
   const main = palette.neutral.main;

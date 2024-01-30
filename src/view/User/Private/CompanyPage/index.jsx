@@ -83,7 +83,7 @@ const CompanyPage = ({ postData }) => {
 
   useEffect(() => {
     setIsLiked(postData?.likedBy.includes(userId));
-  }, [postData, userId]);
+  }, [ userId]);
 
   const likeDislike = () => {
     if (!isLiked) {

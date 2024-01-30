@@ -2,10 +2,11 @@ import { PersonAddOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "./FlexBetween";
 import Avatar from "@mui/material/Avatar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DeleteOutlined } from "@mui/icons-material";
 import { useDeletePost } from "../hooks/posts";
 import moment from "moment";
+import { setViewProfileId } from "../redux/slices/profileSlice";
 const PostTitle = ({ data }) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -14,6 +15,7 @@ const PostTitle = ({ data }) => {
   const medium = palette.neutral.medium;
   const { userId } = useSelector((state) => state.profile.profileData);
   const { mutate, isLoading } = useDeletePost();
+  const dispatch = useDispatch()
   const deletePost = (id) => {
     const postData = {
       postId: id,
@@ -50,12 +52,12 @@ const PostTitle = ({ data }) => {
           {moment(data?.createdAt).format("MMM Do YYYY, h:mm a")}
         </Typography>
       </FlexBetween>
-      {data?.createdBy === userId &&
-      //  (
-      //   <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
-      //     <PersonAddOutlined sx={{ color: primaryDark }} />
-      //   </IconButton>
-      // ) : 
+      {data?.createdBy === userId ?
+       (
+        <IconButton onClick={() => {dispatch(setViewProfileId(data.createdBy)) , dispatch(setDashboardView('profile'))}} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
+          <PersonAddOutlined sx={{ color: primaryDark }} />
+        </IconButton>
+      ) : 
       (
         <IconButton sx={{ p: "0.6rem" }} onClick={() => deletePost(data?._id)}>
           <DeleteOutlined  className="deleteIcon" />

@@ -17,6 +17,7 @@ import {
   useGetFollowingList,
   useGetConnectionList,
   useGetMainUserFollowingList,
+  useGetUserFollowList,
   useGetMainUserConnectionList,
 } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
@@ -95,9 +96,6 @@ const Profile = () => {
   function handleEdit() {
     dispatch(setSideView("editprofile"));
   }
-
-  console.log(mainUserConnectionList, "main connection list");
-
   const checkUserInConnection = (id, array) => {
     return (
       array &&
@@ -109,10 +107,15 @@ const Profile = () => {
     const connection = mainUserConnectionList.find(
       (item) => item.recipientId === profileId || item.senderId === profileId
     );
-    console.log(connection, "connection");
-    if (connection != undefined) {
+    if (connection === undefined) {
+      const connection = mainUserfollowingList.find(
+        (item) => item.recipientId === profileId || item.senderId === profileId
+      );
+      unfollowMutate({ id: connection._id, status: 3 });
+    } else {
       unfollowMutate({ id: connection._id, status: 3 });
     }
+    return 0;
   };
 
   return (
@@ -234,8 +237,48 @@ const Profile = () => {
             <Typography color={dark} className={styles.avatarname}>
               {data?.userData?.fullName}
             </Typography>
-            <Box className={styles.btnsdiv}>
-              {profileId === userId && (
+            {profileId === userId && (
+              <Button
+                variant="dark"
+                onClick={() => handleEdit()}
+                className={styles.editbtn}
+              >
+                Edit Profile
+              </Button>
+            )}
+            {checkUserInConnection(profileId, mainUserConnectionList) && (
+              <Button variant="outlined">Connected</Button>
+            )}
+            {profileId !== userId &&
+              (mainUserfollowingList &&
+              mainUserfollowingList.some(
+                (item) => item?.recipientId === profileId
+              ) ? (
+                <Button
+                  disabled={isUnfollowPending}
+                  onClick={unFollowFn}
+                  variant="dark"
+                  className={styles.editbtn}
+                >
+                  {isUnfollowPending ? <CircularProgress /> : "Unfollow"}
+                </Button>
+              ) : (
+                <Button
+                  disabled={isPending}
+                  onClick={() =>
+                    frdRequestMutate({
+                      senderId: userId,
+                      recipientId: profileId,
+                    })
+                  }
+                  variant="dark"
+                  className={styles.editbtn}
+                >
+                  {isPending ? <CircularProgress /> : "Connect"}
+                </Button>
+              ))}
+            {/* {profileId === userId && data?.pageData === null && (
+              <Box className={styles.closediv}>
                 <Button
                   variant="dark"
                   onClick={() => handleEdit()}
@@ -243,75 +286,47 @@ const Profile = () => {
                 >
                   Edit Profile
                 </Button>
-              )}
-              {profileId !== userId &&
-                (mainUserfollowingList &&
-                mainUserfollowingList.some(
-                  (item) => item?.recipientId === profileId
-                ) ? (
-                  <Button
-                    // disabled={isPending}
-                    variant="dark"
-                    className={styles.editbtn}
-                  >
-                    {isPending ? <CircularProgress /> : "Unfollow"}
-                  </Button>
-                ) : (
-                  <Button
-                    disabled={isPending}
-                    onClick={() =>
-                      frdRequestMutate({
-                        senderId: userId,
-                        recipientId: profileId,
-                      })
-                    }
-                    variant="dark"
-                    className={styles.editbtn}
-                  >
-                    {isPending ? <CircularProgress /> : "Connect"}
-                  </Button>
-                ))}
-              {profileId === userId && data?.pageData === null && (
-                <Box className={styles.closediv}>
-                  <Button
-                    className={styles.createbtn}
-                    onClick={() => dispatch(setSideView("createcompany"))}
-                  >
-                    Create Page
-                    <BusinessIcon />
-                  </Button>
-                </Box>
-              )}
-              {profileId === userId && data?.pageData?.status === 2 && (
-                <Box className={styles.closediv}>
-                  <Button
-                    className={styles.createbtn}
-                    onClick={() => dispatch(setSideView("pagesotp"))}
-                  >
-                    OTP Pending
-                  </Button>
-                </Box>
-              )}
-              {profileId === userId && data?.pageData?.status === 3 && (
-                <Box className={styles.pendingdivs}>
-                  <p className={styles.pendingdiv}>Pending</p>
-                </Box>
-              )}
-              {profileId === userId && data?.pageData?.status === 1 && (
-                <Box className={styles.closediv}>
-                  <Button
-                    className={styles.createbtn}
-                    onClick={() => {
-                      dispatch(setDashboardView("postprofile")),
-                        dispatch(setSideView("companyPage"));
-                      dispatch(setCompanyId(companyId));
-                    }}
-                  >
-                    Switch Post Acount
-                  </Button>
-                </Box>
-              )}
-            </Box>
+              )} */}
+            {profileId === userId && data?.pageData === null && (
+              <Box className={styles.closediv}>
+                <Button
+                  className={styles.createbtn}
+                  onClick={() => dispatch(setSideView("createcompany"))}
+                >
+                  Create Page
+                  <BusinessIcon />
+                </Button>
+              </Box>
+            )}
+            {profileId === userId && data?.pageData?.status === 2 && (
+              <Box className={styles.closediv}>
+                <Button
+                  className={styles.createbtn}
+                  onClick={() => dispatch(setSideView("pagesotp"))}
+                >
+                  OTP Pending
+                </Button>
+              </Box>
+            )}
+            {profileId === userId && data?.pageData?.status === 3 && (
+              <Box className={styles.pendingdivs}>
+                <p className={styles.pendingdiv}>Pending</p>
+              </Box>
+            )}
+            {profileId === userId && data?.pageData?.status === 1 && (
+              <Box className={styles.closediv}>
+                <Button
+                  className={styles.createbtn}
+                  onClick={() => {
+                    dispatch(setDashboardView("postprofile")),
+                      dispatch(setSideView("companyPage"));
+                    dispatch(setCompanyId(companyId));
+                  }}
+                >
+                  Switch Post Acount
+                </Button>
+              </Box>
+            )}
           </Box>
           <Typography
             variant="h6"
