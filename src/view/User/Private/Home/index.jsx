@@ -54,7 +54,7 @@ const HomePage = () => {
   }
 
   return (
-    <Box >
+    <Box>
       <Navbar />
       <Box
         width="100%"
@@ -113,7 +113,7 @@ const HomePage = () => {
           )}
           {dashboardView === "schedule" && (
             <Box>
-              {data?.pageData != null && <AddSchedule />}
+              {data?.pageData?.status === 1 && <AddSchedule />}
               <ScheduleList />
             </Box>
           )}
@@ -121,7 +121,7 @@ const HomePage = () => {
           {dashboardView === "postprofile" && <PostProfile />}
           {dashboardView === "pages" && (
             <>
-              {data?.pageData != null && <MyPostWidget />}
+              {data?.pageData?.status === 1 && <MyPostWidget />}
               <Box
                 sx={{
                   maxHeight: "45vh",

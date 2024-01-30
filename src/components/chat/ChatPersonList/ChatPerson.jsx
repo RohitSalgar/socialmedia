@@ -20,7 +20,7 @@ const ChatPerson = ({ data }) => {
   };
 
   return (
-    <Box className={styles.ChatPersonDiv}>
+    <Box className={styles.ChatPersonDiv} onClick={() => handleSubmit()}>
       <Box className={styles.imgdiv}>
         <img
           width={"40px"}
@@ -33,7 +33,7 @@ const ChatPerson = ({ data }) => {
         </Typography>
         <Box></Box>
       </Box>
-      <IconButton onClick={() => handleSubmit()}>
+      <IconButton>
         <Badge badgeContent={data?.unSeenCount} color="primary">
           <ChatIcon className={styles.svgimg} />
         </Badge>
