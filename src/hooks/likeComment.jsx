@@ -37,6 +37,7 @@ const useLikeDisLike = () => {
         { data: [data] }
       ),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["news"] });
       queryClient.invalidateQueries({ queryKey: ["trending"] });
       queryClient.invalidateQueries({ queryKey: ["pagePost"] });
       queryClient.invalidateQueries({ queryKey: ["forYou"] });

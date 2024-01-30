@@ -19,7 +19,8 @@ const CreateCompany = () => {
   const medium = palette.neutral.medium;
   const dark = palette.neutral.dark;
   const userId = useSelector((state) => state.profile.profileData.userId);
-  const { data: profiledate ,isLoading:profileLoading } = useGetProfile(userId);
+  const { data: profiledate, isLoading: profileLoading } =
+    useGetProfile(userId);
   const { mutate, isLoading: mutateLoading } = useCreateCompany();
   const [profilePic, setProfilePic] = useState("");
   const [profilePicUrl, setProfilePicUrl] = useState("");
@@ -53,7 +54,7 @@ const CreateCompany = () => {
     formData.append("email", data.email);
     formData.append("licenseNo", data.licenseNo);
     formData.append("about", data.about);
-    formData.append('createdBy', userId);
+    formData.append("createdBy", userId);
     mutate(formData);
   };
 
@@ -85,7 +86,7 @@ const CreateCompany = () => {
               onChange={handleFileChange}
               type="file"
               id="file"
-              accept="image/*"
+              inputProps={{ accept: "image/*" }}
               className={styles.file}
             ></Input>
           </Box>

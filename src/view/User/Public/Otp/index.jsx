@@ -14,7 +14,7 @@ import {
   Button,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import searchlogo from "../../../../assets/Images/background.jpg";
+import searchlogo from "../../../../assets/Images/background.jpeg"
 import Box from "@mui/material/Box";
 import { getEmail } from "../../../../hooks/otp";
 import Loader from "../../../../components/Loader/Loader";

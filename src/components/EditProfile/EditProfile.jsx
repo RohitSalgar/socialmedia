@@ -21,13 +21,14 @@ const EditProfile = () => {
   const userId = useSelector((state) => state.profile.profileData.userId);
   const { data: profiledate, isLoading } = useGetProfile(userId);
   const editProfileSucess = (data) => {
-    dispatch(setSideView("companyPage"))
-    toast.success(data)
-   console.log(data,"data")
-  }
-  const { mutate, isLoading: mutateLoading } = useEditProfile(editProfileSucess);
-  const [profilePic, setProfilePic] = useState("")
-  const [profilePicUrl, setProfilePicUrl] = useState("")
+    dispatch(setSideView("companyPage"));
+    toast.success(data);
+    console.log(data, "data");
+  };
+  const { mutate, isLoading: mutateLoading } =
+    useEditProfile(editProfileSucess);
+  const [profilePic, setProfilePic] = useState("");
+  const [profilePicUrl, setProfilePicUrl] = useState("");
 
   const {
     register,
@@ -55,12 +56,12 @@ const EditProfile = () => {
   }, [profiledate]);
 
   const onSubmit = (data) => {
-    const formData = new FormData()
-    formData.append("file", profilePic)
-    formData.append("fullName", data.fullName)
-    formData.append("designation", data.designation)
-    formData.append("about", data.about)
-    formData.append("id", userId)
+    const formData = new FormData();
+    formData.append("file", profilePic);
+    formData.append("fullName", data.fullName);
+    formData.append("designation", data.designation);
+    formData.append("about", data.about);
+    formData.append("id", userId);
     mutate(formData);
   };
 
@@ -69,14 +70,13 @@ const EditProfile = () => {
   }
 
   const handleFileChange = (event) => {
-    const reader = new FileReader(); 
+    const reader = new FileReader();
     reader.onload = () => {
       setProfilePicUrl(reader.result);
     };
     reader.readAsDataURL(event.target.files[0]);
     setProfilePic(event.target.files[0]);
   };
-
 
   return (
     <WidgetWrapper className={styles.editdiv}>
@@ -113,7 +113,13 @@ const EditProfile = () => {
           <label htmlFor="file" className={styles.filelabel}>
             <ModeEditIcon />
           </label>
-          <Input onChange={handleFileChange} type="file" id="file" accept="image/*" className={styles.file}></Input>
+          <Input
+            onChange={handleFileChange}
+            type="file"
+            id="file"
+            inputProps={{ accept: "image/*" }}
+            className={styles.file}
+          ></Input>
         </Box>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.editform}>

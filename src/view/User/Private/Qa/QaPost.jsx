@@ -15,7 +15,7 @@ import {
 import FlexBetween from "../../../../components/FlexBetween";
 import PostTitle from "./PostTitle";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import CommentBox from "../../../../components/QaAnswer/CommentBox";
 import CommentInputBox from "../../../../components/Comments/CommentInputBox";
@@ -32,6 +32,7 @@ const QaWidget = ({ postData }) => {
   const [report, setReport] = useState(false);
   const [reportText, setReportText] = useState("");
   const [selected, setSelected] = useState(0); //0 for none, -id for edit, id for reply
+  const [isLiked, setIsLiked] = useState(false);
   const { data: postComment, isLoading: postCommentLoading } =
     useGetQaComment(postId);
   const onSuccess = () => {
@@ -78,13 +79,27 @@ const QaWidget = ({ postData }) => {
   if (postCommentLoading) {
     return;
   }
-  const likeDislike = (status) => {
-    const payload = {
-      questionId: postData._id,
-      userId: userId,
-      status: status,
-    };
-    likeMutate(payload);
+  useEffect(() => {
+    setIsLiked(postData?.likedBy.includes(userId));
+  }, [postData, userId]);
+  const likeDislike = () => {
+    if (!isLiked) {
+      const payload = {
+        questionId: postData._id,
+        userId: userId,
+        status: 1,
+      };
+      likeMutate(payload);
+      setIsLiked(true);
+    } else {
+      const payload = {
+        questionId: postData._id,
+        userId: userId,
+        status: 2,
+      };
+      likeMutate(payload);
+      setIsLiked(false);
+    }
   };
   console.log(postData)
   return (
@@ -102,18 +117,12 @@ const QaWidget = ({ postData }) => {
       /> */}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
-          <FlexBetween gap="0.3rem">
-            {postData?.likedBy.includes(userId) ? (
-              <IconButton onClick={() => likeDislike(2)}>
-                <FavoriteOutlined sx={{ color: primary }} />
-              </IconButton>
-            ) : (
-              <IconButton onClick={() => likeDislike(1)}>
-                <FavoriteBorderOutlined onClo />
-              </IconButton>
-            )}
+        <FlexBetween gap="0.3rem">
+            <IconButton onClick={likeDislike}>
+              {isLiked ? <FavoriteOutlined sx={{ color: primary }} /> : <FavoriteBorderOutlined />}
+            </IconButton>
             <Typography>
-              {postData?.likes === 1 ? `1 like` : `${postData?.likes} likes`}{" "}
+              {postData?.likes === 1 ? `1 like` : `${postData?.likes} likes`}
             </Typography>
           </FlexBetween>
 

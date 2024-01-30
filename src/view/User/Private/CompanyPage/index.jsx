@@ -14,7 +14,7 @@ import {
 import FlexBetween from "../../../../components/FlexBetween";
 import PostTitle from "./PostTitle";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import CommentBox from "../../../../components/Comments/CommentBox";
 import CommentInputBox from "../../../../components/Comments/CommentInputBox";
@@ -33,6 +33,7 @@ const CompanyPage = ({ postData }) => {
   const [report, setReport] = useState(false);
   const [reportText, setReportText] = useState("");
   const [selected, setSelected] = useState(0); //0 for none, -id for edit, id for reply
+  const [isLiked, setIsLiked] = useState(false);
   const { data: postComment, isLoading: postCommentLoading } =
     useGetPostComment(postId);
   const onSuccess = () => {
@@ -79,13 +80,29 @@ const CompanyPage = ({ postData }) => {
   if (postCommentLoading) {
     return;
   }
-  const likeDislike = (status) => {
-    const payload = {
-      postId: postData._id,
-      userId: userId,
-      status: status,
-    };
-    likeMutate(payload);
+
+  useEffect(() => {
+    setIsLiked(postData?.likedBy.includes(userId));
+  }, [postData, userId]);
+
+  const likeDislike = () => {
+    if (!isLiked) {
+      const payload = {
+        postId: postData._id,
+        userId: userId,
+        status: 1,
+      };
+      likeMutate(payload);
+      setIsLiked(true);
+    } else {
+      const payload = {
+        postId: postData._id,
+        userId: userId,
+        status: 2,
+      };
+      likeMutate(payload);
+      setIsLiked(false);
+    }
   };
   return (
     <WidgetWrapper m="0.3rem 0">
