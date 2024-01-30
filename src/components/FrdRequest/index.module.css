@@ -1,17 +1,54 @@
-.FrdRequestsection{
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    /* justify-content: space-between; */
+.FrdRequestsection {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  /* justify-content: space-between; */
 }
 
-.buttonContainer{
-    display: flex;
-    gap: 10px;
+.buttonContainer {
+  display: flex;
+  gap: 10px;
 }
 
-.profilePic{
-    height: 60px;
-    width: 60px;
-    border-radius: 50%;
+.profilePic {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+.senderNamediv {
+  display: flex;
+}
+.username {
+  text-transform: capitalize;
+  color: #464646;
+}
+.maindiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.buttonContainer button {
+  padding: 0px;
+  background: transparent;
+  min-width: 0 !important;
+  border: none;
+  box-shadow: unset !important;
+}
+.buttonContainer button:hover {
+  padding: 0px;
+  background: transparent;
+  min-width: 0 !important;
+  border: none;
+  box-shadow: unset !important;
+}
+
+.okbtn svg path {
+  fill: #8f8f8f !important;
+}
+.closebtn svg path {
+  fill: #8f8f8f !important;
+}
+.okbtn svg,
+.closebtn svg {
+  font-size: 25px;
 }
