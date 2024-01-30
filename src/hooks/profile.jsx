@@ -148,6 +148,7 @@ const useChangeConnectionStatus = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       queryClient.invalidateQueries({ queryKey: ["followingList"] });
+      queryClient.invalidateQueries({ queryKey: ["allFrdRequests"] });
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
