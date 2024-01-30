@@ -1,5 +1,5 @@
 .welcomediv {
-  animation: zoom-in-zoom-out 1s ease-out;
+  animation: zoom-in-zoom-out 0.5s ease-out;
 }
 
 @keyframes zoom-in-zoom-out {
@@ -7,9 +7,13 @@
     transform: scale(1, 1);
   }
   50% {
-    transform: scale(1.1, 1.1);
+    transform: scale(1.05, 1.05);
   }
   100% {
     transform: scale(1, 1);
   }
+}
+
+.registerbtn:hover {
+  background-color: #0ebd60 !important;
 }

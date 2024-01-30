@@ -54,7 +54,7 @@ const HomePage = () => {
   }
 
   return (
-    <Box >
+    <Box>
       <Navbar />
       <Box
         width="100%"
@@ -112,8 +112,13 @@ const HomePage = () => {
             </>
           )}
           {dashboardView === "schedule" && (
-            <Box>
-              {data?.pageData != null && <AddSchedule />}
+            <Box
+              sx={{
+                maxHeight: "80vh",
+                overflowY: "scroll",
+              }}
+            >
+              {data?.pageData?.status === 1 && <AddSchedule />}
               <ScheduleList />
             </Box>
           )}
@@ -121,10 +126,10 @@ const HomePage = () => {
           {dashboardView === "postprofile" && <PostProfile />}
           {dashboardView === "pages" && (
             <>
-              {data?.pageData != null && <MyPostWidget />}
+              {data?.pageData?.status === 1 && <MyPostWidget />}
               <Box
                 sx={{
-                  maxHeight: "45vh",
+                  maxHeight: "55vh",
                   overflowY: "scroll",
                 }}
               >
@@ -140,7 +145,7 @@ const HomePage = () => {
               <Myqa />
               <Box
                 sx={{
-                  maxHeight: "45vh",
+                  maxHeight: "55vh",
                   overflowY: "scroll",
                 }}
               >
@@ -156,7 +161,7 @@ const HomePage = () => {
           <Box flexBasis="25%">
             {sideView === "companyPage" && (
               <>
-                <AdvertWidget /> <Box m="2rem 0" />
+                <AdvertWidget /> <Box m="1rem 0" />
                 <FriendListWidget data={frdRequestData} />
               </>
             )}

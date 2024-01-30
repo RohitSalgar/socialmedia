@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 import { Box, Typography } from "@mui/material";
 import styles from "./index.module.css";
 import LikeComment from "./LikeComment";
-import DeleteIcon from "@mui/icons-material/Delete";
 import {
   useDeleteSchedule,
   useGetAllSchedules,
@@ -22,13 +21,6 @@ const ScheduleList = () => {
   if (isLoading) {
     return <Loader />;
   }
-
-  const deleteSchedule = (id) => {
-    let payload = {};
-    payload.scheduleId = id;
-    payload.companyId = profileData?.userId;
-    mutate(payload);
-  };
 
   return (
     <>
@@ -54,20 +46,9 @@ const ScheduleList = () => {
                 </Box>
               </Box>
               {e.description !== "" && (
-                <FlexBetween flexDirection={"column"}>
-                  <TextField
-                    id="outlined-multiline-static"
-                    multiline
-                    rows={2}
-                    value={e.description}
-                    disabled
-                    name="description"
-                    sx={{
-                      width: "100%",
-                      border: "none",
-                    }}
-                  />
-                </FlexBetween>
+                <Box className={styles.descriptiondiv}>
+                  <p>{e.description} </p>
+                </Box>
               )}
               <Box>
                 <LikeComment key={e._id} postData={e} scheduleId={e._id} />

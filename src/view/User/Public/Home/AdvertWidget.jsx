@@ -37,6 +37,7 @@ const AdvertWidget = (widgetname) => {
         Registering Today
       </Typography>
       <Button
+        className={styles.registerbtn}
         type="submit"
         fullWidth
         variant="primary"

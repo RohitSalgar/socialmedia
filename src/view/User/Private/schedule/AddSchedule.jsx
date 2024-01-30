@@ -62,7 +62,7 @@ const AddSchedule = () => {
               <TextField
                 id="outlined-multiline-static"
                 className={errors.pol && styles.error}
-                rows={3}
+                rows={1}
                 placeholder="POL"
                 {...register("pol")}
                 name="pol"
@@ -73,7 +73,7 @@ const AddSchedule = () => {
               />
               <TextField
                 id="outlined-multiline-static"
-                rows={3}
+                rows={1}
                 placeholder="POD"
                 className={errors.pod && styles.error}
                 name="pod"
@@ -85,12 +85,12 @@ const AddSchedule = () => {
               />
             </Box>
           </FlexBetween>
-          <FlexBetween flexDirection={"column"}>
+          <FlexBetween className={styles.inputdiv} flexDirection={"column"}>
             <TextField
               id="outlined-multiline-static"
               multiline
               className={errors.description && styles.error}
-              rows={2}
+              rows={1}
               {...register("description")}
               placeholder="Description..."
               name="description"
@@ -105,7 +105,7 @@ const AddSchedule = () => {
               marginTop: "1rem",
             }}
           >
-            <FlexBetween>
+            <FlexBetween  className={styles.dateinput}>
               <Controller
                 name="bookingDate"
                 control={control}

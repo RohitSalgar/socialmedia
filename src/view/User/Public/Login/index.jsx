@@ -160,7 +160,7 @@ export default function Register() {
                   color: "#fff",
                   fontWeight: "bold",
                   fontSize: "2rem",
-                  padding:'2rem',
+                  padding: "2rem",
                 }}
               >
                 <h5> Welcome Back to Allmaster's SocialMedia</h5>
@@ -296,6 +296,7 @@ export default function Register() {
                   )}
                 </Box>
                 <Button
+                  className={styles.submitbtn}
                   type="submit"
                   fullWidth
                   sx={{
@@ -312,7 +313,7 @@ export default function Register() {
                   item
                   style={{
                     width: "100%",
-                    background: "#ff950030",
+                    background: "#0EBD6030",
                     textAlign: "center",
                     padding: "6px",
                     borderRadius: "5px",
@@ -326,13 +327,13 @@ export default function Register() {
                     sx={{
                       mt: 1,
                       mb: 2,
-                      color: "#ff9500",
+                      color: "#0EBD60",
                       fontWeight: "bold",
                       textDecoration: "unset",
                     }}
                     href="/public/home"
                   >
-                    skip
+                    Skip
                   </Link>
                 </Grid>
                 <Grid>
