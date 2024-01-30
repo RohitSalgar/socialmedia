@@ -59,13 +59,13 @@ const PostTitle = ({ data }) => {
           {moment(data?.createdAt).format("MMM Do YYYY, h:mm a")}
         </Typography>
       </FlexBetween>
-      {data?.companyId != profileData?.pageDate?.companyId ? (
-        <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
-          <AiOutlineUsergroupAdd sx={{ color: primaryDark }} />
-        </IconButton>
-      ) : (
+      {data?.companyId === profileData?.pageDate?.companyId && (
+      //   <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
+      //     <AiOutlineUsergroupAdd sx={{ color: primaryDark }} />
+      //   </IconButton>
+      // ) : (
         <IconButton sx={{ p: "0.6rem" }} onClick={() => deletePost(data?._id)}>
-          <DeleteOutlined />
+          <DeleteOutlined className="deleteIcon" />
         </IconButton>
       )}
     </FlexBetween>

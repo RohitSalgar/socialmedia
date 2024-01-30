@@ -23,3 +23,7 @@ body {
 	background: #fff !important;
 	border-radius: 5px !important;
 }
+
+.deleteIcon{
+  color: red;
+}
