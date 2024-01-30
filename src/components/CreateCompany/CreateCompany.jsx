@@ -12,6 +12,8 @@ import Avatar from "@mui/material/Avatar";
 import { useState } from "react";
 import { useGetProfile } from "../../hooks/profile";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { setSideView } from "../../redux/slices/profileSlice";
+
 
 const CreateCompany = () => {
   const dispatch = useDispatch();
@@ -72,27 +74,8 @@ const CreateCompany = () => {
             alignItems: "center",
           }}
         >
-          <Box className={styles.avatardiv}>
-            <Avatar
-              alt="B"
-              src={profilePicUrl ? profilePicUrl : profiledate.userData.profile}
-              sx={{ width: 100, height: 100 }}
-              className={styles.avathar}
-            />
-            <label htmlFor="file" className={styles.filelabel}>
-              <ModeEditIcon />
-            </label>
-            <Input
-              onChange={handleFileChange}
-              type="file"
-              id="file"
-              inputProps={{ accept: "image/*" }}
-              className={styles.file}
-            ></Input>
-          </Box>
-
           <Typography color={dark} sx={{ fontWeight: "500", fontSize: "20px" }}>
-            Create Company Page
+            Company Page
           </Typography>
           <Button
             sx={{
@@ -101,10 +84,28 @@ const CreateCompany = () => {
               minWidth: "0px",
               color: "#585858",
             }}
-            onClick={() => dispatch(setEditOff())}
+            onClick={() => dispatch(setSideView('companyPage'))}
           >
             X
           </Button>
+        </Box>
+        <Box className={styles.avatardiv}>
+          <Avatar
+            alt="B"
+            src={profilePicUrl ? profilePicUrl : profiledate.userData.profile}
+            sx={{ width: 80, height: 80 }}
+            className={styles.avathar}
+          />
+          <label htmlFor="file" className={styles.filelabel}>
+            <ModeEditIcon />
+          </label>
+          <Input
+            onChange={handleFileChange}
+            type="file"
+            id="file"
+            inputProps={{ accept: "image/*" }}
+            className={styles.file}
+          ></Input>
         </Box>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.editform}>
@@ -129,7 +130,7 @@ const CreateCompany = () => {
             <label htmlFor="about">About</label>
             <textarea
               className={errors.about && styles.error}
-              style={{ height: "100px" }}
+              style={{ height: "30px" }}
               id="about"
               {...register("about")}
             />

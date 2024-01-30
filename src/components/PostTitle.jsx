@@ -27,7 +27,7 @@ const PostTitle = ({ data }) => {
         <Avatar
           sx={{ width: 35, height: 35 }}
           alt="Remy Sharp"
-          src="/static/images/avatar/1.jpg"
+          src={data?.profile ? data.profile : "/static/images/avatar/1.jpg"}
         />
         <Box onClick={() => {}}>
           <Typography
@@ -50,13 +50,15 @@ const PostTitle = ({ data }) => {
           {moment(data?.createdAt).format("MMM Do YYYY, h:mm a")}
         </Typography>
       </FlexBetween>
-      {data?.createdBy != userId ? (
-        <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
-          <PersonAddOutlined sx={{ color: primaryDark }} />
-        </IconButton>
-      ) : (
+      {data?.createdBy === userId &&
+      //  (
+      //   <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
+      //     <PersonAddOutlined sx={{ color: primaryDark }} />
+      //   </IconButton>
+      // ) : 
+      (
         <IconButton sx={{ p: "0.6rem" }} onClick={() => deletePost(data?._id)}>
-          <DeleteOutlined />
+          <DeleteOutlined  className="deleteIcon" />
         </IconButton>
       )}
     </FlexBetween>

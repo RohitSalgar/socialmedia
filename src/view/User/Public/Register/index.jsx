@@ -24,7 +24,7 @@ import { URL } from "../../../../config";
 import { fetchData } from "../../../../helper";
 import moment from "moment";
 import { useTheme } from "@emotion/react";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const defaultTheme = createTheme();
 
@@ -97,8 +97,7 @@ export default function RegisterPage() {
   };
 
   const updateEmailData = useMutation({
-    mutationFn: (data) =>
-     updateEmailFn(data),
+    mutationFn: (data) => updateEmailFn(data),
     onSuccess: (data) => {
       toast.success(data);
       navigate("/otp/" + id);
@@ -153,21 +152,20 @@ export default function RegisterPage() {
   });
 
   const onSubmit = (data) => {
-    const formData = new FormData()
-    formData.append("file",files)
-    formData.append("fullName",data.fullName)
-    formData.append("email",data.email)
-    formData.append("dob",data.dob)
-    formData.append("password",data.password)
-    formData.append("designation",data.designation)
-    formData.append("state",location.state)
-    formData.append("country",location.country)
+    const formData = new FormData();
+    formData.append("file", files);
+    formData.append("fullName", data.fullName);
+    formData.append("email", data.email);
+    formData.append("dob", data.dob);
+    formData.append("password", data.password);
+    formData.append("designation", data.designation);
+    formData.append("state", location.state);
+    formData.append("country", location.country);
     if (id) {
-      formData.append("id",id)
+      formData.append("id", id);
       data.id = id;
-      updateEmailData.mutate(formData)
+      updateEmailData.mutate(formData);
     } else {
-   
       postRegistrationData.mutate(formData);
     }
   };
@@ -454,43 +452,54 @@ export default function RegisterPage() {
                     )}
                   </Box>
                 </div>
-                {files ? <div className={styles.imageContainer}>
-                  <p>{files.name}</p>
-                  <DeleteIcon onClick={() => setFiles(null)} className={styles.deleteIcon} />
-                </div> :<div style={{ marginTop: "10px", marginBottom: "10px" }}>
-                  <input
-                    type="file"
-                    accept="image/jpeg, image/png, image/jpg, image/webp"
-                    name="files"
-                    onChange={onImageChange}
-                    style={{ display: "none" }}
-                    id="imageInput"
-                    multiple={false} 
-                  />
-                  <label className={styles.forminputlabel} htmlFor="imageInput">
-                    <Button
-                      variant="contained"
-                      component="span"
-                      sx={{ mt: 3, mb: 2 }}
+                {files ? (
+                  <div className={styles.imageContainer}>
+                    <p>{files.name}</p>
+                    <DeleteIcon
+                      onClick={() => setFiles(null)}
+                      className={styles.deleteIcon}
+                    />
+                  </div>
+                ) : (
+                  <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+                    <input
+                      type="file"
+                      accept="image/jpeg, image/png, image/jpg, image/webp"
+                      name="files"
+                      onChange={onImageChange}
+                      style={{ display: "none" }}
+                      id="imageInput"
+                      multiple={false}
+                    />
+                    <label
+                      className={styles.forminputlabel}
+                      htmlFor="imageInput"
                     >
-                      Upload Image
-                    </Button>
-                  </label>
-                </div>}
+                      <Button
+                        variant="contained"
+                        component="span"
+                        className={styles.uploadimage}
+                      >
+                        Upload Image
+                      </Button>
+                    </label>
+                  </div>
+                )}
                 <Button
-                    type="submit"
-                    fullWidth
-                    variant="primary"
-                    sx={{
-                      mt: 3,
-                      mb: 2,
-                      background: `${primary}`,
-                      color: "#fff",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Register
-                  </Button>
+                  className={styles.submitbtn}
+                  type="submit"
+                  fullWidth
+                  variant="primary"
+                  sx={{
+                    mt: 2,
+                    mb: 2,
+                    background: `${primary}`,
+                    color: "#fff",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Register
+                </Button>
                 <Grid container style={{ width: "100%" }}>
                   <Grid item style={{ width: "100%", textAlign: "left" }}>
                     <span>Already have an account?</span>

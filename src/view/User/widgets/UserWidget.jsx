@@ -71,7 +71,12 @@ const UserWidget = () => {
                 mt: "10px",
               }}
             >
-              <Typography color={dark} variant="h5" fontWeight="500">
+              <Typography
+                color={dark}
+                variant="h5"
+                sx={{ textTransform: "capitalize" }}
+                fontWeight="500"
+              >
                 {data?.userData?.fullName}
               </Typography>
               <Typography
@@ -198,7 +203,7 @@ const UserWidget = () => {
             selected={dashboardView === "pages"}
             onClick={() => {
               dispatch(setDashboardView("pages"));
-              dispatch(setTabView("pages"))
+              dispatch(setTabView("pages"));
             }}
           >
             <ListItemIcon>

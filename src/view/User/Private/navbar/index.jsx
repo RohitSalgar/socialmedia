@@ -48,6 +48,8 @@ const Navbar = () => {
   };
   const { mutate: navesearchMutate } = useNavSearch(onSearchSuccess);
 
+  const tokenId = localStorage.getItem("amsSocialToken");
+
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
@@ -81,7 +83,7 @@ const Navbar = () => {
       </FlexBetween>
       <div>
         <FlexBetween gap="1.75rem">
-          {isNonMobileScreens && (
+          {isNonMobileScreens && tokenId && (
             <FlexBetween
               backgroundColor={neutralLight}
               borderRadius="9px"
@@ -92,7 +94,7 @@ const Navbar = () => {
                 value={searchText}
                 onChange={(e) => {
                   setSearchText(e.target.value);
-                  navesearchMutate({ term: e.target.value });
+                  navesearchMutate({ term: e.target.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') });
                 }}
                 placeholder="Search..."
                 style={{ width: "250px" }}
@@ -131,7 +133,7 @@ const Navbar = () => {
       </div>
 
       {/* DESKTOP NAV */}
-      {isNonMobileScreens ? (
+      {isNonMobileScreens && tokenId !== null ? (
         <FlexBetween gap="2rem">
           <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
@@ -175,7 +177,23 @@ const Navbar = () => {
         <IconButton
           onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
         >
-          <Menu />
+          <ImSwitch
+            style={{ fontSize: "25px" }}
+            onClick={() => {
+              if (signedIn === "true") {
+                dispatch(removeProfileData());
+                dispatch(setRemoveChatState());
+                localStorage.removeItem("amsSocialToken");
+                localStorage.removeItem("amsSocialId");
+                localStorage.removeItem("amsSocialSignedIn");
+              } else {
+                localStorage.clear();
+                localStorage.removeItem("amsSocialSignedIn");
+                dispatch(clearSkip());
+              }
+              navigate("/login");
+            }}
+          />
         </IconButton>
       )}
 

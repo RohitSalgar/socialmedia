@@ -107,7 +107,7 @@ const PostWidget = ({ postData }) => {
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
-      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
+      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 , textTransform:'capitalize' }}>
         {postData?.description}
       </Typography>
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
@@ -137,7 +137,8 @@ const PostWidget = ({ postData }) => {
             <Box
               onClick={() => {
                 setPostId(postData?._id);
-                setIsComments(!isComments);
+                setIsComments(true);
+                setReport(false);
               }}
               sx={{
                 display: "flex",
@@ -154,7 +155,8 @@ const PostWidget = ({ postData }) => {
           <FlexBetween gap="0.3rem">
             <Box
               onClick={() => {
-                setReport(!report);
+                setReport(true);
+                setIsComments(false);
               }}
               sx={{
                 display: "flex",
@@ -168,9 +170,29 @@ const PostWidget = ({ postData }) => {
               <Typography sx={{ cursor: "pointer" }}>{"report"}</Typography>
             </Box>
           </FlexBetween>
+          {(report === true || isComments === true) && (
+            <FlexBetween gap="0.3rem">
+              <Box
+                onClick={() => {
+                  setReport(false);
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <IconButton>
+                  <CancelIcon />
+                </IconButton>
+                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              </Box>
+            </FlexBetween>
+          )}
         </FlexBetween>
       </FlexBetween>
-      {report && (
+      {report === true && isComments === false && (
         <FlexBetween gap="5px">
           <TextField
             id="outlined-multiline-static"
@@ -194,7 +216,7 @@ const PostWidget = ({ postData }) => {
           )}
         </FlexBetween>
       )}
-      {isComments && (
+      {isComments === true && report === false && (
         <Box mt="0.5rem">
           <Box>
             <Divider />

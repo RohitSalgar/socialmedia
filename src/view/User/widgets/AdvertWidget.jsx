@@ -1,13 +1,10 @@
-import { useState, useEffect } from "react";
 import { Typography, useTheme } from "@mui/material";
 import FlexBetween from "../../../components/FlexBetween";
 import WidgetWrapper from "../../../components/WidgetWrapper";
 import Slider from "react-slick";
-import { URL } from "../../../config";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Button } from "@mui/material";
-import { useGetProfile } from "../../../hooks/profile";
 import { useSelector } from "react-redux";
 import { useFollowTopPage, useGetAllTopPages } from "../../../hooks/user";
 import Loader from "../../../components/Loader/Loader";
@@ -19,14 +16,13 @@ const AdvertWidget = () => {
   const medium = palette.neutral.medium;
 
   const { userId } = useSelector((state) => state.profile.profileData);
-  const { dataa: profileData } = useGetProfile(userId);
   const {data: companyData, isLoading} = useGetAllTopPages();
   const { mutate: followPage, isPending } = useFollowTopPage();
 
   const handleFollow = (companyId) => {
-    const payload ={
+    const payload = {
       companyId,
-      followerId: userId
+      followerId: userId,
     };
     followPage(payload);
   };
@@ -46,7 +42,7 @@ const AdvertWidget = () => {
   }
 
   return (
-    <WidgetWrapper sx={{ maxWidth: "300px", height: "50%" }}>
+    <WidgetWrapper sx={{ maxWidth: "300px", height: "46vh" }}>
       <FlexBetween>
         <Typography color={dark} variant="h5" fontWeight="500">
           Top Pages
@@ -79,10 +75,16 @@ const AdvertWidget = () => {
                 </Typography>
               </div>
               <div
-                style={{ display: "flex", alignItems: "center", gap: "20px" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "20px",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
               >
                 <Typography color={medium}>
-                  <h7>followers:</h7>
+                  <h7>Followers:</h7>
                   {company.count}
                 </Typography>
                 <Button disabled={isPending} onClick={() => handleFollow(company._id)}>
@@ -102,5 +104,3 @@ const AdvertWidget = () => {
 };
 
 export default AdvertWidget;
-
-

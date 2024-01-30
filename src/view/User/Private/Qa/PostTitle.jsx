@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { DeleteOutlined } from "@mui/icons-material";
 import moment from "moment";
 import { useDeleteQa } from "../../../../hooks/qa";
+import Loader from "../../../../components/Loader/Loader";
 const PostTitle = ({ data }) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -13,7 +14,7 @@ const PostTitle = ({ data }) => {
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
   const { userId } = useSelector((state) => state.profile.profileData);
-  const { mutate, isLoading } = useDeleteQa();
+  const { mutate, isPending } = useDeleteQa();
   const deletePost = (id) => {
     const postData = {
       questionId: id,
@@ -21,13 +22,16 @@ const PostTitle = ({ data }) => {
     };
     mutate(postData);
   };
+  if(isPending){
+    return <Loader />
+  }
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
         <Avatar
           sx={{ width: 35, height: 35 }}
           alt="Remy Sharp"
-          src="/static/images/avatar/1.jpg"
+          src={data?.profile ? data.profile : "/static/images/avatar/1.jpg"}
         />
         <Box onClick={() => {}}>
           <Typography
@@ -50,13 +54,13 @@ const PostTitle = ({ data }) => {
           {moment(data?.createdAt).format("MMM Do YYYY, h:mm a")}
         </Typography>
       </FlexBetween>
-      {data?.createdBy != userId ? (
-        <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
-          <PersonAddOutlined sx={{ color: primaryDark }} />
-        </IconButton>
-      ) : (
+      {data?.createdBy === userId && (
+      //   <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
+      //     <PersonAddOutlined sx={{ color: primaryDark }} />
+      //   </IconButton>
+      // ) : (
         <IconButton sx={{ p: "0.6rem" }} onClick={() => deletePost(data?._id)}>
-          <DeleteOutlined />
+          <DeleteOutlined className="deleteIcon" />
         </IconButton>
       )}
     </FlexBetween>

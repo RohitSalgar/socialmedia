@@ -59,40 +59,35 @@ const MyPostWidget = () => {
     setTags(tags.filter((el, i) => i !== index));
   }
 
-
   const onSubmit = (post) => {
-    let hashTagss = tags
+    let hashTagss = tags;
     if (post === "news") {
-      hashTagss = [...hashTagss, "news"]
+      hashTagss = [...hashTagss, "news"];
     }
     const formData = new FormData();
-    formData.append('file', image);
-    formData.append('createdBy', userId);
-    formData.append('description', description);
-    formData.append('hashTags', JSON.stringify(hashTagss));
-    formData.append('state', location.state);
-    formData.append('country', location.country);
-    if(dashboardView === "pages"){
-      formData.append('companyId', data.pageData._id);
+    formData.append("file", image);
+    formData.append("createdBy", userId);
+    formData.append("description", description);
+    formData.append("hashTags", JSON.stringify(hashTagss));
+    formData.append("state", location.state);
+    formData.append("country", location.country);
+    if (dashboardView === "pages") {
+      formData.append("companyId", data.pageData._id);
     }
-    mutate(formData)
+    mutate(formData);
   };
 
   return (
     <WidgetWrapper>
       <FlexBetween flexDirection={"column"}>
         <TextField
+          className={styles.searchinput}
           id="outlined-multiline-static"
           multiline
           rows={1}
           placeholder="What's Happening..."
           onChange={(e) => setDescription(e.target.value)}
           value={description}
-          sx={{
-            width: "100%",
-            // backgroundColor: palette.neutral.light,
-            borderRadius: "1rem",
-          }}
         />
         {hashTag && (
           <div className={styles.tagsInputContainer}>
@@ -160,27 +155,31 @@ const MyPostWidget = () => {
           />
         </FlexBetween>
         <Box>
-          {dashboardView != "pages" && <Button
-            disabled={!description}
-            className={styles.btns}
-            onClick={() => onSubmit("news")}
-            sx={{
-              borderRadius: "1rem",
-              mr: "10px",
-            }}
-          >
-            Feed News
-          </Button>}
-          {dashboardView != "news" && <Button
-            disabled={!description}
-            className={styles.btns}
-            onClick={onSubmit}
-            sx={{
-              borderRadius: "1rem",
-            }}
-          >
-            Post
-          </Button>}
+          {dashboardView != "pages" && (
+            <Button
+              disabled={!description}
+              className={styles.btns}
+              onClick={() => onSubmit("news")}
+              sx={{
+                borderRadius: "1rem",
+                mr: "10px",
+              }}
+            >
+              Feed News
+            </Button>
+          )}
+          {dashboardView != "news" && (
+            <Button
+              disabled={!description}
+              className={styles.btns}
+              onClick={onSubmit}
+              sx={{
+                borderRadius: "1rem",
+              }}
+            >
+              Post
+            </Button>
+          )}
         </Box>
       </FlexBetween>
     </WidgetWrapper>

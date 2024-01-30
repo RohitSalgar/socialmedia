@@ -5,7 +5,6 @@ import {
   Divider,
   IconButton,
   Stack,
-  TextField,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -22,6 +21,7 @@ import { useSelector } from "react-redux";
 import Loader from "../../../../components/Loader/Loader";
 import CommentInputBox from "../../../../components/Comments/CommentInputBox";
 import CommentBox from "../../../../components/Comments/CommentBox";
+import styles from "./index.module.css";
 
 const LikeComment = (props) => {
   const { palette } = useTheme();
@@ -88,38 +88,50 @@ const LikeComment = (props) => {
     }
   }
 
+  const isUserLiked = () => {
+    let data = props?.postData.likedBy;
+    return data.filter((i) => {
+      return i === userId;
+    });
+  };
+
   return (
     <Box gap="1rem">
-      <FlexBetween>
-        {isLiked ? (
-          <IconButton onClick={disLikemutate}>
-            <FavoriteOutlined sx={{ color: primary }} />
-          </IconButton>
-        ) : (
-          <IconButton onClick={likemutate}>
-            <FavoriteBorderOutlined />
-          </IconButton>
-        )}
-        <Typography>
-          {props?.postData?.likes === 1
-            ? `1 like`
-            : `${props?.postData?.likes} likes`}
-        </Typography>
-      </FlexBetween>
+      <Box className={styles.likeandcommentdiv}>
+        <Box className={styles.likediv}>
+          {isUserLiked().length > 0 ? (
+            <IconButton>
+              <FavoriteOutlined
+                sx={{ color: primary }}
+                onClick={() => disLikemutate()}
+              />
+            </IconButton>
+          ) : (
+            <IconButton>
+              <FavoriteBorderOutlined onClick={() => likemutate()} />
+            </IconButton>
+          )}
 
-      <FlexBetween gap="0.3rem">
-        <Box
-          onClick={() => {
-            setIsComments(!isComments);
-          }}
-          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-        >
-          <IconButton>
-            <ChatBubbleOutlineOutlined />
-          </IconButton>
-          <Typography sx={{ cursor: "pointer" }}>{"comments"}</Typography>
+          <Typography>
+            {props?.postData?.likes === 1
+              ? `1 like`
+              : `${props?.postData?.likes} likes`}
+          </Typography>
         </Box>
-      </FlexBetween>
+        <FlexBetween gap="0.3rem">
+          <Box
+            onClick={() => {
+              setIsComments(!isComments);
+            }}
+            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+          >
+            <IconButton>
+              <ChatBubbleOutlineOutlined />
+            </IconButton>
+            <Typography sx={{ cursor: "pointer" }}>{"comments"}</Typography>
+          </Box>
+        </FlexBetween>
+      </Box>
       {isComments && (
         <Box mt="0.5rem">
           <Divider />

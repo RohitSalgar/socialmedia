@@ -112,3 +112,19 @@ dob */
   margin: 0;
   text-align: left;
 }
+.uploadimage{
+  width: 100%;
+  background-color: transparent !important;
+  border: 1px solid #0EBD60 !important;
+  color: #0EBD60 !important;
+  margin-top: 10px !important;
+}
+.imageContainer p{
+  color: #0EBD60 !important;
+}
+.imageContainer svg path{
+  fill: rgb(151, 151, 151);
+}
+.submitbtn:hover{
+  background-color: #0EBD60 !important;
+}

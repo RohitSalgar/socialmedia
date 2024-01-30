@@ -15,10 +15,12 @@ import { useChangeConnectionStatus } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
 import { usePostUnfollow } from "../../hooks/posts";
 
-const Followers = (data) => {
+const Followers = ({ data, type }) => {
+  console.log(data, "data");
+  console.log(type, "type");
   const dispatch = useDispatch();
   const { palette } = useTheme();
-  const {profileData} = useSelector(state => state.profile)
+  const { profileData } = useSelector((state) => state.profile);
   const medium = palette.neutral.medium;
   const { mutate, isLoading } = useChangeConnectionStatus();
   const { mutate: postUnfollowMutate, isLoading: postUnfollowLoading } =
@@ -51,6 +53,32 @@ const Followers = (data) => {
     <Loader />;
   }
 
+  const getProfileName = () => {
+    if (type === "connection") {
+      return profileData.userId === data?.recipientId
+        ? data?.senderName
+        : data?.recipientName;
+    } else if (type === "followers") {
+      return data?.senderName;
+    } else if (type === "following") {
+      return data?.recipientName ?? data.followerName;
+    }
+    return 0;
+  };
+
+  const getProfilePic = () => {
+    if (type === "connection") {
+      return profileData.userId === data?.recipientId
+        ? data?.senderProfile
+        : data?.recipientProfile;
+    } else if (type === "followers") {
+      return data?.profile;
+    } else if (type === "following") {
+      return data?.profile;
+    }
+    return 0;
+  };
+
   return (
     <WidgetWrapper className={styles.followmain}>
       <Typography color={medium} m="0.5rem 0">
@@ -58,11 +86,11 @@ const Followers = (data) => {
           <Box className={styles.avatardiv} onClick={() => handleClick()}>
             <Avatar
               alt="B"
-              src= {profileData.userId === data.data.recipientId ? data.data.senderProfile : data.data.recipientProfile}
+              src={getProfilePic()}
               sx={{ width: 40, height: 40 }}
             />
             <Typography className={styles.avatarname}>
-              {profileData.userId === data.data.recipientId ? data.data.senderName : data.data.recipientName}
+              {getProfileName()}
             </Typography>
           </Box>
           <Box className={styles.unfollowdiv}>

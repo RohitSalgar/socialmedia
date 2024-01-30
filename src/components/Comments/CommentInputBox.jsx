@@ -70,6 +70,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
       }
     } else if (type === "reply") {
       if(dashboardView ==="qa"){
+        setText("");
         return insertQaReply({
           answerId: replyId?._id,
           userId: userId,

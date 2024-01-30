@@ -9,14 +9,11 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AddScheduleValidation } from "../../../../validation/addSchedule";
 import { useSelector } from "react-redux";
-import { useGetProfile } from "../../../../hooks/profile";
 
 const AddSchedule = () => {
   const { mutate } = useAddSchedule();
   const profileData = useSelector((state) => state.profile.profileData);
-  const userId = useSelector((state) => state.profile.profileData.userId);
   const companyId = useSelector((state) => state.profile.companyId);
-  const { data } = useGetProfile(userId);
   const {
     handleSubmit,
     register,
@@ -62,7 +59,7 @@ const AddSchedule = () => {
               <TextField
                 id="outlined-multiline-static"
                 className={errors.pol && styles.error}
-                rows={3}
+                rows={1}
                 placeholder="POL"
                 {...register("pol")}
                 name="pol"
@@ -73,7 +70,7 @@ const AddSchedule = () => {
               />
               <TextField
                 id="outlined-multiline-static"
-                rows={3}
+                rows={1}
                 placeholder="POD"
                 className={errors.pod && styles.error}
                 name="pod"
@@ -85,12 +82,12 @@ const AddSchedule = () => {
               />
             </Box>
           </FlexBetween>
-          <FlexBetween flexDirection={"column"}>
+          <FlexBetween className={styles.inputdiv} flexDirection={"column"}>
             <TextField
               id="outlined-multiline-static"
               multiline
               className={errors.description && styles.error}
-              rows={2}
+              rows={1}
               {...register("description")}
               placeholder="Description..."
               name="description"
@@ -105,23 +102,7 @@ const AddSchedule = () => {
               marginTop: "1rem",
             }}
           >
-            <FlexBetween>
-              <Controller
-                name="bookingDate"
-                control={control}
-                render={({ field }) => (
-                  <DatePicker
-                    {...field}
-                    className={errors.bookingDate && styles.error}
-                    format="DD-MM-YYYY"
-                    onChange={(e) => field.onChange(e)}
-                    sx={{
-                      width: "100%",
-                      borderRadius: "1rem",
-                    }}
-                  />
-                )}
-              />
+            <FlexBetween className={styles.dateinput}>
               <Controller
                 name="openingDate"
                 control={control}
@@ -130,6 +111,25 @@ const AddSchedule = () => {
                     {...field}
                     className={errors.openingDate && styles.error}
                     format="DD-MM-YYYY"
+                    label="opening date"
+                    onChange={(e) => field.onChange(e)}
+                    sx={{
+                      width: "100%",
+                      borderRadius: "1rem",
+                      marginRight: "1%",
+                    }}
+                  />
+                )}
+              />
+              <Controller
+                name="bookingDate"
+                control={control}
+                render={({ field }) => (
+                  <DatePicker
+                    {...field}
+                    className={errors.bookingDate && styles.error}
+                    format="DD-MM-YYYY"
+                    label="booking cut off"
                     onChange={(e) => field.onChange(e)}
                     sx={{
                       width: "100%",

@@ -4,10 +4,7 @@ import TextField from "@mui/material/TextField";
 import { Box, Typography } from "@mui/material";
 import styles from "./index.module.css";
 import LikeComment from "./LikeComment";
-import {
-  useDeleteSchedule,
-  useGetAllSchedules,
-} from "../../hooks/schedule";
+import { useDeleteSchedule, useGetAllSchedules } from "../../hooks/schedule";
 import Loader from "../Loader/Loader";
 import { useSelector } from "react-redux";
 import moment from "moment";
@@ -15,23 +12,16 @@ import PostTitle from "./PostTitle";
 import { useGetAllMySchedules } from "../../hooks/schedule";
 
 const ProfileScheduleList = () => {
-  const profileData = useSelector((state) => state.profile.profileData);
   const companyId = useSelector((state) => state.profile.companyId);
+  const profileCompanyId = useSelector((state) => state.profile.viewCompanyId);
   //   const { data, isLoading } = useGetAllSchedules();
   const { mutate } = useDeleteSchedule();
 
-  const { data, isLoading } = useGetAllMySchedules(companyId);
+  const { data, isLoading } = useGetAllMySchedules(profileCompanyId);
 
   if (isLoading) {
     return <Loader />;
   }
-
-  const deleteSchedule = (id) => {
-    let payload = {};
-    payload.scheduleId = id;
-    payload.companyId = profileData?.userId;
-    mutate(payload);
-  };
 
   return (
     <>
