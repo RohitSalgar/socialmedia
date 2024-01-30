@@ -44,6 +44,9 @@ const QaWidget = ({ postData }) => {
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
+  useEffect(() => {
+    setIsLiked(postData?.likedBy.includes(userId));
+  }, [userId]);
 
   function addIdsToComments(data, parentId = null) {
     let count = 1;
@@ -76,9 +79,7 @@ const QaWidget = ({ postData }) => {
   if (postCommentLoading) {
     return;
   }
-  useEffect(() => {
-    setIsLiked(postData?.likedBy.includes(userId));
-  }, [userId]);
+
   const likeDislike = () => {
     if (!isLiked) {
       const payload = {

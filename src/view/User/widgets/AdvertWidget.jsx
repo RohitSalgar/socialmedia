@@ -84,7 +84,7 @@ const AdvertWidget = () => {
                 }}
               >
                 <Typography color={medium}>
-                  <h7>Followers:</h7>
+                  Followers
                   {company.count}
                 </Typography>
                 <Button disabled={isPending} onClick={() => handleFollow(company._id)}>
