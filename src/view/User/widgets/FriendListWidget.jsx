@@ -6,20 +6,18 @@ import Loader from "../../../components/Loader/Loader";
 
 const FriendListWidget = ({ data }) => {
   const { palette } = useTheme();
-  const {mutate, isPending } = useChangeConnectionStatus()
+  const { mutate, isPending } = useChangeConnectionStatus();
 
   const changeConnectionStatusFn = (id, status) => {
     mutate({ id: id, status });
   };
 
-  if(isPending){
-    return <Loader />
+  if (isPending) {
+    return <Loader />;
   }
 
   return (
-    <WidgetWrapper
-      sx={{ maxHeight: "400px", minHeight: "34vh", overflow: "scroll" }}
-    >
+    <WidgetWrapper sx={{ minHeight: "34vh", overflow: "scroll" }}>
       <Typography
         color={palette.neutral.dark}
         variant="h5"
@@ -28,7 +26,12 @@ const FriendListWidget = ({ data }) => {
       >
         Friend Requests
       </Typography>
-      <Box display="flex" flexDirection="column" gap="0.2rem">
+      <Box
+        display="flex"
+        flexDirection="column"
+        gap="0.2rem"
+        sx={{ height: "28vh", overflow: "scroll" }}
+      >
         {data &&
           data.map((e, i) => {
             return (

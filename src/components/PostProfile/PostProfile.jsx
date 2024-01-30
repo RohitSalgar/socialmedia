@@ -18,6 +18,7 @@ import LookingEmpty from "../LookingEmpty/LookingEmpty";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useGetCompanyProfile, useGetPageFollowList } from "../../hooks/pages";
 import ProfileScheduleList from "../ProfileScheduleList/ProfileScheduleList";
+import { useGetAllMySchedules } from "../../hooks/schedule";
 
 const PostProfile = () => {
   const { palette } = useTheme();
@@ -29,7 +30,9 @@ const PostProfile = () => {
   const profileId = useSelector((state) => state.profile.viewProfileId);
   const profileCompanyId = useSelector((state) => state.profile.viewCompanyId);
   const companyId = useSelector((state) => state.profile.companyId);
+
   const { data, isLoading } = useGetProfile(profileId);
+
   const { data: followList, isLoading: followLoading } = useGetPageFollowList(
     profileCompanyId,
     viewList
@@ -173,6 +176,7 @@ const PostProfile = () => {
             fontWeight="400"
             style={{
               paddingTop: "10px",
+              textTransform: "capitalize",
             }}
           >
             {companyData?.companyPageData?.about}
@@ -187,7 +191,7 @@ const PostProfile = () => {
             </Box>
             <Box className={styles.postdiv}>
               <ProfileScheduleList />
-              {postList?.length === 0 && <LookingEmpty />}
+              {companyData?.countData?.scheduleCount === 0 && <LookingEmpty />}
             </Box>
           </Box>
         )}

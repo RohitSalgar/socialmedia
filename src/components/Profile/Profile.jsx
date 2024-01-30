@@ -1,4 +1,10 @@
-import { Box, Typography, Button, useTheme, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  useTheme,
+  CircularProgress,
+} from "@mui/material";
 import WidgetWrapper from "../WidgetWrapper";
 import Avatar from "@mui/material/Avatar";
 import styles from "./index.module.css";
@@ -6,18 +12,12 @@ import Followers from "../Followers/Followers";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setEditOn,
-  setSingleChatModeOff,
-  setChatModeOff,
-} from "../../redux/slices/chat";
-import {
   useGetFollowList,
   useGetProfile,
   useGetFollowingList,
   useGetConnectionList,
   useGetMainUserFollowingList,
-  useGetUserFollowList,
-  useGetMainUserConnectionList
+  useGetMainUserConnectionList,
 } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
 import PostWidget from "../../view/User/Private/Posts/PostWidget";
@@ -33,7 +33,6 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BusinessIcon from "@mui/icons-material/Business";
 import { useChangeConnectionStatus, useSendFrdRequest } from "../../hooks/user";
 import { toast } from "react-toastify";
-
 
 const Profile = () => {
   const { palette } = useTheme();
@@ -57,17 +56,22 @@ const Profile = () => {
     viewList
   );
 
-  const { data: mainUserfollowingList, isLoading: mainUserfollowingLoading } = useGetMainUserFollowingList(userId)
-  const {data: mainUserConnectionList, isLoading: mainUserConnectionLoading} = useGetMainUserConnectionList(userId)
+  const { data: mainUserfollowingList, isLoading: mainUserfollowingLoading } =
+    useGetMainUserFollowingList(userId);
+  const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
+    useGetMainUserConnectionList(userId);
 
   const frdRequestSentSuccess = (data) => {
-    toast.success(data)
-  }
-  const {mutate: frdRequestMutate, isPending} = useSendFrdRequest(frdRequestSentSuccess)
+    toast.success(data);
+  };
+  const { mutate: frdRequestMutate, isPending } = useSendFrdRequest(
+    frdRequestSentSuccess
+  );
   const unFollowSuccess = (data) => {
-    toast.success(data)
-  }
-  const {mutate: unfollowMutate, isPending: isUnfollowPending} = useChangeConnectionStatus(unFollowSuccess)
+    toast.success(data);
+  };
+  const { mutate: unfollowMutate, isPending: isUnfollowPending } =
+    useChangeConnectionStatus(unFollowSuccess);
   const companyId = data?.pageData?._id;
 
   if (
@@ -75,7 +79,9 @@ const Profile = () => {
     followLoading ||
     followingLoading ||
     connectionLoading ||
-    postLoading || mainUserfollowingLoading || mainUserConnectionLoading
+    postLoading ||
+    mainUserfollowingLoading ||
+    mainUserConnectionLoading
   ) {
     <Loader />;
   }
@@ -90,19 +96,24 @@ const Profile = () => {
     dispatch(setSideView("editprofile"));
   }
 
-  console.log(mainUserConnectionList,"main connection list")
+  console.log(mainUserConnectionList, "main connection list");
 
   const checkUserInConnection = (id, array) => {
-    return array && array.some(item => item.recipientId === id || item.senderId === id) 
-  }
+    return (
+      array &&
+      array.some((item) => item.recipientId === id || item.senderId === id)
+    );
+  };
 
   const unFollowFn = () => {
-    const connection = mainUserConnectionList.find(item => item.recipientId === profileId || item.senderId === profileId)
-    console.log(connection,"connection")
-    if(connection != undefined){
-      unfollowMutate({ id: connection._id, status: 3 })
+    const connection = mainUserConnectionList.find(
+      (item) => item.recipientId === profileId || item.senderId === profileId
+    );
+    console.log(connection, "connection");
+    if (connection != undefined) {
+      unfollowMutate({ id: connection._id, status: 3 });
     }
-     }
+  };
 
   return (
     <WidgetWrapper>
@@ -223,35 +234,8 @@ const Profile = () => {
             <Typography color={dark} className={styles.avatarname}>
               {data?.userData?.fullName}
             </Typography>
-            {profileId === userId && (
-              <Button
-                variant="dark"
-                onClick={() => handleEdit()}
-                className={styles.editbtn}
-              >
-                Edit Profile
-              </Button>
-            )}
-            {checkUserInConnection(profileId, mainUserConnectionList) && <Button variant="outlined">Connected</Button>}
-              {profileId !== userId && (mainUserfollowingList && mainUserfollowingList.some(item => item?.recipientId === profileId) ? 
-              <Button
-                disabled={isUnfollowPending}
-                onClick={unFollowFn}
-                variant="dark"
-                className={styles.editbtn}
-              >
-                {isUnfollowPending ? <CircularProgress /> : "Unfollow"}
-              </Button> : <Button
-                disabled={isPending}
-                onClick={() => frdRequestMutate({senderId: userId, recipientId: profileId}) }
-                variant="dark"
-                className={styles.editbtn}
-              >
-                {isPending ? <CircularProgress /> : "Connect"}
-              </Button>
-            )}
-            {/* {profileId === userId && data?.pageData === null && (
-              <Box className={styles.closediv}>
+            <Box className={styles.btnsdiv}>
+              {profileId === userId && (
                 <Button
                   variant="dark"
                   onClick={() => handleEdit()}
@@ -259,7 +243,34 @@ const Profile = () => {
                 >
                   Edit Profile
                 </Button>
-              )} */}
+              )}
+              {profileId !== userId &&
+                (mainUserfollowingList &&
+                mainUserfollowingList.some(
+                  (item) => item?.recipientId === profileId
+                ) ? (
+                  <Button
+                    // disabled={isPending}
+                    variant="dark"
+                    className={styles.editbtn}
+                  >
+                    {isPending ? <CircularProgress /> : "Unfollow"}
+                  </Button>
+                ) : (
+                  <Button
+                    disabled={isPending}
+                    onClick={() =>
+                      frdRequestMutate({
+                        senderId: userId,
+                        recipientId: profileId,
+                      })
+                    }
+                    variant="dark"
+                    className={styles.editbtn}
+                  >
+                    {isPending ? <CircularProgress /> : "Connect"}
+                  </Button>
+                ))}
               {profileId === userId && data?.pageData === null && (
                 <Box className={styles.closediv}>
                   <Button
@@ -301,6 +312,7 @@ const Profile = () => {
                 </Box>
               )}
             </Box>
+          </Box>
           <Typography
             variant="h6"
             fontWeight="400"
@@ -358,10 +370,13 @@ const Profile = () => {
             </Box>
             <Box className={styles.postdiv}>
               {followingList?.map((e, i) => {
+                console.log(e, "e");
                 return (
                   <Followers
                     key={i}
                     id={e?.recipientId}
+                    imgLink={""}
+                    companyName={e.followerName}
                     fullName={e?.recipientName}
                     data={e}
                     type="following"
@@ -387,6 +402,7 @@ const Profile = () => {
                     key={i}
                     id={e?.senderId}
                     fullName={e?.senderName}
+                    imgLink={e?.senderProfile}
                     data={e}
                     type="connection"
                   />
