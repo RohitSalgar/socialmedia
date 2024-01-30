@@ -14,7 +14,7 @@ import {
 import FlexBetween from "../../../../components/FlexBetween";
 import PostTitle from "../../../../components/PostTitle";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import CommentBox from "../../../../components/Comments/CommentBox";
 import CommentInputBox from "../../../../components/Comments/CommentInputBox";
@@ -26,14 +26,13 @@ import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
-import CancelIcon from "@mui/icons-material/Cancel";
-
 const PostWidget = ({ postData }) => {
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
   const [report, setReport] = useState(false);
   const [reportText, setReportText] = useState("");
   const [selected, setSelected] = useState(0); //0 for none, -id for edit, id for reply
+  const [isLiked, setIsLiked] = useState(false);
   const { data: postComment, isLoading: postCommentLoading } =
     useGetPostComment(postId);
   const onSuccess = () => {
@@ -80,15 +79,30 @@ const PostWidget = ({ postData }) => {
   if (postCommentLoading) {
     return;
   }
-  const likeDislike = (status) => {
-    const payload = {
-      postId: postData._id,
-      userId: userId,
-      status: status,
-    };
-    likeMutate(payload);
-  };
 
+  useEffect(() => {
+    setIsLiked(postData?.likedBy.includes(userId));
+  }, [postData, userId]);
+
+  const likeDislike = () => {
+    if (!isLiked) {
+      const payload = {
+        postId: postData._id,
+        userId: userId,
+        status: 1,
+      };
+      likeMutate(payload);
+      setIsLiked(true);
+    } else {
+      const payload = {
+        postId: postData._id,
+        userId: userId,
+        status: 2,
+      };
+      likeMutate(payload);
+      setIsLiked(false);
+    }
+  };
 
   return (
     <WidgetWrapper m="0.3rem 0">
@@ -111,17 +125,11 @@ const PostWidget = ({ postData }) => {
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
-            {postData?.likedBy.includes(userId) ? (
-              <IconButton onClick={() => likeDislike(2)}>
-                <FavoriteOutlined sx={{ color: primary }} />
-              </IconButton>
-            ) : (
-              <IconButton onClick={() => likeDislike(1)}>
-                <FavoriteBorderOutlined onClo />
-              </IconButton>
-            )}
+            <IconButton onClick={likeDislike}>
+              {isLiked ? <FavoriteOutlined sx={{ color: primary }} /> : <FavoriteBorderOutlined />}
+            </IconButton>
             <Typography>
-              {postData?.likes === 1 ? `1 like` : `${postData?.likes} likes`}{" "}
+            {postData?.likes === 1 ? `1 like` : `${postData?.likes} likes`}
             </Typography>
           </FlexBetween>
 

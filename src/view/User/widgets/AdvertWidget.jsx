@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react";
 import { Typography, useTheme } from "@mui/material";
 import FlexBetween from "../../../components/FlexBetween";
 import WidgetWrapper from "../../../components/WidgetWrapper";
 import Slider from "react-slick";
-import { URL } from "../../../config";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useGetTopPages, useFollowPage } from "../../../hooks/toppages";
 import { Button } from "@mui/material";
-import { useGetProfile } from "../../../hooks/profile";
 import { useSelector } from "react-redux";
+import { useFollowTopPage, useGetAllTopPages } from "../../../hooks/user";
+import Loader from "../../../components/Loader/Loader";
+import { CircularProgress } from "@mui/material";
 const AdvertWidget = () => {
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
@@ -17,16 +16,15 @@ const AdvertWidget = () => {
   const medium = palette.neutral.medium;
 
   const { userId } = useSelector((state) => state.profile.profileData);
-  const { data: profileData } = useGetProfile(userId);
-  const companyData = useGetTopPages();
-  const followPage = useFollowPage;
+  const {data: companyData, isLoading} = useGetAllTopPages();
+  const { mutate: followPage, isPending } = useFollowTopPage();
 
   const handleFollow = (companyId) => {
     const payload = {
       companyId,
       followerId: userId,
     };
-    followPage([payload]);
+    followPage(payload);
   };
 
   const settings = {
@@ -38,6 +36,10 @@ const AdvertWidget = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+
+  if(isLoading || isPending){
+    return <Loader></Loader>
+  }
 
   return (
     <WidgetWrapper sx={{ maxWidth: "300px", height: "46vh" }}>
@@ -85,8 +87,8 @@ const AdvertWidget = () => {
                   <h7>Followers:</h7>
                   {company.count}
                 </Typography>
-                <Button onClick={() => handleFollow(company._id)}>
-                  Follow
+                <Button disabled={isPending} onClick={() => handleFollow(company._id)}>
+                  {isPending ? <CircularProgress /> : "Follow"}
                 </Button>
               </div>
             </FlexBetween>

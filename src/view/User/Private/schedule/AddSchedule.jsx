@@ -9,14 +9,11 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AddScheduleValidation } from "../../../../validation/addSchedule";
 import { useSelector } from "react-redux";
-import { useGetProfile } from "../../../../hooks/profile";
 
 const AddSchedule = () => {
   const { mutate } = useAddSchedule();
   const profileData = useSelector((state) => state.profile.profileData);
-  const userId = useSelector((state) => state.profile.profileData.userId);
   const companyId = useSelector((state) => state.profile.companyId);
-  const { data } = useGetProfile(userId);
   const {
     handleSubmit,
     register,
@@ -105,23 +102,7 @@ const AddSchedule = () => {
               marginTop: "1rem",
             }}
           >
-            <FlexBetween  className={styles.dateinput}>
-              <Controller
-                name="bookingDate"
-                control={control}
-                render={({ field }) => (
-                  <DatePicker
-                    {...field}
-                    className={errors.bookingDate && styles.error}
-                    format="DD-MM-YYYY"
-                    onChange={(e) => field.onChange(e)}
-                    sx={{
-                      width: "100%",
-                      borderRadius: "1rem",
-                    }}
-                  />
-                )}
-              />
+            <FlexBetween className={styles.dateinput}>
               <Controller
                 name="openingDate"
                 control={control}
@@ -130,6 +111,25 @@ const AddSchedule = () => {
                     {...field}
                     className={errors.openingDate && styles.error}
                     format="DD-MM-YYYY"
+                    label="opening date"
+                    onChange={(e) => field.onChange(e)}
+                    sx={{
+                      width: "100%",
+                      borderRadius: "1rem",
+                      marginRight: "1%",
+                    }}
+                  />
+                )}
+              />
+              <Controller
+                name="bookingDate"
+                control={control}
+                render={({ field }) => (
+                  <DatePicker
+                    {...field}
+                    className={errors.bookingDate && styles.error}
+                    format="DD-MM-YYYY"
+                    label="booking cut off"
                     onChange={(e) => field.onChange(e)}
                     sx={{
                       width: "100%",

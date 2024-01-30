@@ -12,11 +12,6 @@ import Followers from "../Followers/Followers";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setEditOn,
-  setSingleChatModeOff,
-  setChatModeOff,
-} from "../../redux/slices/chat";
-import {
   useGetFollowList,
   useGetProfile,
   useGetFollowingList,
@@ -390,10 +385,13 @@ const Profile = () => {
             </Box>
             <Box className={styles.postdiv}>
               {followingList?.map((e, i) => {
+                console.log(e, "e");
                 return (
                   <Followers
                     key={i}
                     id={e?.recipientId}
+                    imgLink={""}
+                    companyName={e.followerName}
                     fullName={e?.recipientName}
                     data={e}
                     type="following"
@@ -419,6 +417,7 @@ const Profile = () => {
                     key={i}
                     id={e?.senderId}
                     fullName={e?.senderName}
+                    imgLink={e?.senderProfile}
                     data={e}
                     type="connection"
                   />

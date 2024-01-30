@@ -1,16 +1,13 @@
-import { PersonAddOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import Avatar from "@mui/material/Avatar";
 import { useSelector } from "react-redux";
 import { DeleteOutlined } from "@mui/icons-material";
-import { useDeletePost } from "../../../../hooks/posts";
-import { useGetAllSchedules } from "../../../../hooks/schedule";
 import moment from "moment";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { useGetProfile } from "../../../../hooks/profile";
 import Loader from "../../../../components/Loader/Loader";
-
+import { useDeleteSchedule } from "../../../../hooks/schedule";
 
 const PostTitle = ({ data }) => {
   const { palette } = useTheme();
@@ -20,18 +17,20 @@ const PostTitle = ({ data }) => {
   const medium = palette.neutral.medium;
   const { userId } = useSelector((state) => state.profile.profileData);
   const { profileData } = useGetProfile(userId);
+  const companyId = useSelector((state) => state.profile.companyId);
 
-  const { mutate, isLoading } = useDeletePost();
+  const { mutate, isLoading } = useDeleteSchedule();
   const deletePost = (id) => {
     const postData = {
-      postId: id,
-      userId,
+      scheduleId: id,
+      companyId: companyId,
     };
     mutate(postData);
   };
   if (isLoading) {
     <Loader />;
   }
+
 
   return (
     <FlexBetween>
@@ -59,11 +58,11 @@ const PostTitle = ({ data }) => {
           {moment(data?.createdAt).format("MMM Do YYYY, h:mm a")}
         </Typography>
       </FlexBetween>
-      {data?.companyId === profileData?.pageDate?.companyId && (
-      //   <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
-      //     <AiOutlineUsergroupAdd sx={{ color: primaryDark }} />
-      //   </IconButton>
-      // ) : (
+      {data?.companyId !== companyId ? (
+        <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
+          <AiOutlineUsergroupAdd sx={{ color: primaryDark }} />
+        </IconButton>
+      ) : (
         <IconButton sx={{ p: "0.6rem" }} onClick={() => deletePost(data?._id)}>
           <DeleteOutlined className="deleteIcon" />
         </IconButton>

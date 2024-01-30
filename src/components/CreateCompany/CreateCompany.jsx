@@ -103,7 +103,7 @@ const CreateCompany = () => {
             onChange={handleFileChange}
             type="file"
             id="file"
-            accept="image/*"
+            inputProps={{ accept: "image/*" }}
             className={styles.file}
           ></Input>
         </Box>
