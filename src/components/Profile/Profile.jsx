@@ -17,6 +17,7 @@ import {
   useGetConnectionList,
   useGetMainUserFollowingList,
   useGetUserFollowList,
+  useGetMainUserConnectionList
 } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
 import PostWidget from "../../view/User/Private/Posts/PostWidget";
@@ -30,7 +31,7 @@ import {
 import LookingEmpty from "../LookingEmpty/LookingEmpty";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BusinessIcon from "@mui/icons-material/Business";
-import { useSendFrdRequest } from "../../hooks/user";
+import { useChangeConnectionStatus, useSendFrdRequest } from "../../hooks/user";
 import { toast } from "react-toastify";
 
 
@@ -57,11 +58,16 @@ const Profile = () => {
   );
 
   const { data: mainUserfollowingList, isLoading: mainUserfollowingLoading } = useGetMainUserFollowingList(userId)
+  const {data: mainUserConnectionList, isLoading: mainUserConnectionLoading} = useGetMainUserConnectionList(userId)
 
   const frdRequestSentSuccess = (data) => {
     toast.success(data)
   }
   const {mutate: frdRequestMutate, isPending} = useSendFrdRequest(frdRequestSentSuccess)
+  const unFollowSuccess = (data) => {
+    toast.success(data)
+  }
+  const {mutate: unfollowMutate, isPending: isUnfollowPending} = useChangeConnectionStatus(unFollowSuccess)
   const companyId = data?.pageData?._id;
 
   if (
@@ -69,7 +75,7 @@ const Profile = () => {
     followLoading ||
     followingLoading ||
     connectionLoading ||
-    postLoading || mainUserfollowingLoading
+    postLoading || mainUserfollowingLoading || mainUserConnectionLoading
   ) {
     <Loader />;
   }
@@ -83,6 +89,20 @@ const Profile = () => {
   function handleEdit() {
     dispatch(setSideView("editprofile"));
   }
+
+  console.log(mainUserConnectionList,"main connection list")
+
+  const checkUserInConnection = (id, array) => {
+    return array && array.some(item => item.recipientId === id || item.senderId === id) 
+  }
+
+  const unFollowFn = () => {
+    const connection = mainUserConnectionList.find(item => item.recipientId === profileId || item.senderId === profileId)
+    console.log(connection,"connection")
+    if(connection != undefined){
+      unfollowMutate({ id: connection._id, status: 3 })
+    }
+     }
 
   return (
     <WidgetWrapper>
@@ -212,13 +232,15 @@ const Profile = () => {
                 Edit Profile
               </Button>
             )}
+            {checkUserInConnection(profileId, mainUserConnectionList) && <Button variant="outlined">Connected</Button>}
               {profileId !== userId && (mainUserfollowingList && mainUserfollowingList.some(item => item?.recipientId === profileId) ? 
               <Button
-                // disabled={isPending}
+                disabled={isUnfollowPending}
+                onClick={unFollowFn}
                 variant="dark"
                 className={styles.editbtn}
               >
-                {isPending ? <CircularProgress /> : "Unfollow"}
+                {isUnfollowPending ? <CircularProgress /> : "Unfollow"}
               </Button> : <Button
                 disabled={isPending}
                 onClick={() => frdRequestMutate({senderId: userId, recipientId: profileId}) }
