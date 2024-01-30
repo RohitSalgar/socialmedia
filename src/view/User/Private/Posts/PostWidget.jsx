@@ -2,7 +2,7 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-} from "@mui/icons-material";
+  CancelOutlined} from "@mui/icons-material";
 import {
   Box,
   Divider,
@@ -14,7 +14,7 @@ import {
 import FlexBetween from "../../../../components/FlexBetween";
 import PostTitle from "../../../../components/PostTitle";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import CommentBox from "../../../../components/Comments/CommentBox";
 import CommentInputBox from "../../../../components/Comments/CommentInputBox";
@@ -26,6 +26,7 @@ import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
+
 const PostWidget = ({ postData }) => {
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
@@ -43,10 +44,12 @@ const PostWidget = ({ postData }) => {
   const { mutate: likeMutate, isLoading: likeDislikeLoadingLoading } =
     useLikeDisLike(onSuccess);
   const { userId } = useSelector((state) => state.profile.profileData);
-
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
+  useEffect(() => {
+    setIsLiked(postData?.likedBy.includes(userId));
+  }, [userId]);
 
   function addIdsToComments(data, parentId = null) {
     let count = 1;
@@ -80,9 +83,6 @@ const PostWidget = ({ postData }) => {
     return;
   }
 
-  useEffect(() => {
-    setIsLiked(postData?.likedBy.includes(userId));
-  }, [postData, userId]);
 
   const likeDislike = () => {
     if (!isLiked) {
@@ -184,7 +184,7 @@ const PostWidget = ({ postData }) => {
                 }}
               >
                 <IconButton>
-                  <CancelIcon />
+                  <CancelOutlined />
                 </IconButton>
                 <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
               </Box>
@@ -244,4 +244,4 @@ const PostWidget = ({ postData }) => {
   );
 };
 
-export default PostWidget;
+export default React.memo(PostWidget);

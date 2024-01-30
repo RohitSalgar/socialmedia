@@ -38,7 +38,7 @@ const LikeComment = (props) => {
 
   useEffect(() => {
     setIsLiked(props?.postData.likedBy.includes(userId));
-  }, [props?.postData, userId]);
+  }, [userId]);
 
   const likemutate = () => {
     if (!isLiked) { 

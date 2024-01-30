@@ -78,7 +78,7 @@ const QaWidget = ({ postData }) => {
   }
   useEffect(() => {
     setIsLiked(postData?.likedBy.includes(userId));
-  }, [postData, userId]);
+  }, [userId]);
   const likeDislike = () => {
     if (!isLiked) {
       const payload = {
