@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { DeleteOutlined } from "@mui/icons-material";
 import { useDeletePost } from "../hooks/posts";
 import moment from "moment";
-import { setViewProfileId } from "../redux/slices/profileSlice";
+import { setDashboardView, setViewProfileId } from "../redux/slices/profileSlice";
+
 const PostTitle = ({ data }) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -52,9 +53,9 @@ const PostTitle = ({ data }) => {
           {moment(data?.createdAt).format("MMM Do YYYY, h:mm a")}
         </Typography>
       </FlexBetween>
-      {data?.createdBy === userId ?
+      {data?.createdBy != userId ?
        (
-        <IconButton onClick={() => {dispatch(setViewProfileId(data.createdBy)) , dispatch(setDashboardView('profile'))}} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
+        <IconButton onClick={() => {dispatch(setViewProfileId(data.createdBy)); dispatch(setDashboardView('profile'))}} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
           <PersonAddOutlined sx={{ color: primaryDark }} />
         </IconButton>
       ) : 
