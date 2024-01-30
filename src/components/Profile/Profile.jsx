@@ -228,47 +228,57 @@ const Profile = () => {
                 {isPending ? <CircularProgress /> : "Connect"}
               </Button>
             )}
-            {profileId === userId && data?.pageData === null && (
+            {/* {profileId === userId && data?.pageData === null && (
               <Box className={styles.closediv}>
                 <Button
-                  className={styles.createbtn}
-                  onClick={() => dispatch(setSideView("createcompany"))}
+                  variant="dark"
+                  onClick={() => handleEdit()}
+                  className={styles.editbtn}
                 >
-                  Create Page
-                  <BusinessIcon />
+                  Edit Profile
                 </Button>
-              </Box>
-            )}
-            {profileId === userId && data?.pageData?.status === 2 && (
-              <Box className={styles.closediv}>
-                <Button
-                  className={styles.createbtn}
-                  onClick={() => dispatch(setSideView("pagesotp"))}
-                >
-                  OTP Pending
-                </Button>
-              </Box>
-            )}
-            {profileId === userId && data?.pageData?.status === 3 && (
-              <Box className={styles.closediv}>
-                <p className={styles.pendingdiv}>Pending</p>
-              </Box>
-            )}
-            {profileId === userId && data?.pageData?.status === 1 && (
-              <Box className={styles.closediv}>
-                <Button
-                  className={styles.createbtn}
-                  onClick={() => {
-                    dispatch(setDashboardView("postprofile")),
-                      dispatch(setSideView("companyPage"));
-                    dispatch(setCompanyId(companyId));
-                  }}
-                >
-                  Switch Post Acount
-                </Button>
-              </Box>
-            )}
-          </Box>
+              )} */}
+              {profileId === userId && data?.pageData === null && (
+                <Box className={styles.closediv}>
+                  <Button
+                    className={styles.createbtn}
+                    onClick={() => dispatch(setSideView("createcompany"))}
+                  >
+                    Create Page
+                    <BusinessIcon />
+                  </Button>
+                </Box>
+              )}
+              {profileId === userId && data?.pageData?.status === 2 && (
+                <Box className={styles.closediv}>
+                  <Button
+                    className={styles.createbtn}
+                    onClick={() => dispatch(setSideView("pagesotp"))}
+                  >
+                    OTP Pending
+                  </Button>
+                </Box>
+              )}
+              {profileId === userId && data?.pageData?.status === 3 && (
+                <Box className={styles.pendingdivs}>
+                  <p className={styles.pendingdiv}>Pending</p>
+                </Box>
+              )}
+              {profileId === userId && data?.pageData?.status === 1 && (
+                <Box className={styles.closediv}>
+                  <Button
+                    className={styles.createbtn}
+                    onClick={() => {
+                      dispatch(setDashboardView("postprofile")),
+                        dispatch(setSideView("companyPage"));
+                      dispatch(setCompanyId(companyId));
+                    }}
+                  >
+                    Switch Post Acount
+                  </Button>
+                </Box>
+              )}
+            </Box>
           <Typography
             variant="h6"
             fontWeight="400"

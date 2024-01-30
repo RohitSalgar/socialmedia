@@ -41,7 +41,13 @@
   color: #a3a3a3; /* Change to your desired color */
 }
 .btns {
-  background-color: #ff9500 !important;
+  background-color: #0EBD60 !important;
   color: #fff !important;
 }
 
+.searchinput{
+  width: 100%;
+  border: none !important;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}

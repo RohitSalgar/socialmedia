@@ -14,7 +14,7 @@ import {
   Button,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import searchlogo from "../../../../assets/Images/background.jpg";
+import searchlogo from "../../../../assets/Images/background.jpeg";
 import Box from "@mui/material/Box";
 import { getEmail } from "../../../../hooks/otp";
 import Loader from "../../../../components/Loader/Loader";
@@ -207,6 +207,7 @@ const OTPPage = () => {
                 sx={{
                   fontWeight: "bold",
                   pb: "10px",
+                  pt:'50px'
                 }}
               >
                 Enter OTP
@@ -397,6 +398,7 @@ const OTPPage = () => {
                 )}
                 <Button
                   type="submit"
+                  className={styles.submitbtn}
                   fullWidth
                   disabled={otpPost.isLoading || resendOtpData.isLoading}
                   sx={{

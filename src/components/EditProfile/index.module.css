@@ -63,7 +63,7 @@
   padding: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #ff9500;
+  background-color: #0EBD60;
   color: #fff;
   font-weight: bold;
 }
@@ -82,7 +82,7 @@
   padding: 4px 5px 0px 5px;
 }
 .filelabel svg path {
-  fill: #ff9500 !important;
+  fill: #0EBD60 !important;
 }
 .error {
   border-color: red !important;
