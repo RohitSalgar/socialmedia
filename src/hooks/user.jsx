@@ -100,4 +100,38 @@ const useNavSearch = (onSuccessFunctions) => {
     });
 };
 
-export { useGetAllFrdRequestByUserId, useChangeConnectionStatus, useNavSearch, useSendFrdRequest };
+const useGetAllTopPages = () => {
+    return useQuery({
+      queryKey: ["getAllTopPages"],
+      queryFn: () => {
+        return fetchData({
+          url: URL + "pages/getCompanyDataByFollowersDescending",
+          isAuthRequired: true,
+        });
+      },
+    });
+  };
+
+  const useFollowTopPage = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: (data) =>
+        fetchData(
+          {
+            url: URL + "pages/pageFollow ",
+            method: "POST",
+            isAuthRequired: true,
+          },
+          { data: [data] }
+        ),
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({ queryKey: ["getAllTopPages"] });
+        toast.success(data)
+      },
+      onError: (error) => {
+        toast.error(error.message.split(":")[1]);
+      },
+    });
+  };
+
+export { useFollowTopPage,useGetAllTopPages, useGetAllFrdRequestByUserId, useChangeConnectionStatus, useNavSearch, useSendFrdRequest };

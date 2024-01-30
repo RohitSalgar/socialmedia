@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FlexBetween from "../FlexBetween";
 import {
   Box,
@@ -22,12 +22,12 @@ import { useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 import CommentInputBox from "../Comments/CommentInputBox";
 import CommentBox from "../Comments/CommentBox";
-
 const LikeComment = (props) => {
   const { palette } = useTheme();
   const primary = palette.primary.main;
   const [isComments, setIsComments] = useState(false);
   const [selected, setSelected] = useState(0); //0 for none, -id for edit, id for reply
+  const [isLiked, setIsLiked] = useState(false);
 
   const { mutate } = useUpdateScheduleLikes();
   const { data: commentReplyData, isLoading: commentReplyLoading } =
@@ -35,19 +35,32 @@ const LikeComment = (props) => {
 
   const { userId } = useSelector((state) => state.profile.profileData);
 
+  useEffect(() => {
+    setIsLiked(props?.postData.likedBy.includes(userId));
+  }, [props?.postData, userId]);
+
   const likemutate = () => {
-    let payload = {};
-    payload.scheduleId = props?.scheduleId;
-    payload.userId = userId;
-    payload.status = 1;
-    mutate(payload);
+    if (!isLiked) { 
+      const payload = {
+        scheduleId: props?.scheduleId,
+        userId: userId,
+        status: 1, 
+      };
+      mutate(payload);
+      setIsLiked(true);
+    }
   };
+
   const disLikemutate = () => {
-    let payload = {};
-    payload.scheduleId = props?.scheduleId;
-    payload.userId = userId;
-    payload.status = 2;
-    mutate(payload);
+    if (isLiked) { 
+      const payload = {
+        scheduleId: props?.scheduleId,
+        userId: userId,
+        status: 2,
+      };
+      mutate(payload);
+      setIsLiked(false);
+    }
   };
 
   if (commentReplyLoading) {
@@ -85,19 +98,15 @@ const LikeComment = (props) => {
   return (
     <Box gap="1rem">
       <FlexBetween>
-        {isUserLiked().length > 0 ? (
-          <IconButton>
-            <FavoriteOutlined
-              sx={{ color: primary }}
-              onClick={() => disLikemutate()}
-            />
+        {isLiked ? (
+          <IconButton onClick={disLikemutate}>
+            <FavoriteOutlined sx={{ color: primary }} />
           </IconButton>
         ) : (
-          <IconButton>
-            <FavoriteBorderOutlined onClick={() => likemutate()} />
+          <IconButton onClick={likemutate}>
+            <FavoriteBorderOutlined />
           </IconButton>
         )}
-
         <Typography>
           {props?.postData?.likes === 1
             ? `1 like`

@@ -126,7 +126,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                 type={type}
                 value={text}
               />
-              <IconButton onClick={handleSubmit}>
+              <IconButton onClick={handleSubmit} disabled={!text.trim()}>
                 <IoIosSend size={25} />
               </IconButton>
             </Box>

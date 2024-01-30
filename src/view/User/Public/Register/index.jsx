@@ -88,7 +88,7 @@ export default function RegisterPage() {
   }, []);
 
   const updateEmailFn = async (data) => {
-    let response = await fetch(URL + "post/addPost", {
+    let response = await fetch(URL + "users/updateRegisterData", {
       method: "POST",
       body: data,
     });
