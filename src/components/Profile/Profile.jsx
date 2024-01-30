@@ -213,7 +213,7 @@ const Profile = () => {
                 Edit Profile
               </Button>
             )}
-              {profileId !== userId && ( mainUserfollowList.some(item => item.recipientId === profileId) ? 
+              {profileId !== userId && (mainUserfollowList && mainUserfollowList.some(item => item.recipientId != profileId) ? 
               <Button
                 disabled={isPending}
                 variant="dark"
