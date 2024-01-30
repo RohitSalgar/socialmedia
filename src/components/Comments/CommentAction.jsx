@@ -50,7 +50,6 @@ function CommentAction({
       }
     } else {
       if(dashboardView === "qa"){
-        console.log(postData,"post")
         return deleteQaComments({
           answerId:postData._id,
           userId:userId,

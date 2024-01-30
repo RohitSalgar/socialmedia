@@ -63,6 +63,8 @@ const useSendFrdRequest = (onSuccessFunctions) => {
             queryClient.invalidateQueries({ queryKey: ["pagePost"] });
             queryClient.invalidateQueries({ queryKey: ["friend"] });
             queryClient.invalidateQueries({ queryKey: ["allFrdRequests"] });
+            queryClient.invalidateQueries({ queryKey: ["mainUserfollowList"] });
+            queryClient.invalidateQueries({ queryKey: ["mainUserfollowingList"] });
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);

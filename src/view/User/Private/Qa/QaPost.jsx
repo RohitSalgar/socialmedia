@@ -86,20 +86,20 @@ const QaWidget = ({ postData }) => {
     };
     likeMutate(payload);
   };
-  console.log(postData)
+
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
         Question : {postData?.question}
       </Typography>
-      {/* <img
+      {postData.files && <img
         width="100%"
         height="auto"
         alt="post"
         style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-        src={searchlogo}
-      /> */}
+        src={postData.files}
+      />}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
@@ -181,7 +181,6 @@ const QaWidget = ({ postData }) => {
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {
-                console.log(c,"c")
                 return (
                   <CommentBox
                     key={c.id}

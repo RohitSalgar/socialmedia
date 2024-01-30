@@ -23,7 +23,6 @@ const EditProfile = () => {
   const editProfileSucess = (data) => {
     dispatch(setSideView("companyPage"))
     toast.success(data)
-   console.log(data,"data")
   }
   const { mutate, isLoading: mutateLoading } = useEditProfile(editProfileSucess);
   const [profilePic, setProfilePic] = useState("")
@@ -106,7 +105,7 @@ const EditProfile = () => {
         <Box className={styles.avatardiv}>
           <Avatar
             alt="B"
-            src={profilePicUrl ? profilePicUrl : profiledate.userData.profile}
+            src={profilePicUrl ? profilePicUrl : profiledate?.userData?.profile}
             sx={{ width: 100, height: 100 }}
             className={styles.avathar}
           />

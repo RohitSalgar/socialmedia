@@ -129,7 +129,6 @@ function CommentBox({
                 sx={{ flexGrow: 1, mt: 1, ml: 1 }}
                 component="p"
               >
-                {console.log(data,"as")}
                 {data.split("\n").map((line, i) => (
                   <React.Fragment key={i}>
                     {line}
