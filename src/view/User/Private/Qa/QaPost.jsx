@@ -2,7 +2,6 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  ShareOutlined,
 } from "@mui/icons-material";
 import {
   Box,
@@ -19,8 +18,6 @@ import { useState } from "react";
 import { Stack } from "@mui/material";
 import CommentBox from "../../../../components/QaAnswer/CommentBox";
 import CommentInputBox from "../../../../components/Comments/CommentInputBox";
-import searchlogo from "../../../../assets/Images/logis1.jpeg";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
@@ -161,7 +158,6 @@ const QaWidget = ({ postData }) => {
             sx={{
               width: "100%",
               mt: 1,
-              // backgroundColor: palette.neutral.light,
               borderRadius: "1rem",
             }}
             onChange={(e) => setReportText(e.target.value)}

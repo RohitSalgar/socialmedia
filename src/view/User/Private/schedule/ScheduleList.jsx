@@ -22,13 +22,6 @@ const ScheduleList = () => {
     return <Loader />;
   }
 
-  const deleteSchedule = (id) => {
-    let payload = {};
-    payload.scheduleId = id;
-    payload.companyId = profileData?.userId;
-    mutate(payload);
-  };
-
   return (
     <>
       {data &&

@@ -118,7 +118,7 @@ const HomePage = () => {
                 overflowY: "scroll",
               }}
             >
-              {data?.pageData != null && <AddSchedule />}
+              {data?.pageData?.status === 1 && <AddSchedule />}
               <ScheduleList />
             </Box>
           )}
@@ -126,7 +126,7 @@ const HomePage = () => {
           {dashboardView === "postprofile" && <PostProfile />}
           {dashboardView === "pages" && (
             <>
-              {data?.pageData != null && <MyPostWidget />}
+              {data?.pageData?.status === 1 && <MyPostWidget />}
               <Box
                 sx={{
                   maxHeight: "55vh",

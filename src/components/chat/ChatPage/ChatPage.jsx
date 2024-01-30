@@ -102,90 +102,84 @@ const ChatPage = ({ data }) => {
     return <Loader />;
   }
 
-  if (socket && socket.connected) {
-    return (
-      <Box className={styles.chatPage}>
-        <KeyboardBackspaceIcon
-          sx={{ cursor: "pointer", margin: "5px" }}
-          onClick={() => dispatch(setSingleChatModeOff())}
-        />
-        <Box className={styles.chatHeader}>
-          <p className={styles.contactName}>
-            {filteredData[0].senderId === userId
-              ? filteredData[0].recipientName
-              : filteredData[0].senderName}
-          </p>
-          <p className={styles.activeLogo}>
-            {liveUser &&
-            liveUser.some(
-              (element) => element.userId === filteredData[0].recipientId
-            )
-              ? "Actvie Now"
-              : "Offline"}
-          </p>
-        </Box>
-        <Box className={styles.chatMessages} ref={messagesDivRef}>
-          {chatMessage?.map((message) => (
-            <Box key={message.id} className={styles.messageContainer}>
-              {chatMessage && (
-                <Box>
-                  {message.senderId !== userId && (
-                    <Box>
-                      <Typography className={styles.sender}>
-                        {message.message}{" "}
-                      </Typography>
-                      <p className={styles.senderTime}>
-                        {moment(message?.createdAt).format(
-                          "DD MM YYYY, h:mm A"
-                        )}
-                      </p>
-                    </Box>
-                  )}
-                  {message.senderId === userId && (
-                    <Box>
-                      <Typography className={styles.receiver}>
-                        {message.message}
-                        {message.status === 1 ? <IoIosEye /> : <IoIosEyeOff />}
-                      </Typography>
-
-                      <p className={`${styles.receiverTime}`}>
-                        {moment(message?.createdAt).format(
-                          "DD MM YYYY, h:mm A"
-                        )}
-                      </p>
-                    </Box>
-                  )}
-                </Box>
-              )}
-            </Box>
-          ))}
-        </Box>
-        <Box className={styles.chatInput}>
-          <form onSubmit={sendChatMessage} className={styles.sendform}>
-            <input
-              type="text"
-              placeholder="Type a message..."
-              className={styles.messageInput}
-              value={sendMessage}
-              onChange={(e) => setSendMessage(e.target.value)}
-            />
-            <Box>
-              {sendMessage.length > 0 ? (
-                <IconButton
-                  onClick={sendChatMessage}
-                  className={styles.sendButton}
-                >
-                  <SendIcon />
-                </IconButton>
-              ) : (
-                <CancelScheduleSend className={styles.sendButton} />
-              )}
-            </Box>
-          </form>
-        </Box>
+  return (
+    <Box className={styles.chatPage}>
+      <KeyboardBackspaceIcon
+        sx={{ cursor: "pointer" }}
+        onClick={() => dispatch(setSingleChatModeOff())}
+      />
+      <Box className={styles.chatHeader}>
+        <p className={styles.contactName}>
+          {filteredData[0].senderId === userId
+            ? filteredData[0].recipientName
+            : filteredData[0].senderName}
+        </p>
+        <p className={styles.activeLogo}>
+          {liveUser &&
+          liveUser.some(
+            (element) => element.userId === filteredData[0].recipientId
+          )
+            ? "Actvie Now"
+            : "Offline"}
+        </p>
       </Box>
-    );
-  }
+      <Box className={styles.chatMessages} ref={messagesDivRef}>
+        {chatMessage?.map((message) => (
+          <Box key={message.id} className={styles.messageContainer}>
+            {chatMessage && (
+              <Box>
+                {message.senderId !== userId && (
+                  <Box>
+                    <Typography className={styles.sender}>
+                      {message.message}{" "}
+                    </Typography>
+                    <p className={styles.senderTime}>
+                      {moment(message?.createdAt).format("DD MM YYYY, h:mm A")}
+                    </p>
+                  </Box>
+                )}
+                {message.senderId === userId && (
+                  <Box>
+                    <Typography className={styles.receiver}>
+                      {message.message}
+                      {message.status === 1 ? <IoIosEye /> : <IoIosEyeOff />}
+                    </Typography>
+
+                    <p className={`${styles.receiverTime}`}>
+                      {moment(message?.createdAt).format("DD MM YYYY, h:mm A")}
+                    </p>
+                  </Box>
+                )}
+              </Box>
+            )}
+          </Box>
+        ))}
+      </Box>
+      <Box className={styles.chatInput}>
+        <form onSubmit={sendChatMessage} className={styles.sendform}>
+          <input
+            type="text"
+            placeholder="Type a message..."
+            className={styles.messageInput}
+            value={sendMessage}
+            onChange={(e) => setSendMessage(e.target.value)}
+          />
+          <Box>
+            {sendMessage.length > 0 ? (
+              <IconButton
+                onClick={sendChatMessage}
+                className={styles.sendButton}
+              >
+                <SendIcon />
+              </IconButton>
+            ) : (
+              <CancelScheduleSend className={styles.sendButton} />
+            )}
+          </Box>
+        </form>
+      </Box>
+    </Box>
+  );
 };
 
 export default ChatPage;
