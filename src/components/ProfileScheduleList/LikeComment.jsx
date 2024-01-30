@@ -5,7 +5,6 @@ import {
   Divider,
   IconButton,
   Stack,
-  TextField,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -22,6 +21,8 @@ import { useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 import CommentInputBox from "../Comments/CommentInputBox";
 import CommentBox from "../Comments/CommentBox";
+import styles from "./index.module.css";
+
 const LikeComment = (props) => {
   const { palette } = useTheme();
   const primary = palette.primary.main;
@@ -37,14 +38,14 @@ const LikeComment = (props) => {
 
   useEffect(() => {
     setIsLiked(props?.postData.likedBy.includes(userId));
-  }, [ userId]);
+  }, [userId]);
 
   const likemutate = () => {
-    if (!isLiked) { 
+    if (!isLiked) {
       const payload = {
         scheduleId: props?.scheduleId,
         userId: userId,
-        status: 1, 
+        status: 1,
       };
       mutate(payload);
       setIsLiked(true);
@@ -52,7 +53,7 @@ const LikeComment = (props) => {
   };
 
   const disLikemutate = () => {
-    if (isLiked) { 
+    if (isLiked) {
       const payload = {
         scheduleId: props?.scheduleId,
         userId: userId,
@@ -94,39 +95,41 @@ const LikeComment = (props) => {
     });
   };
 
-
   return (
     <Box gap="1rem">
-      <FlexBetween>
-        {isLiked ? (
-          <IconButton onClick={disLikemutate}>
-            <FavoriteOutlined sx={{ color: primary }} />
-          </IconButton>
-        ) : (
-          <IconButton onClick={likemutate}>
-            <FavoriteBorderOutlined />
-          </IconButton>
-        )}
-        <Typography>
-          {props?.postData?.likes === 1
-            ? `1 like`
-            : `${props?.postData?.likes} likes`}
-        </Typography>
-      </FlexBetween>
-
-      <FlexBetween gap="0.3rem">
-        <Box
-          onClick={() => {
-            setIsComments(!isComments);
-          }}
-          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-        >
-          <IconButton>
-            <ChatBubbleOutlineOutlined />
-          </IconButton>
-          <Typography sx={{ cursor: "pointer" }}>{"comments"}</Typography>
+      <Box className={styles.likemaindiv}>
+        <Box className={styles.likediv}>
+          {isLiked ? (
+            <IconButton onClick={disLikemutate}>
+              <FavoriteOutlined sx={{ color: primary }} />
+            </IconButton>
+          ) : (
+            <IconButton onClick={likemutate}>
+              <FavoriteBorderOutlined />
+            </IconButton>
+          )}
+          <Typography>
+            {props?.postData?.likes === 1
+              ? `1 like`
+              : `${props?.postData?.likes} likes`}
+          </Typography>
         </Box>
-      </FlexBetween>
+
+        <FlexBetween gap="0.3rem">
+          <Box
+            onClick={() => {
+              setIsComments(!isComments);
+            }}
+            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+          >
+            <IconButton>
+              <ChatBubbleOutlineOutlined />
+            </IconButton>
+            <Typography sx={{ cursor: "pointer" }}>{"comments"}</Typography>
+          </Box>
+        </FlexBetween>
+      </Box>
+
       {isComments && (
         <Box mt="0.5rem">
           <Divider />

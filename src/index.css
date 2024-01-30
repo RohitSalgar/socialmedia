@@ -11,8 +11,8 @@ body,
 body {
   background-color: #0EBD601c !important;
   background-size: cover;
-  height: 100vh;
-  overflow: hidden;
+  /* height: 100vh;
+  overflow: hidden; */
 }
 .css-1pbp6xm {
   padding: 1rem 3% !important;
@@ -26,6 +26,3 @@ body {
 	border-radius: 5px !important;
 }
 
-.deleteIcon{
-  color: red;
-}
