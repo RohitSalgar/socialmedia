@@ -89,8 +89,6 @@ const PostWidget = ({ postData }) => {
     likeMutate(payload);
   };
 
-  console.log(report, "report");
-  console.log(isComments, "isComments");
 
   return (
     <WidgetWrapper m="0.3rem 0">
