@@ -17,7 +17,7 @@ const FriendListWidget = ({ data }) => {
   }
 
   return (
-    <WidgetWrapper sx={{ minHeight: "34vh", overflow: "scroll" }}>
+    <WidgetWrapper sx={{ minHeight: "29vh", overflow: "scroll" }}>
       <Typography
         color={palette.neutral.dark}
         variant="h5"
@@ -30,7 +30,7 @@ const FriendListWidget = ({ data }) => {
         display="flex"
         flexDirection="column"
         gap="0.2rem"
-        sx={{ height: "28vh", overflow: "scroll" }}
+        sx={{ height: "19vh", overflow: "scroll" }}
       >
         {data &&
           data.map((e, i) => {

@@ -56,7 +56,6 @@ const ChatPage = ({ data }) => {
 
     if (messageEmitted === false) {
       socket?.on("getMessage", (data) => {
-        console.log(data, "dataa");
         const newChat = {
           message: data.message,
           createdAt: data.createdAt,
@@ -103,7 +102,7 @@ const ChatPage = ({ data }) => {
   }
 
   return (
-    <Box className={styles.chatPage}>
+    <Box className={styles.chatPage} sx={{height:'65vh'}}>
       <KeyboardBackspaceIcon
         sx={{ cursor: "pointer" }}
         onClick={() => dispatch(setSingleChatModeOff())}

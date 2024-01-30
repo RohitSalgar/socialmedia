@@ -225,7 +225,7 @@ const PostProfile = () => {
                     id={e?.senderId}
                     fullName={e?.senderName}
                     data={e}
-                    type="connection"
+                    type="companyfollowers"
                   />
                 );
               })}

@@ -28,9 +28,9 @@ const ProfileScheduleList = () => {
       {data &&
         data.map((e, i) => {
           return (
-            <WidgetWrapper key={i} sx={{ marginBottom: "20px" }}>
+            <WidgetWrapper key={i} sx={{ marginBottom: "20px" , background:'#f9f9f9' , padding:'10px' }}>
               <PostTitle data={e} />
-              <Box className={styles.scheduleListDiv}>
+              <Box className={styles.scheduleListDiv} >
                 <Box className={styles.scheduleListSubDiv}>
                   <Typography>POL: </Typography>{" "}
                   <Typography>{e.pol}</Typography>
@@ -46,22 +46,7 @@ const ProfileScheduleList = () => {
                   </Typography>
                 </Box>
               </Box>
-              {e.description !== "" && (
-                <FlexBetween flexDirection={"column"}>
-                  <TextField
-                    id="outlined-multiline-static"
-                    multiline
-                    rows={2}
-                    value={e.description}
-                    disabled
-                    name="description"
-                    sx={{
-                      width: "100%",
-                      border: "none",
-                    }}
-                  />
-                </FlexBetween>
-              )}
+              {e.description !== "" && <p className={styles.descriptiontxt}>{e.description}</p>}
               <Box>
                 <LikeComment key={e._id} postData={e} scheduleId={e._id} />
               </Box>
