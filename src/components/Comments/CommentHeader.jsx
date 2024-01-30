@@ -53,8 +53,6 @@ function CommentHeader({ user, createdAt, onDelete, onEdit, onReply, reply, edit
         </Box>
 
         <CommentHeaderActions user={user} onDelete={onDelete} onEdit={onEdit} onReply={onReply} reply={reply} edit={edit} commentAction={commentAction} postData={postData} commentId={commentId}/>
-
-
       </Box>
     </>
   )
