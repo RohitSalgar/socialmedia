@@ -1,4 +1,9 @@
-.repliesdiv > div{
-    background-color: rgb(243 243 243) !important;
-    border-radius: 10px !important;
+.repliesdiv > div {
+  background-color: rgb(243 243 243) !important;
+  border-radius: 10px !important;
+}
+.textdiv {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }

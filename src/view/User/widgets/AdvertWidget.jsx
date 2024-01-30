@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import { URL } from "../../../config";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {useGetTopPages,useFollowPage} from "../../../hooks/toppages";
+import { useGetTopPages, useFollowPage } from "../../../hooks/toppages";
 import { Button } from "@mui/material";
 import { useGetProfile } from "../../../hooks/profile";
 import { useSelector } from "react-redux";
@@ -22,9 +22,9 @@ const AdvertWidget = () => {
   const followPage = useFollowPage;
 
   const handleFollow = (companyId) => {
-    const payload ={
+    const payload = {
       companyId,
-      followerId: userId
+      followerId: userId,
     };
     followPage([payload]);
   };
@@ -40,7 +40,7 @@ const AdvertWidget = () => {
   };
 
   return (
-    <WidgetWrapper sx={{ maxWidth: "300px", height: "50%" }}>
+    <WidgetWrapper sx={{ maxWidth: "300px", height: "46vh" }}>
       <FlexBetween>
         <Typography color={dark} variant="h5" fontWeight="500">
           Top Pages
@@ -73,10 +73,16 @@ const AdvertWidget = () => {
                 </Typography>
               </div>
               <div
-                style={{ display: "flex", alignItems: "center", gap: "20px" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "20px",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
               >
                 <Typography color={medium}>
-                  <h7>followers:</h7>
+                  <h7>Followers:</h7>
                   {company.count}
                 </Typography>
                 <Button onClick={() => handleFollow(company._id)}>
@@ -96,5 +102,3 @@ const AdvertWidget = () => {
 };
 
 export default AdvertWidget;
-
-

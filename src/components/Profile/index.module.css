@@ -9,6 +9,7 @@
   margin: 0;
   padding-top: 10px;
   font-weight: 500 !important;
+  text-transform: capitalize;
 }
 .profilemain {
   padding: 0px 40px;
@@ -25,7 +26,7 @@
 .editbtn {
   text-transform: capitalize !important;
   color: #fff !important;
-  background-color: #ff9500 !important;
+  background-color: #0ebd60 !important;
 }
 .closediv {
   display: flex;
@@ -38,17 +39,27 @@
 }
 .createbtn {
   background-color: transparent;
-  color: #ff9500;
-  border: 1px solid #ff9500 !important;
+  color: #0ebd60;
+  border: 1px solid #0ebd60 !important;
   display: flex;
   gap: 5px;
   align-items: center;
 }
 .createbtn svg path {
-  fill: #ff9500 !important;
+  fill: #0ebd60 !important;
 }
 
 .pendingdiv {
   color: #ea8400 !important;
   margin: 0;
+}
+.btnsdiv{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.pendingdivs{
+  border: 1.5px solid #ea8400 !important;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
