@@ -255,6 +255,7 @@ export default function RegisterPage() {
                   render={({ field }) => (
                     <TextField
                       {...field}
+                      placeholder="Enter FullName"
                       margin="normal"
                       style={{
                         marginBottom: "1px",
@@ -282,6 +283,7 @@ export default function RegisterPage() {
                     render={({ field }) => (
                       <TextField
                         {...field}
+                        placeholder="Enter Email"
                         margin="normal"
                         style={{
                           marginBottom: "1px",
@@ -325,6 +327,7 @@ export default function RegisterPage() {
                       render={({ field }) => (
                         <TextField
                           {...field}
+                          placeholder="Enter Designation"
                           margin="normal"
                           style={{
                             marginBottom: "1px",
@@ -396,6 +399,7 @@ export default function RegisterPage() {
                       render={({ field }) => (
                         <TextField
                           {...field}
+                          placeholder="Enter Password"
                           margin="normal"
                           style={{
                             marginBottom: "1px",
@@ -435,6 +439,7 @@ export default function RegisterPage() {
                             marginTop: "0px",
                           }}
                           {...field}
+                          placeholder="Confirm Password"
                           margin="normal"
                           required
                           fullWidth

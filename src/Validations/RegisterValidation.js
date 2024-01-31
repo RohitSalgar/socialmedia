@@ -8,11 +8,12 @@ export const registerValidation = yup.object({
       .matches(/^[a-zA-Z ]*$/, "Only alphabets are allowed"),
     designation: yup
       .string()
+      .trim()
       .required("Designation is required"),
     email: yup
       .string()
-      .email("Enter valid email address")
-      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,"Enter valid email address")
+      .email("Enter valid email" )
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,"Enter valid email")
       .required("Email is required"),
     password: yup
       .string()

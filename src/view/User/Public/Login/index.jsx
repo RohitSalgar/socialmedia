@@ -248,6 +248,7 @@ export default function Register() {
                   render={({ field }) => (
                     <TextField
                       sx={{ mt: "0px" }}
+                      placeholder="Enter Email"
                       {...field}
                       margin="normal"
                       required
@@ -272,6 +273,7 @@ export default function Register() {
                       render={({ field }) => (
                         <OutlinedInput
                           {...field}
+                          placeholder="Enter Password"
                           className={styles.forminput}
                           id="password"
                           name="password"
