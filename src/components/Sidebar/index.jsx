@@ -70,7 +70,7 @@ function Sidebar({ onClick }) {
                 }`}
               >
                 <NewspaperOutlinedIcon />
-                Pages
+                Comapany Pages
               </Link>
             </li>
             <li
@@ -83,7 +83,7 @@ function Sidebar({ onClick }) {
                 }`}
               >
                 <MailOutlineIcon />
-                Posts
+                Reported Posts
               </Link>
             </li>
             <li
@@ -101,7 +101,7 @@ function Sidebar({ onClick }) {
                 Schedules
               </Link>
             </li>
-            <li
+            {/* <li
               className={activeStep === "advertisements" ? styles.activesidebarstep : ""}
             >
               <Link
@@ -113,7 +113,7 @@ function Sidebar({ onClick }) {
                 <AddAPhotoIcon />
                 Advertisement
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
 

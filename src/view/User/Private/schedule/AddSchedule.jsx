@@ -54,7 +54,6 @@ const AddSchedule = () => {
           <FlexBetween>
             <Box
               className={styles.AddScheduleDiv}
-              sx={{ marginBottom: "1 rem" }}
             >
               <TextField
                 id="outlined-multiline-static"
@@ -82,27 +81,10 @@ const AddSchedule = () => {
               />
             </Box>
           </FlexBetween>
-          <FlexBetween className={styles.inputdiv} flexDirection={"column"}>
-            <TextField
-              id="outlined-multiline-static"
-              multiline
-              className={errors.description && styles.error}
-              rows={1}
-              {...register("description")}
-              placeholder="Description..."
-              name="description"
-              sx={{
-                width: "100%",
-                borderRadius: "1rem",
-              }}
-            />
-          </FlexBetween>
-          <Box
-            sx={{
-              marginTop: "1rem",
-            }}
+          
+          <Box 
           >
-            <FlexBetween className={styles.dateinput}>
+            <FlexBetween className={styles.dateinput} sx={{marginBottom:"1rem"}}>
               <Controller
                 name="openingDate"
                 control={control}
@@ -111,7 +93,7 @@ const AddSchedule = () => {
                     {...field}
                     className={errors.openingDate && styles.error}
                     format="DD-MM-YYYY"
-                    label="opening date"
+                    label="Opening Date"
                     onChange={(e) => field.onChange(e)}
                     sx={{
                       width: "100%",
@@ -129,7 +111,7 @@ const AddSchedule = () => {
                     {...field}
                     className={errors.bookingDate && styles.error}
                     format="DD-MM-YYYY"
-                    label="booking cut off"
+                    label="Booking Cut-Off"
                     onChange={(e) => field.onChange(e)}
                     sx={{
                       width: "100%",
@@ -141,6 +123,21 @@ const AddSchedule = () => {
               />
             </FlexBetween>
           </Box>
+          <FlexBetween className={styles.inputdiv} flexDirection={"column"}>
+            <TextField
+              id="outlined-multiline-static"
+              multiline
+              className={errors.description && styles.error}
+              rows={1}
+              {...register("description")}
+              placeholder="Description..."
+              name="description"
+              sx={{
+                width: "100%",
+                borderRadius: "1rem",
+              }}
+            />
+          </FlexBetween>
           <Box>
             <Button
               type="submit"
