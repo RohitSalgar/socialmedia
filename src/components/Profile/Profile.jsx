@@ -57,8 +57,12 @@ const Profile = () => {
     viewList
   );
 
+  const { data: mainUserFollowList, isLoading: mainUserFollowListLoading } =
+    useGetUserFollowList(userId);
+
   const { data: mainUserfollowingList, isLoading: mainUserfollowingLoading } =
     useGetMainUserFollowingList(userId);
+
   const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
     useGetMainUserConnectionList(userId);
 
@@ -82,7 +86,8 @@ const Profile = () => {
     connectionLoading ||
     postLoading ||
     mainUserfollowingLoading ||
-    mainUserConnectionLoading
+    mainUserConnectionLoading ||
+    mainUserFollowListLoading
   ) {
     <Loader />;
   }
@@ -111,11 +116,83 @@ const Profile = () => {
       const connection = mainUserfollowingList.find(
         (item) => item.recipientId === profileId || item.senderId === profileId
       );
-      unfollowMutate({ id: connection._id, status: 3 });
+      unfollowMutate({ id: connection._id, status: 0 });
     } else {
       unfollowMutate({ id: connection._id, status: 3 });
     }
     return 0;
+  };
+
+  const acceptFn = () => {
+    const connection = mainUserFollowList.find(
+      (item) => item.senderId === profileId
+    );
+    unfollowMutate({ id: connection._id, status: 1 });
+    return 0;
+  };
+
+  const getRequestBtn = () => {
+    if (
+      mainUserConnectionList &&
+      mainUserConnectionList.some(
+        (item) =>
+          item?.recipientId === profileId || item?.senderId === profileId
+      )
+    ) {
+      return (
+        <Button
+          disabled={isUnfollowPending}
+          variant="outlined"
+          className={styles.editbtn}
+        >
+          {isUnfollowPending ? <CircularProgress /> : "Connected"}
+        </Button>
+      );
+    } else if (
+      mainUserfollowingList &&
+      mainUserfollowingList.some((item) => item?.recipientId === profileId)
+    ) {
+      return (
+        <Button
+          disabled={isUnfollowPending}
+          onClick={unFollowFn}
+          variant="dark"
+          className={styles.editbtn}
+        >
+          {isUnfollowPending ? <CircularProgress /> : "Unfollow"}
+        </Button>
+      );
+    } else if (
+      mainUserFollowList &&
+      mainUserFollowList.some((item) => item?.senderId === profileId)
+    ) {
+      return (
+        <Button
+          disabled={isUnfollowPending}
+          onClick={acceptFn}
+          variant="dark"
+          className={styles.editbtn}
+        >
+          {isUnfollowPending ? <CircularProgress /> : "Accept"}
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          disabled={isPending}
+          onClick={() =>
+            frdRequestMutate({
+              senderId: userId,
+              recipientId: profileId,
+            })
+          }
+          variant="dark"
+          className={styles.editbtn}
+        >
+          {isPending ? <CircularProgress /> : "Connect"}
+        </Button>
+      );
+    }
   };
 
   return (
@@ -246,10 +323,8 @@ const Profile = () => {
                 Edit Profile
               </Button>
             )}
-            {checkUserInConnection(profileId, mainUserConnectionList) && (
-              <Button variant="outlined">Connected</Button>
-            )}
-            {profileId !== userId &&
+            {profileId !== userId && getRequestBtn()}
+            {/* {profileId !== userId &&
               (mainUserfollowingList &&
               mainUserfollowingList.some(
                 (item) => item?.recipientId === profileId
@@ -276,7 +351,7 @@ const Profile = () => {
                 >
                   {isPending ? <CircularProgress /> : "Connect"}
                 </Button>
-              ))}
+              ))} */}
             {/* {profileId === userId && data?.pageData === null && (
               <Box className={styles.closediv}>
                 <Button
@@ -347,7 +422,7 @@ const Profile = () => {
             </Box>
             <Box className={styles.postdiv}>
               {postList?.map((data) => (
-                <PostWidget key={data._id} postData={data} />
+                <PostWidget sameProfile={true} key={data._id} postData={data} />
               ))}
               {postList?.length === 0 && <LookingEmpty />}
             </Box>

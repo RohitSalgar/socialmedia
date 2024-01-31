@@ -33,7 +33,7 @@ const FrdRequest = ({ data, changeConnectionStatusFn, isPending }) => {
           <Button
            className={classes.closebtn}
             disabled={isPending}
-            onClick={() => changeConnectionStatusFn(data._id, 3)}
+            onClick={() => changeConnectionStatusFn(data._id, 0)}
             variant="outlined"
           >
             {isPending ? <CircularProgress /> : <CancelIcon />}
