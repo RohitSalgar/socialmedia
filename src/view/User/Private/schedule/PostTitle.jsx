@@ -1,13 +1,14 @@
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import Avatar from "@mui/material/Avatar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DeleteOutlined } from "@mui/icons-material";
 import moment from "moment";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { useGetProfile } from "../../../../hooks/profile";
 import Loader from "../../../../components/Loader/Loader";
 import { useDeleteSchedule } from "../../../../hooks/schedule";
+import { setDashboardView, setViewCompanyId } from "../../../../redux/slices/profileSlice";
 
 const PostTitle = ({ data }) => {
   const { palette } = useTheme();
@@ -18,6 +19,7 @@ const PostTitle = ({ data }) => {
   const { userId } = useSelector((state) => state.profile.profileData);
   const { profileData } = useGetProfile(userId);
   const companyId = useSelector((state) => state.profile.companyId);
+  const dispatch = useDispatch()
 
   const { mutate, isLoading } = useDeleteSchedule();
   const deletePost = (id) => {
@@ -31,6 +33,8 @@ const PostTitle = ({ data }) => {
     <Loader />;
   }
 
+  console.log(data,"data")
+
 
   return (
     <FlexBetween>
@@ -38,7 +42,7 @@ const PostTitle = ({ data }) => {
         <Avatar
           sx={{ width: 35, height: 35 }}
           alt="Remy Sharp"
-          src="/static/images/avatar/1.jpg"
+          src={data.companyProfile ?? "/static/images/avatar/1.jpg"}
         />
         <Box onClick={() => {}}>
           <Typography
@@ -59,7 +63,7 @@ const PostTitle = ({ data }) => {
         </Typography>
       </FlexBetween>
       {data?.companyId !== companyId ? (
-        <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
+        <IconButton onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('profile'))}} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
           <AiOutlineUsergroupAdd sx={{ color: primaryDark }} />
         </IconButton>
       ) : (

@@ -42,6 +42,7 @@ const useChangeConnectionStatus = (onSuccessFunctions) => {
             queryClient.invalidateQueries({ queryKey: ["mainUserfollowList"] });
             queryClient.invalidateQueries({ queryKey: ["mainUserfollowingList"] });
             queryClient.invalidateQueries({ queryKey: ["mainUserconnectionList"] });
+            queryClient.invalidateQueries({ queryKey: ["profile"] });
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
@@ -70,6 +71,7 @@ const useSendFrdRequest = (onSuccessFunctions) => {
             queryClient.invalidateQueries({ queryKey: ["allFrdRequests"] });
             queryClient.invalidateQueries({ queryKey: ["mainUserfollowList"] });
             queryClient.invalidateQueries({ queryKey: ["mainUserfollowingList"] });
+            queryClient.invalidateQueries({ queryKey: ["profile"] });
         },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
