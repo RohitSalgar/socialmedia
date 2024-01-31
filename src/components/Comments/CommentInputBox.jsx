@@ -29,8 +29,8 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { mutate: insertComment, isloading: insertCommentLoading } =
     useInsertComment();
-    const { mutate: commentMutate } = useUpdatePostComment();
-    const { mutate: mutateQaComment } = useInsertQaComment();
+  const { mutate: commentMutate } = useUpdatePostComment();
+  const { mutate: mutateQaComment } = useInsertQaComment();
   const { mutate: insertReply, isloading: insertReplyLoading } =
     useInsertReply();
   const { mutate: insertScheduleReply } = useReplyPostComment();
@@ -50,15 +50,14 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
         };
         setText("");
         return commentMutate(newComment);
-      } else if(dashboardView === "qa"){
+      } else if (dashboardView === "qa") {
         const newComment = {
-          questionId:postData?._id,
+          questionId: postData?._id,
           userId,
           answer: text,
         };
         setText("");
         return mutateQaComment(newComment);
-
       } else {
         const newComment = {
           postId: postData?._id,
@@ -69,13 +68,13 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
         return insertComment(newComment);
       }
     } else if (type === "reply") {
-      if(dashboardView ==="qa"){
+      if (dashboardView === "qa") {
         setText("");
         return insertQaReply({
           answerId: replyId?._id,
           userId: userId,
-          message: text
-        })
+          message: text,
+        });
       }
       const newReply = {
         commentId: replyId?._id,
@@ -104,7 +103,14 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
       >
         {
           <>
-            <Box sx={{ display: "flex", width: "100%",alignItems:'center',mb:'5px' }}>
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+                mb: "5px",
+              }}
+            >
               <Avatar
                 sx={{ width: 25, height: 25, mr: 1 }}
                 alt="Remy Sharp"

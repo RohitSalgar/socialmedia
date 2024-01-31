@@ -14,7 +14,7 @@ import NewspaperIcon from "@mui/icons-material/Newspaper";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import OptionalTab from "../../Private/Tabs/Tabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { setDashboardView } from "../../../../redux/slices/profileSlice";
 import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
@@ -29,7 +29,6 @@ const HomePage = () => {
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
-  console.log(widgetname, "widgetname");
   const dispatch = useDispatch();
   const { data: trendingPost } = useGetTrendingPosts(tabView);
 
@@ -37,7 +36,7 @@ const HomePage = () => {
     setWidgetname(true);
     setTimeout(() => {
       setWidgetname(false);
-    }, 1000);
+    }, 200);
   }
 
   return (

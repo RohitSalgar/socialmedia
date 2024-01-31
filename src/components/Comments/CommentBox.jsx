@@ -8,6 +8,7 @@ import DeleteDialog from "./DeleteDialog";
 import EditField from "./EditField";
 import { useGetPostComment } from "../../hooks/likeComment";
 import styles from "./index.module.css";
+import { useSelector } from "react-redux";
 
 function CommentBox({
   id,
@@ -22,12 +23,14 @@ function CommentBox({
   postData,
   commentId,
 }) {
-  console.log(message,"message")
+  console.log(message, "message");
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
   const [editText, setEditText] = useState(message);
   const [replyId, setReplyId] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const { userId } = useSelector((state) => state.profile.profileData);
 
   const handleConfirmDelete = () => {
     const updatedComments = updateCommentmessage(message, "\0");
@@ -87,6 +90,7 @@ function CommentBox({
     }
     return indices;
   }
+
   return (
     <>
       <Box
@@ -152,20 +156,23 @@ function CommentBox({
         <Box sx={{ display: "flex", width: "94%", ml: 4 }}>
           <Box sx={{ width: "100%" }} className={styles.repliesdiv}>
             {replies.map((reply) => {
-              console.log(reply,"reply")
-              return <CommentBox
-                key={reply.id}
-                {...reply}
-                selected={selected}
-                setSelected={setSelected}
-                commentAction={false}
-                postData={reply}
-                commentId={postData?._id}
-              />
+              console.log(reply, "reply");
+              return (
+                <CommentBox
+                  key={reply.id}
+                  {...reply}
+                  selected={selected}
+                  setSelected={setSelected}
+                  commentAction={false}
+                  postData={reply}
+                  commentId={postData?._id}
+                />
+              );
             })}
           </Box>
         </Box>
       )}
+      {}
       <DeleteDialog
         dialogOpen={dialogOpen}
         setDialogOpen={setDialogOpen}
