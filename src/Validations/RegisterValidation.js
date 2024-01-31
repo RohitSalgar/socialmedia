@@ -12,6 +12,7 @@ export const registerValidation = yup.object({
     email: yup
       .string()
       .email("Enter valid email address")
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,"Enter valid email address")
       .required("Email is required"),
     password: yup
       .string()

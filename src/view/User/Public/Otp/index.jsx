@@ -128,7 +128,7 @@ const OTPPage = () => {
       }
     } catch (error) {
       console.error("Error during OTP verification:", error);
-      toast.error(error.message.split(":")[1] || "An error occurred");
+      toast.error(error.message.split(":")[1] || "Invalid OTP");
     }
   };
 
@@ -255,7 +255,7 @@ const OTPPage = () => {
                         maxLength={1}
                         id="1"
                         className={styles.otp}
-                        // placeholder="*"
+                        placeholder="*"
                         onKeyUp={(event) => {
                           codeChangeHandler(event);
                         }}
@@ -417,7 +417,7 @@ const OTPPage = () => {
                 </Button>
               </Box>
               <div className={styles.receiveotp}>
-                <p>Didnt Receive OTP? </p>
+                <p>Didn't Receive OTP? </p>
                 <p
                   onClick={() => resendOtpData.mutate()}
                   className={styles.forgot}

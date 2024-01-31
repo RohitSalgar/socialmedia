@@ -301,7 +301,7 @@ const PagesOTP = () => {
             </Button>
           </Box>
           <div className={styles.receiveotp}>
-            <p>Didnt Receive OTP? </p>
+            <p>Didn't Receive OTP? </p>
             <p
               onClick={() => resendOtpData.mutate()}
               className={styles.forgot}
