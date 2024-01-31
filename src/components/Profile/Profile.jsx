@@ -27,6 +27,7 @@ import {
   setCompanyId,
   setDashboardView,
   setSideView,
+  setViewCompanyId,
   setViewProfileId,
 } from "../../redux/slices/profileSlice";
 import LookingEmpty from "../LookingEmpty/LookingEmpty";
@@ -304,7 +305,7 @@ const Profile = () => {
                     {checkIsNumber(data?.detailsCounts?.connectionCount)}
                   </Typography>
                   <Typography color={dark} variant="h6" fontWeight="400">
-                    Connection
+                    Connections
                   </Typography>
                 </Box>
               </Box>
@@ -393,9 +394,10 @@ const Profile = () => {
                 <Button
                   className={styles.createbtn}
                   onClick={() => {
-                    dispatch(setDashboardView("postprofile")),
+                    dispatch(setDashboardView("postprofile"));
                       dispatch(setSideView("companyPage"));
                     dispatch(setCompanyId(companyId));
+                    dispatch(setViewCompanyId(companyId))
                   }}
                 >
                   Switch Post Acount
@@ -455,7 +457,7 @@ const Profile = () => {
           <Box>
             <Box>
               <Typography color={dark} sx={{ fontWeight: "bold" }}>
-                Followings
+                Following
               </Typography>
             </Box>
             <Box className={styles.postdiv}>

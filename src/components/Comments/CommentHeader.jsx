@@ -5,6 +5,7 @@ import { DeleteOutlined } from "@mui/icons-material";
 import CommentHeaderActions from "./CommentHeaderActions";
 import { useSelector } from "react-redux";
 import styles from "./index.module.css";
+import { useGetProfile } from "../../hooks/profile";
 
 function CommentHeader({
   user,
@@ -20,6 +21,8 @@ function CommentHeader({
   commentId,
 }) {
   const { userId } = useSelector((state) => state.profile.profileData);
+  const { data: profiledate, isLoading: profileLoading } =
+  useGetProfile(userId);
   const currentUser = "julie";
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
@@ -48,7 +51,22 @@ function CommentHeader({
           className="header-left"
           sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}
         >
-          <Avatar alt="avatar" sx={{ width: 25, height: 25 }} />
+          {/* <Avatar alt="avatar" sx={{ width: 25, height: 25 }} /> */}
+          <span
+                style={{
+                  display: "inline-block",
+                  width: 25,
+                  height: 25,
+                  marginRight: 1,
+                  backgroundColor: "#bdbdbd",
+                  borderRadius: "50%",
+                  textAlign: "center",
+                  lineHeight: "25px",
+                  color: "#fff",
+                }}
+              >
+                {profiledate.userData.fullName.charAt(0).toUpperCase()}
+              </span>
           <Box
             sx={{
               display: "flex",

@@ -82,9 +82,13 @@ const Followers = ({ data, type }) => {
         ? data?.senderName
         : data?.recipientName;
     } else if (type === "followers") {
-      return data?.senderName;
+      return profileData.userId === data?.recipientId
+      ? data?.senderName
+      : data?.recipientName;
     } else if (type === "following") {
-      return data?.recipientName ?? data.followerName;
+      return data?.followerName ? data?.followerName  : profileData.userId === data?.recipientId
+      ? data?.senderName
+      : data?.recipientName;
     } else if (type === "companyfollowers") {
       return data?.followerName;
     }
@@ -97,9 +101,13 @@ const Followers = ({ data, type }) => {
         ? data?.senderProfile
         : data?.recipientProfile;
     } else if (type === "followers") {
-      return data?.profile;
+      return profileData.userId === data?.recipientId
+      ? data?.senderProfile
+      : data?.recipientProfile;
     } else if (type === "following") {
-      return data?.profile;
+      return data?.profile ? data?.profile : profileData.userId === data?.recipientId
+      ? data?.senderProfile
+      : data?.recipientProfile;
     } else if (type === "companyfollowers") {
       return data?.profile;
     }

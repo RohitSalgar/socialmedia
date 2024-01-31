@@ -102,14 +102,17 @@ const useNavSearch = (onSuccessFunctions) => {
     });
 };
 
-const useGetAllTopPages = () => {
+const useGetAllTopPages = (id) => {
     return useQuery({
-      queryKey: ["getAllTopPages"],
-      queryFn: () => {
+      queryKey: ["getAllTopPages",id],
+      queryFn: ({queryKey}) => {
         return fetchData({
           url: URL + "pages/getCompanyDataByFollowersDescending",
           isAuthRequired: true,
-        });
+          method:"POST",
+        },
+        { data: [{userId: queryKey[1]}] }
+        );
       },
     });
   };

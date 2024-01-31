@@ -96,7 +96,7 @@ const Navbar = () => {
                 onChange={(e) => {
                   setSearchText(e.target.value);
                   navesearchMutate({
-                    term: e.target.value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+                    term: e.target.value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s/g, "")
                   });
                 }}
                 placeholder="Search..."
@@ -149,12 +149,6 @@ const Navbar = () => {
             <Message
               sx={{ fontSize: "25px", cursor: "pointer" }}
               onClick={() => dispatch(setSideView("chat"))}
-            />
-          )}
-          {sideView === "chat" && (
-            <ClearIcon
-              sx={{ fontSize: "25px", cursor: "pointer" }}
-              onClick={() => dispatch(setSideView("companyPage"))}
             />
           )}
           {/* <Notifications sx={{ fontSize: "25px" }} /> */}
