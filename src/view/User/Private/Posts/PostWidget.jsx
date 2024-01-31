@@ -28,7 +28,7 @@ import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
 
-const PostWidget = ({ postData }) => {
+const PostWidget = ({ postData, sameProfile }) => {
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
   const [report, setReport] = useState(false);
@@ -106,11 +106,8 @@ const PostWidget = ({ postData }) => {
 
   return (
     <WidgetWrapper m="0.3rem 0">
-      <PostTitle data={postData} />
-      <Typography
-        color={main}
-        sx={{ mt: "0.5rem", ml: 1, textTransform: "capitalize" }}
-      >
+      <PostTitle sameProfile={sameProfile} data={postData} />
+      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 , textTransform:'capitalize' }}>
         {postData?.description}
       </Typography>
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>

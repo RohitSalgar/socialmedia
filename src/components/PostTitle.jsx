@@ -8,7 +8,7 @@ import { useDeletePost } from "../hooks/posts";
 import moment from "moment";
 import { setDashboardView, setViewProfileId } from "../redux/slices/profileSlice";
 
-const PostTitle = ({ data }) => {
+const PostTitle = ({ data, sameProfile }) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
@@ -53,7 +53,7 @@ const PostTitle = ({ data }) => {
           {moment(data?.createdAt).format("MMM Do YYYY, h:mm a")}
         </Typography>
       </FlexBetween>
-      {data?.createdBy != userId ?
+      {!sameProfile && <>{data?.createdBy != userId ?
        (
         <IconButton onClick={() => {dispatch(setViewProfileId(data.createdBy)); dispatch(setDashboardView('profile'))}} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
           <PersonAddOutlined sx={{ color: primaryDark }} />
@@ -63,7 +63,7 @@ const PostTitle = ({ data }) => {
         <IconButton sx={{ p: "0.6rem" }} onClick={() => deletePost(data?._id)}>
           <DeleteOutlined  className="deleteIcon" />
         </IconButton>
-      )}
+      )}</>}
     </FlexBetween>
   );
 };
