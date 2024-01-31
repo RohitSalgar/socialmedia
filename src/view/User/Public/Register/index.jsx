@@ -268,6 +268,7 @@ export default function RegisterPage() {
                   render={({ field }) => (
                     <TextField
                       {...field}
+                      placeholder="Enter FullName"
                       margin="normal"
                       style={{
                         marginBottom: "1px",
@@ -295,6 +296,7 @@ export default function RegisterPage() {
                     render={({ field }) => (
                       <TextField
                         {...field}
+                        placeholder="Enter Email"
                         margin="normal"
                         style={{
                           marginBottom: "1px",
@@ -338,6 +340,7 @@ export default function RegisterPage() {
                       render={({ field }) => (
                         <TextField
                           {...field}
+                          placeholder="Enter Designation"
                           margin="normal"
                           style={{
                             marginBottom: "1px",
@@ -421,8 +424,15 @@ export default function RegisterPage() {
                       render={({ field }) => (
                         <OutlinedInput
                           {...field}
-                          className={styles.forminput}
-                          id="password"
+                          placeholder="Enter Password"
+                          margin="normal"
+                          style={{
+                            marginBottom: "1px",
+                            fontSize: "10px",
+                            marginTop: "0px",
+                          }}
+                          required
+                          fullWidth
                           name="password"
                           type={showPassword ? "text" : "password"}
                           endAdornment={
@@ -475,8 +485,10 @@ export default function RegisterPage() {
                       render={({ field }) => (
                         <OutlinedInput
                           {...field}
-                          className={styles.forminput}
-                          id="conPassword"
+                          placeholder="Confirm Password"
+                          margin="normal"
+                          required
+                          fullWidth
                           name="conPassword"
                           type={conshowPassword ? "text" : "password"}
                           endAdornment={
