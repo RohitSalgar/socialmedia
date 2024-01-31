@@ -2,10 +2,13 @@ import classes from "./index.module.css";
 import { Button, CircularProgress } from "@mui/material";
 import OfflinePinIcon from '@mui/icons-material/OfflinePin';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useDispatch } from "react-redux";
+import { setDashboardView, setViewProfileId } from "../../redux/slices/profileSlice";
 
 const FrdRequest = ({ data, changeConnectionStatusFn, isPending }) => {
+  const dispatch = useDispatch()
   return (
-    <div className={classes.maindiv}>
+    <div onClick={() => {dispatch(setViewProfileId(data.senderId)); dispatch(setDashboardView("profile"))}} className={classes.maindiv}>
       <div className={classes.FrdRequestsection}>
         <div>
           <img

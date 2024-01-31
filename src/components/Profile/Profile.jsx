@@ -27,6 +27,7 @@ import {
   setCompanyId,
   setDashboardView,
   setSideView,
+  setViewCompanyId,
   setViewProfileId,
 } from "../../redux/slices/profileSlice";
 import LookingEmpty from "../LookingEmpty/LookingEmpty";
@@ -393,9 +394,10 @@ const Profile = () => {
                 <Button
                   className={styles.createbtn}
                   onClick={() => {
-                    dispatch(setDashboardView("postprofile")),
+                    dispatch(setDashboardView("postprofile"));
                       dispatch(setSideView("companyPage"));
                     dispatch(setCompanyId(companyId));
+                    dispatch(setViewCompanyId(companyId))
                   }}
                 >
                   Switch Post Acount

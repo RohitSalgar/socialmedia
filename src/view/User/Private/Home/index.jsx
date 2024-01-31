@@ -10,7 +10,7 @@ import ChatLayout from "../chat/index";
 import OptionalTab from "../Tabs/Tabs";
 import Profile from "../../../../components/Profile/Profile";
 import EditProfile from "../../../../components/EditProfile/EditProfile";
-import { useGetAllFrdRequestByUserId } from "../../../../hooks/user";
+import { useGetAllFrdRequestByUserId, useGetAllTopPages } from "../../../../hooks/user";
 import {
   useGetForYouPost,
   useGetFriendsPost,
@@ -36,6 +36,7 @@ const HomePage = () => {
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { data: frdRequestData, isLoading: frdRequestLoading } =
     useGetAllFrdRequestByUserId(userId);
+    const { data: companyData, isLoading: topPagesLoading } = useGetAllTopPages(userId);
 
   const { tabView } = useSelector((state) => state.profile);
   const { sideView } = useSelector((state) => state.profile);
@@ -49,7 +50,7 @@ const HomePage = () => {
     country: "India",
   });
   const { data } = useGetProfile(userId);
-  if (isLoading || frdRequestLoading) {
+  if (isLoading || frdRequestLoading || topPagesLoading) {
     return <Loader />;
   }
 
@@ -157,7 +158,7 @@ const HomePage = () => {
           <Box flexBasis="25%">
             {sideView === "companyPage" && (
               <>
-                <AdvertWidget /> <Box m="1rem 0" />
+                {companyData && companyData.length > 0 && <AdvertWidget companyData={companyData} />} <Box m="1rem 0" />
                 <FriendListWidget data={frdRequestData} />
               </>
             )}

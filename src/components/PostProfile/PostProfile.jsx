@@ -24,7 +24,6 @@ import LookingEmpty from "../LookingEmpty/LookingEmpty";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useGetCompanyProfile, useGetPageFollowList } from "../../hooks/pages";
 import ProfileScheduleList from "../ProfileScheduleList/ProfileScheduleList";
-import { useGetAllMySchedules } from "../../hooks/schedule";
 import { useFollowTopPage } from "../../hooks/user";
 
 const PostProfile = () => {

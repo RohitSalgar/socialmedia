@@ -5,18 +5,21 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Button } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFollowTopPage, useGetAllTopPages } from "../../../hooks/user";
 import Loader from "../../../components/Loader/Loader";
 import { CircularProgress } from "@mui/material";
-const AdvertWidget = () => {
+import {
+  setDashboardView,
+  setViewCompanyId,
+} from "../../../redux/slices/profileSlice";
+const AdvertWidget = ({companyData}) => {
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
-
+  const dispatch = useDispatch();
   const { userId } = useSelector((state) => state.profile.profileData);
-  const {data: companyData, isLoading} = useGetAllTopPages();
   const { mutate: followPage, isPending } = useFollowTopPage();
 
   const handleFollow = (companyId) => {
@@ -37,68 +40,160 @@ const AdvertWidget = () => {
     slidesToScroll: 1,
   };
 
-  if(isLoading || isPending){
-    return <Loader></Loader>
+  if (isPending) {
+    return <Loader></Loader>;
   }
 
   return (
-    <WidgetWrapper sx={{ maxWidth: "300px", height: "46vh" }}>
+    <WidgetWrapper sx={{ minWidth: "100%", maxWidth: "300px", height: "40vh" }}>
       <FlexBetween>
         <Typography color={dark} variant="h5" fontWeight="500">
           Top Pages
         </Typography>
       </FlexBetween>
-      <Slider {...settings}>
-        {companyData && companyData.map((company) => (
-          <div key={company._id}>
-            <FlexBetween
-              sx={{
+      {companyData && companyData.length > 1 ? (
+        <Slider {...settings}>
+          {companyData &&
+            companyData.map((company) => {
+              console.log(company, "comapny");
+              return (
+                <div
+                  onClick={() => {
+                    dispatch(setViewCompanyId(company._id));
+                    dispatch(setDashboardView("postprofile"));
+                  }}
+                  key={company._id}
+                >
+                  <FlexBetween
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      mt: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "20px",
+                      }}
+                    >
+                      <img
+                        src={company?.companyData?.profile ?? company?.profile}
+                        width="30px"
+                        height="30px"
+                        alt={
+                          company?.companyData?.companyName ??
+                          company?.companyName
+                        }
+                        style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
+                      />
+                      <Typography color={main}>
+                        {company?.companyData?.companyName ??
+                          company?.companyName}
+                      </Typography>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "20px",
+                        justifyContent: "space-between",
+                        width: "100%",
+                      }}
+                    >
+                      <Typography color={medium}>
+                        Followers :<b> {company?.count ?? 0}</b>
+                      </Typography>
+                      {/* <Button
+                        disabled={isPending}
+                        onClick={() => handleFollow(company._id)}
+                      >
+                        {isPending ? <CircularProgress /> : "Follow"}
+                      </Button> */}
+                    </div>
+                  </FlexBetween>
+                  <Typography color={main} m="0.5rem 0">
+                    <b>About: </b>
+                    {company?.companyData?.about ?? company?.about}
+                  </Typography>
+                </div>
+              );
+            })}
+        </Slider>
+      ) : (
+        <div
+          onClick={() => {
+            dispatch(
+              setViewCompanyId(
+                companyData[0]?.companyData?._id ?? companyData[0]._id
+              )
+            );
+            dispatch(setDashboardView("postprofile"));
+          }}
+        >
+          <FlexBetween
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
+              mt: "10px",
+            }}
+          >
+            <div
+              style={{
                 display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
                 alignItems: "center",
-                mt: "10px",
+                gap: "20px",
               }}
             >
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "20px" }}
+              <img
+                src={
+                  companyData[0]?.companyData?.profile ??
+                  companyData[0]?.profile
+                }
+                width="30px"
+                height="30px"
+                alt={
+                  companyData[0]?.companyData?.companyName ??
+                  companyData[0]?.companyName
+                }
+                style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
+              />
+              <Typography color={main}>
+                {companyData[0]?.companyData?.companyName ??
+                  companyData[0]?.companyName}
+              </Typography>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "20px",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              <Typography color={medium}>
+                Followers :<b> {companyData[0]?.count ?? 0}</b>
+              </Typography>
+              <Button
+                disabled={isPending}
+                onClick={() => handleFollow(companyData[0].companyData._id)}
               >
-                <img
-                  src={company.companyData.profile}
-                  width="30px"
-                  height="30px"
-                  alt={company.companyData.companyName}
-                  style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
-                />
-                <Typography color={main}>
-                  {company.companyData.companyName}
-                </Typography>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "20px",
-                  justifyContent: "space-between",
-                  width: "100%",
-                }}
-              >
-                <Typography color={medium}>
-                  Followers
-                  {company.count}
-                </Typography>
-                <Button disabled={isPending} onClick={() => handleFollow(company._id)}>
-                  {isPending ? <CircularProgress /> : "Follow"}
-                </Button>
-              </div>
-            </FlexBetween>
-            <Typography color={main} m="0.5rem 0">
-              <b>About:</b>
-              {company.companyData.about}
-            </Typography>
-          </div>
-        ))}
-      </Slider>
+                {isPending ? <CircularProgress /> : "Follow"}
+              </Button>
+            </div>
+          </FlexBetween>
+          <Typography color={main} m="0.5rem 0">
+            <b>About: </b>
+            {companyData[0]?.companyData?.about ?? companyData[0]?.about}
+          </Typography>
+        </div>
+      )}
     </WidgetWrapper>
   );
 };
