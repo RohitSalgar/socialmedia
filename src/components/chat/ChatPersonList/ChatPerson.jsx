@@ -25,7 +25,7 @@ const ChatPerson = ({ data }) => {
         <img
           width={"40px"}
           height={"40px"}
-          src={data.senderProfile}
+          src={data.senderId === userId ? data.recipientProfile :data.senderProfile}
           alt="alt"
         />
         <Typography className={styles.ChatPersonName}>

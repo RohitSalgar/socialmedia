@@ -69,7 +69,7 @@ const schedules = () => {
     <section className={classes.postSection}>
       <div>
         <Typography variant="h2" color={primary}>
-          Schedules List
+          Schedule List
         </Typography>
       </div>
       <div className={classes.searchContainer}>

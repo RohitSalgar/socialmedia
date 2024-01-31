@@ -45,7 +45,7 @@ function App() {
             </LocalizationProvider>
           </Suspense>
         </ErrorBoundary>
-        <ToastContainer  position="top-right" />
+        <ToastContainer  position="bottom-right" />
       </QueryClientProvider>
 
     </div>

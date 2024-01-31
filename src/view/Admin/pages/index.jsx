@@ -82,7 +82,7 @@ const pages = () => {
     <section className={classes.postSection}>
       <div>
         <Typography variant="h2" color={primary}>
-          Company Pages List
+          Company Page List
         </Typography>
       </div>
       <div className={classes.searchContainer}>
