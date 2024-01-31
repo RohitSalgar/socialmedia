@@ -14,7 +14,6 @@ import { useGetProfile } from "../../hooks/profile";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { setSideView } from "../../redux/slices/profileSlice";
 
-
 const CreateCompany = () => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
@@ -84,7 +83,7 @@ const CreateCompany = () => {
               minWidth: "0px",
               color: "#585858",
             }}
-            onClick={() => dispatch(setSideView('companyPage'))}
+            onClick={() => dispatch(setSideView("companyPage"))}
           >
             X
           </Button>
@@ -115,18 +114,27 @@ const CreateCompany = () => {
               id="companyName"
               {...register("companyName")}
             />
+            {errors.companyName && (
+              <p className={styles.errorMsg}>{errors.companyName.message}</p>
+            )}
             <label htmlFor="email">Email</label>
             <input
               className={errors.email && styles.error}
               id="email"
               {...register("email")}
             />
+            {errors.email && (
+              <p className={styles.errorMsg}>{errors.email.message}</p>
+            )}
             <label htmlFor="licenseNo">License No</label>
             <input
               className={errors.licenseNo && styles.error}
               id="licenseNo"
               {...register("licenseNo")}
             />
+            {errors.licenseNo && (
+              <p className={styles.errorMsg}>{errors.licenseNo.message}</p>
+            )}
             <label htmlFor="about">About</label>
             <textarea
               className={errors.about && styles.error}
@@ -134,6 +142,9 @@ const CreateCompany = () => {
               id="about"
               {...register("about")}
             />
+            {errors.about && (
+              <p className={styles.errorMsg}>{errors.about.message}</p>
+            )}
             <button
               className={styles.submitbtn}
               type="submit"

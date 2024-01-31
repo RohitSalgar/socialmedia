@@ -7,6 +7,7 @@ import { useGetAllUsers } from "../../../hooks/admin";
 import styled from "@emotion/styled";
 import { useTheme } from "@emotion/react";
 import Loader from "../../../components/Loader/Loader";
+import { convertFirstLettersAsUpperCase } from "../../../helper";
 
 const CustomDataGrid = styled(DataGrid)`
   .MuiTablePagination-displayedRows {
@@ -37,6 +38,8 @@ const users = () => {
       field: "fullName",
       headerName: "User Name",
       flex: 1.5,
+      valueGetter: (params) =>
+      convertFirstLettersAsUpperCase(params.row.fullName) ,
       headerAlign: "center",
       align: "center",
       headerClassName: "tabel-header",
@@ -98,7 +101,7 @@ const users = () => {
         }}
       >
         <CustomDataGrid
-          sx={{ textTransform: "capitalize" }}
+          // sx={{ textTransform: "capitalize" }}
           getRowId={(row) => row._id}
           rows={data?.userData?.filter((user) =>
             user.fullName.includes(searchTerm.toLowerCase())

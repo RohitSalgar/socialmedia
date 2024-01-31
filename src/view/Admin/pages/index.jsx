@@ -8,12 +8,13 @@ import Button from "@mui/material/Button";
 import { useGetAllUnverifiedPages, useVerifyPage } from "../../../hooks/admin";
 import Loader from "../../../components/Loader/Loader";
 import moment from "moment";
+import { Box } from "@mui/system";
 
 const pages = () => {
   const { palette } = useTheme();
   const primary = palette.primary.main;
-  const {data: pagesData, isLoading} = useGetAllUnverifiedPages()
-  const {mutate, isPaused} = useVerifyPage()
+  const { data: pagesData, isLoading } = useGetAllUnverifiedPages();
+  const { mutate, isPaused } = useVerifyPage();
   const [searchTerm, setSearchTerm] = useState("");
 
   const columns = [
@@ -36,7 +37,7 @@ const pages = () => {
     {
       field: "about",
       headerName: "About",
-      flex: 1.5,
+      flex: 1,
       headerAlign: "center",
       align: "center",
       headerClassName: "tabel-header",
@@ -45,14 +46,14 @@ const pages = () => {
     {
       field: "licenseNo",
       headerName: "License No",
-      flex: 1.5,
+      flex: 1,
       headerAlign: "center",
       align: "center",
       headerClassName: "tabel-header",
     },
     {
       field: "createdAt",
-      headerName: "Created Time",
+      headerName: "Created At",
       flex: 1,
       headerAlign: "center",
       align: "center",
@@ -62,27 +63,38 @@ const pages = () => {
     {
       field: "Options",
       headerName: "Options",
-      flex: 1,
+      flex: 1.7,
       headerAlign: "center",
       align: "center",
       headerClassName: "tabel-header",
-      renderCell: ({ row }) => 
-      <>
-      <Button onClick={() => mutate({id: row._id, status: 1})} variant="contained">Approve</Button>
-      <Button onClick={() => mutate({id: row._id, status: 4})} variant="outlined">Reject</Button>
-      </>,
+      renderCell: ({ row }) => (
+        <Box sx={{ display: "flex", gap: "3px" }}>
+          <Button
+            sx={{ color: "green", border: "1px solid green" }}
+            onClick={() => mutate({ id: row._id, status: 1 })}
+          >
+            Approve
+          </Button>
+          <Button
+            sx={{ color: "red", border: "1px solid red" }}
+            onClick={() => mutate({ id: row._id, status: 4 })}
+          >
+            Reject
+          </Button>
+        </Box>
+      ),
     },
   ];
 
-  if(isLoading || isPaused) {
-    return <Loader />
+  if (isLoading || isPaused) {
+    return <Loader />;
   }
 
   return (
     <section className={classes.postSection}>
       <div>
         <Typography variant="h2" color={primary}>
-          Company Pages List
+          Company Page List
         </Typography>
       </div>
       <div className={classes.searchContainer}>
@@ -100,7 +112,9 @@ const pages = () => {
         <DataGrid
           sx={{ textTransform: "capitalize", minHeight: "450px" }}
           getRowId={(row) => row._id}
-          rows={pagesData.filter(page => page.companyName.toLowerCase().includes(searchTerm.toLowerCase()))}
+          rows={pagesData.filter((page) =>
+            page.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+          )}
           columns={columns}
           initialState={{
             pagination: {

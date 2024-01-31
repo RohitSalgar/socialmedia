@@ -19,6 +19,7 @@ import { HiMiniHashtag } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { useInsertPost } from "../../../../hooks/posts";
 import { useGetProfile } from "../../../../hooks/profile";
+import { toast } from "react-toastify";
 
 const MyPostWidget = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -26,7 +27,7 @@ const MyPostWidget = () => {
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
   const [hashTag, setHashTags] = useState(false);
-  const [description, setDescription] = useState("");
+  let [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [location, setLocation] = useState({
     state: "TamilNadu",
@@ -55,6 +56,17 @@ const MyPostWidget = () => {
     e.target.value = "";
   }
 
+  function acceptOnlyImages(file) {
+    const acceptedImageTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/svg+xml",
+    ];
+
+    return acceptedImageTypes.includes(file.type);
+  }
+
   function removeTag(index) {
     setTags(tags.filter((el, i) => i !== index));
   }
@@ -64,17 +76,23 @@ const MyPostWidget = () => {
     if (post === "news") {
       hashTagss = [...hashTagss, "news"];
     }
-    const formData = new FormData();
-    formData.append("file", image);
-    formData.append("createdBy", userId);
-    formData.append("description", description);
-    formData.append("hashTags", JSON.stringify(hashTagss));
-    formData.append("state", location.state);
-    formData.append("country", location.country);
-    if (dashboardView === "pages") {
-      formData.append("companyId", data.pageData._id);
+    if (acceptOnlyImages(image)) {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("createdBy", userId);
+      formData.append("description", description);
+      formData.append("hashTags", JSON.stringify(hashTagss));
+      formData.append("state", location.state);
+      formData.append("country", location.country);
+      if (dashboardView === "pages") {
+        formData.append("companyId", data.pageData._id);
+      }
+      mutate(formData);
+    } else {
+      setDescription("");
+      setImage("");
+      toast.error("Only images are accepted");
     }
-    mutate(formData);
   };
 
   return (
@@ -112,7 +130,7 @@ const MyPostWidget = () => {
       <FlexBetween>
         <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>
           <Dropzone
-            acceptedFiles=".jpg,.jpeg,.png"
+            accept="image/*"
             multiple={false}
             onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
           >

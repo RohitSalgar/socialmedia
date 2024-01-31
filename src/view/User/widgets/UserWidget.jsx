@@ -14,6 +14,7 @@ import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setDashboardView,
+  setSideView,
   setTabView,
   setViewProfileId,
 } from "../../../redux/slices/profileSlice";
@@ -152,6 +153,7 @@ const UserWidget = () => {
             onClick={(event) => {
               handleListItemClick(event, 0);
               dispatch(setDashboardView("home"));
+              dispatch(setSideView("companyPage"))
               dispatch(setTabView("trending"));
             }}
           >
@@ -165,6 +167,7 @@ const UserWidget = () => {
             selected={dashboardView === "news"}
             onClick={() => {
               dispatch(setDashboardView("news"));
+              dispatch(setSideView("companyPage"))
               dispatch(setTabView("news"));
             }}
           >
@@ -177,6 +180,7 @@ const UserWidget = () => {
             sx={{ padding: "1px 20px" }}
             selected={dashboardView === "schedule"}
             onClick={() => {
+              dispatch(setSideView("companyPage"))
               dispatch(setDashboardView("schedule"));
             }}
           >
@@ -204,6 +208,7 @@ const UserWidget = () => {
             onClick={() => {
               dispatch(setDashboardView("pages"));
               dispatch(setTabView("pages"));
+              dispatch(setSideView("companyPage"))
             }}
           >
             <ListItemIcon>
@@ -217,6 +222,7 @@ const UserWidget = () => {
             onClick={() => {
               dispatch(setDashboardView("qa"));
               dispatch(setTabView("qa"));
+              dispatch(setSideView("companyPage"))
             }}
           >
             <ListItemIcon>
@@ -230,6 +236,7 @@ const UserWidget = () => {
             onClick={() => {
               dispatch(setDashboardView("profile"));
               dispatch(setViewProfileId(userId));
+              
             }}
           >
             <ListItemIcon>

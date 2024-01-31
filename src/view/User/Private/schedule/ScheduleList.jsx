@@ -21,7 +21,7 @@ const ScheduleList = () => {
           {data &&
             data.map((e, i) => {
               return (
-                <WidgetWrapper key={i} sx={{ marginTop : "20px" }}>
+                <WidgetWrapper key={i} sx={{ marginTop: "20px" }}>
                   <PostTitle data={e} />
                   <Box className={styles.scheduleListDiv}>
                     <Box className={styles.scheduleListSubDiv}>
@@ -52,9 +52,19 @@ const ScheduleList = () => {
             })}
         </>
       ) : (
-        <Box sx={{ margin: "2rem" }}>
-          <Typography sx={{ textAlign: "center" }}>No Schedule</Typography>
-        </Box>
+        // <Box sx={{ margin: "2rem" }}>
+        //   <Typography sx={{ textAlign: "center" }}>No Schedule</Typography>
+        // </Box>
+        <WidgetWrapper >
+          <Box className={styles.scheduleListDiv} sx={{display:"flex", justifyContent:"center", height:"100vh"}}>
+
+              <Typography>No Schedule </Typography>{" "}
+           
+          </Box>
+
+          <Box>
+          </Box>
+        </WidgetWrapper>
       )}
     </>
   );

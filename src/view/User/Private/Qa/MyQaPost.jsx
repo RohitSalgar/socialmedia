@@ -17,6 +17,7 @@ import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useSelector } from "react-redux";
 import { useInsertquestion } from "../../../../hooks/qa";
+import { toast } from "react-toastify";
 
 const Myqa = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -33,7 +34,7 @@ const Myqa = () => {
     setfiles(null);
     setIsfiles(false);
   };
-  const { mutate, isLoading } = useInsertquestion(onSuccess);
+  const { mutate } = useInsertquestion(onSuccess);
 
   // useEffect(() => {
   //   const fetchIPAddress = async () => {
@@ -54,18 +55,29 @@ const Myqa = () => {
   //   fetchIPAddress();
   // }, []);
 
+  function acceptOnlyImages(file) {
+    const acceptedImageTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/svg+xml",
+    ];
+
+    return acceptedImageTypes.includes(file.type);
+  }
+
   const onSubmit = () => {
     const formData = new FormData();
-    formData.append("files", files);
-    formData.append("createdBy", userId);
-    formData.append("question", question);
-    const postData = {
-      createdBy: userId,
-      question: question,
-      files: formData,
-    };
-
-    mutate(formData);
+    if (acceptOnlyImages(files)) {
+      formData.append("files", files);
+      formData.append("createdBy", userId);
+      formData.append("question", question);
+      mutate(formData);
+    } else {
+      setquestion("");
+      setfiles("");
+      toast.error("Only images are accepted");
+    }
   };
 
   return (

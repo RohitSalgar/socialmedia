@@ -114,7 +114,7 @@ const posts = () => {
     <section className={classes.postSection}>
       <div>
         <Typography variant="h2" bold color={primary}>
-          Reported Posts
+          Reported Post List
         </Typography>
       </div>
       <div className={classes.searchContainer}>

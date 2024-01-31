@@ -29,7 +29,7 @@ import PagesOTP from "../../../../components/PagesOTP/PagesOTP";
 import CreateCompany from "../../../../components/CreateCompany/CreateCompany";
 import Loader from "../../../../components/Loader/Loader";
 import CompanyPage from "../CompanyPage";
-
+import { useEffect } from "react"
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -40,17 +40,23 @@ const HomePage = () => {
 
   const { tabView } = useSelector((state) => state.profile);
   const { sideView } = useSelector((state) => state.profile);
-  const { data: trendingPost } = useGetTrendingPosts(tabView);
-  const { data: friendPostData } = useGetFriendsPost(tabView, { userId });
+  const { data: trendingPost, refetch: trendingPostPostRefetch } = useGetTrendingPosts(tabView);
+  const { data: friendPostData, refetch: friendPostDataRefetch } = useGetFriendsPost(tabView, { userId });
   const { data: newsPostData } = useGetNewsPosts(tabView);
   const { data: pagePostData, isLoading } = useGetPagePost(tabView);
   const { data: allQaData } = useGetAllQa(tabView);
-  const { data: forYouData } = useGetForYouPost(tabView, {
+  const { data: forYouData, refetch: forYouDataRefetch } = useGetForYouPost(tabView, {
     state: "Tamilnadu",
     country: "India",
   });
   const { data } = useGetProfile(userId);
-  if (isLoading || frdRequestLoading || topPagesLoading) {
+  useEffect(() => {
+    forYouDataRefetch()
+    trendingPostPostRefetch()
+    friendPostDataRefetch()
+  }, [tabView])
+
+  if (isLoading || frdRequestLoading) {
     return <Loader />;
   }
 
