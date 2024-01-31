@@ -21,12 +21,13 @@ const EditProfile = () => {
   const userId = useSelector((state) => state.profile.profileData.userId);
   const { data: profiledate, isLoading } = useGetProfile(userId);
   const editProfileSucess = (data) => {
-    dispatch(setSideView("companyPage"))
-    toast.success(data)
-  }
-  const { mutate, isLoading: mutateLoading } = useEditProfile(editProfileSucess);
-  const [profilePic, setProfilePic] = useState("")
-  const [profilePicUrl, setProfilePicUrl] = useState("")
+    dispatch(setSideView("companyPage"));
+    toast.success(data);
+  };
+  const { mutate, isLoading: mutateLoading } =
+    useEditProfile(editProfileSucess);
+  const [profilePic, setProfilePic] = useState("");
+  const [profilePicUrl, setProfilePicUrl] = useState("");
 
   const {
     register,
@@ -123,16 +124,22 @@ const EditProfile = () => {
           <form onSubmit={handleSubmit(onSubmit)} className={styles.editform}>
             <label htmlFor="fullName">Full Name</label>
             <input
-              className={errors.name && styles.error}
+              className={errors.fullName && styles.error}
               id="fullName"
               {...register("fullName")}
             />
+            {errors.fullName && (
+              <p className={styles.errorMsg}>{errors.fullName.message}</p>
+            )}
             <label htmlFor="designation">Designation</label>
             <input
               className={errors.designation && styles.error}
               id="designation"
               {...register("designation")}
             />
+            {errors.designation && (
+              <p className={styles.errorMsg}>{errors.designation.message}</p>
+            )}
             <label htmlFor="about">About</label>
             <textarea
               className={errors.about && styles.error}
@@ -140,6 +147,9 @@ const EditProfile = () => {
               id="about"
               {...register("about")}
             />
+            {errors.about && (
+              <p className={styles.errorMsg}>{errors.about.message}</p>
+            )}
             <button className={styles.submitbtn} type="submit">
               Submit
             </button>
