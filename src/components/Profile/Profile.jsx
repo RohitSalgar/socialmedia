@@ -305,7 +305,7 @@ const Profile = () => {
                     {checkIsNumber(data?.detailsCounts?.connectionCount)}
                   </Typography>
                   <Typography color={dark} variant="h6" fontWeight="400">
-                    Connection
+                    Connections
                   </Typography>
                 </Box>
               </Box>
@@ -457,7 +457,7 @@ const Profile = () => {
           <Box>
             <Box>
               <Typography color={dark} sx={{ fontWeight: "bold" }}>
-                Followings
+                Following
               </Typography>
             </Box>
             <Box className={styles.postdiv}>
