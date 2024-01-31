@@ -261,6 +261,7 @@ export default function RegisterPage() {
                 <label className={styles.forminputlabel} htmlFor="fullName">
                   Full Name
                 </label>
+                <span style={{ color: "red" }}>*</span>
                 <Controller
                   name="fullName"
                   id="fullName"
@@ -290,6 +291,7 @@ export default function RegisterPage() {
                   <label className={styles.forminputlabel} htmlFor="email">
                     Email Address
                   </label>
+                  <span style={{ color: "red" }}>*</span>
                   <Controller
                     name="email"
                     control={control}
@@ -328,12 +330,16 @@ export default function RegisterPage() {
                     className={styles.loginforminputs}
                     width="50%"
                   >
+                    <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
+
                     <label
                       className={styles.forminputlabel}
                       htmlFor="designation"
-                    >
+                      >
                       Designation
                     </label>
+                    <span style={{ color: "red", marginTop:"9px" }}>*</span>
+                      </div>
                     <Controller
                       name="designation"
                       control={control}
@@ -364,6 +370,7 @@ export default function RegisterPage() {
                     <label className={styles.forminputlabel} htmlFor="dob">
                       Date of Birth
                     </label>
+                    <span style={{ color: "red" }}>*</span>
                     <Controller
                       name="dob"
                       control={control}
@@ -406,6 +413,7 @@ export default function RegisterPage() {
                     <label className={styles.forminputlabel} htmlFor="password">
                       Password
                     </label>
+                    <span style={{ color: "red" }}>*</span>
                     <Tooltip
                       style={{
                         marginLeft: "0.5rem",
@@ -464,6 +472,7 @@ export default function RegisterPage() {
                     <label className={styles.forminputlabel} htmlFor="password">
                       Confirm Password
                     </label>
+                    <span style={{ color: "red" }}>*</span>
                     <Tooltip
                       style={{
                         marginLeft: "0.5rem",

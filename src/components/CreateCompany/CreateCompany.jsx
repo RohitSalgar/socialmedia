@@ -102,13 +102,14 @@ const CreateCompany = () => {
             onChange={handleFileChange}
             type="file"
             id="file"
-            inputProps={{ accept: "image/*" }}
+            inputProps={{ accept:".png, .jpg, .jpeg"}}
             className={styles.file}
           ></Input>
         </Box>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.editform}>
             <label htmlFor="companyName">Company Name</label>
+            <span style={{ color: "red" }}>*</span>
             <input
               className={errors.companyName && styles.error}
               id="companyName"
@@ -118,6 +119,7 @@ const CreateCompany = () => {
               <p className={styles.errorMsg}>{errors.companyName.message}</p>
             )}
             <label htmlFor="email">Email</label>
+            <span style={{ color: "red" }}>*</span>
             <input
               className={errors.email && styles.error}
               id="email"
@@ -127,6 +129,7 @@ const CreateCompany = () => {
               <p className={styles.errorMsg}>{errors.email.message}</p>
             )}
             <label htmlFor="licenseNo">License No</label>
+            <span style={{ color: "red" }}>*</span>
             <input
               className={errors.licenseNo && styles.error}
               id="licenseNo"
@@ -136,6 +139,7 @@ const CreateCompany = () => {
               <p className={styles.errorMsg}>{errors.licenseNo.message}</p>
             )}
             <label htmlFor="about">About</label>
+            <span style={{ color: "red" }}>*</span>
             <textarea
               className={errors.about && styles.error}
               style={{ height: "30px" }}
