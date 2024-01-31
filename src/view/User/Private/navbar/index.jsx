@@ -76,7 +76,8 @@ const Navbar = () => {
           fontWeight="bold"
           fontSize="clamp(1rem, 2rem, 2.25rem)"
           color="primary"
-          onClick={() => navigate("/home")}
+          sx={{ cursor: "pointer" }}
+          onClick={() => dispatch(setDashboardView("home"))}
         >
           AllMasters
         </Typography>
@@ -94,7 +95,9 @@ const Navbar = () => {
                 value={searchText}
                 onChange={(e) => {
                   setSearchText(e.target.value);
-                  navesearchMutate({ term: e.target.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') });
+                  navesearchMutate({
+                    term: e.target.value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+                  });
                 }}
                 placeholder="Search..."
                 style={{ width: "250px" }}
@@ -135,13 +138,13 @@ const Navbar = () => {
       {/* DESKTOP NAV */}
       {isNonMobileScreens && tokenId !== null ? (
         <FlexBetween gap="2rem">
-          <IconButton onClick={() => dispatch(setMode())}>
+          {/* <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
               <DarkMode sx={{ fontSize: "25px" }} />
             ) : (
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
-          </IconButton>
+          </IconButton> */}
           {sideView === "companyPage" && (
             <Message
               sx={{ fontSize: "25px", cursor: "pointer" }}
@@ -156,7 +159,7 @@ const Navbar = () => {
           )}
           {/* <Notifications sx={{ fontSize: "25px" }} /> */}
           <ImSwitch
-            style={{ fontSize: "25px" }}
+            style={{ fontSize: "25px", cursor: "pointer" }}
             onClick={() => {
               if (signedIn === "true") {
                 dispatch(removeProfileData());
@@ -226,7 +229,7 @@ const Navbar = () => {
             alignItems="center"
             gap="3rem"
           >
-            <IconButton
+            {/* <IconButton
               sx={{ fontSize: "25px" }}
               onClick={() => dispatch(setMode())}
             >
@@ -235,11 +238,11 @@ const Navbar = () => {
               ) : (
                 <LightMode sx={{ color: dark, fontSize: "25px" }} />
               )}
-            </IconButton>
+            </IconButton> */}
             <Message sx={{ fontSize: "25px" }} />
             <Notifications sx={{ fontSize: "25px" }} />
             <Help sx={{ fontSize: "25px" }} />
-            <ImSwitch style={{ fontSize: "25px" }} />
+            {/* <ImSwitch style={{ fontSize: "25px" }} /> */}
           </FlexBetween>
         </Box>
       )}

@@ -265,6 +265,7 @@ export default function Register() {
                 )}
                 <Box sx={{ pt: "10px" }}>
                   <label htmlFor="password">Password</label>
+      
                   <FormControl variant="outlined" fullWidth>
                     <Controller
                       id="password"

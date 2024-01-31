@@ -49,7 +49,7 @@ const AdvertWidget = () => {
         </Typography>
       </FlexBetween>
       <Slider {...settings}>
-        {companyData.map((company) => (
+        {companyData && companyData.map((company) => (
           <div key={company._id}>
             <FlexBetween
               sx={{

@@ -20,7 +20,7 @@ import { useInsertquestion } from "../../../../hooks/qa";
 
 const Myqa = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
-  const [files, setfiles] = useState([]);
+  const [files, setfiles] = useState(null);
   const [question, setquestion] = useState("");
   const [isfiles, setIsfiles] = useState(false);
   const { palette } = useTheme();
@@ -61,7 +61,7 @@ const Myqa = () => {
     formData.append("question", question);
     const postData = {
       createdBy: userId,
-      question:question,
+      question: question,
       files: formData,
     };
 
@@ -80,7 +80,6 @@ const Myqa = () => {
           value={question}
           sx={{
             width: "100%",
-            // backgroundColor: palette.neutral.light,
             borderRadius: "1rem",
           }}
         />
@@ -110,7 +109,7 @@ const Myqa = () => {
                     </IconButton>
                   ) : (
                     <FlexBetween>
-                      <Typography>{"NOTHING"}</Typography>
+                      <Typography>{files && files.name}</Typography>
                       <IconButton onClick={() => setfiles(null)}>
                         <EditOutlined style={{ color: mediumMain }} />
                       </IconButton>

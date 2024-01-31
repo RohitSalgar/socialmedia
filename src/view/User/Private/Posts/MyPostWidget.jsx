@@ -133,7 +133,7 @@ const MyPostWidget = () => {
                     </IconButton>
                   ) : (
                     <FlexBetween>
-                      <Typography>{"NOTHING"}</Typography>
+                      <Typography>{image && image.name}</Typography>
                       <IconButton onClick={() => setImage(null)}>
                         <EditOutlined style={{ color: mediumMain }} />
                       </IconButton>

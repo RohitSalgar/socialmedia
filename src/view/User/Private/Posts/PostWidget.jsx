@@ -2,7 +2,8 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  CancelOutlined} from "@mui/icons-material";
+  CancelOutlined,
+} from "@mui/icons-material";
 import {
   Box,
   Divider,
@@ -27,7 +28,7 @@ import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
 
-const PostWidget = ({ postData }) => {
+const PostWidget = ({ postData, sameProfile }) => {
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
   const [report, setReport] = useState(false);
@@ -83,7 +84,6 @@ const PostWidget = ({ postData }) => {
     return;
   }
 
-
   const likeDislike = () => {
     if (!isLiked) {
       const payload = {
@@ -106,7 +106,7 @@ const PostWidget = ({ postData }) => {
 
   return (
     <WidgetWrapper m="0.3rem 0">
-      <PostTitle data={postData} />
+      <PostTitle sameProfile={sameProfile} data={postData} />
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 , textTransform:'capitalize' }}>
         {postData?.description}
       </Typography>
@@ -126,10 +126,16 @@ const PostWidget = ({ postData }) => {
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
             <IconButton onClick={likeDislike}>
-              {isLiked ? <FavoriteOutlined sx={{ color: primary }} /> : <FavoriteBorderOutlined />}
+              {isLiked ? (
+                <FavoriteOutlined sx={{ color: primary }} />
+              ) : (
+                <FavoriteBorderOutlined />
+              )}
             </IconButton>
             <Typography>
-            {postData?.likes === 1 ? `1 like` : `${postData?.likes} likes`}
+              {postData?.likes <= 1
+                ? `${postData?.likes} like`
+                : `${postData?.likes} likes`}
             </Typography>
           </FlexBetween>
 
