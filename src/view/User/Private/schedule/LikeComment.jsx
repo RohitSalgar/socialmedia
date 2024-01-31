@@ -41,11 +41,11 @@ const LikeComment = (props) => {
   }, [userId]);
 
   const likemutate = () => {
-    if (!isLiked) { 
+    if (!isLiked) {
       const payload = {
         scheduleId: props?.scheduleId,
         userId: userId,
-        status: 1, 
+        status: 1,
       };
       mutate(payload);
       setIsLiked(true);
@@ -53,7 +53,7 @@ const LikeComment = (props) => {
   };
 
   const disLikemutate = () => {
-    if (isLiked) { 
+    if (isLiked) {
       const payload = {
         scheduleId: props?.scheduleId,
         userId: userId,
@@ -113,8 +113,8 @@ const LikeComment = (props) => {
           )}
 
           <Typography>
-            {props?.postData?.likes === 1
-              ? `1 like`
+            {props?.postData?.likes <= 1
+              ? `${props?.postData?.likes} like`
               : `${props?.postData?.likes} likes`}
           </Typography>
         </Box>

@@ -62,9 +62,13 @@ const PagesOTP = () => {
           ],
         }),
       });
-      if (response.status) {
+      const responseJson = await response.json();
+      if (responseJson.status ===1) {
         dispatch(setSideView("companyPage"));
         queryClient.invalidateQueries({ queryKey: ["profile"] });
+        toast.success("OTP verified")
+      }else{
+        toast.error("Invalid OTP")
       }
     } catch (error) {
       console.error("Error during OTP verification:", error);
@@ -166,9 +170,10 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(event) =>
-                      field.onChange(event.target.value.replace(/[^\d]+/g, ""))
-                    }
+                    onChange={(e) => {
+                      const newValue = e.target.value.slice(-1);
+                      field.onChange(newValue);
+                    }}
                     maxLength={1}
                     id="1"
                     className={styles.otp}
@@ -186,9 +191,10 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(event) =>
-                      field.onChange(event.target.value.replace(/[^\d]+/g, ""))
-                    }
+                    onChange={(e) => {
+                      const newValue = e.target.value.slice(-1);
+                      field.onChange(newValue);
+                    }}
                     maxLength={1}
                     id="2"
                     className={styles.otp}
@@ -206,9 +212,10 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(event) =>
-                      field.onChange(event.target.value.replace(/[^\d]+/g, ""))
-                    }
+                    onChange={(e) => {
+                      const newValue = e.target.value.slice(-1);
+                      field.onChange(newValue);
+                    }}
                     maxLength={1}
                     id="3"
                     className={styles.otp}
@@ -226,9 +233,10 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(event) =>
-                      field.onChange(event.target.value.replace(/[^\d]+/g, ""))
-                    }
+                    onChange={(e) => {
+                      const newValue = e.target.value.slice(-1);
+                      field.onChange(newValue);
+                    }}
                     maxLength={1}
                     id="4"
                     className={styles.otp}
@@ -246,9 +254,10 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(event) =>
-                      field.onChange(event.target.value.replace(/[^\d]+/g, ""))
-                    }
+                    onChange={(e) => {
+                      const newValue = e.target.value.slice(-1);
+                      field.onChange(newValue);
+                    }}
                     maxLength={1}
                     id="5"
                     className={styles.otp}
@@ -266,9 +275,10 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(event) =>
-                      field.onChange(event.target.value.replace(/[^\d]+/g, ""))
-                    }
+                    onChange={(e) => {
+                      const newValue = e.target.value.slice(-1);
+                      field.onChange(newValue);
+                    }}
                     maxLength={1}
                     id="6"
                     className={styles.otp}

@@ -2,7 +2,8 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  CancelOutlined} from "@mui/icons-material";
+  CancelOutlined,
+} from "@mui/icons-material";
 import {
   Box,
   Divider,
@@ -83,7 +84,6 @@ const PostWidget = ({ postData, sameProfile }) => {
     return;
   }
 
-
   const likeDislike = () => {
     if (!isLiked) {
       const payload = {
@@ -126,10 +126,16 @@ const PostWidget = ({ postData, sameProfile }) => {
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
             <IconButton onClick={likeDislike}>
-              {isLiked ? <FavoriteOutlined sx={{ color: primary }} /> : <FavoriteBorderOutlined />}
+              {isLiked ? (
+                <FavoriteOutlined sx={{ color: primary }} />
+              ) : (
+                <FavoriteBorderOutlined />
+              )}
             </IconButton>
             <Typography>
-            {postData?.likes === 1 ? `1 like` : `${postData?.likes} likes`}
+              {postData?.likes <= 1
+                ? `${postData?.likes} like`
+                : `${postData?.likes} likes`}
             </Typography>
           </FlexBetween>
 
