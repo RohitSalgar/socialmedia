@@ -9,6 +9,7 @@ import { usegetAllChatInfo } from "../../../../hooks/chat";
 import Loader from "../../../../components/Loader/Loader";
 import { setSideView } from "../../../../redux/slices/profileSlice";
 import { useState } from "react";
+import { useGetProfile } from "../../../../hooks/profile";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
@@ -17,10 +18,23 @@ const ChatLayout = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
   const { isSingleChatOn } = useSelector((state) => state.chat);
   const { data: allChatInfo, isLoading } = usegetAllChatInfo(userId);
+  const { data } = useGetProfile(userId);
   const dispatch = useDispatch();
 
   if (isLoading) {
     return <Loader />;
+  }
+
+  function updateNamesToEmptyString(messages) {
+    for (const message of messages) {
+      if (message.senderName === data.userData.fullName) {
+        message.senderName = "";
+      }
+      if (message.recipientName === data.userData.fullName) {
+        message.recipientName = "";
+      }
+    }
+    return messages;
   }
 
   return (
@@ -60,8 +74,8 @@ const ChatLayout = () => {
           paddingBottom:'10px'
         }}
       >
-        {allChatInfo &&
-          allChatInfo
+        {allChatInfo && data &&
+          updateNamesToEmptyString(allChatInfo)
             .filter((e) => e.senderId === userId || e.recipientId === userId)
             .filter(
               (e) =>

@@ -97,10 +97,20 @@ const ChatPage = ({ data }) => {
     setMessageEmitted(false);
   };
 
+  function isUserIdPresent(array, object) {
+    let userPresent
+    if(userId !=object.senderId){
+      userPresent = array.some(item => item.userId === object.senderId);
+    }else{
+      userPresent = array.some(item => item.userId === object.recipientId);
+    }
+
+    return userPresent;
+  }
+
   if (chatLoading) {
     return <Loader />;
   }
-
   return (
     <Box className={styles.chatPage} sx={{height:'65vh'}}>
       <KeyboardBackspaceIcon
@@ -115,9 +125,7 @@ const ChatPage = ({ data }) => {
         </p>
         <p className={styles.activeLogo}>
           {liveUser &&
-          liveUser.some(
-            (element) => element.userId === filteredData[0].recipientId
-          )
+          isUserIdPresent(liveUser,filteredData[0])
             ? "Actvie Now"
             : "Offline"}
         </p>

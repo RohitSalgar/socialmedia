@@ -384,7 +384,7 @@ export default function RegisterPage() {
                           }}
                           id="dob"
                           views={["year", "month", "day"]}
-                          format="MM-DD-YYYY"
+                          format="DD-MM-YYYY"
                         />
                       )}
                     />
@@ -402,7 +402,7 @@ export default function RegisterPage() {
                     paddingTop: "10px",
                   }}
                 >
-                  <Box className={styles.loginforminputs} width="100%">
+                  <Box className={styles.loginforminputs}>
                     <label className={styles.forminputlabel} htmlFor="password">
                       Password
                     </label>
