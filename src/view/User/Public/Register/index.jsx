@@ -428,7 +428,7 @@ export default function RegisterPage() {
                           margin="normal"
                           style={{
                             marginBottom: "1px",
-                            fontSize: "10px",
+                            fontSize: "14px",
                             marginTop: "0px",
                           }}
                           required
@@ -460,11 +460,8 @@ export default function RegisterPage() {
                       </p>
                     )}
                   </Box>
-                  <Box className={styles.loginforminputs}>
-                    <label
-                      className={styles.forminputlabel}
-                      htmlFor="conPassword"
-                    >
+                  <Box className={styles.loginforminputs} width="100%">
+                    <label className={styles.forminputlabel} htmlFor="password">
                       Confirm Password
                     </label>
                     <Tooltip
@@ -473,7 +470,7 @@ export default function RegisterPage() {
                         fontSize: "14px",
                       }}
                       title={
-                        "Password must be more than 8 characters long with atleast 1 Uppercase letter, 1 Lowecase letter, 1 Symbol, and 1 Number.      Example : Allmaster@2023."
+                        "Re-enter Password must be more than 8 characters long with atleast 1 Uppercase letter, 1 Lowecase letter, 1 Symbol, and 1 Number.      Example : Allmaster@2023."
                       }
                     >
                       <InfoIcon />
@@ -485,8 +482,13 @@ export default function RegisterPage() {
                       render={({ field }) => (
                         <OutlinedInput
                           {...field}
-                          placeholder="Confirm Password"
+                          placeholder="Confrim Password"
                           margin="normal"
+                          style={{
+                            marginBottom: "1px",
+                            fontSize: "14px",
+                            marginTop: "0px",
+                          }}
                           required
                           fullWidth
                           name="conPassword"

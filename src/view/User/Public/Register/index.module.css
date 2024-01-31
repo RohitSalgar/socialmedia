@@ -6,9 +6,6 @@ conf
 location
 dob */
 
-
-
-
 /* Animation for sliding in from the left */
 @keyframes slideInLeft {
   from {
@@ -49,9 +46,10 @@ dob */
 .registerSlideRight {
   animation: registerSlideInRight 1s ease-out;
 }
-.errormsg{
+.errormsg {
   color: red;
-	margin: 0;
+  margin: -1px;
+  font-size: 12px;
 }
 .loginformdiv {
   width: 350px;
@@ -66,20 +64,20 @@ dob */
 .forminput > input {
   padding: 10px !important;
 }
-.forminputlabel{
+.forminputlabel {
   padding-top: 10px;
 }
 
-.imageContainer{
+.imageContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.imageContainer p{
+.imageContainer p {
   color: blue;
 }
-.deleteIcon{
+.deleteIcon {
   color: red;
   cursor: pointer;
 }
@@ -112,19 +110,19 @@ dob */
   margin: 0;
   text-align: left;
 }
-.uploadimage{
+.uploadimage {
   width: 100%;
   background-color: transparent !important;
-  border: 1px solid #0EBD60 !important;
-  color: #0EBD60 !important;
+  border: 1px solid #0ebd60 !important;
+  color: #0ebd60 !important;
   margin-top: 10px !important;
 }
-.imageContainer p{
-  color: #0EBD60 !important;
+.imageContainer p {
+  color: #0ebd60 !important;
 }
-.imageContainer svg path{
+.imageContainer svg path {
   fill: rgb(151, 151, 151);
 }
-.submitbtn:hover{
-  background-color: #0EBD60 !important;
+.submitbtn:hover {
+  background-color: #0ebd60 !important;
 }
