@@ -72,13 +72,18 @@ export default function Register() {
     onSuccess: async (data) => {
       if (data.status === 1) {
         const decodedData = jwtDecode(data.data);
-        localStorage.setItem("amsSocialToken", data.data);
-        localStorage.setItem("amsSocialId", decodedData.userId);
-        localStorage.setItem("amsSocialSignedIn", true);
-        dispatch(setProfileData(decodedData));
-        dispatch(setViewCompanyId(companyId));
-        await queryClient.refetchQueries({ queryKey: ["profileData"] });
-        checkRole(decodedData.role);
+        if (decodedData.status === 2) {
+          navigate("/otp/" + decodedData.userId);
+        } else {
+          console.log(decodedData,"d")
+          localStorage.setItem("amsSocialToken", data.data);
+          localStorage.setItem("amsSocialId", decodedData.userId);
+          localStorage.setItem("amsSocialSignedIn", true);
+          dispatch(setProfileData(decodedData));
+          dispatch(setViewCompanyId(companyId));
+          await queryClient.refetchQueries({ queryKey: ["profileData"] });
+          checkRole(decodedData.role)
+        }
       } else {
         if (data.status === 0 && data.data != null) {
           const parsedData = JSON.parse(data.data);
