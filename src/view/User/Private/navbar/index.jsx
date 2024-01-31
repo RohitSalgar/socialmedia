@@ -76,7 +76,8 @@ const Navbar = () => {
           fontWeight="bold"
           fontSize="clamp(1rem, 2rem, 2.25rem)"
           color="primary"
-          onClick={() => navigate("/home")}
+          sx={{ cursor: "pointer" }}
+          onClick={() => dispatch(setDashboardView("home"))}
         >
           AllMasters
         </Typography>
@@ -94,7 +95,9 @@ const Navbar = () => {
                 value={searchText}
                 onChange={(e) => {
                   setSearchText(e.target.value);
-                  navesearchMutate({ term: e.target.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') });
+                  navesearchMutate({
+                    term: e.target.value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+                  });
                 }}
                 placeholder="Search..."
                 style={{ width: "250px" }}
@@ -156,7 +159,7 @@ const Navbar = () => {
           )}
           {/* <Notifications sx={{ fontSize: "25px" }} /> */}
           <ImSwitch
-            style={{ fontSize: "25px" }}
+            style={{ fontSize: "25px" , cursor:"pointer"}}
             onClick={() => {
               if (signedIn === "true") {
                 dispatch(removeProfileData());
