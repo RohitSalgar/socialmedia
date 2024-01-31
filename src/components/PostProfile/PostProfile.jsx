@@ -1,4 +1,10 @@
-import { Box, Typography, Button, useTheme } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  useTheme,
+  CircularProgress,
+} from "@mui/material";
 import WidgetWrapper from "../WidgetWrapper";
 import Avatar from "@mui/material/Avatar";
 import styles from "./index.module.css";
@@ -8,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetProfile } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
 import PostWidget from "../../view/User/Private/Posts/PostWidget";
-import { useGetMyPagePostList } from "../../hooks/posts";
+import { useGetMyPagePostList, usePostUnfollow } from "../../hooks/posts";
 import {
   setDashboardView,
   setViewCompanyId,
@@ -19,6 +25,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useGetCompanyProfile, useGetPageFollowList } from "../../hooks/pages";
 import ProfileScheduleList from "../ProfileScheduleList/ProfileScheduleList";
 import { useGetAllMySchedules } from "../../hooks/schedule";
+import { useFollowTopPage } from "../../hooks/user";
 
 const PostProfile = () => {
   const { palette } = useTheme();
@@ -30,16 +37,16 @@ const PostProfile = () => {
   const profileId = useSelector((state) => state.profile.viewProfileId);
   const profileCompanyId = useSelector((state) => state.profile.viewCompanyId);
   const companyId = useSelector((state) => state.profile.companyId);
-
   const { data, isLoading } = useGetProfile(profileId);
-
   const { data: followList, isLoading: followLoading } = useGetPageFollowList(
     profileCompanyId,
     viewList
   );
+  const { mutate: pageFollowMutate, isPending } = useFollowTopPage();
+  const { mutate: pageUnFollowMutate, isPending: pagetUnfollowPending } =
+    usePostUnfollow();
   const { data: companyData, isLoading: companyLoading } =
     useGetCompanyProfile(profileCompanyId);
-
   const { data: postList, isLoading: postLoading } = useGetMyPagePostList(
     profileCompanyId,
     userId,
@@ -62,6 +69,11 @@ const PostProfile = () => {
     dispatch(setDashboardView("profile"));
     dispatch(setViewCompanyId(companyId));
   }
+
+  const pageUnFollowFn = () => {
+    let pageData = followList.find((item) => item.followerId === userId);
+    pageUnFollowMutate({ id: pageData?._id });
+  };
 
   return (
     <WidgetWrapper>
@@ -158,6 +170,35 @@ const PostProfile = () => {
             <Typography color={dark} className={styles.avatarname}>
               {companyData?.companyPageData?.companyName}
             </Typography>
+            {companyId != profileCompanyId && (
+              <>
+                {followList &&
+                followList.some((item) => item.followerId === userId) ? (
+                  <Button
+                    variant="outlined"
+                    disabled={pagetUnfollowPending}
+                    className={styles.createbtn}
+                    onClick={pageUnFollowFn}
+                  >
+                    {pagetUnfollowPending ? <CircularProgress /> : "UnFollow"}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    disabled={isPending}
+                    className={styles.createbtn}
+                    onClick={() =>
+                      pageFollowMutate({
+                        companyId: profileCompanyId,
+                        followerId: userId,
+                      })
+                    }
+                  >
+                    {isPending ? <CircularProgress /> : "Follow"}
+                  </Button>
+                )}
+              </>
+            )}
             {profileId === userId &&
               data?.pageData?.status === 1 &&
               companyId === profileCompanyId && (

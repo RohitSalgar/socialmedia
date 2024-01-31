@@ -64,7 +64,6 @@ const useGetPageFollowList = (id, viewList) => {
         },
         { data: [{ companyId: id }] }
       ),
-    enabled: viewList === "followers",
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },

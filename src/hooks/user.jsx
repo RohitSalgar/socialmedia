@@ -128,6 +128,8 @@ const useGetAllTopPages = () => {
         ),
       onSuccess: (data) => {
         queryClient.invalidateQueries({ queryKey: ["getAllTopPages"] });
+        queryClient.invalidateQueries({ queryKey: ["followList"] });
+        queryClient.invalidateQueries({ queryKey: ["companyprofile"] });
         toast.success(data)
       },
       onError: (error) => {

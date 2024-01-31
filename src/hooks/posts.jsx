@@ -238,10 +238,14 @@ const usePostUnfollow = () => {
         },
         { data: [data] }
       ),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      toast.success(data)
       queryClient.invalidateQueries({ queryKey: ["postprofile"] });
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       queryClient.invalidateQueries({ queryKey: ["followingList"] });
+      queryClient.invalidateQueries({ queryKey: ["followList"] });
+      queryClient.invalidateQueries({ queryKey: ["getAllTopPages"] });
+      queryClient.invalidateQueries({ queryKey: ["companyprofile"] });
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
