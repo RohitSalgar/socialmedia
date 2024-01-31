@@ -12,8 +12,6 @@ import RouterRender from "./routes/routerRender";
 import ErrorFallback from "./components/ErrorFallback/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 import Loader from "./components/Loader/Loader";
-import { io } from "socket.io-client";
-import { URL } from "./config";
 
 
 
