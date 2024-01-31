@@ -25,12 +25,18 @@ import { fetchData } from "../../../../helper";
 import moment from "moment";
 import { useTheme } from "@emotion/react";
 import DeleteIcon from "@mui/icons-material/Delete";
+import InfoIcon from "@mui/icons-material/Info";
+import { IconButton, InputAdornment, Tooltip } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { OutlinedInput } from "@mui/material";
 
 const defaultTheme = createTheme();
 
 export default function RegisterPage() {
   const { palette } = useTheme();
   const primary = palette.primary.main;
+  const [showPassword, setShowPassword] = useState(false);
+  const [conshowPassword, setConShowPassword] = useState(false);
   const navigate = useNavigate();
   const [location, setLocation] = useState({ state: "", country: "" });
   const [files, setFiles] = useState(null);
@@ -178,6 +184,13 @@ export default function RegisterPage() {
   if (fetchExistingData.isLoading) {
     return <Loader />;
   }
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickConShowPassword = () => setConShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const onImageChange = (e) => {
     setFiles(e.target.files[0]);
@@ -390,24 +403,44 @@ export default function RegisterPage() {
                     <label className={styles.forminputlabel} htmlFor="password">
                       Password
                     </label>
+                    <Tooltip
+                      style={{
+                        marginLeft: "0.5rem",
+                        fontSize: "14px",
+                      }}
+                      title={
+                        "Password must be more than 8 characters long with atleast 1 Uppercase letter, 1 Lowecase letter, 1 Symbol, and 1 Number.      Example : Allmaster@2023."
+                      }
+                    >
+                      <InfoIcon />
+                    </Tooltip>
                     <Controller
+                      id="password"
                       name="password"
                       control={control}
                       render={({ field }) => (
-                        <TextField
+                        <OutlinedInput
                           {...field}
-                          margin="normal"
-                          style={{
-                            marginBottom: "1px",
-                            fontSize: "10px",
-                            marginTop: "0px",
-                          }}
-                          required
-                          fullWidth
-                          name="password"
-                          type="password"
+                          className={styles.forminput}
                           id="password"
-                          autoComplete="new-password"
+                          name="password"
+                          type={showPassword ? "text" : "password"}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
                         />
                       )}
                     />
@@ -424,24 +457,44 @@ export default function RegisterPage() {
                     >
                       Confirm Password
                     </label>
+                    <Tooltip
+                      style={{
+                        marginLeft: "0.5rem",
+                        fontSize: "14px",
+                      }}
+                      title={
+                        "Password must be more than 8 characters long with atleast 1 Uppercase letter, 1 Lowecase letter, 1 Symbol, and 1 Number.      Example : Allmaster@2023."
+                      }
+                    >
+                      <InfoIcon />
+                    </Tooltip>
                     <Controller
+                      id="conPassword"
                       name="conPassword"
                       control={control}
                       render={({ field }) => (
-                        <TextField
-                          style={{
-                            marginBottom: "1px",
-                            fontSize: "10px",
-                            marginTop: "0px",
-                          }}
+                        <OutlinedInput
                           {...field}
-                          margin="normal"
-                          required
-                          fullWidth
-                          name="conPassword"
-                          type="Password"
+                          className={styles.forminput}
                           id="conPassword"
-                          autoComplete="new-password"
+                          name="conPassword"
+                          type={conshowPassword ? "text" : "password"}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickConShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {conshowPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
                         />
                       )}
                     />
