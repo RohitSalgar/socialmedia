@@ -17,7 +17,8 @@ import {
   useUpdatePostComment,
 } from "../../hooks/schedule";
 import { useInsertQaComment, useInsertQaReply } from "../../hooks/qa";
-
+import { useGetProfile } from "../../hooks/profile";
+import Loader from "../Loader/Loader";
 function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   const { palette } = useTheme();
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -27,6 +28,8 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   const [text, setText] = useState("");
   const inputField = useRef(null);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
+  const { data: profiledate, isLoading: profileLoading } =
+    useGetProfile(userId);
   const { mutate: insertComment, isloading: insertCommentLoading } =
     useInsertComment();
   const { mutate: commentMutate } = useUpdatePostComment();
@@ -89,7 +92,10 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
       }
     }
   }
-
+  if (profileLoading) {
+    return <Loader />;
+  }
+  console.log(profiledate, "pd");
   return (
     <>
       <Box
@@ -111,11 +117,25 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                 mb: "5px",
               }}
             >
-              <Avatar
+              {/* <Avatar
                 sx={{ width: 25, height: 25, mr: 1 }}
-                alt="Remy Sharp"
-                src="/static/images/avatar/1.jpg"
-              />
+                src={profiledate.userData.fullName.charAt(0)}
+              /> */}
+              <span
+                style={{
+                  display: "inline-block",
+                  width: 30,
+                  height: 25,
+                  marginRight: 1,
+                  backgroundColor: "#bdbdbd",
+                  borderRadius: "50%",
+                  textAlign: "center",
+                  lineHeight: "25px",
+                  color: "#fff",
+                }}
+              >
+                {profiledate.userData.fullName.charAt(0).toUpperCase()}
+              </span>
               <TextField
                 id="outlined-multiline-static"
                 multiline
@@ -129,6 +149,12 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                   borderRadius: "1rem",
                 }}
                 onChange={(e) => setText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSubmit();
+                  }
+                }}
                 type={type}
                 value={text}
               />
