@@ -424,7 +424,7 @@ const Profile = () => {
             </Box>
             <Box className={styles.postdiv}>
               {postList?.map((data) => (
-                <PostWidget sameProfile={true} key={data._id} postData={data} />
+                <PostWidget key={data._id} postData={data} />
               ))}
               {postList?.length === 0 && <LookingEmpty />}
             </Box>
