@@ -170,8 +170,8 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(e) => {
-                      const newValue = e.target.value.slice(-1);
+                    onChange={(event) => {
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
                       field.onChange(newValue);
                     }}
                     maxLength={1}
@@ -191,8 +191,8 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(e) => {
-                      const newValue = e.target.value.slice(-1);
+                    onChange={(event) => {
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
                       field.onChange(newValue);
                     }}
                     maxLength={1}
@@ -212,8 +212,8 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(e) => {
-                      const newValue = e.target.value.slice(-1);
+                    onChange={(event) => {
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
                       field.onChange(newValue);
                     }}
                     maxLength={1}
@@ -233,8 +233,8 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(e) => {
-                      const newValue = e.target.value.slice(-1);
+                    onChange={(event) => {
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
                       field.onChange(newValue);
                     }}
                     maxLength={1}
@@ -254,8 +254,8 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(e) => {
-                      const newValue = e.target.value.slice(-1);
+                    onChange={(event) => {
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
                       field.onChange(newValue);
                     }}
                     maxLength={1}
@@ -275,8 +275,8 @@ const PagesOTP = () => {
                   <TextField
                     {...field}
                     type="text"
-                    onChange={(e) => {
-                      const newValue = e.target.value.slice(-1);
+                    onChange={(event) => {
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
                       field.onChange(newValue);
                     }}
                     maxLength={1}

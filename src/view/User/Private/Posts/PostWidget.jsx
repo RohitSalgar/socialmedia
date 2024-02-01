@@ -229,7 +229,6 @@ const PostWidget = ({ postData, sameProfile }) => {
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {
-                console.log(c, "c");
                 return (
                   <CommentBox
                     key={c.id}

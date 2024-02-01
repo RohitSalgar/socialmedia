@@ -243,13 +243,8 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        // onChange={(event) =>
-                        //   field.onChange(
-                        //     event.target.value.replace(/[^\d]+/g, "")
-                        //   )
-                        // }
-                        onChange={(e) => {
-                          const newValue = e.target.value.slice(-1); 
+                        onChange={(event) => {
+                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); // Replace non-numeric characters and retain only the last character
                           field.onChange(newValue);
                         }}
                         maxLength={1}
@@ -269,13 +264,8 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        // onChange={(event) =>
-                        //   field.onChange(
-                        //     event.target.value.replace(/[^\d]+/g, "")
-                        //   )
-                        // }
-                        onChange={(e) => {
-                          const newValue = e.target.value.slice(-1);
+                        onChange={(event) => {
+                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
                           field.onChange(newValue);
                         }}
                         maxLength={1}
@@ -295,13 +285,8 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        // onChange={(event) =>
-                        //   field.onChange(
-                        //     event.target.value.replace(/[^\d]+/g, "")
-                        //   )
-                        // }
-                        onChange={(e) => {
-                          const newValue = e.target.value.slice(-1);
+                        onChange={(event) => {
+                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1);
                           field.onChange(newValue);
                         }}
                         maxLength={1}
@@ -321,12 +306,8 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        // onChange={(event) =>
-                        //   field.onChange(event.target.value.replace(/[^\d]+/g, ""))
-
-                        // }
-                        onChange={(e) => {
-                          const newValue = e.target.value.slice(-1); 
+                        onChange={(event) => {
+                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
                           field.onChange(newValue);
                         }}
                         maxLength={1}
@@ -346,13 +327,8 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        // onChange={(event) =>
-                        //   field.onChange(
-                        //     event.target.value.replace(/[^\d]+/g, "")
-                        //   )
-                        // }
-                        onChange={(e) => {
-                          const newValue = e.target.value.slice(-1);
+                        onChange={(event) => {
+                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
                           field.onChange(newValue);
                         }}
                         maxLength={1}
@@ -372,13 +348,8 @@ const OTPPage = () => {
                       <TextField
                         {...field}
                         type="text"
-                        // onChange={(event) =>
-                        //   field.onChange(
-                        //     event.target.value.replace(/[^\d]+/g, "")
-                        //   )
-                        // }
-                        onChange={(e) => {
-                          const newValue = e.target.value.slice(-1);
+                        onChange={(event) => {
+                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
                           field.onChange(newValue);
                         }}
                         maxLength={1}

@@ -116,13 +116,14 @@ const EditProfile = () => {
             onChange={handleFileChange}
             type="file"
             id="file"
-            inputProps={{ accept: "image/*" }}
+            inputProps={{ accept:".png, .jpg, .jpeg"}}
             className={styles.file}
           ></Input>
         </Box>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.editform}>
             <label htmlFor="fullName">Full Name</label>
+            <span style={{ color: "red" }}>*</span>
             <input
               className={errors.fullName && styles.error}
               id="fullName"
@@ -132,6 +133,7 @@ const EditProfile = () => {
               <p className={styles.errorMsg}>{errors.fullName.message}</p>
             )}
             <label htmlFor="designation">Designation</label>
+            <span style={{ color: "red" }}>*</span>
             <input
               className={errors.designation && styles.error}
               id="designation"
@@ -141,6 +143,7 @@ const EditProfile = () => {
               <p className={styles.errorMsg}>{errors.designation.message}</p>
             )}
             <label htmlFor="about">About</label>
+            <span style={{ color: "red" }}>*</span>
             <textarea
               className={errors.about && styles.error}
               style={{ height: "100px" }}

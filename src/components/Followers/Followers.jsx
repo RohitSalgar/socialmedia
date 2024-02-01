@@ -16,8 +16,6 @@ import Loader from "../Loader/Loader";
 import { usePostUnfollow } from "../../hooks/posts";
 
 const Followers = ({ data, type }) => {
-  console.log(data, "data");
-  console.log(type, "type");
   const dispatch = useDispatch();
   const { palette } = useTheme();
   const { profileData } = useSelector((state) => state.profile);
@@ -49,15 +47,12 @@ const Followers = ({ data, type }) => {
 
   function handleClick() {
     if (type === "connection") {
-      console.log(data, type, "data");
       dispatch(setViewProfileId(data?.recipientId));
       dispatch(setDashboardView("profile"));
     } else if (type === "followers") {
-      console.log(data, type, "data");
       dispatch(setViewProfileId(data?.senderId));
       dispatch(setDashboardView("profile"));
     } else if (type === "following") {
-      console.log(data, type, "data");
       if (data?.companyId) {
         dispatch(setViewCompanyId(data?.companyId));
         dispatch(setDashboardView("postprofile"));
@@ -66,7 +61,6 @@ const Followers = ({ data, type }) => {
         dispatch(setDashboardView("profile"));
       }
     } else if (type === "companyfollowers") {
-      console.log(data, type, "data");
       dispatch(setViewProfileId(data?.followerId));
       dispatch(setDashboardView("profile"));
     }

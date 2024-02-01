@@ -240,6 +240,7 @@ export default function Register() {
                 className={styles.loginformdiv}
               >
                 <label htmlFor="email">Email Address</label>
+                <span style={{ color: "red" }}>*</span>
                 <Controller
                   name="email"
                   id="email"
@@ -265,7 +266,7 @@ export default function Register() {
                 )}
                 <Box sx={{ pt: "10px" }}>
                   <label htmlFor="password">Password</label>
-      
+                  <span style={{ color: "red" }}>*</span>
                   <FormControl variant="outlined" fullWidth>
                     <Controller
                       id="password"

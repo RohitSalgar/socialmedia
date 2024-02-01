@@ -88,23 +88,22 @@ const Navbar = () => {
             <FlexBetween
               backgroundColor={neutralLight}
               borderRadius="9px"
-              gap="3rem"
-              padding="0.1rem 1.5rem"
+              gap="1rem"
+              padding="0.3rem 2.5rem 0.3rem 1.5rem"
             >
+                <Search />
               <InputBase
                 value={searchText}
                 onChange={(e) => {
                   setSearchText(e.target.value);
                   navesearchMutate({
-                    term: e.target.value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+                    term: e.target.value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s/g, "")
                   });
                 }}
                 placeholder="Search..."
                 style={{ width: "250px" }}
               />
-              <IconButton>
-                <Search />
-              </IconButton>
+              
             </FlexBetween>
           )}
         </FlexBetween>
@@ -149,12 +148,6 @@ const Navbar = () => {
             <Message
               sx={{ fontSize: "25px", cursor: "pointer" }}
               onClick={() => dispatch(setSideView("chat"))}
-            />
-          )}
-          {sideView === "chat" && (
-            <ClearIcon
-              sx={{ fontSize: "25px", cursor: "pointer" }}
-              onClick={() => dispatch(setSideView("companyPage"))}
             />
           )}
           {/* <Notifications sx={{ fontSize: "25px" }} /> */}
