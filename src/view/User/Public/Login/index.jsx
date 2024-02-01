@@ -31,7 +31,7 @@ import {
 import { useNavigate } from "react-router";
 import { useTheme } from "@emotion/react";
 import { Button } from "@mui/material";
-
+import { FaShip } from "react-icons/fa6";
 const loginValidation = yup.object({
   email: yup
     .string()
@@ -75,7 +75,7 @@ export default function Register() {
         if (decodedData.status === 2) {
           navigate("/otp/" + decodedData.userId);
         } else {
-          console.log(decodedData,"d")
+          console.log(decodedData, "d")
           localStorage.setItem("amsSocialToken", data.data);
           localStorage.setItem("amsSocialId", decodedData.userId);
           localStorage.setItem("amsSocialSignedIn", true);
@@ -171,18 +171,21 @@ export default function Register() {
                 <h5> Welcome Back to Allmaster's SocialMedia</h5>
                 <h6> Where Logistics Meets Connectivity!</h6>
                 <h6 className={styles.headtxt}> Benefits of Joining:</h6>
-                <p>
-                  Global Connectivity: Connect with logistics professionals from
-                  around the world.
+                <p style={{ display: "flex" }}>
+                  <span style={{ marginRight: "10px", marginTop: "3px" }}><FaShip size={15} /></span>
+                  <div><b>Global Connectivity</b>: Connect with logistics professionals from
+                    around the world.</div>
                 </p>
-                <p>
-                  Stay Informed about schedules: Stay ahead with the latest
-                  trends, industry news, and schedules. .
+                <p style={{ display: "flex" }}>
+                  <span style={{ marginRight: "10px", marginTop: "3px" }}><FaShip size={15} /></span>
+                 <div> <b>Stay Informed about schedules</b>: Stay ahead with the latest
+                  trends, industry news, and schedules.</div>
                 </p>
-                <p>
-                  Build Partnerships: Foster meaningful partnerships.
+                <p style={{ display: "flex" }}>
+                  <span style={{ marginRight: "10px", marginTop: "3px" }}><FaShip size={15} /></span>
+                  <div><b>Build Partnerships</b>: Foster meaningful partnerships.
                   Allmaster's socialMedia is the place to build lasting
-                  collaborations.
+                  collaborations.</div>
                 </p>
               </div>
             </div>
