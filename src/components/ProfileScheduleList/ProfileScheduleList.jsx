@@ -14,7 +14,6 @@ import { useGetAllMySchedules } from "../../hooks/schedule";
 const ProfileScheduleList = () => {
   const companyId = useSelector((state) => state.profile.companyId);
   const profileCompanyId = useSelector((state) => state.profile.viewCompanyId);
-  //   const { data, isLoading } = useGetAllSchedules();
   const { mutate } = useDeleteSchedule();
 
   const { data, isLoading } = useGetAllMySchedules(profileCompanyId);
@@ -29,7 +28,7 @@ const ProfileScheduleList = () => {
         data.map((e, i) => {
           return (
             <WidgetWrapper key={i} sx={{ marginBottom: "20px" , background:'#f9f9f9' , padding:'10px' }}>
-              <PostTitle data={e} />
+              <PostTitle removeFrdRequestIcon={companyId === profileCompanyId ? false : true}  data={e} />
               <Box className={styles.scheduleListDiv} >
                 <Box className={styles.scheduleListSubDiv}>
                   <Typography>POL: </Typography>{" "}
