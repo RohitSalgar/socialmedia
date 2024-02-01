@@ -8,9 +8,9 @@ import { setDashboardView, setViewProfileId } from "../../redux/slices/profileSl
 const FrdRequest = ({ data, changeConnectionStatusFn, isPending }) => {
   const dispatch = useDispatch()
   return (
-    <div onClick={() => {dispatch(setViewProfileId(data.senderId)); dispatch(setDashboardView("profile"))}} className={classes.maindiv}>
+    <div  className={classes.maindiv}>
       <div className={classes.FrdRequestsection}>
-        <div>
+        <div onClick={() => {dispatch(setViewProfileId(data.senderId)); dispatch(setDashboardView("profile"))}}>
           <img
             className={classes.profilePic}
             src={data.senderProfile}
