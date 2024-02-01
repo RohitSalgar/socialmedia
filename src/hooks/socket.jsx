@@ -7,9 +7,8 @@ export const useSocket = () => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socketInstance = io("ws://localhost:8900");
+    const socketInstance = io("ws://192.168.0.76:8900");
     setSocket(socketInstance);
-
   }, []);
 
   return socket;

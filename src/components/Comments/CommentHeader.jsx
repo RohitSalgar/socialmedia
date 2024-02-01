@@ -22,12 +22,11 @@ function CommentHeader({
 }) {
   const { userId } = useSelector((state) => state.profile.profileData);
   const { data: profiledate, isLoading: profileLoading } =
-  useGetProfile(userId);
+    useGetProfile(userId);
   const currentUser = "julie";
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
   const [date, setDate] = useState("");
-
   // const relativeTime = new RelativeTime();
   // useEffect(()=> {
   //   setDate(relativeTime.from(new Date(createdAt)))
@@ -36,7 +35,6 @@ function CommentHeader({
   //   },5000)
   //   return () => clearInterval(interval)
   // },[createdAt])
-
   return (
     <>
       <Box
@@ -53,20 +51,20 @@ function CommentHeader({
         >
           {/* <Avatar alt="avatar" sx={{ width: 25, height: 25 }} /> */}
           <span
-                style={{
-                  display: "inline-block",
-                  width: 25,
-                  height: 25,
-                  marginRight: 1,
-                  backgroundColor: "#bdbdbd",
-                  borderRadius: "50%",
-                  textAlign: "center",
-                  lineHeight: "25px",
-                  color: "#fff",
-                }}
-              >
-                {profiledate.userData.fullName.charAt(0).toUpperCase()}
-              </span>
+            style={{
+              display: "inline-block",
+              width: 25,
+              height: 25,
+              marginRight: 1,
+              backgroundColor: "#bdbdbd",
+              borderRadius: "50%",
+              textAlign: "center",
+              lineHeight: "25px",
+              color: "#fff",
+            }}
+          >
+            {postData.userInfo.fullName.charAt(0).toUpperCase()}
+          </span>
           <Box
             sx={{
               display: "flex",
@@ -84,7 +82,6 @@ function CommentHeader({
                   px: "6px",
                   lineHeight: 1,
                   borderRadius: "3px",
-                  textTransform: "capitalize",
                 }}
               >
                 you
@@ -94,14 +91,12 @@ function CommentHeader({
                 <Typography
                   color={dark}
                   variant="fullName"
-                  textTransform={"capitalize"}
                   fontWeight="400"
                   sx={{ ml: 1 }}
                 >
                   {postData?.userInfo?.fullName}
                 </Typography>
                 <Typography
-                  textTransform={"capitalize"}
                   color={dark}
                   variant="designation"
                   fontWeight="300"

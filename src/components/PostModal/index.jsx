@@ -24,12 +24,13 @@ export default function PostModal({handleClose, data , open}) {
 
     const columns = [
         {
-            field: "userId",
+            field: "userInfo",
             headerName: "User Name",
             flex: 1.5,
             headerAlign: 'center',
             align: 'center',
-            headerClassName: 'tabel-header'
+            headerClassName: 'tabel-header',
+            valueGetter: ({ value }) => value.fullName
         },
         {
             field: "reason", 
@@ -50,7 +51,7 @@ export default function PostModal({handleClose, data , open}) {
         },
         
     ];
-
+    console.log(data)
   return (
     <React.Fragment>
       <BootstrapDialog

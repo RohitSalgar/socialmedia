@@ -100,11 +100,15 @@
   align-items: center;
 }
 .descriptiondiv p {
-  text-transform: capitalize !important;
+  /* text-transform: capitalize !important; */
   font-weight: 500;
   font-size: 14px;
 }
 
-button:hover {
+/* button:hover {
   color: green;
+} */
+.btns {
+  background-color: #0EBD60 !important;
+  color: #fff !important;
 }

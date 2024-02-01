@@ -107,7 +107,7 @@ const PostWidget = ({ postData }) => {
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
-      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 , textTransform:'capitalize' }}>
+      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
         {postData?.description}
       </Typography>
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
@@ -122,6 +122,7 @@ const PostWidget = ({ postData }) => {
           src={postData.files[0]}
         />
       )}
+      {console.log(postData,"post")}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">

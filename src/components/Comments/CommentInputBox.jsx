@@ -11,7 +11,7 @@ import { IoIosSend } from "react-icons/io";
 
 import InputField from "./InputField";
 import { useInsertComment, useInsertReply } from "../../hooks/likeComment";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useReplyPostComment,
   useUpdatePostComment,
@@ -19,6 +19,7 @@ import {
 import { useInsertQaComment, useInsertQaReply } from "../../hooks/qa";
 import { useGetProfile } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
+import { setReplyInput } from "../../redux/slices/post";
 function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   const { palette } = useTheme();
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -28,6 +29,8 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   const [text, setText] = useState("");
   const inputField = useRef(null);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
+  const { replyInput } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
   const { data: profiledate, isLoading: profileLoading } =
     useGetProfile(userId);
   const { mutate: insertComment, isloading: insertCommentLoading } =
@@ -73,6 +76,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
     } else if (type === "reply") {
       if (dashboardView === "qa") {
         setText("");
+        dispatch(setReplyInput("false"));
         return insertQaReply({
           answerId: replyId?._id,
           userId: userId,
@@ -86,8 +90,10 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
       };
       setText("");
       if (dashboardView === "schedule") {
+        dispatch(setReplyInput("false"));
         return insertScheduleReply(newReply);
       } else {
+        dispatch(setReplyInput("false"));
         return insertReply(newReply);
       }
     }
@@ -95,7 +101,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   if (profileLoading) {
     return <Loader />;
   }
-  console.log(profiledate, "pd");
+
   return (
     <>
       <Box
@@ -121,46 +127,102 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                 sx={{ width: 25, height: 25, mr: 1 }}
                 src={profiledate.userData.fullName.charAt(0)}
               /> */}
-              <span
-                style={{
-                  display: "inline-block",
-                  width: 30,
-                  height: 25,
-                  marginRight: 1,
-                  backgroundColor: "#bdbdbd",
-                  borderRadius: "50%",
-                  textAlign: "center",
-                  lineHeight: "25px",
-                  color: "#fff",
-                }}
-              >
-                {profiledate.userData.fullName.charAt(0).toUpperCase()}
-              </span>
-              <TextField
-                id="outlined-multiline-static"
-                multiline
-                rows={1}
-                variant="standard"
-                placeholder="Comment Your Thought..."
-                sx={{
-                  width: "100%",
-                  mt: 1,
-                  // backgroundColor: palette.neutral.light,
-                  borderRadius: "1rem",
-                }}
-                onChange={(e) => setText(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSubmit();
-                  }
-                }}
-                type={type}
-                value={text}
-              />
-              <IconButton type="submit" onClick={handleSubmit} disabled={!text.trim()}>
-                <IoIosSend size={25} />
-              </IconButton>
+
+              {type === "reply" && replyInput === "true" && (
+                <>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: 30,
+                      height: 25,
+                      marginRight: 1,
+                      backgroundColor: "#bdbdbd",
+                      borderRadius: "50%",
+                      textAlign: "center",
+                      lineHeight: "25px",
+                      color: "#fff",
+                    }}
+                  >
+                    {profiledate.userData.fullName.charAt(0).toUpperCase()}
+                  </span>
+                  <TextField
+                    id="outlined-multiline-static"
+                    multiline
+                    rows={1}
+                    variant="standard"
+                    placeholder={"Reply your Thought"}
+                    sx={{
+                      width: "100%",
+                      mt: 1,
+                      // backgroundColor: palette.neutral.light,
+                      borderRadius: "1rem",
+                    }}
+                    onChange={(e) => setText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSubmit();
+                      }
+                    }}
+                    type={type}
+                    value={text}
+                  />
+                  <IconButton
+                    type="submit"
+                    onClick={handleSubmit}
+                    disabled={!text.trim()}
+                  >
+                    <IoIosSend size={25} />
+                  </IconButton>
+                </>
+              )}
+              {type !== "reply" && (
+                <>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: 30,
+                      height: 25,
+                      marginRight: 1,
+                      backgroundColor: "#bdbdbd",
+                      borderRadius: "50%",
+                      textAlign: "center",
+                      lineHeight: "25px",
+                      color: "#fff",
+                    }}
+                  >
+                    {profiledate.userData.fullName.charAt(0).toUpperCase()}
+                  </span>
+                  <TextField
+                    id="outlined-multiline-static"
+                    multiline
+                    rows={1}
+                    variant="standard"
+                    placeholder={"Comment your Thought"}
+                    sx={{
+                      width: "100%",
+                      mt: 1,
+                      borderRadius: "1rem",
+                    }}
+                    onChange={(e) => setText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSubmit();
+                      }
+                    }}
+                    type={type}
+                    value={text}
+                  />
+                  <IconButton
+                    type="submit"
+                    onClick={handleSubmit}
+                    disabled={!text.trim()}
+                  >
+                    <IoIosSend size={25} />
+                  </IconButton>
+                </>
+              )}
             </Box>
           </>
         }

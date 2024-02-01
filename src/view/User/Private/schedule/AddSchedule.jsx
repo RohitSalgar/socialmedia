@@ -49,11 +49,12 @@ const AddSchedule = () => {
 
   return (
     <>
-      <WidgetWrapper>
+      <WidgetWrapper sx={{marginBottom:"1rem"}}>
         <form action="post" onSubmit={handleSubmit(onSubmit)}>
           <FlexBetween>
             <Box
               className={styles.AddScheduleDiv}
+              sx={{marginBottom:"10px"}}
             >
               <TextField
                 id="outlined-multiline-static"
@@ -141,11 +142,14 @@ const AddSchedule = () => {
           <Box>
             <Button
               type="submit"
+              className={styles.btns}
               sx={{
                 color: palette.background.alt,
                 backgroundColor: palette.primary.main,
                 borderRadius: "1rem",
                 marginTop: "1rem",
+                mr: "10px",
+                marginLeft:"75%",
               }}
             >
               Post Schedule
