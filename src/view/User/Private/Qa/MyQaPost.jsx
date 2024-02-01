@@ -55,29 +55,14 @@ const Myqa = () => {
   //   fetchIPAddress();
   // }, []);
 
-  function acceptOnlyImages(file) {
-    const acceptedImageTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/gif",
-      "image/svg+xml",
-    ];
-
-    return acceptedImageTypes.includes(file.type);
-  }
-
   const onSubmit = () => {
     const formData = new FormData();
-    if (acceptOnlyImages(files)) {
-      formData.append("files", files);
-      formData.append("createdBy", userId);
-      formData.append("question", question);
-      mutate(formData);
-    } else {
-      setquestion("");
-      setfiles("");
-      toast.error("Only images are accepted");
-    }
+    formData.append("files", files);
+    formData.append("createdBy", userId);
+    formData.append("question", question);
+    mutate(formData);
+    setquestion("");
+    setfiles("");
   };
 
   return (
