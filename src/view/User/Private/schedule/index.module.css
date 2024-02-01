@@ -105,6 +105,10 @@
   font-size: 14px;
 }
 
-button:hover {
+/* button:hover {
   color: green;
+} */
+.btns {
+  background-color: #0EBD60 !important;
+  color: #fff !important;
 }
