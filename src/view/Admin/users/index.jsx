@@ -82,9 +82,7 @@ const users = () => {
         </Typography>
       </div>
       <div className={classes.searchContainer}>
-        <IconButton className={classes.searchBtn}>
-          <Search />
-        </IconButton>
+      <Search sx={{marginLeft:"5px"}} />
         <input
           onChange={(e) => setSearchTerm(e.target.value)}
           className={classes.searchInput}
@@ -104,7 +102,10 @@ const users = () => {
           // sx={{ textTransform: "capitalize" }}
           getRowId={(row) => row._id}
           rows={data?.userData?.filter((user) =>
-            user.fullName.includes(searchTerm.toLowerCase())
+            user.fullName
+            .toLowerCase()
+            .replace(/\s/g, "")
+            .includes(searchTerm.toLowerCase().replace(/\s/g, ""))
           )}
           columns={columns}
           initialState={{

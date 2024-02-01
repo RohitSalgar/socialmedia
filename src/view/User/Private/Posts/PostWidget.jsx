@@ -122,6 +122,7 @@ const PostWidget = ({ postData, sameProfile }) => {
           src={postData.files[0]}
         />
       )}
+      {console.log(postData,"post")}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">

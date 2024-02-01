@@ -400,7 +400,7 @@ const Profile = () => {
                     dispatch(setViewCompanyId(companyId))
                   }}
                 >
-                  Switch Post Acount
+                  Switch Company Account
                 </Button>
               </Box>
             )}
