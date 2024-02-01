@@ -13,7 +13,7 @@ import {
   setDashboardView,
   setViewCompanyId,
 } from "../../../redux/slices/profileSlice";
-const AdvertWidget = ({companyData}) => {
+const AdvertWidget = ({ companyData }) => {
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
   const main = palette.neutral.main;
@@ -55,7 +55,6 @@ const AdvertWidget = ({companyData}) => {
         <Slider {...settings}>
           {companyData &&
             companyData.map((company) => {
-              console.log(company, "comapny");
               return (
                 <div
                   onClick={() => {
@@ -63,6 +62,7 @@ const AdvertWidget = ({companyData}) => {
                     dispatch(setDashboardView("postprofile"));
                   }}
                   key={company._id}
+                
                 >
                   <FlexBetween
                     sx={{
@@ -74,16 +74,17 @@ const AdvertWidget = ({companyData}) => {
                     }}
                   >
                     <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "20px",
-                      }}
+                      // style={{
+                      //   display: "flex",
+                      //   alignItems: "center",
+                      //   gap: "20px",
+                      // }}
+                      style={{cursor: "pointer"}}
                     >
                       <img
                         src={company?.companyData?.profile ?? company?.profile}
-                        width="30px"
-                        height="30px"
+                        width="60px"
+                        height="60px"
                         alt={
                           company?.companyData?.companyName ??
                           company?.companyName
@@ -91,8 +92,8 @@ const AdvertWidget = ({companyData}) => {
                         style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
                       />
                       <Typography color={main}>
-                        {company?.companyData?.companyName ??
-                          company?.companyName}
+                        <b>{company?.companyData?.companyName ??
+                          company?.companyName}</b>
                       </Typography>
                     </div>
                     <div
@@ -105,7 +106,7 @@ const AdvertWidget = ({companyData}) => {
                       }}
                     >
                       <Typography color={medium}>
-                        Followers :<b> {company?.count ?? 0}</b>
+                        Followers :<b> {company?.followersCount ?? 0}</b>
                       </Typography>
                       {/* <Button
                         disabled={isPending}
@@ -144,11 +145,12 @@ const AdvertWidget = ({companyData}) => {
             }}
           >
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "20px",
-              }}
+              // style={{
+              //   display: "flex",
+              //   alignItems: "center",
+              //   gap: "20px",
+              // }}
+              style={{cursor: "pointer"}}
             >
               <img
                 src={

@@ -8,7 +8,7 @@ import FlexBetween from "../FlexBetween";
 import Loader from "../Loader/Loader";
 import { useDeleteSchedule } from "../../hooks/schedule";
 
-const PostTitle = ({ data }) => {
+const PostTitle = ({ data, removeFrdRequestIcon }) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
@@ -28,7 +28,7 @@ const PostTitle = ({ data }) => {
     <Loader />;
   }
 
-  console.log(data , 'dataaasdass')
+  console.log(removeFrdRequestIcon)
 
   return (
     <FlexBetween>
@@ -36,7 +36,7 @@ const PostTitle = ({ data }) => {
         <Avatar
           sx={{ width: 35, height: 35 }}
           alt="Remy Sharp"
-          src="/static/images/avatar/1.jpg"
+          src={data.companyProfile ?? "/static/images/avatar/1.jpg"}
         />
         <Box onClick={() => {}}>
           <Typography
@@ -56,7 +56,8 @@ const PostTitle = ({ data }) => {
           {moment(data?.createdAt).format("MMM Do YYYY, h:mm a")}
         </Typography>
       </FlexBetween>
-      {data?.companyId !== companyId ? (
+      {!removeFrdRequestIcon && <>
+        {data?.companyId !== companyId ? (
         <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
           <AiOutlineUsergroupAdd sx={{ color: primaryDark }} />
         </IconButton>
@@ -65,6 +66,7 @@ const PostTitle = ({ data }) => {
           <DeleteOutlined />
         </IconButton>
       )}
+      </>}
     </FlexBetween>
   );
 };
