@@ -23,20 +23,32 @@ const ScheduleList = () => {
               return (
                 <WidgetWrapper key={i} sx={{ marginTop: "20px" }}>
                   <PostTitle data={e} />
+                  {console.log(e)}
                   <Box className={styles.scheduleListDiv}>
-                    <Box className={styles.scheduleListSubDiv}>
-                      <Typography>POL: </Typography>{" "}
-                      <Typography>{e.pol}</Typography>
+                    <Box>
+                      <Box className={styles.scheduleListSubDiv}>
+                        <Typography>POL: </Typography>{" "}
+                        <Typography>{e.pol}</Typography>
+                      </Box>
+                      <Box className={styles.scheduleListSubDiv}>
+                        <Typography>POD: </Typography>{" "}
+                        <Typography>{e.pod}</Typography>
+                      </Box>
                     </Box>
+                    <Box>
                     <Box className={styles.scheduleListSubDiv}>
-                      <Typography>POD: </Typography>{" "}
-                      <Typography>{e.pod}</Typography>
-                    </Box>
-                    <Box className={styles.scheduleListSubDiv}>
-                      <Typography>Cut Off: </Typography>
-                      <Typography>
-                        {moment(e.bookingCutOff).format("DD-MM-YYYY")}
-                      </Typography>
+                        <Typography>Opening On: </Typography>
+                        <Typography>
+                          {moment(e.openingOn).format("DD-MM-YYYY")}
+                        </Typography>
+                      </Box>
+                      
+                      <Box className={styles.scheduleListSubDiv}>
+                        <Typography>Booking Cut-Off: </Typography>
+                        <Typography>
+                          {moment(e.bookingCutOff).format("DD-MM-YYYY")}
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
                   {e.description !== "" && (
@@ -56,10 +68,10 @@ const ScheduleList = () => {
         //   <Typography sx={{ textAlign: "center" }}>No Schedule</Typography>
         // </Box>
         <WidgetWrapper >
-          <Box className={styles.scheduleListDiv} sx={{display:"flex", justifyContent:"center", height:"100vh"}}>
+          <Box className={styles.scheduleListDiv} sx={{ display: "flex", justifyContent: "center", height: "100vh" }}>
 
-              <Typography>No Schedule </Typography>{" "}
-           
+            <Typography>No Schedule </Typography>{" "}
+
           </Box>
 
           <Box>
