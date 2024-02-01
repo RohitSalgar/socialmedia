@@ -9,7 +9,6 @@ import PostTitle from "./PostTitle";
 
 const ScheduleList = () => {
   const { data, isLoading } = useGetAllSchedules();
-
   if (isLoading) {
     return <Loader />;
   }
@@ -21,7 +20,7 @@ const ScheduleList = () => {
           {data &&
             data.map((e, i) => {
               return (
-                <WidgetWrapper key={i} sx={{ marginBottom: "20px" }}>
+                <WidgetWrapper key={i} sx={{ marginBottom: "10px" }}>
                   <PostTitle data={e} />
                   {console.log(e)}
                   <Box className={styles.scheduleListDiv}>
