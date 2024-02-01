@@ -6,15 +6,9 @@ import { useGetAllSchedules } from "../../../../hooks/schedule";
 import Loader from "../../../../components/Loader/Loader";
 import moment from "moment";
 import PostTitle from "./PostTitle";
-import { useSelector } from "react-redux";
-import { useGetProfile } from "../../../../hooks/profile";
 
 const ScheduleList = () => {
-  const { userId } = useSelector((state) => state.profile.profileData);
-  const { data: profiledate, isLoading: profileLoading } =
-    useGetProfile(userId);
   const { data, isLoading } = useGetAllSchedules();
-console.log(profiledate.pageData,"dayya")
   if (isLoading) {
     return <Loader />;
   }
