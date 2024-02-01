@@ -27,7 +27,6 @@ function CommentHeader({
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
   const [date, setDate] = useState("");
-
   // const relativeTime = new RelativeTime();
   // useEffect(()=> {
   //   setDate(relativeTime.from(new Date(createdAt)))
@@ -65,7 +64,7 @@ function CommentHeader({
                   color: "#fff",
                 }}
               >
-                {profiledate.userData.fullName.charAt(0).toUpperCase()}
+                {postData?.userInfo.fullName.charAt(0).toUpperCase()}
               </span>
           <Box
             sx={{
@@ -101,7 +100,6 @@ function CommentHeader({
                   {postData?.userInfo?.fullName}
                 </Typography>
                 <Typography
-                  textTransform={"capitalize"}
                   color={dark}
                   variant="designation"
                   fontWeight="300"

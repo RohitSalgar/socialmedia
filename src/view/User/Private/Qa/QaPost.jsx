@@ -106,15 +106,15 @@ const QaWidget = ({ postData }) => {
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
         Question : {postData?.question}
       </Typography>
-      {postData.files !== "null" && (
-        <img
-          width="100%"
-          height="auto"
-          alt="post"
-          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={postData.files}
-        />
-      )}
+      {postData.files != "null" &&
+       <img
+        width="100%"
+        height="auto"
+        alt="post"
+        style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
+        src={postData.files}
+      />
+      }
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">

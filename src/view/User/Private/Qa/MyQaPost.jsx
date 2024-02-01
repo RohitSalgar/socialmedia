@@ -55,8 +55,24 @@ const Myqa = () => {
   //   fetchIPAddress();
   // }, []);
 
+  function acceptOnlyImages(file) {
+    const acceptedImageTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+    ];
+
+    return acceptedImageTypes.includes(file.type);
+  }
+
   const onSubmit = () => {
     const formData = new FormData();
+    if (files) {
+      const acceptFile = acceptOnlyImages(files)
+      if (!acceptFile) {
+        return toast.error("Invalid File Format")
+      }
+    }
     formData.append("files", files);
     formData.append("createdBy", userId);
     formData.append("question", question);
@@ -124,7 +140,7 @@ const Myqa = () => {
         </FlexBetween>
         <Box>
           <Button
-            disabled={!question}
+            disabled={!question.trim()}
             className={styles.btns}
             onClick={onSubmit}
             sx={{
