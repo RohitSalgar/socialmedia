@@ -106,21 +106,29 @@ const QaWidget = ({ postData }) => {
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
         Question : {postData?.question}
       </Typography>
-      {postData.files && <img
-        width="100%"
-        height="auto"
-        alt="post"
-        style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-        src={postData.files}
-      />}
+      {postData.files !== "null" && (
+        <img
+          width="100%"
+          height="auto"
+          alt="post"
+          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
+          src={postData.files}
+        />
+      )}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
-        <FlexBetween gap="0.3rem">
+          <FlexBetween gap="0.3rem">
             <IconButton onClick={likeDislike}>
-              {isLiked ? <FavoriteOutlined sx={{ color: primary }} /> : <FavoriteBorderOutlined />}
+              {isLiked ? (
+                <FavoriteOutlined sx={{ color: primary }} />
+              ) : (
+                <FavoriteBorderOutlined />
+              )}
             </IconButton>
             <Typography>
-              {postData?.likes === 1 ? `1 like` : `${postData?.likes} likes`}
+              {postData?.likes <= 1
+                ? `${postData?.likes} like`
+                : `${postData?.likes} likes`}
             </Typography>
           </FlexBetween>
 
@@ -152,8 +160,7 @@ const QaWidget = ({ postData }) => {
                 flexDirection: "row",
                 alignItems: "center",
               }}
-            >
-            </Box>
+            ></Box>
           </FlexBetween>
         </FlexBetween>
       </FlexBetween>

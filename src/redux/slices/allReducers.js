@@ -3,7 +3,7 @@ import profileSlice from "./profileSlice"
 import authSlice from "./authSlice";
 import chatSlice from "./chat";
 import sidebarSlice from "./sidebarSlice";
-import { postSlice } from "./post";
+import postSlice from "./post";
 import popupSlice from "./popupSlice";
 
 
@@ -11,7 +11,7 @@ export const rootReducer = combineReducers({
 	auth: authSlice,
 	chat: chatSlice,
 	sidebar: sidebarSlice,
-	profile:profileSlice,
-	post:postSlice,
+	profile: profileSlice,
+	post: postSlice,
 	popup: popupSlice,
 });

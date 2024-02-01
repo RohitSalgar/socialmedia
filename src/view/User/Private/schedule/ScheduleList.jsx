@@ -64,17 +64,9 @@ const ScheduleList = () => {
             })}
         </>
       ) : (
-        // <Box sx={{ margin: "2rem" }}>
-        //   <Typography sx={{ textAlign: "center" }}>No Schedule</Typography>
-        // </Box>
         <WidgetWrapper >
           <Box className={styles.scheduleListDiv} sx={{ display: "flex", justifyContent: "center", height: "100vh" }}>
-
             <Typography>No Schedule </Typography>{" "}
-
-          </Box>
-
-          <Box>
           </Box>
         </WidgetWrapper>
       )}

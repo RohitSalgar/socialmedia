@@ -22,8 +22,8 @@ function CommentBox({
   commentAction = true,
   postData,
   commentId,
+  type,
 }) {
-  console.log(message, "message");
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
   const [editText, setEditText] = useState(message);
@@ -166,6 +166,7 @@ function CommentBox({
                   commentAction={false}
                   postData={reply}
                   commentId={postData?._id}
+                  type={"reply"}
                 />
               );
             })}
