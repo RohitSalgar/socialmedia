@@ -49,7 +49,7 @@ const AddSchedule = () => {
 
   return (
     <>
-      <WidgetWrapper>
+      <WidgetWrapper sx={{marginBottom:"1rem"}}>
         <form action="post" onSubmit={handleSubmit(onSubmit)}>
           <FlexBetween>
             <Box

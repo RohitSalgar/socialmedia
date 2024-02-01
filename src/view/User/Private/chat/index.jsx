@@ -8,11 +8,13 @@ import { useTheme } from "@emotion/react";
 import { usegetAllChatInfo } from "../../../../hooks/chat";
 import Loader from "../../../../components/Loader/Loader";
 import { setSideView } from "../../../../redux/slices/profileSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetProfile } from "../../../../hooks/profile";
+import { useSocket } from "../../../../hooks/socket";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
+  const {chatNotification} = useSelector((state)=>state.chat)
   const dark = palette.neutral.dark;
   const [text, setText] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -21,6 +23,7 @@ const ChatLayout = () => {
   const { data } = useGetProfile(userId);
   const dispatch = useDispatch();
 
+console.log(chatNotification)
   if (isLoading) {
     return <Loader />;
   }
@@ -43,11 +46,11 @@ const ChatLayout = () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          alignContent: "center",
+          alignContent: "center"
         }}
       >
         <Typography color={dark} sx={{ fontSize: "22px", fontWeight: "bold" }}>
-          Chats
+          Messenger
         </Typography>
         <ClearIcon
           sx={{ fontSize: "24px", marginTop: "5px", cursor: "pointer" }}
@@ -61,7 +64,10 @@ const ChatLayout = () => {
           style={{
             width: "100%",
             position: "static",
-            borderRadius: "5px",
+            borderBottom:"1px solid black",
+            paddingLeft:"2px",
+            marginTop:"2px",
+            marginBottom:"2px"
           }}
           onChange={(e) => setText(e.target.value)}
         />
@@ -74,6 +80,7 @@ const ChatLayout = () => {
           paddingBottom:'10px'
         }}
       >
+        {console.lo}
         {allChatInfo && data &&
           updateNamesToEmptyString(allChatInfo)
             .filter((e) => e.senderId === userId || e.recipientId === userId)

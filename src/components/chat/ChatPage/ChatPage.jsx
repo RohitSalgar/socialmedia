@@ -6,7 +6,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { CancelScheduleSend } from "@mui/icons-material";
-import { setSingleChatModeOff } from "../../../redux/slices/chat";
+import { setNotification, setSingleChatModeOff } from "../../../redux/slices/chat";
 import { useGetChatById } from "../../../hooks/chat";
 import Loader from "../../Loader/Loader";
 import { useSocket } from "../../../hooks/socket";
@@ -16,8 +16,6 @@ import { IoIosEye } from "react-icons/io";
 const ChatPage = ({ data }) => {
   const dispatch = useDispatch();
   const socket = useSocket();
-  const [notifications, setNotifications] = useState([]);
-
   const messagesDivRef = useRef(null);
   const { singleConnectionId } = useSelector((state) => state.chat);
   const [liveUser, setLiveUser] = useState(null);
@@ -29,6 +27,7 @@ const ChatPage = ({ data }) => {
   const { data: chatData, isLoading: chatLoading } = useGetChatById(
     filteredData[0]._id
   );
+
   useEffect(() => {
     if (messagesDivRef.current) {
       messagesDivRef.current.scrollTop = messagesDivRef.current.scrollHeight;
@@ -39,11 +38,6 @@ const ChatPage = ({ data }) => {
     if (chatData) {
       setChatMessage(chatData);
     }
-    // return () => {
-    //   if (socket) {
-    //     socket.disconnect();
-    //   }
-    // };
   }, [chatData, socket]);
 
   socket &&
@@ -53,7 +47,7 @@ const ChatPage = ({ data }) => {
 
   useEffect(() => {
     socket?.on("getNotification", (data) => {
-      dispatch(setNotifications(data));
+      // dispatch(setNotification(data))
     });
     emitMessageOnce();
   }, [socket]);
@@ -130,7 +124,6 @@ const ChatPage = ({ data }) => {
     return <Loader />;
   }
 
-  console.log(notifications, "notifications");
   return (
     <Box className={styles.chatPage} sx={{ height: "65vh" }}>
       <KeyboardBackspaceIcon
