@@ -50,14 +50,18 @@
 
 .scheduleListDiv {
   display: flex !important;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
+  /* width:95%; */
+  text-align: center;
 }
 .scheduleListSubDiv {
   display: flex;
   gap: 2% !important;
-  width: 150px !important;
+  width: 220px !important;
   margin-bottom: 0.5rem;
 }
 .error fieldset {

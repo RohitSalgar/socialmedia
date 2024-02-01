@@ -37,6 +37,11 @@ const ChatPage = ({ data }) => {
     if (chatData) {
       setChatMessage(chatData);
     }
+    return () => {
+      if(socket){
+        socket.disconnect();
+      }
+    };
   }, [chatData, socket]);
 
   socket &&

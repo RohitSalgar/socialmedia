@@ -88,9 +88,10 @@ const Navbar = () => {
             <FlexBetween
               backgroundColor={neutralLight}
               borderRadius="9px"
-              gap="3rem"
-              padding="0.1rem 1.5rem"
+              gap="1rem"
+              padding="0.3rem 2.5rem 0.3rem 1.5rem"
             >
+                <Search />
               <InputBase
                 value={searchText}
                 onChange={(e) => {
@@ -102,9 +103,7 @@ const Navbar = () => {
                 placeholder="Search..."
                 style={{ width: "250px" }}
               />
-              <IconButton>
-                <Search />
-              </IconButton>
+              
             </FlexBetween>
           )}
         </FlexBetween>
