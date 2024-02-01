@@ -16,6 +16,8 @@ import { IoIosEye } from "react-icons/io";
 const ChatPage = ({ data }) => {
   const dispatch = useDispatch();
   const socket = useSocket();
+  const [notifications, setNotifications] = useState([]);
+
   const messagesDivRef = useRef(null);
   const { singleConnectionId } = useSelector((state) => state.chat);
   const [liveUser, setLiveUser] = useState(null);
@@ -37,11 +39,11 @@ const ChatPage = ({ data }) => {
     if (chatData) {
       setChatMessage(chatData);
     }
-    return () => {
-      if(socket){
-        socket.disconnect();
-      }
-    };
+    // return () => {
+    //   if (socket) {
+    //     socket.disconnect();
+    //   }
+    // };
   }, [chatData, socket]);
 
   socket &&
@@ -50,6 +52,9 @@ const ChatPage = ({ data }) => {
     });
 
   useEffect(() => {
+    socket?.on("getNotification", (data) => {
+      dispatch(setNotifications(data));
+    });
     emitMessageOnce();
   }, [socket]);
 
@@ -86,6 +91,14 @@ const ChatPage = ({ data }) => {
       connectionId: filteredData[0]._id,
     };
 
+    socket?.emit("sendNotification", {
+      senderId: userId,
+      receiverId:
+        filteredData[0].recipientId === userId
+          ? filteredData[0].senderId
+          : filteredData[0].recipientId,
+    });
+
     setChatMessage((prev) => [...prev, newChat]);
     socket.emit("sendMessage", {
       senderId: userId,
@@ -103,11 +116,11 @@ const ChatPage = ({ data }) => {
   };
 
   function isUserIdPresent(array, object) {
-    let userPresent
-    if(userId !=object.senderId){
-      userPresent = array.some(item => item.userId === object.senderId);
-    }else{
-      userPresent = array.some(item => item.userId === object.recipientId);
+    let userPresent;
+    if (userId != object.senderId) {
+      userPresent = array.some((item) => item.userId === object.senderId);
+    } else {
+      userPresent = array.some((item) => item.userId === object.recipientId);
     }
 
     return userPresent;
@@ -116,8 +129,10 @@ const ChatPage = ({ data }) => {
   if (chatLoading) {
     return <Loader />;
   }
+
+  console.log(notifications, "notifications");
   return (
-    <Box className={styles.chatPage} sx={{height:'65vh'}}>
+    <Box className={styles.chatPage} sx={{ height: "65vh" }}>
       <KeyboardBackspaceIcon
         sx={{ cursor: "pointer" }}
         onClick={() => dispatch(setSingleChatModeOff())}
@@ -129,8 +144,7 @@ const ChatPage = ({ data }) => {
             : filteredData[0].senderName}
         </p>
         <p className={styles.activeLogo}>
-          {liveUser &&
-          isUserIdPresent(liveUser,filteredData[0])
+          {liveUser && isUserIdPresent(liveUser, filteredData[0])
             ? "Actvie Now"
             : "Offline"}
         </p>

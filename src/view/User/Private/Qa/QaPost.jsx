@@ -117,12 +117,18 @@ const QaWidget = ({ postData }) => {
       }
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
-        <FlexBetween gap="0.3rem">
+          <FlexBetween gap="0.3rem">
             <IconButton onClick={likeDislike}>
-              {isLiked ? <FavoriteOutlined sx={{ color: primary }} /> : <FavoriteBorderOutlined />}
+              {isLiked ? (
+                <FavoriteOutlined sx={{ color: primary }} />
+              ) : (
+                <FavoriteBorderOutlined />
+              )}
             </IconButton>
             <Typography>
-              {postData?.likes === 1 ? `1 like` : `${postData?.likes} likes`}
+              {postData?.likes <= 1
+                ? `${postData?.likes} like`
+                : `${postData?.likes} likes`}
             </Typography>
           </FlexBetween>
 
@@ -141,7 +147,9 @@ const QaWidget = ({ postData }) => {
               <IconButton>
                 <ChatBubbleOutlineOutlined />
               </IconButton>
-              <Typography sx={{ cursor: "pointer" }}>{"Your Answer"}</Typography>
+              <Typography sx={{ cursor: "pointer" }}>
+                {"Your Answer"}
+              </Typography>
             </Box>
           </FlexBetween>
           <FlexBetween gap="0.3rem">
@@ -154,8 +162,7 @@ const QaWidget = ({ postData }) => {
                 flexDirection: "row",
                 alignItems: "center",
               }}
-            >
-            </Box>
+            ></Box>
           </FlexBetween>
         </FlexBetween>
       </FlexBetween>

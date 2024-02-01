@@ -33,9 +33,6 @@ const PostTitle = ({ data }) => {
     <Loader />;
   }
 
-  console.log(data,"data")
-
-
   return (
     <FlexBetween>
       <FlexBetween gap="10px">
@@ -63,7 +60,7 @@ const PostTitle = ({ data }) => {
         </Typography>
       </FlexBetween>
       {data?.companyId !== companyId ? (
-        <IconButton onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('profile'))}} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
+        <IconButton onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
           <AiOutlineUsergroupAdd sx={{ color: primaryDark }} />
         </IconButton>
       ) : (

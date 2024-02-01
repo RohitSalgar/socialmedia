@@ -26,6 +26,7 @@ import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
+import Loader from "../../../../components/Loader/Loader";
 
 const CompanyPage = ({ postData }) => {
   const [isComments, setIsComments] = useState(false);
@@ -76,14 +77,13 @@ const CompanyPage = ({ postData }) => {
     };
     mutate(payload);
   };
-
-  if (postCommentLoading) {
-    return;
-  }
-
   useEffect(() => {
     setIsLiked(postData?.likedBy.includes(userId));
-  }, [ userId]);
+  }, [userId]);
+
+  if (postCommentLoading) {
+    return <Loader />;
+  }
 
   const likeDislike = () => {
     if (!isLiked) {
