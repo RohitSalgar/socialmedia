@@ -9,7 +9,6 @@ export const useSocket = () => {
   useEffect(() => {
     const socketInstance = io("ws://localhost:8900");
     setSocket(socketInstance);
-
   }, []);
 
   return socket;
