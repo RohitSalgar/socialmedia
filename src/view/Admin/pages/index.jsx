@@ -17,6 +17,8 @@ const pages = () => {
   const { mutate, isPaused } = useVerifyPage();
   const [searchTerm, setSearchTerm] = useState("");
 
+  console.log(pagesData, "pages");
+
   const columns = [
     {
       field: "companyName",
@@ -67,22 +69,38 @@ const pages = () => {
       headerAlign: "center",
       align: "center",
       headerClassName: "tabel-header",
-      renderCell: ({ row }) => (
-        <Box sx={{ display: "flex", gap: "3px" }}>
-          <Button
-            sx={{ color: "green", border: "1px solid green" }}
-            onClick={() => mutate({ id: row._id, status: 1 })}
-          >
-            Approve
-          </Button>
-          <Button
-            sx={{ color: "red", border: "1px solid red" }}
-            onClick={() => mutate({ id: row._id, status: 4 })}
-          >
-            Reject
-          </Button>
-        </Box>
-      ),
+      renderCell: ({ row }) => {
+        if (row.status === 1) {
+          return (
+            <Box sx={{ display: "flex", gap: "3px" }}>
+              <Typography sx={{ color: "green" }}>Approved</Typography>
+            </Box>
+          );
+        } else if (row.status === 3) {
+          return (
+            <Box sx={{ display: "flex", gap: "3px" }}>
+              <Typography sx={{ color: "red" }}>Rejected</Typography>
+            </Box>
+          );
+        } else {
+          return (
+            <Box sx={{ display: "flex", gap: "3px" }}>
+              <Button
+                sx={{ color: "green", border: "1px solid green" }}
+                onClick={() => mutate({ id: row._id, status: 1 })}
+              >
+                Approve
+              </Button>
+              <Button
+                sx={{ color: "red", border: "1px solid red" }}
+                onClick={() => mutate({ id: row._id, status: 4 })}
+              >
+                Reject
+              </Button>
+            </Box>
+          );
+        }
+      },
     },
   ];
 
@@ -98,9 +116,7 @@ const pages = () => {
         </Typography>
       </div>
       <div className={classes.searchContainer}>
-        <IconButton className={classes.searchBtn}>
-          <Search />
-        </IconButton>
+        <Search sx={{ marginLeft: "5px" }} />
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -113,7 +129,10 @@ const pages = () => {
           sx={{ textTransform: "capitalize", minHeight: "450px" }}
           getRowId={(row) => row._id}
           rows={pagesData.filter((page) =>
-            page.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+            page.companyName
+              .toLowerCase()
+              .replace(/\s/g, "")
+              .includes(searchTerm.toLowerCase().replace(/\s/g, ""))
           )}
           columns={columns}
           initialState={{

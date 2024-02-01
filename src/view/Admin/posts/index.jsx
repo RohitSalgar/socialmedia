@@ -51,13 +51,13 @@ const posts = () => {
       headerClassName: "tabel-header",
       headerAlign: "center",
       align: "center",
-      headerName: "Reported Users",
+      headerName: "No.Reports",
       flex: 1,
       valueGetter: ({ value }) => value?.length,
     },
     {
       field: "createdAt",
-      headerName: "Created Time",
+      headerName: "Created Date",
       flex: 1,
       headerAlign: "center",
       align: "center",
@@ -109,7 +109,6 @@ const posts = () => {
   const closeModal = () => {
     setOpenModal(false);
   };
-
   return (
     <section className={classes.postSection}>
       <div>
@@ -118,9 +117,7 @@ const posts = () => {
         </Typography>
       </div>
       <div className={classes.searchContainer}>
-        <IconButton className={classes.searchBtn}>
-          <Search />
-        </IconButton>
+      <Search sx={{marginLeft:"5px"}} />
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -132,7 +129,13 @@ const posts = () => {
         <DataGrid
           sx={{ textTransform: "capitalize", minHeight: "450px" }}
           getRowId={(row) => row._id}
-          rows={postData}
+          rows={postData?.filter((user) =>
+            user.fullName
+            .toLowerCase()
+            .replace(/\s/g, "")
+            .includes(searchTerm.toLowerCase().replace(/\s/g, ""))
+          )}
+          // rows={postData}
           columns={columns}
           initialState={{
             pagination: {

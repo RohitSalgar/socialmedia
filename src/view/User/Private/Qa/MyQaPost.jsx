@@ -72,7 +72,7 @@ const Myqa = () => {
           id="outlined-multiline-static"
           multiline
           rows={1}
-          placeholder="What's your Question ?...."
+          placeholder="Ask your Question ?...."
           onChange={(e) => setquestion(e.target.value)}
           value={question}
           sx={{

@@ -54,6 +54,7 @@ const AddSchedule = () => {
           <FlexBetween>
             <Box
               className={styles.AddScheduleDiv}
+              sx={{marginBottom:"10px"}}
             >
               <TextField
                 id="outlined-multiline-static"

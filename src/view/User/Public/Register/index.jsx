@@ -258,71 +258,74 @@ export default function RegisterPage() {
                 sx={{ mt: 1 }}
                 className={styles.loginformdiv}
               >
-                <label className={styles.forminputlabel} htmlFor="fullName">
-                  Full Name
-                </label>
-                <span style={{ color: "red" }}>*</span>
-                <Controller
-                  name="fullName"
-                  id="fullName"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      placeholder="Enter FullName"
-                      margin="normal"
-                      style={{
-                        marginBottom: "1px",
-                        fontSize: "10px",
-                        marginTop: "0px",
-                      }}
-                      required
-                      fullWidth
-                      id="fullName"
-                      name="fullName"
-                      autoComplete="given-name"
-                    />
-                  )}
-                />
-                {errors.fullName && (
-                  <p className={styles.errormsg}>{errors.fullName.message}</p>
-                )}
-                <Box className={styles.loginforminputs} sx={{ pt: "10px" }}>
-                  <label className={styles.forminputlabel} htmlFor="email">
-                    Email Address
+                  <label className={styles.forminputlabel} htmlFor="fullName">
+                    Full Name
                   </label>
                   <span style={{ color: "red" }}>*</span>
                   <Controller
-                    name="email"
+                    name="fullName"
+                    id="fullName"
                     control={control}
                     render={({ field }) => (
                       <TextField
                         {...field}
-                        placeholder="Enter Email"
+                        placeholder="Enter FullName"
                         margin="normal"
                         style={{
                           marginBottom: "1px",
                           fontSize: "10px",
                           marginTop: "0px",
+                          width:"103%",
                         }}
                         required
                         fullWidth
-                        id="email"
-                        name="email"
-                        autoComplete="email"
+                        id="fullName"
+                        name="fullName"
+                        autoComplete="given-name"
                       />
                     )}
                   />
-                  {errors.email && (
-                    <p className={styles.errormsg}>{errors.email.message}</p>
+                  {errors.fullName && (
+                    <p className={styles.errormsg}>{errors.fullName.message}</p>
                   )}
-                </Box>
+                  <Box className={styles.loginforminputs} sx={{ pt: "10px" }}>
+                    <label className={styles.forminputlabel} htmlFor="email">
+                      Email Address
+                    </label>
+                    <span style={{ color: "red" }}>*</span>
+                    <Controller
+                      name="email"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          placeholder="Enter Email"
+                          margin="normal"
+                          style={{
+                            marginBottom: "1px",
+                            fontSize: "10px",
+                            marginTop: "0px",
+                            width:"103%",
+                          }}
+                          required
+                          fullWidth
+                          id="email"
+                          name="email"
+                          autoComplete="email"
+                        />
+                      )}
+                    />
+                    {errors.email && (
+                      <p className={styles.errormsg}>{errors.email.message}</p>
+                    )}
+                  </Box>
                 <div
                   style={{
                     display: "flex",
                     flexDirection: "row",
                     gap: "10px",
                     alignItems: "baseline",
+                    width: "103%",
                   }}
                 >
                   <FormControl
@@ -330,16 +333,21 @@ export default function RegisterPage() {
                     className={styles.loginforminputs}
                     width="50%"
                   >
-                    <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
-
-                    <label
-                      className={styles.forminputlabel}
-                      htmlFor="designation"
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <label
+                        className={styles.forminputlabel}
+                        htmlFor="designation"
                       >
-                      Designation
-                    </label>
-                    <span style={{ color: "red", marginTop:"9px" }}>*</span>
-                      </div>
+                        Designation
+                      </label>
+                      <span style={{ color: "red", marginTop: "9px" }}>*</span>
+                    </div>
                     <Controller
                       name="designation"
                       control={control}
@@ -407,6 +415,7 @@ export default function RegisterPage() {
                     gap: "10px",
                     alignItems: "baseline",
                     paddingTop: "10px",
+                    width:"103%",
                   }}
                 >
                   <Box className={styles.loginforminputs}>
@@ -537,7 +546,7 @@ export default function RegisterPage() {
                     />
                   </div>
                 ) : (
-                  <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+                  <div style={{ marginTop: "10px", marginBottom: "10px", width:"103%" }}>
                     <input
                       type="file"
                       accept="image/jpeg, image/png, image/jpg, image/webp"
@@ -572,12 +581,13 @@ export default function RegisterPage() {
                     background: `${primary}`,
                     color: "#fff",
                     fontWeight: "bold",
+                    width:"103%"
                   }}
                 >
                   Register
                 </Button>
                 <Grid container style={{ width: "100%" }}>
-                  <Grid item style={{ width: "100%", textAlign: "left" }}>
+                  <Grid item style={{ width: "100%", textAlign: "center" }}>
                     <span>Already have an account?</span>
                     <Link
                       href="/"

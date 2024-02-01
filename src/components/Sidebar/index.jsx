@@ -70,7 +70,7 @@ function Sidebar({ onClick }) {
                 }`}
               >
                 <NewspaperOutlinedIcon />
-                Comapany Pages
+                Company Pages
               </Link>
             </li>
             <li
