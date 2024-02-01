@@ -13,7 +13,8 @@ import { useState } from "react";
 import { useGetProfile } from "../../hooks/profile";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { setSideView } from "../../redux/slices/profileSlice";
-
+import { Tooltip } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
 const CreateCompany = () => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
@@ -110,45 +111,81 @@ const CreateCompany = () => {
           <form onSubmit={handleSubmit(onSubmit)} className={styles.editform}>
             <label htmlFor="companyName">Company Name</label>
             <span style={{ color: "red" }}>*</span>
+            {errors?.companyName && (
+                    <Tooltip
+                      style={{
+                        marginLeft: "0.5rem",
+                        fontSize: "14px",
+                        color: "red",
+                      }}
+                      title={errors?.companyName?.message}
+                    >
+                      <InfoIcon />
+                    </Tooltip>
+                  )}
             <input
               className={errors.companyName && styles.error}
               id="companyName"
               {...register("companyName")}
             />
-            {errors.companyName && (
-              <p className={styles.errorMsg}>{errors.companyName.message}</p>
-            )}
             <label htmlFor="email">Email</label>
             <span style={{ color: "red" }}>*</span>
+            {errors?.email && (
+                    <Tooltip
+                      style={{
+                        marginLeft: "0.5rem",
+                        fontSize: "14px",
+                        color: "red",
+                      }}
+                      title={errors?.email?.message}
+                    >
+                      <InfoIcon />
+                    </Tooltip>
+                  )}
             <input
               className={errors.email && styles.error}
               id="email"
               {...register("email")}
             />
-            {errors.email && (
-              <p className={styles.errorMsg}>{errors.email.message}</p>
-            )}
             <label htmlFor="licenseNo">License No</label>
             <span style={{ color: "red" }}>*</span>
+            {errors?.licenseNo && (
+                    <Tooltip
+                      style={{
+                        marginLeft: "0.5rem",
+                        fontSize: "14px",
+                        color: "red",
+                      }}
+                      title={errors?.licenseNo?.message}
+                    >
+                      <InfoIcon />
+                    </Tooltip>
+                  )}
             <input
               className={errors.licenseNo && styles.error}
               id="licenseNo"
               {...register("licenseNo")}
             />
-            {errors.licenseNo && (
-              <p className={styles.errorMsg}>{errors.licenseNo.message}</p>
-            )}
             <label htmlFor="about">About</label>
             <span style={{ color: "red" }}>*</span>
+            {errors?.about && (
+                    <Tooltip
+                      style={{
+                        marginLeft: "0.5rem",
+                        fontSize: "14px",
+                        color: "red",
+                      }}
+                      title={errors?.about?.message}
+                    >
+                      <InfoIcon />
+                    </Tooltip>
+                  )}
             <textarea
               className={errors.about && styles.error}
               style={{ height: "30px" }}
               id="about"
               {...register("about")}
             />
-            {errors.about && (
-              <p className={styles.errorMsg}>{errors.about.message}</p>
-            )}
             <button
               className={styles.submitbtn}
               type="submit"
