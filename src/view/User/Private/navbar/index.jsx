@@ -91,19 +91,26 @@ const Navbar = () => {
               gap="1rem"
               padding="0.3rem 2.5rem 0.3rem 1.5rem"
             >
-                <Search />
+              <Search />
               <InputBase
                 value={searchText}
                 onChange={(e) => {
                   setSearchText(e.target.value);
                   navesearchMutate({
-                    term: e.target.value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s/g, "")
+                    term: e.target.value
+                      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+                      .replace(/\s/g, ""),
                   });
                 }}
                 placeholder="Search..."
                 style={{ width: "250px" }}
               />
-              
+              {searchText && (
+                <ClearIcon
+                  sx={{ color: dark, cursor: "pointer" }}
+                  onClick={() => setSearchText("")}
+                />
+              )}
             </FlexBetween>
           )}
         </FlexBetween>

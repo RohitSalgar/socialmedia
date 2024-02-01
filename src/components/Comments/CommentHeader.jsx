@@ -35,7 +35,6 @@ function CommentHeader({
   //   },5000)
   //   return () => clearInterval(interval)
   // },[createdAt])
-
   return (
     <>
       <Box
@@ -64,7 +63,7 @@ function CommentHeader({
               color: "#fff",
             }}
           >
-            {profiledate.userData.fullName.charAt(0).toUpperCase()}
+            {postData.userInfo.fullName.charAt(0).toUpperCase()}
           </span>
           <Box
             sx={{
