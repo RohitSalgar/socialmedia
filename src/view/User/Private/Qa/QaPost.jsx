@@ -139,7 +139,7 @@ const QaWidget = ({ postData }) => {
               <IconButton>
                 <ChatBubbleOutlineOutlined />
               </IconButton>
-              <Typography sx={{ cursor: "pointer" }}>{"Your Answer"}</Typography>
+              <Typography sx={{ cursor: "pointer" }}>{"View Answer"}</Typography>
             </Box>
           </FlexBetween>
           <FlexBetween gap="0.3rem">

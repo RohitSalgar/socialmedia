@@ -24,7 +24,7 @@ const FriendListWidget = ({ data }) => {
         fontWeight="500"
         sx={{ mb: "0.3rem" }}
       >
-        Friend Requests
+        Friend Request
       </Typography>
       <Box
         display="flex"
@@ -44,7 +44,7 @@ const FriendListWidget = ({ data }) => {
           })}
         {data && data.length === 0 && (
           <p style={{ paddingTop: "35px", textAlign: "center" }}>
-            No Friend Requests
+            No Friend Request
           </p>
         )}
       </Box>

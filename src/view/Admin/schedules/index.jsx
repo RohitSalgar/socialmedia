@@ -63,7 +63,7 @@ const schedules = () => {
     return <Loader />;
   }
 
-  console.log(scheduleData,"sdf")
+  console.log(scheduleData, "sdf");
 
   return (
     <section className={classes.postSection}>
@@ -73,22 +73,25 @@ const schedules = () => {
         </Typography>
       </div>
       <div className={classes.searchContainer}>
+        <Search sx={{ marginLeft: "5px" }} />
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className={classes.searchInput}
           placeholder="Search by company name..."
         />
-        <IconButton className={classes.searchBtn}>
-          <Search />
-        </IconButton>
       </div>
       <div>
         <DataGrid
           sx={{ textTransform: "capitalize", minHeight: "450px" }}
           getRowId={(row) => row._id}
-          rows={scheduleData.filter((schedule) =>
-            schedule.companyName && schedule.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+          rows={scheduleData.filter(
+            (schedule) =>
+              schedule.companyName &&
+              schedule.companyName
+                .toLowerCase()
+                .replace(/\s/g, "")
+                .includes(searchTerm.toLowerCase().replace(/\s/g, ""))
           )}
           columns={columns}
           initialState={{
