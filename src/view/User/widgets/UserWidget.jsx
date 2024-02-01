@@ -81,7 +81,7 @@ const UserWidget = () => {
                 {data?.userData?.fullName}
               </Typography>
               <Typography
-                sx={{ mt: 1, textTransform: "capitalize" }}
+                sx={{ mt: 1, }}
                 color={dark}
                 variant="h6"
                 fontWeight="400"
