@@ -107,7 +107,7 @@ const PostWidget = ({ postData, sameProfile }) => {
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle sameProfile={sameProfile} data={postData} />
-      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 , textTransform:'capitalize' }}>
+      <Typography color={main} sx={{ mt: "0.5rem", ml: 1  }}>
         {postData?.description}
       </Typography>
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
