@@ -59,12 +59,11 @@ const MyPostWidget = () => {
   function acceptOnlyImages(file) {
     const acceptedImageTypes = [
       "image/jpeg",
+      "image/jpg",
       "image/png",
-      "image/gif",
-      "image/svg+xml",
     ];
+    return acceptedImageTypes.includes(file.type)
 
-    return acceptedImageTypes.includes(file.type);
   }
 
   function removeTag(index) {
@@ -76,23 +75,25 @@ const MyPostWidget = () => {
     if (post === "news") {
       hashTagss = [...hashTagss, "news"];
     }
-    if (acceptOnlyImages(image)) {
-      const formData = new FormData();
-      formData.append("file", image);
-      formData.append("createdBy", userId);
-      formData.append("description", description);
-      formData.append("hashTags", JSON.stringify(hashTagss));
-      formData.append("state", location.state);
-      formData.append("country", location.country);
-      if (dashboardView === "pages") {
-        formData.append("companyId", data.pageData._id);
+    if (image) {
+      const acceptFile = acceptOnlyImages(image)
+      if (!acceptFile) {
+        return toast.error("Invalid File Format")
       }
-      mutate(formData);
-    } else {
-      setDescription("");
-      setImage("");
-      toast.error("Only images are accepted");
     }
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("createdBy", userId);
+    formData.append("description", description);
+    formData.append("hashTags", JSON.stringify(hashTagss));
+    formData.append("state", location.state);
+    formData.append("country", location.country);
+    if (dashboardView === "pages") {
+      formData.append("companyId", data.pageData._id);
+    }
+    mutate(formData);
+    setDescription("");
+    setImage("");
   };
 
   return (
