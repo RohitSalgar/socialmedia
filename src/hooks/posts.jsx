@@ -13,7 +13,7 @@ const useGetTrendingPosts = (tabView) => {
         isAuthRequired: true,
       });
     },
-    enabled: tabView === "trending",
+    enabled: tabView === "trending" || tabView === "forYou",
   });
 };
 
@@ -80,7 +80,7 @@ const useGetForYouPost = (tabView, payload, onSuccess) => {
     onSuccess: (data) => {
       onSuccess(data);
     },
-    enabled: tabView === "forYou",
+    enabled: tabView === "forYou" || tabView === "trending",
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },
@@ -174,6 +174,7 @@ const useDeletePost = () => {
       queryClient.invalidateQueries({ queryKey: ["forYou"] });
       queryClient.invalidateQueries({ queryKey: ["friend"] });
       queryClient.invalidateQueries({ queryKey: ["postList"] });
+      queryClient.invalidateQueries({ queryKey: ["news"] });
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
@@ -239,7 +240,7 @@ const usePostUnfollow = () => {
         { data: [data] }
       ),
     onSuccess: (data) => {
-      toast.success(data)
+      toast.success(data);
       queryClient.invalidateQueries({ queryKey: ["postprofile"] });
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       queryClient.invalidateQueries({ queryKey: ["followingList"] });

@@ -47,10 +47,17 @@ dob */
   animation: registerSlideInRight 1s ease-out;
 }
 .errormsg {
-  color: red;
-  margin: -1px;
+  border: 1px solid red !important;
   font-size: 12px;
+  border-radius: 5px !important;
 }
+
+.labelDiv{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .loginformdiv {
   width: 350px;
 }
