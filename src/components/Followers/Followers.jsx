@@ -18,7 +18,7 @@ import { usePostUnfollow } from "../../hooks/posts";
 const Followers = ({ data, type }) => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
-  const { profileData } = useSelector((state) => state.profile);
+  const { profileData, viewProfileId } = useSelector((state) => state.profile);
   const medium = palette.neutral.medium;
   const { mutate, isLoading } = useChangeConnectionStatus();
   const { mutate: postUnfollowMutate, isLoading: postUnfollowLoading } =
@@ -37,28 +37,26 @@ const Followers = ({ data, type }) => {
     }
   }
 
-  // if (data?.data?.followerName) {
-  //   dispatch(setViewCompanyId(data?.data?.companyId));
-  //   dispatch(setDashboardView("postprofile"));
-  // } else {
-  //   dispatch(setViewProfileId(data?.recipientId));
-  //   dispatch(setDashboardView("profile"));
-  // }
-
   function handleClick() {
     if (type === "connection") {
-      dispatch(setViewProfileId(data?.recipientId));
+      dispatch(setViewProfileId(viewProfileId === data?.recipientId
+        ? data?.senderId
+        : data?.recipientId));
       dispatch(setDashboardView("profile"));
     } else if (type === "followers") {
-      dispatch(setViewProfileId(data?.senderId));
+      dispatch(setViewProfileId(viewProfileId === data?.recipientId
+        ? data?.senderId
+        : data?.recipientId));
       dispatch(setDashboardView("profile"));
     } else if (type === "following") {
       if (data?.companyId) {
         dispatch(setViewCompanyId(data?.companyId));
         dispatch(setDashboardView("postprofile"));
       } else {
-        dispatch(setViewProfileId(data?.recipientId));
         dispatch(setDashboardView("profile"));
+        dispatch(setViewProfileId(viewProfileId === data?.recipientId
+          ? data?.senderId
+          : data?.recipientId));
       }
     } else if (type === "companyfollowers") {
       dispatch(setViewProfileId(data?.followerId));
@@ -72,15 +70,15 @@ const Followers = ({ data, type }) => {
 
   const getProfileName = () => {
     if (type === "connection") {
-      return profileData.userId === data?.recipientId
+      return viewProfileId === data?.recipientId
         ? data?.senderName
         : data?.recipientName;
     } else if (type === "followers") {
-      return profileData.userId === data?.recipientId
+      return viewProfileId === data?.recipientId
       ? data?.senderName
       : data?.recipientName;
     } else if (type === "following") {
-      return data?.followerName ? data?.followerName  : profileData.userId === data?.recipientId
+      return data?.followerName ? data?.followerName  : viewProfileId === data?.recipientId
       ? data?.senderName
       : data?.recipientName;
     } else if (type === "companyfollowers") {
@@ -91,15 +89,15 @@ const Followers = ({ data, type }) => {
 
   const getProfilePic = () => {
     if (type === "connection") {
-      return profileData.userId === data?.recipientId
+      return viewProfileId === data?.recipientId
         ? data?.senderProfile
         : data?.recipientProfile;
     } else if (type === "followers") {
-      return profileData.userId === data?.recipientId
+      return viewProfileId === data?.recipientId
       ? data?.senderProfile
       : data?.recipientProfile;
     } else if (type === "following") {
-      return data?.profile ? data?.profile : profileData.userId === data?.recipientId
+      return data?.profile ? data?.profile : viewProfileId === data?.recipientId
       ? data?.senderProfile
       : data?.recipientProfile;
     } else if (type === "companyfollowers") {

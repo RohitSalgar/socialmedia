@@ -198,7 +198,7 @@ export default function RegisterPage() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "99vh" }}>
+      <Grid className="maindiv" container component="main" sx={{ height: "100vh"}}>
         <CssBaseline />
         <div
           style={{
@@ -246,7 +246,7 @@ export default function RegisterPage() {
                 color={primary}
                 sx={{
                   fontWeight: "bold",
-                  pb: "10px",
+                  // pb: "10px",
                 }}
               >
                 Create Account
@@ -290,7 +290,7 @@ export default function RegisterPage() {
                         marginBottom: "1px",
                         fontSize: "10px",
                         marginTop: "0px",
-                        width: "103%",
+                        width: "100%",
                       }}
                       required
                       fullWidth
@@ -332,7 +332,7 @@ export default function RegisterPage() {
                           marginBottom: "1px",
                           fontSize: "10px",
                           marginTop: "0px",
-                          width: "103%",
+                          width: "100%",
                         }}
                         required
                         fullWidth
@@ -349,7 +349,7 @@ export default function RegisterPage() {
                     flexDirection: "row",
                     gap: "10px",
                     alignItems: "baseline",
-                    width: "103%",
+                    width: "100%",
                   }}
                 >
                   <FormControl
@@ -451,14 +451,11 @@ export default function RegisterPage() {
                 <div
                   style={{
                     display: "flex",
-                    flexDirection: "row",
                     gap: "10px",
-                    alignItems: "baseline",
-                    paddingTop: "10px",
-                    width: "103%",
+                    width: "100%",
                   }}
                 >
-                  <Box className={styles.loginforminputs}>
+                  <Box width="50%" className={styles.loginforminputs}>
                     <Box className={styles.labelDiv}>
                       <label
                         className={styles.forminputlabel}
@@ -521,7 +518,7 @@ export default function RegisterPage() {
                       )}
                     />
                   </Box>
-                  <Box className={styles.loginforminputs} width="100%">
+                  <Box className={styles.loginforminputs} width="50%">
                     <Box className={styles.labelDiv}>
                       <label
                         className={styles.forminputlabel}
@@ -538,7 +535,7 @@ export default function RegisterPage() {
                             color: "red",
                           }}
                           title={
-                            "Re-enter Password must be more than 8 characters long with atleast 1 Uppercase letter, 1 Lowecase letter, 1 Symbol, and 1 Number.      Example : Allmaster@2023."
+                            "Re-enter Password."
                           }
                         >
                           <InfoIcon />
@@ -553,7 +550,7 @@ export default function RegisterPage() {
                         <OutlinedInput
                           {...field}
                           className={errors.conPassword && styles.errormsg}
-                          placeholder="Confrim Password"
+                          placeholder="Confirm Password"
                           margin="normal"
                           style={{
                             marginBottom: "1px",
@@ -598,7 +595,7 @@ export default function RegisterPage() {
                     style={{
                       marginTop: "10px",
                       marginBottom: "10px",
-                      width: "103%",
+                      width: "100%",
                     }}
                   >
                     <input
@@ -630,12 +627,12 @@ export default function RegisterPage() {
                   fullWidth
                   variant="primary"
                   sx={{
-                    mt: 2,
-                    mb: 2,
+                    mt: 1,
+                    mb: 1,
                     background: `${primary}`,
                     color: "#fff",
                     fontWeight: "bold",
-                    width: "103%",
+                    width: "100%",
                   }}
                 >
                   Register
