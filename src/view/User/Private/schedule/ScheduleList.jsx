@@ -6,6 +6,7 @@ import { useGetAllSchedules } from "../../../../hooks/schedule";
 import Loader from "../../../../components/Loader/Loader";
 import moment from "moment";
 import PostTitle from "./PostTitle";
+import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
 
 const ScheduleList = () => {
   const { data, isLoading } = useGetAllSchedules();
@@ -63,11 +64,7 @@ const ScheduleList = () => {
             })}
         </>
       ) : (
-        <WidgetWrapper >
-          <Box className={styles.scheduleListDiv} sx={{ display: "flex", justifyContent: "center", height: "100vh" }}>
-            <Typography>No Schedule </Typography>{" "}
-          </Box>
-        </WidgetWrapper>
+        <LookingEmpty/>
       )}
     </>
   );

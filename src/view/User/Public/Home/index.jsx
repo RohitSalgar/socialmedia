@@ -20,6 +20,7 @@ import { setDashboardView } from "../../../../redux/slices/profileSlice";
 import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
 import { useGetTrendingPosts } from "../../../../hooks/posts";
+import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
 
 const HomePage = () => {
   const { tabView } = useSelector((state) => state.profile);
@@ -164,10 +165,14 @@ const HomePage = () => {
             <OptionalTab />
           </Box>
           {trendingPost != null &&
-            trendingPost.length > 0 &&
+            trendingPost.length > 0 ?
             trendingPost.map((data) => (
               <PostWidget key={data._id} postData={data} />
-            ))}
+            )):
+            <div style={{marginTop:"10px"}}>
+            <LookingEmpty />
+            </div>
+            }
         </Box>
       </Box>
     </Box>

@@ -30,13 +30,14 @@ import CreateCompany from "../../../../components/CreateCompany/CreateCompany";
 import Loader from "../../../../components/Loader/Loader";
 import CompanyPage from "../CompanyPage";
 import { useEffect } from "react";
+import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { userId } = useSelector((state) => state.profile.profileData);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { data: frdRequestData, isLoading: frdRequestLoading } =
     useGetAllFrdRequestByUserId(userId);
-    const { data: companyData, isLoading: topPagesLoading } = useGetAllTopPages(userId);
+  const { data: companyData, isLoading: topPagesLoading } = useGetAllTopPages(userId);
 
   const { tabView } = useSelector((state) => state.profile);
   const { sideView } = useSelector((state) => state.profile);
@@ -96,11 +97,18 @@ const HomePage = () => {
                   overflowY: "scroll",
                 }}
               >
+
                 {tabView === "trending" &&
-                  trendingPost &&
+                  trendingPost?.length > 0 ?
                   trendingPost.map((data) => (
                     <PostWidget key={data._id} postData={data} />
-                  ))}
+                  )) :
+                  <div style={{ marginTop: "10px" }}>
+
+                    <LookingEmpty />
+                  </div>
+
+                }
                 {tabView === "forYou" &&
                   forYouData &&
                   forYouData.map((data) => (
@@ -141,10 +149,10 @@ const HomePage = () => {
                   overflowY: "scroll",
                 }}
               >
-                {pagePostData &&
+                {pagePostData?.length > 0 ?
                   pagePostData.map((data) => (
                     <CompanyPage key={data._id} postData={data} />
-                  ))}
+                  )) : <LookingEmpty />}
               </Box>
             </>
           )}
@@ -157,10 +165,12 @@ const HomePage = () => {
                   overflowY: "scroll",
                 }}
               >
-                {allQaData &&
+                {allQaData?.length > 0 ?
                   allQaData.map((data) => (
                     <QaWidget key={data._id} postData={data} />
-                  ))}
+                  )) :
+                  <div style={{marginTop:"10px"}}>
+                    <LookingEmpty /></div>}
               </Box>
             </>
           )}
@@ -169,7 +179,7 @@ const HomePage = () => {
           <Box flexBasis="25%">
             {sideView === "companyPage" && (
               <>
-                {companyData && companyData.length > 0 && <AdvertWidget companyData={companyData} />} <Box m="1rem 0" />
+                {companyData && companyData.length > 0 && <AdvertWidget companyData={companyData} />} <Box m="0" />
                 <FriendListWidget data={frdRequestData} />
               </>
             )}
