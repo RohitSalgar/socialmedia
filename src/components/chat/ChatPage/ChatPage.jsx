@@ -138,7 +138,7 @@ const ChatPage = ({ data }) => {
         </p>
         <p className={styles.activeLogo}>
           {liveUser && isUserIdPresent(liveUser, filteredData[0])
-            ? "Actvie Now"
+            ? "Active Now"
             : "Offline"}
         </p>
       </Box>
@@ -161,7 +161,7 @@ const ChatPage = ({ data }) => {
                   <Box>
                     <Typography className={styles.receiver}>
                       {message.message}
-                      {message.status === 1 ? <IoIosEye /> : <IoIosEyeOff />}
+                      {message.status === 1}
                     </Typography>
 
                     <p className={`${styles.receiverTime}`}>

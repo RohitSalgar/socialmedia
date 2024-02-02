@@ -51,7 +51,7 @@ const posts = () => {
       headerClassName: "tabel-header",
       headerAlign: "center",
       align: "center",
-      headerName: "No.Reports",
+      headerName: "No.of Reports",
       flex: 1,
       valueGetter: ({ value }) => value?.length,
     },
