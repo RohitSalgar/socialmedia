@@ -135,7 +135,9 @@ const CompanyPage = ({ postData }) => {
               </IconButton>
             )}
             <Typography>
-              {postData?.likes === 1 ? `1 like` : `${postData?.likes} likes`}{" "}
+            {postData?.likes <= 1
+              ? `${postData?.likes} like`
+              : `${postData?.likes} likes`}
             </Typography>
           </FlexBetween>
 

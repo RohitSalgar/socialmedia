@@ -8,7 +8,7 @@ const LookingEmpty = ({description = "Looking Empty"}) => {
   const medium = palette.neutral.medium;
 
   return (
-    <WidgetWrapper>
+    <WidgetWrapper sx={{margin : '0.5rem'}}>
       <Typography color={medium} m="0.5rem 0">
         <Box className={styles.mainbox}>
           <SentimentDissatisfiedRoundedIcon sx={{fontSize:'100px'}} />

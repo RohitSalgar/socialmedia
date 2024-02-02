@@ -169,7 +169,7 @@ const PostProfile = () => {
             <Typography color={dark} className={styles.avatarname}>
               {companyData?.companyPageData?.companyName}
             </Typography>
-            {companyId != profileCompanyId && (
+            {/* {companyId == profileCompanyId && ( */}
               <>
                 {followList &&
                 followList.some((item) => item.followerId === userId) ? (
@@ -197,7 +197,7 @@ const PostProfile = () => {
                   </Button>
                 )}
               </>
-            )}
+            {/* )} */}
             {profileId === userId &&
               data?.pageData?.status === 1 &&
               companyId === profileCompanyId && (
