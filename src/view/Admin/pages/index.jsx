@@ -76,13 +76,13 @@ const pages = () => {
               <Typography sx={{ color: "green" }}>Approved</Typography>
             </Box>
           );
-        } else if (row.status === 3) {
+        } else if (row.status === 4) {
           return (
             <Box sx={{ display: "flex", gap: "3px" }}>
               <Typography sx={{ color: "red" }}>Rejected</Typography>
             </Box>
           );
-        } else {
+        } else if(row.status === 3) {
           return (
             <Box sx={{ display: "flex", gap: "3px" }}>
               <Button
