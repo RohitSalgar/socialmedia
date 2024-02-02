@@ -47,7 +47,7 @@ dob */
   animation: registerSlideInRight 1s ease-out;
 }
 .errormsg {
-  border: 1px solid red !important;
+  /* border: 1px solid red !important; */
   font-size: 12px;
   border-radius: 5px !important;
 }

@@ -109,77 +109,89 @@ const CreateCompany = () => {
         </Box>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.editform}>
-            <label htmlFor="companyName">Company Name</label>
-            <span style={{ color: "red" }}>*</span>
-            {errors?.companyName && (
-                    <Tooltip
-                      style={{
-                        marginLeft: "0.5rem",
-                        fontSize: "14px",
-                        color: "red",
-                      }}
-                      title={errors?.companyName?.message}
-                    >
-                      <InfoIcon />
-                    </Tooltip>
-                  )}
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box>
+                <label htmlFor="companyName">Company Name</label>
+                <span style={{ color: "red" }}>*</span>
+              </Box>
+              {errors?.companyName && (
+                <Tooltip
+                  style={{
+                    fontSize: "14px",
+                    color: "red",
+                  }}
+                  title={errors?.companyName?.message}
+                >
+                  <InfoIcon />
+                </Tooltip>
+              )}
+            </Box>
             <input
               className={errors.companyName && styles.error}
               id="companyName"
               {...register("companyName")}
             />
-            <label htmlFor="email">Email</label>
-            <span style={{ color: "red" }}>*</span>
-            {errors?.email && (
-                    <Tooltip
-                      style={{
-                        marginLeft: "0.5rem",
-                        fontSize: "14px",
-                        color: "red",
-                      }}
-                      title={errors?.email?.message}
-                    >
-                      <InfoIcon />
-                    </Tooltip>
-                  )}
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box>
+                <label htmlFor="email">Email</label>
+                <span style={{ color: "red" }}>*</span>
+              </Box>
+              {errors?.email && (
+                <Tooltip
+                  style={{
+                    fontSize: "14px",
+                    color: "red",
+                  }}
+                  title={errors?.email?.message}
+                >
+                  <InfoIcon />
+                </Tooltip>
+              )}
+            </Box>
             <input
               className={errors.email && styles.error}
               id="email"
               {...register("email")}
             />
-            <label htmlFor="licenseNo">License No</label>
-            <span style={{ color: "red" }}>*</span>
-            {errors?.licenseNo && (
-                    <Tooltip
-                      style={{
-                        marginLeft: "0.5rem",
-                        fontSize: "14px",
-                        color: "red",
-                      }}
-                      title={errors?.licenseNo?.message}
-                    >
-                      <InfoIcon />
-                    </Tooltip>
-                  )}
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box>
+                <label htmlFor="licenseNo">License No</label>
+                <span style={{ color: "red" }}>*</span>
+              </Box>
+              {errors?.licenseNo && (
+                <Tooltip
+                  style={{
+                    fontSize: "14px",
+                    color: "red",
+                  }}
+                  title={errors?.licenseNo?.message}
+                >
+                  <InfoIcon />
+                </Tooltip>
+              )}
+            </Box>
             <input
               className={errors.licenseNo && styles.error}
               id="licenseNo"
               {...register("licenseNo")}
             />
-            <label htmlFor="about">About</label>
-            <span style={{ color: "red" }}>*</span>
-            {errors?.about && (
-                    <Tooltip
-                      style={{
-                        marginLeft: "0.5rem",
-                        fontSize: "14px",
-                        color: "red",
-                      }}
-                      title={errors?.about?.message}
-                    >
-                      <InfoIcon />
-                    </Tooltip>
-                  )}
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box>
+                <label htmlFor="about">About</label>
+                <span style={{ color: "red" }}>*</span>
+              </Box>
+              {errors?.about && (
+                <Tooltip
+                  style={{
+                    fontSize: "14px",
+                    color: "red",
+                  }}
+                  title={errors?.about?.message}
+                >
+                  <InfoIcon />
+                </Tooltip>
+              )}
+            </Box>
             <textarea
               className={errors.about && styles.error}
               style={{ height: "30px" }}

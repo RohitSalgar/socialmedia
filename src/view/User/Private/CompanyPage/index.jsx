@@ -193,6 +193,12 @@ const CompanyPage = ({ postData }) => {
               borderRadius: "1rem",
             }}
             onChange={(e) => setReportText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                reportPost();
+              }
+            }}
             // type={type}
           />
           {reportText && (
