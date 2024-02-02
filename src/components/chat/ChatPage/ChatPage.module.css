@@ -51,7 +51,7 @@
 .onlineuser {
   width: 10px !important;
   height: 10px !important;
-  background-color: green;
+  background-color: #f3cf00;
   border-radius: 50%;
 }
 
@@ -112,7 +112,7 @@
 .activeLogo {
   font-size: 10px !important;
   margin-left: 10px;
-  color: green !important;
+  color: #f3cf00 !important;
 }
 
 .receiverTime {

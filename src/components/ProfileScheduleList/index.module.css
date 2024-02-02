@@ -101,7 +101,7 @@
 }
 
 button:hover {
-  color: green;
+  color: #f3cf00;
 }
 .likediv {
   display: flex;
