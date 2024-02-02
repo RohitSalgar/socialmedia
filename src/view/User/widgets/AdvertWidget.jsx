@@ -45,7 +45,7 @@ const AdvertWidget = ({ companyData }) => {
   }
 
   return (
-    <WidgetWrapper sx={{ minWidth: "100%", maxWidth: "300px", height: "43vh", marginBottom:"10px" }}>
+    <WidgetWrapper sx={{ minWidth: "100%", maxWidth: "300px", height: "47vh", marginBottom:"10px" }}>
       <FlexBetween>
         <Typography color={dark} variant="h5" fontWeight="500">
           Top Company Pages
@@ -65,13 +65,13 @@ const AdvertWidget = ({ companyData }) => {
                 
                 >
                   <FlexBetween
-                    // sx={{
-                    //   display: "flex",
-                    //   justifyContent: "center",
-                    //   flexDirection: "column",
-                    //   alignItems: "center",
-                    //   mt: "10px",
-                    // }}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      mt: "10px",
+                    }}
                   >
                     <div
                       style={{cursor: "pointer", display: "flex",alignItems: "center",flexDirection:"column"}}
@@ -86,7 +86,7 @@ const AdvertWidget = ({ companyData }) => {
                           company?.companyData?.companyName ??
                           company?.companyName
                         }
-                        style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
+                        style={{ borderRadius: "0.75rem", margin: "0.9rem 0" }}
                       />
                       <Typography color={main}>
                         <b>{company?.companyData?.companyName ??
@@ -97,7 +97,6 @@ const AdvertWidget = ({ companyData }) => {
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "20px",
                         justifyContent: "space-between",
                         width: "100%",
                       }}
@@ -146,7 +145,6 @@ const AdvertWidget = ({ companyData }) => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection:'column',
-                gap: "20px",
                 cursor:'pointer'
               }}
             >

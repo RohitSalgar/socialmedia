@@ -100,7 +100,7 @@ function CommentBox({
           width: "100%",
           mb: 1,
           borderRadius: "10px",
-          background: "#bae2cd54",
+          background: "#e0ce8854",
           p: 1,
         }}
       >

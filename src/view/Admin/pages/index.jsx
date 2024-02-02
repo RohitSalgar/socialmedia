@@ -92,7 +92,7 @@ const pages = () => {
                 Approve
               </Button>
               <Button
-                sx={{ color: "red", border: "1px solid red" }}
+                sx={{  border: "1px solid" }}
                 onClick={() => mutate({ id: row._id, status: 4 })}
               >
                 Reject

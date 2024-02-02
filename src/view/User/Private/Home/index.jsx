@@ -93,7 +93,7 @@ const HomePage = () => {
               )}
               <Box
                 sx={{
-                  maxHeight: "80vh",
+                  maxHeight: dashboardView === "news" ? "55vh" : "40vh",
                   overflowY: "scroll",
                 }}
               >
@@ -160,10 +160,11 @@ const HomePage = () => {
           {dashboardView === "postprofile" && <PostProfile />}
           {dashboardView === "pages" && (
             <>
-              {data?.pageData?.status === 1 && <MyPostWidget />}
+              {data?.pageData?.status === 1 && <><MyPostWidget /> <div style={{marginBottom:"10px"}}></div> </>}
+              
               <Box
                 sx={{
-                  maxHeight: "80vh",
+                  maxHeight: "40vh",
                   overflowY: "scroll",
                 }}
               >

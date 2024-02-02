@@ -206,7 +206,7 @@ const PostProfile = () => {
                     className={styles.createbtn}
                     onClick={() => dispatch(setDashboardView("profile"))}
                   >
-                    Switch Personal Account
+                    Personal Account
                   </Button>
                 </Box>
               )}
