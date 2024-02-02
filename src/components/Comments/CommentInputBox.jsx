@@ -48,7 +48,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   }, [insertCommentLoading, insertReplyLoading]);
   function handleSubmit() {
     if (type === "comment") {
-      if (dashboardView === "schedule") {
+      if (dashboardView === "schedule" || dashboardView === "postprofile") {
         const newComment = {
           scheduleId,
           userId: userId,
@@ -89,7 +89,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
         message: text,
       };
       setText("");
-      if (dashboardView === "schedule") {
+      if (dashboardView === "schedule" || dashboardView === "postprofile") {
         dispatch(setReplyInput("false"));
         return insertScheduleReply(newReply);
       } else {
@@ -135,7 +135,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                       display: "inline-block",
                       width: 30,
                       height: 25,
-                      marginRight: 1,
+                      marginRight:"0.5rem",
                       backgroundColor: "#bdbdbd",
                       borderRadius: "50%",
                       textAlign: "center",
@@ -183,7 +183,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                       display: "inline-block",
                       width: 30,
                       height: 25,
-                      marginRight: 1,
+                      marginRight : '0.5rem',
                       backgroundColor: "#bdbdbd",
                       borderRadius: "50%",
                       textAlign: "center",

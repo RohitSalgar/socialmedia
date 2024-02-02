@@ -44,7 +44,7 @@ function CommentAction({
         replyId: postData?._id,
         userId: userId,
       };
-      if (dashboardView === "schedule") {
+      if (dashboardView === "schedule" || dashboardView === 'postprofile') {
         return deleteScheduleReply(payload);
       } else {
         return deleteReply(payload);
@@ -61,7 +61,7 @@ function CommentAction({
         userId: userId,
       };
       console.log("run");
-      if (dashboardView === "schedule") {
+      if (dashboardView === "schedule" || dashboardView === 'postprofile') {
         return deleteScheduleComments(payload);
       } else {
         return deleteComment(payload);

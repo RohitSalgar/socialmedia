@@ -109,8 +109,8 @@ const LikeComment = (props) => {
             </IconButton>
           )}
           <Typography>
-            {props?.postData?.likes === 1
-              ? `1 like`
+            {props?.postData?.likes <= 1
+              ? `${props?.postData?.likes} like`
               : `${props?.postData?.likes} likes`}
           </Typography>
         </Box>

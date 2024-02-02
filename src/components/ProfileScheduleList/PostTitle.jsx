@@ -28,7 +28,6 @@ const PostTitle = ({ data, removeFrdRequestIcon }) => {
     <Loader />;
   }
 
-  console.log(removeFrdRequestIcon)
 
   return (
     <FlexBetween>
