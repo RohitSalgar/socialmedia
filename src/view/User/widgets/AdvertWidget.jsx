@@ -182,7 +182,7 @@ const AdvertWidget = ({ companyData }) => {
                 disabled={isPending}
                 onClick={() => handleFollow(companyData[0].companyData._id)}
               >
-                {isPending ? <CircularProgress /> : "Follow"}
+                {/* {isPending ? <CircularProgress /> : "Follow"} */}
               </Button>
             </div>
           </FlexBetween>

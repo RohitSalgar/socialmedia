@@ -415,6 +415,7 @@ const Profile = () => {
             {data?.userData?.about}
           </Typography>
         </Typography>
+        <hr/>
         {viewList === "post" && (
           <Box>
             <Box>
@@ -424,7 +425,9 @@ const Profile = () => {
             </Box>
             <Box className={styles.postdiv}>
               {postList?.map((data) => (
-                <PostWidget key={data._id} postData={data} />
+                
+                <PostWidget key={data._id} postData={data} page={"profile"} />
+
               ))}
               {postList?.length === 0 && <LookingEmpty />}
             </Box>
