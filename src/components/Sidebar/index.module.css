@@ -86,7 +86,7 @@
   min-width: 35px;
 }
 .activesidebarstep {
-    background: linear-gradient( 89.98deg, rgb(6 189 82 / 13%) 0.01%, rgba(244, 218, 71, 0) 106.64% ) !important;}
+    background: rgba(243, 207, 0, 0.08) !important;}
 .activeicon path {
   fill: #f3cf00;
 }
