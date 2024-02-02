@@ -3,7 +3,7 @@ import { lazy } from "react";
 
 
 const HomeComponent = lazy(() =>
-	import("../view/User/private/Home/index")
+	import("../view/User/Private/Home/index")
 );
 
 const privatePath = [	

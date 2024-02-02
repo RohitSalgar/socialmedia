@@ -30,7 +30,7 @@ const ProfilePage = () => {
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
           <MyPostWidget picturePath={"ff"} />
-          <Box m="2rem 0" />
+          <Box m="1rem 0" />
           <PostsWidget userId={userId} isProfile />
         </Box>
       </Box>

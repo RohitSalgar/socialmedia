@@ -98,8 +98,6 @@ const Navbar = () => {
                   setSearchText(e.target.value);
                   navesearchMutate({
                     term: e.target.value
-                      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-                      .replace(/\s/g, ""),
                   });
                 }}
                 placeholder="Search..."

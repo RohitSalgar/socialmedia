@@ -130,8 +130,11 @@ const useGetAllTopPages = (id) => {
           { data: [data] }
         ),
       onSuccess: (data) => {
+          queryClient.invalidateQueries({ queryKey: ["postprofile"] });
+          queryClient.invalidateQueries({ queryKey: ["profile"] });
+          queryClient.invalidateQueries({ queryKey: ["followingList"] });
+          queryClient.invalidateQueries({ queryKey: ["followList"] });
         queryClient.invalidateQueries({ queryKey: ["getAllTopPages"] });
-        queryClient.invalidateQueries({ queryKey: ["followList"] });
         queryClient.invalidateQueries({ queryKey: ["companyprofile"] });
         toast.success(data)
       },

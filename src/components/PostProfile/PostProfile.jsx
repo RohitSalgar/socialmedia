@@ -222,6 +222,7 @@ const PostProfile = () => {
             {companyData?.companyPageData?.about}
           </Typography>
         </Typography>
+        <hr/>
         {viewList === "schedule" && (
           <Box>
             <Box>

@@ -214,7 +214,7 @@ const UserWidget = () => {
             <ListItemIcon>
               <CalendarMonthIcon />
             </ListItemIcon>
-            <ListItemText primary=" Company Pages" />
+            <ListItemText primary=" Company Page" />
           </ListItemButton>
           <ListItemButton
             sx={{ padding: "1px 20px" }}

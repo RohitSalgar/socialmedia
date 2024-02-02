@@ -31,6 +31,7 @@ const PagesOTP = () => {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(otpValidation),
@@ -63,13 +64,14 @@ const PagesOTP = () => {
         }),
       });
       const responseJson = await response.json();
-      if (responseJson.status ===1) {
+      if (responseJson.status === 1) {
         dispatch(setSideView("companyPage"));
         queryClient.invalidateQueries({ queryKey: ["profile"] });
-        toast.success("OTP verified")
-      }else{
-        toast.error("Invalid OTP")
+        toast.success(responseJson.response)
+      } else {
+        toast.error(responseJson.response)
       }
+      reset()
     } catch (error) {
       console.error("Error during OTP verification:", error);
     }
@@ -171,7 +173,7 @@ const PagesOTP = () => {
                     {...field}
                     type="text"
                     onChange={(event) => {
-                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1);
                       field.onChange(newValue);
                     }}
                     maxLength={1}
@@ -192,7 +194,7 @@ const PagesOTP = () => {
                     {...field}
                     type="text"
                     onChange={(event) => {
-                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1);
                       field.onChange(newValue);
                     }}
                     maxLength={1}
@@ -213,7 +215,7 @@ const PagesOTP = () => {
                     {...field}
                     type="text"
                     onChange={(event) => {
-                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1);
                       field.onChange(newValue);
                     }}
                     maxLength={1}
@@ -234,7 +236,7 @@ const PagesOTP = () => {
                     {...field}
                     type="text"
                     onChange={(event) => {
-                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1);
                       field.onChange(newValue);
                     }}
                     maxLength={1}
@@ -255,7 +257,7 @@ const PagesOTP = () => {
                     {...field}
                     type="text"
                     onChange={(event) => {
-                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1);
                       field.onChange(newValue);
                     }}
                     maxLength={1}
@@ -276,7 +278,7 @@ const PagesOTP = () => {
                     {...field}
                     type="text"
                     onChange={(event) => {
-                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
+                      const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1);
                       field.onChange(newValue);
                     }}
                     maxLength={1}
@@ -292,7 +294,7 @@ const PagesOTP = () => {
               {/* <img src={Line} className={styles.otpline} alt="" /> */}
             </div>
             {Object.keys(errors).length > 0 && (
-              <p className={styles.errormsg}>Enter Valid OTP</p>
+              <p className={styles.errormsg} style={{ marginTop: "25px" }}>Enter Valid OTP</p>
             )}
             <Button
               type="submit"
@@ -315,7 +317,7 @@ const PagesOTP = () => {
             <p
               onClick={() => resendOtpData.mutate()}
               className={styles.forgot}
-              //   color={primary}
+            //   color={primary}
             >
               Resend
             </p>
