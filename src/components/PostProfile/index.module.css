@@ -5,10 +5,14 @@
   gap: 10px;
 }
 .avatarname {
-  font-size: 20px !important;
   margin: 0;
   padding-top: 10px;
   font-weight: 500 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 15px !important;
+  text-overflow: ellipsis;
+  max-width: 160px;
 }
 .profilemain {
   padding: 0px 40px;
