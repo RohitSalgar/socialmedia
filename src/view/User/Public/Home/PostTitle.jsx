@@ -22,7 +22,7 @@ const PostTitle = ({ data }) => {
           <Avatar
             sx={{ width: 40, height: 40 }}
             alt="Remy Sharp"
-            src="/static/images/avatar/1.jpg"
+            src={data?.profile}
           />
           <Box onClick={() => {}}>
             <Typography
