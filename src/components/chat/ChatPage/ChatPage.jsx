@@ -139,7 +139,7 @@ const ChatPage = ({ data }) => {
         </p>
         <p className={styles.activeLogo}>
           {liveUser && isUserIdPresent(liveUser, filteredData[0])
-            ? "Actvie Now"
+            ? "Active Now"
             : "Offline"}
         </p>
       </Box>
@@ -151,7 +151,7 @@ const ChatPage = ({ data }) => {
                 {message.senderId !== userId && (
                   <Box>
                     <Typography className={styles.sender}>
-                      {message.message}{" "}
+                      {message.message}
                     </Typography>
                     <p className={styles.senderTime}>
                       {moment(message?.createdAt).format("DD MM YYYY, h:mm A")}
