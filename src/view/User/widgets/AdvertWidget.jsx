@@ -45,7 +45,7 @@ const AdvertWidget = ({ companyData }) => {
   }
 
   return (
-    <WidgetWrapper sx={{ minWidth: "100%", maxWidth: "300px", height: "43vh", marginB }}>
+    <WidgetWrapper sx={{ minWidth: "100%", maxWidth: "300px", height: "43vh", marginBottom:"10px" }}>
       <FlexBetween>
         <Typography color={dark} variant="h5" fontWeight="500">
           Top Pages
