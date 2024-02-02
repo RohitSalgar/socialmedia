@@ -284,7 +284,7 @@ export default function RegisterPage() {
                     <TextField
                       {...field}
                       className={errors.fullName && styles.errormsg}
-                      placeholder="Enter FullName"
+                      placeholder="Enter Full Name"
                       margin="normal"
                       style={{
                         marginBottom: "1px",
@@ -491,7 +491,7 @@ export default function RegisterPage() {
                           margin="normal"
                           style={{
                             marginBottom: "1px",
-                            fontSize: "14px",
+                            fontSize: "16px",
                             marginTop: "0px",
                           }}
                           required
@@ -550,11 +550,11 @@ export default function RegisterPage() {
                         <OutlinedInput
                           {...field}
                           className={errors.conPassword && styles.errormsg}
-                          placeholder="Confirm Password"
+                          placeholder="Enter Password"
                           margin="normal"
                           style={{
                             marginBottom: "1px",
-                            fontSize: "14px",
+                            fontSize: "16px",
                             marginTop: "0px",
                           }}
                           required

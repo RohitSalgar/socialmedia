@@ -11,10 +11,11 @@ import { setSideView } from "../../../../redux/slices/profileSlice";
 import { useEffect, useState } from "react";
 import { useGetProfile } from "../../../../hooks/profile";
 import { useSocket } from "../../../../hooks/socket";
+import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
-  const {chatNotification} = useSelector((state)=>state.chat)
+  const { chatNotification } = useSelector((state) => state.chat)
   const dark = palette.neutral.dark;
   const [text, setText] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -23,7 +24,6 @@ const ChatLayout = () => {
   const { data } = useGetProfile(userId);
   const dispatch = useDispatch();
 
-console.log(chatNotification)
   if (isLoading) {
     return <Loader />;
   }
@@ -58,16 +58,16 @@ console.log(chatNotification)
         />
       </Box>
 
-      {!isSingleChatOn && (
+      {!isSingleChatOn && allChatInfo?.length > 0 &&(
         <InputBase
           placeholder="Search Contact..."
           style={{
             width: "100%",
             position: "static",
-            borderBottom:"1px solid black",
-            paddingLeft:"2px",
-            marginTop:"2px",
-            marginBottom:"2px"
+            borderBottom: "1px solid black",
+            paddingLeft: "2px",
+            marginTop: "2px",
+            marginBottom: "2px"
           }}
           onChange={(e) => setText(e.target.value)}
         />
@@ -75,13 +75,12 @@ console.log(chatNotification)
       <Box
         sx={{
           marginRight: "5px",
-          height:'68vh',
-          overflow:'scroll',
-          paddingBottom:'10px'
+          height: '68vh',
+          overflow: 'scroll',
+          paddingBottom: '10px'
         }}
       >
-        {console.lo}
-        {allChatInfo && data &&
+        {allChatInfo?.length > 0 && data ? (
           updateNamesToEmptyString(allChatInfo)
             .filter((e) => e.senderId === userId || e.recipientId === userId)
             .filter(
@@ -91,18 +90,21 @@ console.log(chatNotification)
                   .includes(text.toLowerCase().trim()) ||
                 e.senderName.toLowerCase().includes(text.toLowerCase().trim())
             )
-            .map((e, i) => {
-              return (
-                <Box
-                  key={i}
-                  sx={{
-                    margin: "1px",
-                  }}
-                >
-                  {!isSingleChatOn && <ChatPerson id={i} data={e} />}
-                </Box>
-              );
-            })}
+            .map((e, i) => (
+              <Box
+                key={i}
+                sx={{
+                  margin: "1px",
+                }}
+              >
+                {!isSingleChatOn && <ChatPerson id={i} data={e} />}
+              </Box>
+            ))
+        ) : (
+          // Render another component when the length is zero
+          <LookingEmpty />
+        )}
+
         {isSingleChatOn && <ChatPage data={allChatInfo} />}
       </Box>
     </WidgetWrapper>
