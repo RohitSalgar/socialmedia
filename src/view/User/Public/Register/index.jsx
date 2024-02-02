@@ -436,9 +436,9 @@ export default function RegisterPage() {
                           fullWidth
                           className={errors.dob && styles.errormsg}
                           slotProps={{
-                            textField: {
-                              readOnly: true,
-                            },
+                            // textField: {
+                            //   // readOnly: true,
+                            // },
                           }}
                           id="dob"
                           views={["year", "month", "day"]}

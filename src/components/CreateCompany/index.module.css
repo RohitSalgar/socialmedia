@@ -87,9 +87,9 @@
 .filelabel svg path {
   fill: #f3cf00 !important;
 }
-.error {
+/* .error {
   border-color: red !important;
-}
+} */
 .errorMsg{
   color: red;
   margin-top: -8px !important;

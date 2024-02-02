@@ -12,8 +12,9 @@ import { editProfile } from "../../validation/editProfile";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { setSideView } from "../../redux/slices/profileSlice";
 import { toast } from "react-toastify";
-import { CircularProgress } from '@mui/material';
-
+import { CircularProgress } from "@mui/material";
+import { Tooltip } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
 const EditProfile = () => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
@@ -123,40 +124,77 @@ const EditProfile = () => {
         </Box>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.editform}>
-            <label htmlFor="fullName">Full Name</label>
-            <span style={{ color: "red" }}>*</span>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box>
+                <label htmlFor="fullName">Full Name</label>
+                <span style={{ color: "red" }}>*</span>
+              </Box>
+              {errors?.fullName && (
+                <Tooltip
+                  style={{
+                    fontSize: "14px",
+                    color: "red",
+                  }}
+                  title={errors?.fullName?.message}
+                >
+                  <InfoIcon />
+                </Tooltip>
+              )}
+            </Box>
             <input
               className={errors.fullName && styles.error}
               id="fullName"
               {...register("fullName")}
             />
-            {errors.fullName && (
-              <p className={styles.errorMsg}>{errors.fullName.message}</p>
-            )}
-            <label htmlFor="designation">Designation</label>
-            <span style={{ color: "red" }}>*</span>
-            <input
-              className={errors.designation && styles.error}
-              id="designation"
-              {...register("designation")}
-            />
-            {errors.designation && (
-              <p className={styles.errorMsg}>{errors.designation.message}</p>
-            )}
+
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box>
+                <label htmlFor="designation">Designation</label>
+                <span style={{ color: "red" }}>*</span>
+              </Box>
+              {errors?.designation && (
+                <Tooltip
+                  style={{
+                    fontSize: "14px",
+                    color: "red",
+                  }}
+                  title={errors?.designation?.message}
+                >
+                  <InfoIcon />
+                </Tooltip>
+              )}
+              </Box>
+              <input
+                className={errors.designation && styles.error}
+                id="designation"
+                {...register("designation")}
+              />
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box>
             <label htmlFor="about">About</label>
             <span style={{ color: "red" }}>*</span>
+            </Box>
+            {errors?.about && (
+              <Tooltip
+                style={{
+                  fontSize: "14px",
+                  color: "red",
+                }}
+                title={errors?.about?.message}
+              >
+                <InfoIcon />
+              </Tooltip>
+            )}
+            </Box>
             <textarea
               className={errors.about && styles.error}
               style={{ height: "100px" }}
               id="about"
               {...register("about")}
             />
-            {errors.about && (
-              <p className={styles.errorMsg}>{errors.about.message}</p>
-            )}
+
             <button className={styles.submitbtn} type="submit">
               {mutateLoading ? <CircularProgress /> : "Submit"}
-
             </button>
           </form>
         </Box>
