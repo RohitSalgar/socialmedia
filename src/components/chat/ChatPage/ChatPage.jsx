@@ -6,12 +6,13 @@ import SendIcon from "@mui/icons-material/Send";
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { CancelScheduleSend } from "@mui/icons-material";
-import { setNotification, setSingleChatModeOff } from "../../../redux/slices/chat";
+import {
+  setNotification,
+  setSingleChatModeOff,
+} from "../../../redux/slices/chat";
 import { useGetChatById } from "../../../hooks/chat";
 import Loader from "../../Loader/Loader";
 import { useSocket } from "../../../hooks/socket";
-import { IoIosEyeOff } from "react-icons/io";
-import { IoIosEye } from "react-icons/io";
 
 const ChatPage = ({ data }) => {
   const dispatch = useDispatch();
@@ -161,7 +162,6 @@ const ChatPage = ({ data }) => {
                   <Box>
                     <Typography className={styles.receiver}>
                       {message.message}
-                      {message.status === 1 ? <IoIosEye /> : <IoIosEyeOff />}
                     </Typography>
 
                     <p className={`${styles.receiverTime}`}>
