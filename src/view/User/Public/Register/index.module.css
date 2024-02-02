@@ -120,16 +120,16 @@ dob */
 .uploadimage {
   width: 100%;
   background-color: transparent !important;
-  border: 1px solid #0ebd60 !important;
-  color: #0ebd60 !important;
+  border: 1px solid #f3cf00 !important;
+  color: #f3cf00 !important;
   margin-top: 10px !important;
 }
 .imageContainer p {
-  color: #0ebd60 !important;
+  color: #f3cf00 !important;
 }
 .imageContainer svg path {
   fill: rgb(151, 151, 151);
 }
 .submitbtn:hover {
-  background-color: #0ebd60 !important;
+  background-color: #f3cf00 !important;
 }

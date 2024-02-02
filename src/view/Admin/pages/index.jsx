@@ -73,7 +73,7 @@ const pages = () => {
         if (row.status === 1) {
           return (
             <Box sx={{ display: "flex", gap: "3px" }}>
-              <Typography sx={{ color: "green" }}>Approved</Typography>
+              <Typography sx={{ color: "#f3cf00" }}>Approved</Typography>
             </Box>
           );
         } else if (row.status === 4) {
@@ -86,7 +86,7 @@ const pages = () => {
           return (
             <Box sx={{ display: "flex", gap: "3px" }}>
               <Button
-                sx={{ color: "green", border: "1px solid green" }}
+                sx={{ color: "#f3cf00", border: "1px solid #f3cf00" }}
                 onClick={() => mutate({ id: row._id, status: 1 })}
               >
                 Approve

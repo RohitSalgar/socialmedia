@@ -25,7 +25,7 @@
   font-size: 14px;
   line-height: 17px;
   text-decoration: none;
-  color: #0EBD60 !important;
+  color: #f3cf00 !important;
   cursor: pointer;
 }
 
@@ -146,7 +146,7 @@ input[className="otp"]::placeholder {
   font-weight: 500 !important;
   font-size: 14px;
   line-height: 17px;
-  color: #0EBD60 !important;
+  color: #f3cf00 !important;
 }
 .otpcon {
   padding-top: 30px;
@@ -155,7 +155,7 @@ input[className="otp"]::placeholder {
   background: #fff !important;
 }
 .otplabel a {
-  color: #0EBD60 !important;
+  color: #f3cf00 !important;
 }
 .loginformdiv {
   width: 350px;
@@ -171,5 +171,5 @@ input[className="otp"]::placeholder {
 	color: red !important;
 }
 .submitbtn:hover{
-  background-color: #0EBD60 !important;
+  background-color: #f3cf00 !important;
 }

@@ -45,10 +45,10 @@ const AdvertWidget = ({ companyData }) => {
   }
 
   return (
-    <WidgetWrapper sx={{ minWidth: "100%", maxWidth: "300px", height: "43vh", marginB }}>
+    <WidgetWrapper sx={{ minWidth: "100%", maxWidth: "300px", height: "43vh", marginBottom:"10px" }}>
       <FlexBetween>
         <Typography color={dark} variant="h5" fontWeight="500">
-          Top Pages
+          Top Company Pages
         </Typography>
       </FlexBetween>
       {companyData && companyData.length > 1 ? (
@@ -65,22 +65,19 @@ const AdvertWidget = ({ companyData }) => {
                 
                 >
                   <FlexBetween
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      mt: "10px",
-                    }}
+                    // sx={{
+                    //   display: "flex",
+                    //   justifyContent: "center",
+                    //   flexDirection: "column",
+                    //   alignItems: "center",
+                    //   mt: "10px",
+                    // }}
                   >
                     <div
-                      // style={{
-                      //   display: "flex",
-                      //   alignItems: "center",
-                      //   gap: "20px",
-                      // }}
-                      style={{cursor: "pointer"}}
+                      style={{cursor: "pointer", display: "flex",alignItems: "center",flexDirection:"column"}}
                     >
+
+                      
                       <img
                         src={company?.companyData?.profile ?? company?.profile}
                         width="60px"
@@ -95,7 +92,7 @@ const AdvertWidget = ({ companyData }) => {
                         <b>{company?.companyData?.companyName ??
                           company?.companyName}</b>
                       </Typography>
-                    </div>
+                      </div>
                     <div
                       style={{
                         display: "flex",
@@ -145,12 +142,13 @@ const AdvertWidget = ({ companyData }) => {
             }}
           >
             <div
-              // style={{
-              //   display: "flex",
-              //   alignItems: "center",
-              //   gap: "20px",
-              // }}
-              style={{cursor: "pointer"}}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection:'column',
+                gap: "20px",
+                cursor:'pointer'
+              }}
             >
               <img
                 src={
