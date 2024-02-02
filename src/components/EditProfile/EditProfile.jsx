@@ -12,6 +12,7 @@ import { editProfile } from "../../validation/editProfile";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { setSideView } from "../../redux/slices/profileSlice";
 import { toast } from "react-toastify";
+import { CircularProgress } from '@mui/material';
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -154,7 +155,8 @@ const EditProfile = () => {
               <p className={styles.errorMsg}>{errors.about.message}</p>
             )}
             <button className={styles.submitbtn} type="submit">
-              Submit
+              {mutateLoading ? <CircularProgress /> : "Submit"}
+
             </button>
           </form>
         </Box>

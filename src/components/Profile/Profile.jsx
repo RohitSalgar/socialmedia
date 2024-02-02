@@ -369,7 +369,7 @@ const Profile = () => {
                   className={styles.createbtn}
                   onClick={() => dispatch(setSideView("createcompany"))}
                 >
-                  Create Page
+                  Create Company Page
                   <BusinessIcon />
                 </Button>
               </Box>

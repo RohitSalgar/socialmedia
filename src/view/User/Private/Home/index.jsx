@@ -98,32 +98,50 @@ const HomePage = () => {
                 }}
               >
 
-                {tabView === "trending" &&
-                  trendingPost?.length > 0 ?
-                  trendingPost.map((data) => (
-                    <PostWidget key={data._id} postData={data} />
-                  )) :
-                  <div style={{ marginTop: "10px" }}>
+                {tabView === "trending" && trendingPost ? (
+                  trendingPost.length > 0 ? (
+                    trendingPost.map((data) => (
+                      <PostWidget key={data._id} postData={data} />
+                    ))
+                  ) : (
+                    <div style={{ marginTop: "10px" }}>
+                      <LookingEmpty description={"Seems No Post. Be The First Person To POST..!"} />
+                    </div>
+                  )
+                ) : null}
+                {tabView === "forYou" && forYouData ? (
+                  forYouData.length > 0 ? (
+                    forYouData.map((data) => (
+                      <PostWidget key={data._id} postData={data} />
+                    ))
+                  ) : (
+                    <div style={{ marginTop: "10px" }}>
+                      <LookingEmpty />
+                    </div>
+                  )
+                ) : null}
 
-                    <LookingEmpty />
-                  </div>
+                {tabView === "friend" && friendPostData ? (
+                  friendPostData.length > 0 ? (
+                    friendPostData.map((data) => (
+                      <PostWidget key={data._id} postData={data} />
+                    ))
+                  ) : (
+                    <div style={{ marginTop: "10px" }}>
+                      <LookingEmpty />
+                    </div>)
+                ) : null}
 
-                }
-                {tabView === "forYou" &&
-                  forYouData &&
-                  forYouData.map((data) => (
-                    <PostWidget key={data._id} postData={data} />
-                  ))}
-                {tabView === "friend" &&
-                  friendPostData &&
-                  friendPostData.map((data) => (
-                    <PostWidget key={data._id} postData={data} />
-                  ))}
-                {tabView === "news" &&
-                  newsPostData &&
-                  newsPostData.map((data) => (
-                    <PostWidget key={data._id} postData={data} />
-                  ))}
+                {tabView === "news" && newsPostData ? (
+                  newsPostData.length > 0 ? (
+                    newsPostData.map((data) => (
+                      <PostWidget key={data._id} postData={data} />
+                    ))
+                  ) : (
+                    <div style={{ marginTop: "10px" }}>
+                      <LookingEmpty />
+                    </div>)
+                ) : null}
               </Box>
             </>
           )}
@@ -169,7 +187,7 @@ const HomePage = () => {
                   allQaData.map((data) => (
                     <QaWidget key={data._id} postData={data} />
                   )) :
-                  <div style={{marginTop:"10px"}}>
+                  <div style={{ marginTop: "10px" }}>
                     <LookingEmpty /></div>}
               </Box>
             </>
