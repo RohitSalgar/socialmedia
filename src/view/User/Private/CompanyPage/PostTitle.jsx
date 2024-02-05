@@ -2,13 +2,15 @@ import { PersonAddOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import Avatar from "@mui/material/Avatar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DeleteOutlined } from "@mui/icons-material";
 import moment from "moment";
 import { useDeletePost } from "../../../../hooks/posts";
+import { setDashboardView, setViewCompanyId } from "../../../../redux/slices/profileSlice";
 
 const PostTitle = ({ data }) => {
   const { palette } = useTheme();
+  const dispatch = useDispatch()
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
   const main = palette.neutral.main;
@@ -22,7 +24,6 @@ const PostTitle = ({ data }) => {
     };
     mutate(postData);
   };
-
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
@@ -30,12 +31,14 @@ const PostTitle = ({ data }) => {
           sx={{ width: 35, height: 35 }}
           alt="Remy Sharp"
           src={data.companyProfile}
+          onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}} 
         />
         <Box onClick={() => {}}>
           <Typography
             color={main}
             variant="h5"
             fontWeight="400"
+            onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}} 
             sx={{
               "&:hover": {
                 cursor: "pointer",
@@ -50,7 +53,7 @@ const PostTitle = ({ data }) => {
         </Typography>
       </FlexBetween>
       {data?.createdBy != userId ? (
-        <IconButton sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
+        <IconButton onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
           <PersonAddOutlined sx={{ color: primaryDark }} />
         </IconButton>
       ) : (

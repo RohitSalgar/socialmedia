@@ -63,8 +63,6 @@ const schedules = () => {
     return <Loader />;
   }
 
-  console.log(scheduleData, "sdf");
-
   return (
     <section className={classes.postSection}>
       <div>

@@ -75,7 +75,6 @@ export default function Register() {
         if (decodedData.status === 2) {
           navigate("/otp/" + decodedData.userId);
         } else {
-          console.log(decodedData, "d")
           localStorage.setItem("amsSocialToken", data.data);
           localStorage.setItem("amsSocialId", decodedData.userId);
           localStorage.setItem("amsSocialSignedIn", true);

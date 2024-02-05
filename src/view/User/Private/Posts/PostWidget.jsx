@@ -42,7 +42,7 @@ const PostWidget = ({ postData }) => {
     setReportText("");
   };
   const { mutate, isLoading: reportPostLoading } = useReportPost(onSuccess);
-  const { mutate: likeMutate, isLoading: likeDislikeLoadingLoading } =
+  const { mutate: likeMutate, isLoading: likeDislikeLoading } =
     useLikeDisLike(onSuccess);
   const { userId } = useSelector((state) => state.profile.profileData);
   const { palette } = useTheme();
@@ -122,11 +122,10 @@ const PostWidget = ({ postData }) => {
           src={postData.files[0]}
         />
       )}
-      {console.log(postData,"post")}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
-            <IconButton onClick={likeDislike}>
+            <IconButton onClick={likeDislike} disabled={likeDislikeLoading || !postData}>
               {isLiked ? (
                 <FavoriteOutlined sx={{ color: primary }} />
               ) : (

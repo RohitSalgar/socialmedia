@@ -17,8 +17,6 @@ const pages = () => {
   const { mutate, isPaused } = useVerifyPage();
   const [searchTerm, setSearchTerm] = useState("");
 
-  console.log(pagesData, "pages");
-
   const columns = [
     {
       field: "companyName",

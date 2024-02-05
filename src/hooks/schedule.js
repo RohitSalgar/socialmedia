@@ -200,9 +200,6 @@ const useGetAllSchedules = () => {
         isAuthRequired: true,
       });
     },
-    onSuccess: () => {
-      console.log("success");
-    },
   });
 };
 
