@@ -151,7 +151,7 @@ const HomePage = () => {
           {dashboardView === "schedule" && (
             <Box
               sx={{
-                maxHeight: "80vh",
+                // maxHeight: "80vh",
                 overflowY: "scroll",
               }}
             >
@@ -167,7 +167,7 @@ const HomePage = () => {
               
               <Box
                 sx={{
-                  maxHeight: "40vh",
+                  // maxHeight: "40vh",
                   overflowY: "scroll",
                 }}
               >
@@ -183,7 +183,7 @@ const HomePage = () => {
               <Myqa />
               <Box
                 sx={{
-                  maxHeight: "55vh",
+                  // maxHeight: "55vh",
                   overflowY: "scroll",
                 }}
               >

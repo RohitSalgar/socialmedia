@@ -107,6 +107,16 @@ const MyPostWidget = () => {
           placeholder="What's Happening..."
           onChange={(e) => setDescription(e.target.value)}
           value={description}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && description) {
+              e.preventDefault();
+              if (dashboardView === "news") {
+                onSubmit("news");
+              } else {
+                onSubmit();
+              }
+            }
+          }}
         />
         {hashTag && (
           <div className={styles.tagsInputContainer}>
@@ -174,7 +184,7 @@ const MyPostWidget = () => {
           />
         </FlexBetween>
         <Box>
-          {dashboardView != "pages" && (
+          {dashboardView === "news" && (
             <Button
               disabled={!description}
               className={styles.btns}
