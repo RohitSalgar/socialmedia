@@ -20,6 +20,8 @@ import {
 } from "../../../redux/slices/profileSlice";
 import { useGetProfile } from "../../../hooks/profile";
 import Loader from "../../../components/Loader/Loader";
+import styles from './index.module.css';
+
 
 const UserWidget = () => {
   const dispatch = useDispatch();
@@ -47,7 +49,7 @@ const UserWidget = () => {
   }
 
   return (
-    <WidgetWrapper>
+    <WidgetWrapper className={styles.profilediv}>
       {signedIn === "true" && (
         <>
           <Box
