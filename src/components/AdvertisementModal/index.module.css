@@ -1,0 +1,135 @@
+/* fullname
+email
+designation
+password
+conf
+location
+dob */
+
+/* Animation for sliding in from the left */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Animation for sliding in from the right */
+@keyframes slideInRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes registerSlideInRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Apply the animations to the respective divs */
+.slideleft {
+  animation: slideInRight 1s ease-out;
+}
+
+.slideRight {
+  animation: slideInLeft 1s ease-out;
+}
+
+.registerSlideRight {
+  animation: registerSlideInRight 1s ease-out;
+}
+.errormsg {
+  /* border: 1px solid red !important; */
+  font-size: 12px;
+  border-radius: 5px !important;
+}
+
+.labelDiv{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.loginformdiv {
+  width: 400px;
+}
+.loginformdiv > div > div > input {
+  padding: 10px !important;
+}
+.loginforminputs > div > div > input {
+  padding: 10px !important;
+}
+
+.forminput > input {
+  padding: 10px !important;
+}
+.forminputlabel {
+  padding-top: 10px;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imageContainer p {
+  color: blue;
+}
+.deleteIcon {
+  color: red;
+  cursor: pointer;
+}
+.contantdiv {
+  background: rgba(4, 4, 4, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.contantdiv p {
+  margin: 0;
+  font-size: 15px;
+  text-align: left;
+  font-weight: 100;
+}
+.contantdiv {
+  color: #fff !important;
+  text-align: left;
+}
+.contantdiv h4,
+.contantdiv h5,
+.contantdiv h6 {
+  margin: 0;
+  padding: 10px 0px;
+  text-align: left;
+}
+.headtxt {
+  margin: 0;
+  text-align: left;
+}
+.uploadimage {
+  width: 100%;
+  background-color: transparent !important;
+  border: 1px solid #f3cf00 !important;
+  color: #f3cf00 !important;
+  margin-top: 10px !important;
+}
+.imageContainer p {
+  color: #f3cf00 !important;
+}
+.imageContainer svg path {
+  fill: rgb(151, 151, 151);
+}
+.submitbtn:hover {
+  background-color: #f3cf00 !important;
+}

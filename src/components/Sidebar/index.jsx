@@ -101,6 +101,21 @@ function Sidebar({ onClick }) {
                 Schedules
               </Link>
             </li>
+            <li
+              className={
+                activeStep === "advertisement" ? styles.activesidebarstep : ""
+              }
+            >
+              <Link
+                to={"advertisement"}
+                className={`${styles.listitem} ${
+                  activeStep === "advertisement" ? styles.activesidebar : ""
+                }`}
+              >
+                <EventNoteIcon />
+                Advertisements
+              </Link>
+            </li>
             {/* <li
               className={activeStep === "advertisements" ? styles.activesidebarstep : ""}
             >
