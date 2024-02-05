@@ -17,6 +17,18 @@ const useGetTrendingPosts = (tabView) => {
   });
 };
 
+const useGetSkipTrendingPosts = () => {
+  return useQuery({
+    queryKey: ["trending"],
+    queryFn: () => {
+      return fetchData({
+        url: URL + "post/getTrendingPost",
+        isAuthRequired: true,
+      });
+    },
+  });
+};
+
 const useGetPagePost = (tabView) => {
   return useQuery({
     queryKey: ["pagePost"],
@@ -267,4 +279,5 @@ export {
   useGetMyPagePostList,
   useGetMyPagePost,
   usePostUnfollow,
+  useGetSkipTrendingPosts,
 };
