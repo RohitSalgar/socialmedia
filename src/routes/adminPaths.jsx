@@ -34,7 +34,7 @@ const AdminPaths = [
 				element: posts,
 			},
 			{
-				path: "advertisements",
+				path: "advertisement",
 				element: Advertisement,
 			}
 		],

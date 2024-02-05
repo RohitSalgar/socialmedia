@@ -35,6 +35,7 @@ import classes from "./index.module.css";
 import { useNavSearch } from "../../../../hooks/user";
 import { setRemoveChatState } from "../../../../redux/slices/chat";
 import { Button } from "@mui/material";
+import { openAdvert } from "../../../../redux/slices/advert";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -178,6 +179,7 @@ const Navbar = () => {
               if (signedIn === "true") {
                 dispatch(removeProfileData());
                 dispatch(setRemoveChatState());
+                dispatch(openAdvert())
                 localStorage.removeItem("amsSocialToken");
                 localStorage.removeItem("amsSocialId");
                 localStorage.removeItem("amsSocialSignedIn");

@@ -17,7 +17,6 @@ const useGetReportedPosts = () => {
     });
 };
 
-
 const useGetAllUsers = (page, limit) => {
     return useQuery({
         queryKey: ["allUsers", page, limit],
@@ -49,6 +48,7 @@ const useGetAllSchedules = () => {
         }
     });
 };
+
 
 const useGetAllUnverifiedPages = () => {
     return useQuery({
@@ -87,7 +87,7 @@ const useDeletePost = (onSuccessFunctions) => {
     });
 };
 
-const useVerifyPage = (onSuccessFunctions) => {
+const useVerifyPage = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) =>
@@ -109,5 +109,43 @@ const useVerifyPage = (onSuccessFunctions) => {
     });
 };
 
+const useGetAllAdvertisements = () => {
+    return useQuery({
+        queryKey: ["allAd"],
+        queryFn: () =>
+        fetchData({
+                url: URL + "advertisement/getAllAdvertisement",
+                isAuthRequired: true,
+            }),
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        }
+    });
+};
 
-export { useDeletePost, useGetReportedPosts, useGetAllUsers, useGetAllSchedules, useGetAllUnverifiedPages, useVerifyPage };
+const insertAd = async (data) => {
+    let response = await fetch(URL + "advertisement/addAdvertisement", {
+      method: "POST",
+      body: data,
+    });
+    let responseData = await response.json();
+    return responseData.response;
+  };
+  
+
+const useInsertAdvertisement = (onSuccessFunctions) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: async (data) => await insertAd(data),
+      onSuccess: () => {
+        onSuccessFunctions();
+        queryClient.invalidateQueries({ queryKey: ["allAd"] }); 
+      },
+      onError: (error) => {
+        toast.error(error.message.split(":")[1]);
+      },
+    });
+  };
+
+
+export { useDeletePost, useGetReportedPosts, useGetAllUsers, useGetAllSchedules, useGetAllUnverifiedPages, useVerifyPage,useGetAllAdvertisements, useInsertAdvertisement };

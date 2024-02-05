@@ -31,6 +31,7 @@ import Loader from "../../../../components/Loader/Loader";
 import CompanyPage from "../CompanyPage";
 import { useEffect } from "react";
 import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
+import Advertisement from "../Advertisement/Advertisement";
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -40,6 +41,8 @@ const HomePage = () => {
   const { data: companyData, isLoading: topPagesLoading } = useGetAllTopPages(userId);
 
   const { tabView } = useSelector((state) => state.profile);
+  const  {adStatus}  = useSelector((state) => state.advert);
+  console.log(adStatus)
   const { sideView } = useSelector((state) => state.profile);
   const { data: trendingPost, refetch: trendingPostPostRefetch } =
     useGetTrendingPosts(tabView);
@@ -198,6 +201,8 @@ const HomePage = () => {
           <Box flexBasis="25%">
             {sideView === "companyPage" && (
               <>
+                {adStatus && <Advertisement companyData={companyData} /> }
+                <Box m="0" />
                 {companyData && companyData.length > 0 && <AdvertWidget companyData={companyData} />} <Box m="0" />
                 <FriendListWidget data={frdRequestData} />
               </>
