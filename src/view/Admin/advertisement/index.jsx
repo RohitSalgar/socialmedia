@@ -1,39 +1,44 @@
 import { useState } from "react";
 import classes from "../posts/index.module.css";
-import { IconButton, Typography } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useTheme } from "@emotion/react";
-import { useGetAllSchedules } from "../../../hooks/admin";
+import { useGetAllAdvertisements, useGetAllSchedules, useInsertAdvertisement } from "../../../hooks/admin";
 import Loader from "../../../components/Loader/Loader";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import AdvertisementModal from "../../../components/AdvertisementModal";
+import { closePopup, openPopup } from "../../../redux/slices/popupSlice";
 
 const Advertisement = () => {
   const { palette } = useTheme();
   const primary = palette.primary.main;
-  const { data: scheduleData, isLoading } = useGetAllSchedules();
+  const dispatch = useDispatch()
+  const { data: adData, isLoading } = useGetAllAdvertisements();
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [openModal, setOpenModal] = useState(false);
+  console.log(adData,"ad")
   const columns = [
     {
-      field: "companyName",
-      headerName: "Company Name",
+      field: "title",
+      headerName: "Title",
       flex: 1,
       headerAlign: "center",
       align: "center",
       headerClassName: "tabel-header",
     },
     {
-      field: "pol",
-      headerName: "POL",
+      field: "link",
+      headerName: "Link",
       flex: 1,
       headerAlign: "center",
       align: "center",
       headerClassName: "tabel-header",
     },
     {
-      field: "pod",
-      headerName: "POD",
+      field: "files",
+      headerName: "Images",
       flex: 1,
       headerAlign: "center",
       align: "center",
@@ -48,16 +53,11 @@ const Advertisement = () => {
       headerClassName: "tabel-header",
       valueGetter: ({ value }) => moment(value).format("DD-MM-YYYY"),
     },
-    {
-      field: "bookingCutOff",
-      headerName: "Bookings Close",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-      headerClassName: "tabel-header",
-      valueGetter: ({ value }) => moment(value).format("DD-MM-YYYY"),
-    },
   ];
+
+  const closeModal = () => {
+    setOpenModal(false);
+  };
 
   if (isLoading) {
     return <Loader />;
@@ -65,10 +65,18 @@ const Advertisement = () => {
 
   return (
     <section className={classes.postSection}>
-      <div>
+      <div style={{display:"flex", justifyContent:"space-between"}}>
         <Typography variant="h2" color={primary}>
-          Advertisement List
+          Advertisement Lists
         </Typography>
+        <Button
+            variant="contained"
+            onClick={() => {
+              setOpenModal(true);
+            }}
+          >
+            {"Add Advertisement"}
+          </Button>
       </div>
       <div className={classes.searchContainer}>
         <input
@@ -85,9 +93,7 @@ const Advertisement = () => {
         <DataGrid
           sx={{ textTransform: "capitalize", minHeight: "450px" }}
           getRowId={(row) => row._id}
-          rows={scheduleData.filter((schedule) =>
-            schedule.companyName && schedule.companyName.toLowerCase().includes(searchTerm.toLowerCase())
-          )}
+          rows={adData}
           columns={columns}
           initialState={{
             pagination: {
@@ -100,6 +106,10 @@ const Advertisement = () => {
           hideFooterSelectedRowCount={true}
         />
       </div>
+      <AdvertisementModal
+        open={openModal}
+        handleClose={closeModal}
+      />
     </section>
   );
 };
