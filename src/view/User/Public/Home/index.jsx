@@ -19,9 +19,8 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { setDashboardView } from "../../../../redux/slices/profileSlice";
 import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
-import { useGetTrendingPosts } from "../../../../hooks/posts";
+import { useGetSkipTrendingPosts } from "../../../../hooks/posts";
 import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
-
 const HomePage = () => {
   const { tabView } = useSelector((state) => state.profile);
   const [widgetname, setWidgetname] = useState(false);
@@ -31,7 +30,7 @@ const HomePage = () => {
     setSelectedIndex(index);
   };
   const dispatch = useDispatch();
-  const { data: trendingPost } = useGetTrendingPosts(tabView);
+  const { data: trendingPost } = useGetSkipTrendingPosts();
 
   function handleClassname() {
     setWidgetname(true);
@@ -161,9 +160,9 @@ const HomePage = () => {
           flexBasis={isNonMobileScreens ? "75%" : undefined}
           mt={isNonMobileScreens ? undefined : "1rem"}
         >
-          <Box fullWidth width="100%">
+          {/* <Box fullWidth width="100%">
             <OptionalTab />
-          </Box>
+          </Box> */}
           {trendingPost != null &&
             trendingPost.length > 0 ?
             trendingPost.map((data) => (

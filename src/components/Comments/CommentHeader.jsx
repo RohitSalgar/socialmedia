@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Box, Avatar, Typography, useTheme, IconButton } from "@mui/material";
 import { DeleteOutlined } from "@mui/icons-material";
-
+import moment from "moment";
 import CommentHeaderActions from "./CommentHeaderActions";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./index.module.css";
 import { useGetProfile } from "../../hooks/profile";
-
+import {
+  setViewProfileId,
+  setDashboardView,
+} from "../../redux/slices/profileSlice";
 function CommentHeader({
   user,
   createdAt,
@@ -26,7 +29,9 @@ function CommentHeader({
   const currentUser = "julie";
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
+  const medium = palette.neutral.medium;
   const [date, setDate] = useState("");
+  const dispatch = useDispatch();
   // const relativeTime = new RelativeTime();
   // useEffect(()=> {
   //   setDate(relativeTime.from(new Date(createdAt)))
@@ -35,6 +40,7 @@ function CommentHeader({
   //   },5000)
   //   return () => clearInterval(interval)
   // },[createdAt])
+  console.log(postData, "postData");
   return (
     <>
       <Box
@@ -61,6 +67,11 @@ function CommentHeader({
               textAlign: "center",
               lineHeight: "25px",
               color: "#fff",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              dispatch(setViewProfileId(postData.userId));
+              dispatch(setDashboardView("profile"));
             }}
           >
             {postData.userInfo.fullName.charAt(0).toUpperCase()}
@@ -70,6 +81,13 @@ function CommentHeader({
               display: "flex",
               justifyContent: "center",
               flexDirection: "column",
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
+            onClick={() => {
+              dispatch(setViewProfileId(postData.userId));
+              dispatch(setDashboardView("profile"));
             }}
           >
             {userId === postData?.userId || userId === postData?.userReplied ? (
@@ -101,12 +119,16 @@ function CommentHeader({
                   variant="designation"
                   fontWeight="300"
                   fontSize="12px"
+                  paddingRight={1}
                 >
                   ({postData?.userInfo?.designation})
                 </Typography>
               </Box>
             )}
           </Box>
+          <Typography color={medium} fontSize="0.70rem">
+            {moment(postData.commentedOn).format("MMM Do YYYY, h:mm a")}
+          </Typography>
         </Box>
 
         <CommentHeaderActions
