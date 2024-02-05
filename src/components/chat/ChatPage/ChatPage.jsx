@@ -139,7 +139,7 @@ const ChatPage = ({ data }) => {
         </p>
         <p className={styles.activeLogo}>
           {liveUser && isUserIdPresent(liveUser, filteredData[0])
-            ? "Active Now"
+            ? "Online"
             : "Offline"}
         </p>
       </Box>

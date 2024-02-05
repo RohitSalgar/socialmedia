@@ -7,18 +7,18 @@ import { fetchData } from "../helper";
 const useGetAllFrdRequestByUserId = (id) => {
     return useQuery({
         queryKey: ["allFrdRequests", id],
-        queryFn: ({queryKey}) =>
-          { 
+        queryFn: ({ queryKey }) => {
             return fetchData({
                 url: URL + "users/getConnectionRequestListById",
                 isAuthRequired: true,
                 method: "POST"
             },
-            { data: [{ id: queryKey[1] }] })},
+                { data: [{ id: queryKey[1] }] })
+        },
         onError: (error) => {
             toast.error(error.message.split(":")[1]);
         }
-        });
+    });
 };
 
 const useChangeConnectionStatus = (onSuccessFunctions) => {
@@ -93,7 +93,6 @@ const useNavSearch = (onSuccessFunctions) => {
                 { data: [data] }
             ),
         onSuccess: (data) => {
-            console.log(data,"data in hook")
             onSuccessFunctions(data)
         },
         onError: (error) => {
@@ -104,44 +103,43 @@ const useNavSearch = (onSuccessFunctions) => {
 
 const useGetAllTopPages = (id) => {
     return useQuery({
-      queryKey: ["getAllTopPages",id],
-      queryFn: ({queryKey}) => {
-        return fetchData({
-          url: URL + "pages/getCompanyDataByFollowersDescending",
-          isAuthRequired: true,
-          method:"POST",
+        queryKey: ["getAllTopPages", id],
+        queryFn: ({ queryKey }) => {
+            return fetchData({
+                url: URL + "pages/getCompanyDataByFollowersDescending",
+                isAuthRequired: true,
+                method: "POST",
+            },
+                { data: [{ userId: queryKey[1] }] }
+            );
         },
-        { data: [{userId: queryKey[1]}] }
-        );
-      },
     });
-  };
+};
 
-  const useFollowTopPage = () => {
+const useFollowTopPage = () => {
     const queryClient = useQueryClient();
     return useMutation({
-      mutationFn: (data) =>
-        fetchData(
-          {
-            url: URL + "pages/pageFollow ",
-            method: "POST",
-            isAuthRequired: true,
-          },
-          { data: [data] }
-        ),
-      onSuccess: (data) => {
-          queryClient.invalidateQueries({ queryKey: ["postprofile"] });
-          queryClient.invalidateQueries({ queryKey: ["profile"] });
-          queryClient.invalidateQueries({ queryKey: ["followingList"] });
-          queryClient.invalidateQueries({ queryKey: ["followList"] });
-        queryClient.invalidateQueries({ queryKey: ["getAllTopPages"] });
-        queryClient.invalidateQueries({ queryKey: ["companyprofile"] });
-        toast.success(data)
-      },
-      onError: (error) => {
-        toast.error(error.message.split(":")[1]);
-      },
+        mutationFn: (data) =>
+            fetchData(
+                {
+                    url: URL + "pages/pageFollow ",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [data] }
+            ),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ["postprofile"] });
+            queryClient.invalidateQueries({ queryKey: ["profile"] });
+            queryClient.invalidateQueries({ queryKey: ["followingList"] });
+            queryClient.invalidateQueries({ queryKey: ["followList"] });
+            queryClient.invalidateQueries({ queryKey: ["getAllTopPages"] });
+            queryClient.invalidateQueries({ queryKey: ["companyprofile"] });
+        },
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
     });
-  };
+};
 
-export { useFollowTopPage,useGetAllTopPages, useGetAllFrdRequestByUserId, useChangeConnectionStatus, useNavSearch, useSendFrdRequest };
+export { useFollowTopPage, useGetAllTopPages, useGetAllFrdRequestByUserId, useChangeConnectionStatus, useNavSearch, useSendFrdRequest };

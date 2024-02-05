@@ -51,7 +51,6 @@ export default function PostModal({handleClose, data , open}) {
         },
         
     ];
-    console.log(data)
   return (
     <React.Fragment>
       <BootstrapDialog

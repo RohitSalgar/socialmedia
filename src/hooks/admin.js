@@ -100,7 +100,6 @@ const useVerifyPage = (onSuccessFunctions) => {
                 { data: [data] }
             ),
         onSuccess: (data) => {
-            console.log(data,"data")
             queryClient.invalidateQueries({ queryKey: ["unverifiedPages"] });
             toast.success(data)
         },

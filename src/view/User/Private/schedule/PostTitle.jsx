@@ -39,6 +39,7 @@ const PostTitle = ({ data }) => {
         <Avatar
           sx={{ width: 35, height: 35 }}
           alt="Remy Sharp"
+          onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}}
           src={data.companyProfile ?? "/static/images/avatar/1.jpg"}
         />
         <Box onClick={() => {}}>
@@ -46,6 +47,7 @@ const PostTitle = ({ data }) => {
             color={main}
             variant="h5"
             fontWeight="400"
+            onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}}
             sx={{
               "&:hover": {
                 cursor: "pointer",

@@ -27,15 +27,17 @@ const PostTitle = ({ data }) => {
   };
   return (
     <FlexBetween>
-      <FlexBetween gap="1rem">
+      <FlexBetween gap="1rem" >
         <Avatar
           sx={{ width: 35, height: 35 }}
+          onClick={() => {dispatch(setViewProfileId(data.createdBy)); dispatch(setDashboardView('profile'))}}
           alt="Remy Sharp"
           src={data?.profile ? data.profile : "/static/images/avatar/1.jpg"}
         />
         <Box onClick={() => {}}>
           <Typography
             color={main}
+            onClick={() => {dispatch(setViewProfileId(data.createdBy)); dispatch(setDashboardView('profile'))}}
             variant="h5"
             fontWeight="400"
             sx={{

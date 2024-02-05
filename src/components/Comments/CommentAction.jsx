@@ -60,7 +60,6 @@ function CommentAction({
         commentId: postData._id,
         userId: userId,
       };
-      console.log("run");
       if (dashboardView === "schedule" || dashboardView === 'postprofile') {
         return deleteScheduleComments(payload);
       } else {

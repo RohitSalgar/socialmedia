@@ -157,7 +157,6 @@ function CommentBox({
         <Box sx={{ display: "flex", width: "94%", ml: 4 }}>
           <Box sx={{ width: "100%" }} className={styles.repliesdiv}>
             {replies.map((reply) => {
-              console.log(reply,"reply")
               return <CommentBox
                 key={reply.id}
                 {...reply}

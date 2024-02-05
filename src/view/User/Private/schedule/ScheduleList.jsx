@@ -23,7 +23,6 @@ const ScheduleList = () => {
               return (
                 <WidgetWrapper key={i} sx={{ marginBottom: "10px" }}>
                   <PostTitle data={e} />
-                  {console.log(e)}
                   <Box className={styles.scheduleListDiv}>
                     <Box>
                       <Box className={styles.scheduleListSubDiv}>

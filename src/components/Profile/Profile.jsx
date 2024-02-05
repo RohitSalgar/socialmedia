@@ -465,7 +465,6 @@ const Profile = () => {
             </Box>
             <Box className={styles.postdiv}>
               {followingList?.map((e, i) => {
-                console.log(e, "e");
                 return (
                   <Followers
                     key={i}
