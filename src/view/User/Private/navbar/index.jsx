@@ -10,18 +10,14 @@ import {
 import {
   Search,
   Message,
-  DarkMode,
-  LightMode,
   Notifications,
   Help,
-  Menu,
   Close,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "../../../../components/FlexBetween";
 import { ImSwitch } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
-import { setMode } from "../../../../redux/slices/authSlice";
 import ClearIcon from "@mui/icons-material/Clear";
 import {
   clearSkip,
@@ -34,7 +30,6 @@ import {
 import classes from "./index.module.css";
 import { useNavSearch } from "../../../../hooks/user";
 import { setRemoveChatState } from "../../../../redux/slices/chat";
-import { Button } from "@mui/material";
 import { openAdvert } from "../../../../redux/slices/advert";
 
 const Navbar = () => {
@@ -72,7 +67,7 @@ const Navbar = () => {
   }
 
   return (
-    <FlexBetween padding="1rem 3%" backgroundColor={alt}>
+    <FlexBetween padding="1rem 3%" backgroundColor={alt} className={classes.headermain}>
       <FlexBetween gap="1.75rem">
         <Typography
           fontWeight="bold"
