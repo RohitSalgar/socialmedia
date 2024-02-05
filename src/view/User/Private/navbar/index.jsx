@@ -34,6 +34,7 @@ import {
 import classes from "./index.module.css";
 import { useNavSearch } from "../../../../hooks/user";
 import { setRemoveChatState } from "../../../../redux/slices/chat";
+import { Button } from "@mui/material";
 import { openAdvert } from "../../../../redux/slices/advert";
 
 const Navbar = () => {
@@ -78,7 +79,22 @@ const Navbar = () => {
           fontSize="clamp(1rem, 2rem, 2.25rem)"
           color="primary"
           sx={{ cursor: "pointer" }}
-          onClick={() => dispatch(setDashboardView("home"))}
+          // onClick={() => dispatch(setDashboardView("home"))}
+          onClick={() => {
+            if (signedIn === "true") {
+              dispatch(removeProfileData());
+              dispatch(setRemoveChatState());
+              localStorage.removeItem("amsSocialToken");
+              localStorage.removeItem("amsSocialId");
+              localStorage.removeItem("amsSocialSignedIn");
+            } else {
+              localStorage.clear();
+              localStorage.removeItem("amsSocialSignedIn");
+              dispatch(clearSkip());
+            }
+            setIsMobileMenuToggled(!isMobileMenuToggled)
+            navigate("/login");
+          }}
         >
           AllMasters
         </Typography>
@@ -98,7 +114,7 @@ const Navbar = () => {
                 onChange={(e) => {
                   setSearchText(e.target.value);
                   navesearchMutate({
-                    term: e.target.value
+                    term: e.target.value,
                   });
                 }}
                 placeholder="Search..."
@@ -141,7 +157,7 @@ const Navbar = () => {
       </div>
 
       {/* DESKTOP NAV */}
-      {isNonMobileScreens && tokenId !== null ? (
+      {isNonMobileScreens && tokenId !== null && (
         <FlexBetween gap="2rem">
           {/* <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
@@ -176,30 +192,30 @@ const Navbar = () => {
             }}
           />
         </FlexBetween>
-      ) : (
-        <IconButton
-          onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
-        >
-          <ImSwitch
-            style={{ fontSize: "25px" }}
-            onClick={() => {
-              if (signedIn === "true") {
-                dispatch(removeProfileData());
-                dispatch(setRemoveChatState());
-                
-                localStorage.removeItem("amsSocialToken");
-                localStorage.removeItem("amsSocialId");
-                localStorage.removeItem("amsSocialSignedIn");
-              } else {
-                localStorage.clear();
-                localStorage.removeItem("amsSocialSignedIn");
-                dispatch(clearSkip());
-              }
-              navigate("/login");
-            }}
-          />
-        </IconButton>
-      )}
+      ) 
+      // : (
+      //   <Button
+      //     style={{ fontSize: "15px" }}
+      //     onClick={() => {
+      //       if (signedIn === "true") {
+      //         dispatch(removeProfileData());
+      //         dispatch(setRemoveChatState());
+      //         localStorage.removeItem("amsSocialToken");
+      //         localStorage.removeItem("amsSocialId");
+      //         localStorage.removeItem("amsSocialSignedIn");
+      //       } else {
+      //         localStorage.clear();
+      //         localStorage.removeItem("amsSocialSignedIn");
+      //         dispatch(clearSkip());
+      //       }
+      //       setIsMobileMenuToggled(!isMobileMenuToggled)
+      //       navigate("/login");
+      //     }}
+      //   >
+      //     SignIN
+      //   </Button>
+      // )
+      }
 
       {/* MOBILE NAV */}
       {!isNonMobileScreens && isMobileMenuToggled && (
