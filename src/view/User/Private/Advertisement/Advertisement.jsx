@@ -27,11 +27,17 @@ const Advertisement = ({ companyData }) => {
     return;
   }
   console.log(data)
+  const handleCardClick = () => {
+    const url = data[0]?.link;
+    if (url) {
+      window.open(url, '_blank');
+    }
+  };
   return (
     // <WidgetWrapper sx={{ minWidth: "100%", maxWidth: "300px", height: "47vh", marginBottom:"10px" }}>
     <Card
       sx={{ borderRadius: "0.75rem", marginBottom: "0.7rem", position: 'relative' }}
-      onClick={() => data[0]?.link}
+      onClick={handleCardClick}
     >
       <CardActionArea>
         <CardMedia
