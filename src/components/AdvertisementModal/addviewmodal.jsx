@@ -18,7 +18,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 export default function AdvertisementViewModal({handleClose, data , open}) {
-    console.log(data,"data")
   return (
     <React.Fragment>
       <BootstrapDialog

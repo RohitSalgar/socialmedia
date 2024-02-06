@@ -43,6 +43,8 @@ const HomePage = () => {
   const { ref, inView } = useInView()
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { userId } = useSelector((state) => state.profile.profileData);
+  const { hashtag } = useSelector((state) => state.post);
+  console.log(hashtag)
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { data: frdRequestData, isLoading: frdRequestLoading } =
     useGetAllFrdRequestByUserId(userId);
@@ -52,7 +54,7 @@ const HomePage = () => {
   const { tabView } = useSelector((state) => state.profile);
   const { adStatus } = useSelector((state) => state.advert);
   const { sideView } = useSelector((state) => state.profile);
-  const { data: trendingPost, refetch: trendingPostPostRefetch, isPending: trendingPostPending, isFetchingNextPage, error, isFetching, fetchNextPage, hasNextPage, } =
+  const { data: trendingPost, refetch: trendingPostPostRefetch, isPending: trendingPostPending, isFetchingNextPage, fetchNextPage, hasNextPage, } =
     useGetTrendingPosts(tabView);
   const { data: friendPostData, refetch: friendPostDataRefetch } =
     useGetFriendsPost(tabView, { userId });
@@ -74,8 +76,8 @@ const HomePage = () => {
     friendPostDataRefetch();
   }, [tabView]);
 
-    useEffect(() => {
-      if (inView){fetchNextPage()}
+  useEffect(() => {
+    if (inView, !(trendingPost?.pageParams.includes(Math.ceil(trendingPost?.pages[0]?.totalCount / 5)))) { fetchNextPage() }
   }, [inView])
 
   if (isLoading || frdRequestLoading || topPagesLoading) {
@@ -109,13 +111,13 @@ const HomePage = () => {
                 <Box>
                   {tabView === "trending" && trendingPost?.pages ? (
                     trendingPost?.pages?.length > 0 ? <Box>
-                      {trendingPost.pages.map(({data}) => {
-                       return data.map((data) => (
+                      {trendingPost.pages.map(({ data }) => {
+                        return data.map((data) => (
                           <PostWidget key={data._id} postData={data} />
                         ))
                       })}
-                      <PostSkeleton/>
-                      <div ref={ref} style={{height:"10px"}} onClick={() => fetchNextPage()}>{isFetchingNextPage && <PostSkeleton/>}</div>
+                      {!(trendingPost?.pageParams.includes(Math.ceil(trendingPost?.pages[0]?.totalCount / 5))) && <PostSkeleton/>}
+                      <div ref={ref} style={{ height: "10px" }} onClick={() => fetchNextPage()}>{isFetchingNextPage && <PostSkeleton />}</div>
                     </Box> : (
                       <div style={{ marginTop: "10px" }}>
                         <LookingEmpty

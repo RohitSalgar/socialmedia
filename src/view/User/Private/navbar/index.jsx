@@ -75,23 +75,8 @@ const Navbar = () => {
           fontSize="clamp(1rem, 2rem, 2.25rem)"
           color="primary"
           sx={{ cursor: "pointer" }}
-          // onClick={() => dispatch(setDashboardView("home"))}
-          onClick={() => {
-            if (signedIn === "true") {
-              dispatch(removeProfileData());
-              dispatch(setRemoveChatState());
-              dispatch(removePostData())
-              localStorage.removeItem("amsSocialToken");
-              localStorage.removeItem("amsSocialId");
-              localStorage.removeItem("amsSocialSignedIn");
-            } else {
-              localStorage.clear();
-              localStorage.removeItem("amsSocialSignedIn");
-              dispatch(clearSkip());
-            }
-            setIsMobileMenuToggled(!isMobileMenuToggled)
-            navigate("/login");
-          }}
+          onClick={() => dispatch(setDashboardView("home"))}
+          
         >
           AllMasters
         </Typography>
@@ -177,6 +162,7 @@ const Navbar = () => {
                 dispatch(removeProfileData());
                 dispatch(setRemoveChatState());
                 dispatch(openAdvert())
+                dispatch(removePostData())
                 localStorage.removeItem("amsSocialToken");
                 localStorage.removeItem("amsSocialId");
                 localStorage.removeItem("amsSocialSignedIn");
