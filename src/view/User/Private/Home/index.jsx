@@ -35,16 +35,15 @@ import CompanyPage from "../CompanyPage";
 import { useEffect } from "react";
 import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
 import Advertisement from "../Advertisement/Advertisement";
-import { useInView } from 'react-intersection-observer'
+import { useInView } from "react-intersection-observer";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 
-
 const HomePage = () => {
-  const { ref, inView } = useInView()
+  const { ref, inView } = useInView();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { userId } = useSelector((state) => state.profile.profileData);
   const { hashtag } = useSelector((state) => state.post);
-  console.log(hashtag)
+  console.log(hashtag);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { data: frdRequestData, isLoading: frdRequestLoading } =
     useGetAllFrdRequestByUserId(userId);
@@ -54,20 +53,67 @@ const HomePage = () => {
   const { tabView } = useSelector((state) => state.profile);
   const { adStatus } = useSelector((state) => state.advert);
   const { sideView } = useSelector((state) => state.profile);
-  const { data: trendingPost, refetch: trendingPostPostRefetch, isPending: trendingPostPending, isFetchingNextPage, fetchNextPage, hasNextPage, } =
-    useGetTrendingPosts(tabView);
-  const { data: friendPostData, refetch: friendPostDataRefetch } =
-    useGetFriendsPost(tabView, { userId });
-  const { data: newsPostData } = useGetNewsPosts(tabView);
-  const { data: pagePostData, isLoading } = useGetPagePost(tabView);
-  const { data: allQaData } = useGetAllQa(tabView);
-  const { data: forYouData, refetch: forYouDataRefetch } = useGetForYouPost(
-    tabView,
-    {
-      state: "Tamilnadu",
-      country: "India",
-    }
-  );
+  const {
+    data: trendingPost,
+    refetch: trendingPostPostRefetch,
+    isPending: trendingPostPending,
+    isFetchingNextPage,
+    error,
+    isFetching,
+    fetchNextPage,
+    hasNextPage,
+  } = useGetTrendingPosts(tabView);
+  const {
+    data: friendPostData,
+    refetch: friendPostDataRefetch,
+    isPending: friendPostPending,
+    isFetchingNextPage: friendFetchingNextPage,
+    error: friendError,
+    isFetching: friendFetching,
+    fetchNextPage: friendFetchNextPage,
+    hasNextPage: friendHasNextPage,
+  } = useGetFriendsPost(tabView, { userId });
+  const {
+    data: newsPostData,
+    refetch: newsPostDataRefetch,
+    isPending: newsPostPending,
+    isFetchingNextPage: newsFetchingNextPage,
+    error: newsError,
+    isFetching: newsFetching,
+    fetchNextPage: newsFetchNextPage,
+    hasNextPage: newsHasNextPage,
+  } = useGetNewsPosts(tabView);
+  const {
+    data: pagePostData,
+    isLoading,
+    isFetchingNextPage: pagePostFetchingNextPage,
+    error: pagePostError,
+    isFetching: pagePostFetching,
+    fetchNextPage: pagePostFetchNextPage,
+    hasNextPage: pagePostHasNextPage,
+  } = useGetPagePost(tabView);
+  const {
+    data: allQaData,
+    isPending: qaDataPostPending,
+    isFetchingNextPage: qaDataFetchingNextPage,
+    error: qaDataError,
+    isFetching: qaDataFetching,
+    fetchNextPage: qaDataFetchNextPage,
+    hasNextPage: qaDataHasNextPage,
+  } = useGetAllQa(tabView);
+  const {
+    data: forYouData,
+    refetch: forYouDataRefetch,
+    isPending: forYouPostPending,
+    isFetchingNextPage: forYouFetchingNextPage,
+    error: forYouError,
+    isFetching: forYouFetching,
+    fetchNextPage: forYouFetchNextPage,
+    hasNextPage: forYouHasNextPage,
+  } = useGetForYouPost(tabView, {
+    state: "Tamilnadu",
+    country: "India",
+  });
   const { data } = useGetProfile(userId);
 
   useEffect(() => {
@@ -77,29 +123,71 @@ const HomePage = () => {
   }, [tabView]);
 
   useEffect(() => {
-    if (inView, !(trendingPost?.pageParams.includes(Math.ceil(trendingPost?.pages[0]?.totalCount / 5)))) { fetchNextPage() }
-  }, [inView])
+    if (inView) {
+      if (
+        tabView === "trending" &&
+        !trendingPost?.pageParams.includes(
+          Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
+        )
+      ) {
+        fetchNextPage();
+      } else if (
+        tabView === "forYou" &&
+        !forYouData?.pageParams.includes(
+          Math.ceil(forYouData?.pages[0]?.totalCount / 5)
+        )
+      ) {
+        forYouFetchNextPage();
+      } else if (
+        tabView === "friend" &&
+        !friendPostData?.pageParams.includes(
+          Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
+        )
+      ) {
+        friendFetchNextPage();
+      } else if (
+        tabView === "news" &&
+        !newsPostData?.pageParams.includes(
+          Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
+        )
+      ) {
+        newsFetchNextPage();
+      } else if (
+        tabView === "pages" &&
+        !pagePostData?.pageParams.includes(
+          Math.ceil(pagePostData?.pages[0]?.totalCount / 5)
+        )
+      ) {
+        pagePostFetchNextPage();
+      } else if (
+        tabView === "qa" &&
+        !allQaData?.pageParams.includes(
+          Math.ceil(allQaData?.pages[0]?.totalCount / 5)
+        )
+      ) {
+        qaDataFetchNextPage();
+      }
+    }
+  }, [inView]);
 
   if (isLoading || frdRequestLoading || topPagesLoading) {
     return <Loader />;
   }
-
-
   return (
     <Box>
       <Navbar />
       <Box style={{ paddingTop: "100px" }}>
         <Box
           width="90%"
-          margin='auto'
+          margin="auto"
           display={isNonMobileScreens ? "flex" : "block"}
           gap="20px"
           justifyContent="space-between"
         >
-          <Box width='25%'>
+          <Box width="25%">
             <UserWidget />
           </Box>
-          <Box width='50%'>
+          <Box width="50%">
             {(dashboardView === "home" || dashboardView === "news") && (
               <>
                 <MyPostWidget />
@@ -110,15 +198,25 @@ const HomePage = () => {
                 )}
                 <Box>
                   {tabView === "trending" && trendingPost?.pages ? (
-                    trendingPost?.pages?.length > 0 ? <Box>
-                      {trendingPost.pages.map(({ data }) => {
-                        return data.map((data) => (
-                          <PostWidget key={data._id} postData={data} />
-                        ))
-                      })}
-                      {!(trendingPost?.pageParams.includes(Math.ceil(trendingPost?.pages[0]?.totalCount / 5))) && <PostSkeleton/>}
-                      <div ref={ref} style={{ height: "10px" }} onClick={() => fetchNextPage()}>{isFetchingNextPage && <PostSkeleton />}</div>
-                    </Box> : (
+                    trendingPost?.pages?.length > 0 ? (
+                      <Box>
+                        {trendingPost.pages.map(({ data }) => {
+                          return data.map((data) => (
+                            <PostWidget key={data._id} postData={data} />
+                          ));
+                        })}
+                        {!trendingPost?.pageParams.includes(
+                          Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
+                        ) && <PostSkeleton />}
+                        <div
+                          ref={ref}
+                          style={{ height: "10px" }}
+                          onClick={() => fetchNextPage()}
+                        >
+                          {isFetchingNextPage && <PostSkeleton />}
+                        </div>
+                      </Box>
+                    ) : (
                       <div style={{ marginTop: "10px" }}>
                         <LookingEmpty
                           description={
@@ -128,11 +226,25 @@ const HomePage = () => {
                       </div>
                     )
                   ) : null}
-                  {tabView === "forYou" && forYouData ? (
-                    forYouData.length > 0 ? (
-                      forYouData.map((data) => (
-                        <PostWidget key={data._id} postData={data} />
-                      ))
+                  {tabView === "forYou" && forYouData?.pages ? (
+                    forYouData?.pages?.length > 0 ? (
+                      <Box>
+                        {forYouData.pages.map(({ data }) => {
+                          return data.map((data) => (
+                            <PostWidget key={data._id} postData={data} />
+                          ));
+                        })}
+                        {!forYouData?.pageParams.includes(
+                          Math.ceil(forYouData?.pages[0]?.totalCount / 5)
+                        ) && <PostSkeleton />}
+                        <div
+                          ref={ref}
+                          style={{ height: "10px" }}
+                          onClick={() => forYouFetchNextPage()}
+                        >
+                          {forYouFetchingNextPage && <PostSkeleton />}
+                        </div>
+                      </Box>
                     ) : (
                       <div style={{ marginTop: "10px" }}>
                         <LookingEmpty />
@@ -140,11 +252,25 @@ const HomePage = () => {
                     )
                   ) : null}
 
-                  {tabView === "friend" && friendPostData ? (
-                    friendPostData.length > 0 ? (
-                      friendPostData.map((data) => (
-                        <PostWidget key={data._id} postData={data} />
-                      ))
+                  {tabView === "friend" && friendPostData?.pages ? (
+                    friendPostData?.pages?.length > 0 ? (
+                      <Box>
+                        {friendPostData.pages.map(({ data }) => {
+                          return data.map((data) => (
+                            <PostWidget key={data._id} postData={data} />
+                          ));
+                        })}
+                        {!friendPostData?.pageParams.includes(
+                          Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
+                        ) && <PostSkeleton />}
+                        <div
+                          ref={ref}
+                          style={{ height: "10px" }}
+                          onClick={() => friendFetchNextPage()}
+                        >
+                          {friendFetchingNextPage && <PostSkeleton />}
+                        </div>
+                      </Box>
                     ) : (
                       <div style={{ marginTop: "10px" }}>
                         <LookingEmpty />
@@ -152,11 +278,25 @@ const HomePage = () => {
                     )
                   ) : null}
 
-                  {tabView === "news" && newsPostData ? (
-                    newsPostData.length > 0 ? (
-                      newsPostData.map((data) => (
-                        <PostWidget key={data._id} postData={data} />
-                      ))
+                  {tabView === "news" && newsPostData?.pages ? (
+                    newsPostData?.pages?.length > 0 ? (
+                      <Box>
+                        {newsPostData.pages.map(({ data }) => {
+                          return data.map((data) => (
+                            <PostWidget key={data._id} postData={data} />
+                          ));
+                        })}
+                        {!newsPostData?.pageParams.includes(
+                          Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
+                        ) && <PostSkeleton />}
+                        <div
+                          ref={ref}
+                          style={{ height: "10px" }}
+                          onClick={() => newsFetchNextPage()}
+                        >
+                          {newsFetchingNextPage && <PostSkeleton />}
+                        </div>
+                      </Box>
                     ) : (
                       <div style={{ marginTop: "10px" }}>
                         <LookingEmpty />
@@ -174,7 +314,7 @@ const HomePage = () => {
             )}
             {dashboardView === "profile" && <Profile />}
             {dashboardView === "postprofile" && <PostProfile />}
-            {dashboardView === "pages" && (
+            {dashboardView === "pages" && pagePostData?.pages ? (
               <>
                 {data?.pageData?.status === 1 && (
                   <>
@@ -184,24 +324,52 @@ const HomePage = () => {
                 )}
 
                 <Box>
-                  {pagePostData?.length > 0 ? (
-                    pagePostData.map((data) => (
-                      <CompanyPage key={data._id} postData={data} />
-                    ))
+                  {pagePostData.pages.length > 0 ? (
+                    <>
+                      {pagePostData.pages.map(({ data }) =>
+                        data.map((postData) => (
+                          <CompanyPage key={postData._id} postData={postData} />
+                        ))
+                      )}
+                      {!pagePostData.pageParams.includes(
+                        Math.ceil(pagePostData.pages[0]?.totalCount / 5)
+                      ) && <PostSkeleton />}
+                      <div
+                        ref={ref}
+                        style={{ height: "10px" }}
+                        onClick={() => pagePostFetchNextPage()}
+                      >
+                        {pagePostFetchingNextPage && <PostSkeleton />}
+                      </div>
+                    </>
                   ) : (
                     <LookingEmpty />
                   )}
                 </Box>
               </>
-            )}
-            {dashboardView === "qa" && (
+            ) : null}
+            {dashboardView === "qa" && allQaData?.pages ? (
               <>
                 <Myqa />
                 <Box>
-                  {allQaData?.length > 0 ? (
-                    allQaData.map((data) => (
-                      <QaWidget key={data._id} postData={data} />
-                    ))
+                  {allQaData.pages.length > 0 ? (
+                    <>
+                      {allQaData.pages.map(({ data }) =>
+                        data.map((postData) => (
+                          <QaWidget key={postData._id} postData={postData} />
+                        ))
+                      )}
+                      {!allQaData.pageParams.includes(
+                        Math.ceil(allQaData.pages[0]?.totalCount / 5)
+                      ) && <PostSkeleton />}
+                      <div
+                        ref={ref}
+                        style={{ height: "10px" }}
+                        onClick={() => qaDataFetchNextPage()}
+                      >
+                        {qaDataFetchingNextPage && <PostSkeleton />}
+                      </div>
+                    </>
                   ) : (
                     <div style={{ marginTop: "10px" }}>
                       <LookingEmpty />
@@ -209,10 +377,10 @@ const HomePage = () => {
                   )}
                 </Box>
               </>
-            )}
+            ) : null}
           </Box>
           {isNonMobileScreens && (
-            <Box width='25%'>
+            <Box width="25%">
               {sideView === "companyPage" && (
                 <>
                   {adStatus && <Advertisement companyData={companyData} />}
