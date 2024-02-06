@@ -23,16 +23,16 @@ import { useSelector } from "react-redux";
 const useGetTrendingPosts = (tabView) => {
   return useInfiniteQuery({
     queryKey: ["trending"],
-    queryFn: ({pageParam}) => {
+    queryFn: ({ pageParam }) => {
       return fetchData({
         url: URL + "post/getTrendingPost",
         method: "POST",
         isAuthRequired: true,
       },
-        { data: [{ page: pageParam, pageSize: 5, hashTags:"" }] }
+        { data: [{ page: pageParam, pageSize: 5, hashTags: "" }] }
       );
     },
-    initialPageParam:1,
+    initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length === 0 ? null : allPages.length + 1
     },
@@ -61,7 +61,7 @@ const useGetPagePost = (tabView) => {
         isAuthRequired: true,
         method: "POST"
       },
-        { data: [{ page: 1, pageSize: 10, hashTags:"" }] }),
+        { data: [{ page: 1, pageSize: 10, hashTags: "" }] }),
 
     enabled: tabView === "pages",
   });
@@ -76,7 +76,7 @@ const useGetNewsPosts = (tabView) => {
         isAuthRequired: true,
         method: "POST",
       }, {
-        data: [{ page: 1, pageSize: 10 , hashTags:""}]
+        data: [{ page: 1, pageSize: 10, hashTags: "" }]
       });
     },
     enabled: tabView === "news",
@@ -93,7 +93,7 @@ const useGetFriendsPost = (tabView, payload, onSuccess) => {
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [{ ...payload, page: 1, pageSize: 10, hashTags:"" }] }
+        { data: [{ ...payload, page: 1, pageSize: 10, hashTags: "" }] }
       ),
     onSuccess: (data) => {
       onSuccess(data);
@@ -115,7 +115,7 @@ const useGetForYouPost = (tabView, payload, onSuccess) => {
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [{ ...payload, page: 1, pageSize: 10 , hashTags:""}] }
+        { data: [{ ...payload, page: 1, pageSize: 10, hashTags: "" }] }
       ),
     onSuccess: (data) => {
       onSuccess(data);

@@ -207,7 +207,6 @@ export default function RegisterPage() {
     }
   };
   
-  console.log(files, "files");
 
   return (
     <ThemeProvider theme={defaultTheme}>
