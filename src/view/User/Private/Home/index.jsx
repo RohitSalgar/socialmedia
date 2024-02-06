@@ -17,6 +17,7 @@ import {
 import {
   useGetForYouPost,
   useGetFriendsPost,
+  useGetHashTagPosts,
   useGetNewsPosts,
   useGetPagePost,
   useGetTrendingPosts,
@@ -43,7 +44,6 @@ const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { userId } = useSelector((state) => state.profile.profileData);
   const { hashtag } = useSelector((state) => state.post);
-  console.log(hashtag);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { data: frdRequestData, isLoading: frdRequestLoading } =
     useGetAllFrdRequestByUserId(userId);
@@ -73,6 +73,9 @@ const HomePage = () => {
     fetchNextPage: friendFetchNextPage,
     hasNextPage: friendHasNextPage,
   } = useGetFriendsPost(tabView, { userId });
+  const { data: hashTagPostData } =
+    useGetHashTagPosts(hashtag);
+    console.log(hashTagPostData,"has")
   const {
     data: newsPostData,
     refetch: newsPostDataRefetch,
@@ -378,6 +381,21 @@ const HomePage = () => {
                 </Box>
               </>
             ) : null}
+            {hashtag !== "" && (
+              <>
+                <Box>
+                  {hashTagPostData?.length > 0 ? (
+                    hashTagPostData.map((data) => (
+                      <PostWidget key={data._id} postData={data} />
+                    ))
+                  ) : (
+                    <div style={{ marginTop: "10px" }}>
+                      <LookingEmpty />
+                    </div>
+                  )}
+                </Box>
+              </>
+            )}
           </Box>
           {isNonMobileScreens && (
             <Box width="25%">
