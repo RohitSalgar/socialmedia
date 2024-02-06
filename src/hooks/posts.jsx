@@ -1,40 +1,52 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { URL } from "../config";
 import { fetchData } from "../helper";
 import { useSelector } from "react-redux";
+import { PAGE_SIZE } from "../config";
 
-// const useGetTrendingPosts = (tabView) => {
-//   return useQuery({
-//     queryKey: ["trending"],
-//     queryFn: () => {
-//       return fetchData({
-//         url: URL + "post/getTrendingPost",
-//         method: "POST",
-//         isAuthRequired: true,
-//       },
-//         { data:[{ page: 1, pageSize: 10}] }
-//       );
-//     },
-//     enabled: tabView === "trending" || tabView === "forYou",
-//   });
-// };
+const useGetHashTagPosts = (hashtag) => {
+  return useInfiniteQuery({
+    queryKey: ["hashtagPosts", hashtag],
+    queryFn: ({ pageParam, queryKey }) => {
+      return fetchData(
+        {
+          url: URL + "post/getPostByHashtag",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [{ page: pageParam, pageSize: 5, hashTags: [queryKey[1]] }] }
+      );
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? null : allPages.length + 1;
+    },
+    enabled: hashtag !== "",
+  });
+};
 
 const useGetTrendingPosts = (tabView) => {
   return useInfiniteQuery({
     queryKey: ["trending"],
-    queryFn: ({pageParam}) => {
-      return fetchData({
-        url: URL + "post/getTrendingPost",
-        method: "POST",
-        isAuthRequired: true,
-      },
-        { data: [{ page: pageParam, pageSize: 5, hashTags:"" }] }
+    queryFn: ({ pageParam }) => {
+      return fetchData(
+        {
+          url: URL + "post/getTrendingPost",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [{ page: pageParam, pageSize: PAGE_SIZE, hashTags: "" }] }
       );
     },
-    initialPageParam:1,
+    initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 0 ? null : allPages.length + 1
+      return lastPage.length === 0 ? null : allPages.length + 1;
     },
     enabled: tabView === "trending" || tabView === "forYou",
   });
@@ -53,48 +65,69 @@ const useGetSkipTrendingPosts = () => {
 };
 
 const useGetPagePost = (tabView) => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["pagePost"],
-    queryFn: () =>
-      fetchData({
-        url: URL + "post/getPagePost",
-        isAuthRequired: true,
-        method: "POST"
-      },
-        { data: [{ page: 1, pageSize: 10, hashTags:"" }] }),
-
+    queryFn: ({ pageParam }) => {
+      return fetchData(
+        {
+          url: URL + "post/getPagePost",
+          isAuthRequired: true,
+          method: "POST",
+        },
+        { data: [{ page: pageParam, pageSize: PAGE_SIZE, hashTags: "" }] }
+      );
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? null : allPages.length + 1;
+    },
     enabled: tabView === "pages",
   });
 };
 
 const useGetNewsPosts = (tabView) => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["news"],
-    queryFn: () => {
-      return fetchData({
-        url: URL + "post/getAllNews",
-        isAuthRequired: true,
-        method: "POST",
-      }, {
-        data: [{ page: 1, pageSize: 10 , hashTags:""}]
-      });
+    queryFn: ({ pageParam }) => {
+      return fetchData(
+        {
+          url: URL + "post/getAllNews",
+          isAuthRequired: true,
+          method: "POST",
+        },
+        {
+          data: [{ page: pageParam, pageSize: PAGE_SIZE, hashTags: "" }],
+        }
+      );
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? null : allPages.length + 1;
     },
     enabled: tabView === "news",
   });
 };
 
 const useGetFriendsPost = (tabView, payload, onSuccess) => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["friend"],
-    queryFn: () =>
+    queryFn: ({ pageParam }) =>
       fetchData(
         {
           url: URL + "post/getFriendsPost",
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [{ ...payload, page: 1, pageSize: 10, hashTags:"" }] }
+        {
+          data: [
+            { ...payload, page: pageParam, pageSize: PAGE_SIZE, hashTags: "" },
+          ],
+        }
       ),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? null : allPages.length + 1;
+    },
     onSuccess: (data) => {
       onSuccess(data);
     },
@@ -106,17 +139,25 @@ const useGetFriendsPost = (tabView, payload, onSuccess) => {
 };
 
 const useGetForYouPost = (tabView, payload, onSuccess) => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["forYou"],
-    queryFn: () =>
+    queryFn: ({ pageParam }) =>
       fetchData(
         {
           url: URL + "post/getForYouPost",
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [{ ...payload, page: 1, pageSize: 10 , hashTags:""}] }
+        {
+          data: [
+            { ...payload, page: pageParam, pageSize: PAGE_SIZE, hashTags: "" },
+          ],
+        }
       ),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? null : allPages.length + 1;
+    },
     onSuccess: (data) => {
       onSuccess(data);
     },
@@ -307,4 +348,5 @@ export {
   useGetMyPagePost,
   usePostUnfollow,
   useGetSkipTrendingPosts,
+  useGetHashTagPosts,
 };
