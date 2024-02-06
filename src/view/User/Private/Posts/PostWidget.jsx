@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
 import { updateHashtag } from "../../../../redux/slices/post";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
+import Slider from "react-slick";
 
 const PostWidget = ({ postData }) => {
   const dispatch = useDispatch()
@@ -36,7 +37,7 @@ const PostWidget = ({ postData }) => {
   const [postId, setPostId] = useState("");
   const [report, setReport] = useState(false);
   const [reportText, setReportText] = useState("");
-  const [selected, setSelected] = useState(0); //0 for none, -id for edit, id for reply
+  const [selected, setSelected] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const { data: postComment, isLoading: postCommentLoading } =
     useGetPostComment(postId);
@@ -54,6 +55,49 @@ const PostWidget = ({ postData }) => {
   useEffect(() => {
     setIsLiked(postData?.likedBy.includes(userId));
   }, [userId]);
+
+  function SampleArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "block",
+          background: "#f3cf00",
+          borderRadius: "3rem",
+        }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  const settings = {
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+        },
+      },
+    ],
+    nextArrow: <SampleArrow />,
+    prevArrow: <SampleArrow />,
+  };
 
   function addIdsToComments(data, parentId = null) {
     let count = 1;
@@ -128,7 +172,7 @@ const PostWidget = ({ postData }) => {
           </span>
         ))}
       </Typography>
-      {postData.files && postData.files.length > 0 && (
+      {postData.files && postData.files.length === 1 && (
         <img
           width="100%"
           height="auto"
@@ -137,6 +181,18 @@ const PostWidget = ({ postData }) => {
           src={postData.files[0]}
         />
       )}
+      {postData.files && postData.files.length > 1 && 
+      <Slider {...settings}>
+        {postData.files && postData.files.map(item => {
+          return <img
+          width="100%"
+          height="auto"
+          alt="post"
+          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
+          src={item}
+        />
+        })}
+        </Slider>}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
@@ -153,7 +209,6 @@ const PostWidget = ({ postData }) => {
                 : `${postData?.likes} likes`}
             </Typography>
           </FlexBetween>
-
           <FlexBetween gap="0.3rem">
             <Box
               onClick={() => {

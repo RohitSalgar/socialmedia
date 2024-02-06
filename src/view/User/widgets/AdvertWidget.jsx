@@ -2,8 +2,6 @@ import React from 'react';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { Avatar, Box, useTheme } from '@mui/material';
 import FlexBetween from '../../../components/FlexBetween';
 import WidgetWrapper from '../../../components/WidgetWrapper';
