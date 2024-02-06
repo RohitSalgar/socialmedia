@@ -1,8 +1,8 @@
-import { URL } from "../config";
+import { PAGE_SIZE, URL } from "../config";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { fetchData } from "../helper";
-
+import { useInfiniteQuery } from "@tanstack/react-query";
 const Askqa = async (data) => {
   let response = await fetch(URL + "qa/askQuestion", {
     method: "POST",
@@ -27,13 +27,20 @@ const useInsertquestion = (onSuccessFunctions) => {
 };
 
 const useGetAllQa = (tabView) => {
-  return useQuery({
+  return useInfiniteQuery({
       queryKey: ["qa"],
-      queryFn: () => {
+      queryFn: ({pageParam}) => {
           return fetchData({
               url: URL + "qa/getAllQa",
               isAuthRequired: true,
+              method: "POST"
+          }, {
+            data: [{ page: pageParam, pageSize:PAGE_SIZE , hashTags:""}]
           });
+      },
+      initialPageParam:1,
+      getNextPageParam: (lastPage, allPages) => {
+        return lastPage.length === 0 ? null : allPages.length + 1
       },
       enabled: tabView === "qa",
   });
