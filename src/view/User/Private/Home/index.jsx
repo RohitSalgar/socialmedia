@@ -144,64 +144,72 @@ const HomePage = () => {
 
   useEffect(() => {
     if (inView) {
-      if (
-        tabView === "trending" &&
-        hashtag === "" &&
-        !trendingPost?.pageParams.includes(
-          Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        fetchNextPage();
-      } else if (
-        tabView === "forYou" &&
-        hashtag === "" &&
-        !forYouData?.pageParams.includes(
-          Math.ceil(forYouData?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        forYouFetchNextPage();
-      } else if (
-        tabView === "friend" &&
-        hashtag === "" &&
-        !friendPostData?.pageParams.includes(
-          Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        friendFetchNextPage();
-      } else if (
-        tabView === "news" &&
-        hashtag === "" &&
-        !newsPostData?.pageParams.includes(
-          Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        newsFetchNextPage();
-      } else if (
-        tabView === "pages" &&
-        hashtag === "" &&
-        !pagePostData?.pageParams.includes(
-          Math.ceil(pagePostData?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        pagePostFetchNextPage();
-      } else if (
-        tabView === "qa" &&
-        hashtag === "" &&
-        !allQaData?.pageParams.includes(
-          Math.ceil(allQaData?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        qaDataFetchNextPage();
-      } else if (
-        hashtag !== "" &&
-        !hashTagPostData?.pageParams.includes(
-          Math.ceil(hashTagPostData?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        hashTagDataFetchNextPage();
+      switch (tabView) {
+        case "trending":
+          if (
+            hashtag === "" &&
+            !trendingPost?.pageParams.includes(
+              Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            fetchNextPage();
+          }
+          break;
+        case "forYou":
+          if (
+            hashtag === "" &&
+            !forYouData?.pageParams.includes(
+              Math.ceil(forYouData?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            forYouFetchNextPage();
+          }
+          break;
+        case "friend":
+          if (
+            hashtag === "" &&
+            !friendPostData?.pageParams.includes(
+              Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            friendFetchNextPage();
+          }
+          break;
+        case "news":
+          if (
+            hashtag === "" &&
+            !newsPostData?.pageParams.includes(
+              Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            newsFetchNextPage();
+          }
+          break;
+        case "pages":
+          if (
+            hashtag === "" &&
+            !pagePostData?.pageParams.includes(
+              Math.ceil(pagePostData?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            pagePostFetchNextPage();
+          }
+          break;
+        case "qa":
+          if (
+            hashtag === "" &&
+            !allQaData?.pageParams.includes(
+              Math.ceil(allQaData?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            qaDataFetchNextPage();
+          }
+          break;
+        default:
+          break;
       }
     }
-  }, [inView]);
+  }, [inView, tabView]);
 
   if (isLoading || frdRequestLoading || topPagesLoading) {
     return <Loader />;

@@ -1,6 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient,useInfiniteQuery } from "@tanstack/react-query";
 import { fetchData } from "../helper";
-import { URL } from "../config";
+import { PAGE_SIZE, URL } from "../config";
 import { toast } from "react-toastify";
 
 const useAddSchedule = () => {
@@ -191,14 +191,20 @@ const useGetAllMyCommentAndReply = (id) => {
 };
 
 const useGetAllSchedules = () => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["allschedules"],
-    queryFn: () => {
+    queryFn: ({pageParam}) => {
       return fetchData({
         url: URL + "schedule/getAllSchedule",
-        method: "GET",
+        method: "POST",
         isAuthRequired: true,
+      },{
+        data: [{ page: pageParam, pageSize:PAGE_SIZE , hashTags:""}]
       });
+    },
+    initialPageParam:1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? null : allPages.length + 1
     },
   });
 };
