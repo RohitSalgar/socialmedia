@@ -14,12 +14,12 @@ import { useGetChatById } from "../../../hooks/chat";
 import Loader from "../../Loader/Loader";
 import { useSocket } from "../../../hooks/socket";
 
-const ChatPage = ({ data }) => {
+const ChatPage = ({ data, liveUser }) => {
   const dispatch = useDispatch();
   const socket = useSocket();
   const messagesDivRef = useRef(null);
   const { singleConnectionId } = useSelector((state) => state.chat);
-  const [liveUser, setLiveUser] = useState(null);
+
   const [chatMessage, setChatMessage] = useState([]);
   const [sendMessage, setSendMessage] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -54,11 +54,6 @@ const ChatPage = ({ data }) => {
   }, [socket]);
 
   const emitMessageOnce = () => {
-    socket?.emit("users", filteredData[0]._id, userId);
-    socket?.on("getUsers", (users) => {
-      setLiveUser(users);
-    });
-
     if (messageEmitted === false) {
       socket?.on("getMessage", (data) => {
         const newChat = {
