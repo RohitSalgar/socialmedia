@@ -18,6 +18,7 @@ import TextField from "@mui/material/TextField";
 import { useSelector } from "react-redux";
 import { useInsertquestion } from "../../../../hooks/qa";
 import { toast } from "react-toastify";
+import { openFileNewWindow } from "../../../../helper";
 
 const Myqa = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -81,6 +82,17 @@ const Myqa = () => {
     setfiles("");
   };
 
+  const onImageClick = () => {
+    if (files) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const imageData = event.target.result;
+        openFileNewWindow(imageData);
+      };
+      reader.readAsDataURL(files);
+    }
+  };
+
   return (
     <WidgetWrapper>
       <FlexBetween flexDirection={"column"}>
@@ -120,26 +132,27 @@ const Myqa = () => {
                   sx={{ "&:hover": { cursor: "pointer" } }}
                 >
                   <input {...getInputProps()} />
-                  {!files ? (
+                  {!files && (
                     <IconButton onClick={() => setfiles(null)}>
                       <MdAddPhotoAlternate
                         size={25}
                         style={{ color: mediumMain }}
                       />
                     </IconButton>
-                  ) : (
+                  )}
+                </Box>
+                {files && (
+                  <>
                     <FlexBetween>
-                      <Typography>{files && files.name}</Typography>
+                      <Typography onClick={onImageClick}>{files && files.name}</Typography>
                       <IconButton onClick={() => setfiles(null)}>
                         <EditOutlined style={{ color: mediumMain }} />
                       </IconButton>
                     </FlexBetween>
-                  )}
-                </Box>
-                {files && (
                   <IconButton onClick={() => setfiles(null)}>
                     <DeleteOutlined />
                   </IconButton>
+                  </>
                 )}
               </FlexBetween>
             )}

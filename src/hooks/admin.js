@@ -87,6 +87,29 @@ const useDeletePost = (onSuccessFunctions) => {
     });
 };
 
+const useDeleteAdd = (onSuccessFunctions) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data) =>
+            fetchData(
+                {
+                    url: URL + "advertisement/deleteAdvertisement",
+                    method: "POST",
+                    isAuthRequired: true,
+                },
+                { data: [data] }
+            ),
+        onSuccess: (data) => {
+            onSuccessFunctions()
+            toast.success(data)
+            queryClient.invalidateQueries({ queryKey: ["allAd"] });
+        },
+        onError: (error) => {
+            toast.error(error.message.split(":")[1]);
+        },
+    });
+};
+
 const useVerifyPage = () => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -148,4 +171,4 @@ const useInsertAdvertisement = (onSuccessFunctions) => {
   };
 
 
-export { useDeletePost, useGetReportedPosts, useGetAllUsers, useGetAllSchedules, useGetAllUnverifiedPages, useVerifyPage,useGetAllAdvertisements, useInsertAdvertisement };
+export { useDeletePost, useGetReportedPosts, useGetAllUsers, useGetAllSchedules, useGetAllUnverifiedPages, useVerifyPage,useGetAllAdvertisements, useInsertAdvertisement,useDeleteAdd };

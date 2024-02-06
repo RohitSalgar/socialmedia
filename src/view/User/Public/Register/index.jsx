@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import Loader from "../../../../components/Loader/Loader";
 import { URL } from "../../../../config";
-import { fetchData } from "../../../../helper";
+import { fetchData,openFileNewWindow } from "../../../../helper";
 import moment from "moment";
 import { useTheme } from "@emotion/react";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -196,9 +196,27 @@ export default function RegisterPage() {
     setFiles(e.target.files[0]);
   };
 
+  const onImageClick = () => {
+    if (files) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const imageData = event.target.result;
+        openFileNewWindow(imageData);
+      };
+      reader.readAsDataURL(files);
+    }
+  };
+  
+  console.log(files, "files");
+
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid className="maindiv" container component="main" sx={{ height: "100vh"}}>
+      <Grid
+        className="maindiv"
+        container
+        component="main"
+        sx={{ height: "100vh" }}
+      >
         <CssBaseline />
         <div
           style={{
@@ -435,11 +453,13 @@ export default function RegisterPage() {
                           }}
                           fullWidth
                           className={errors.dob && styles.errormsg}
-                          slotProps={{
-                            // textField: {
-                            //   // readOnly: true,
-                            // },
-                          }}
+                          slotProps={
+                            {
+                              // textField: {
+                              //   // readOnly: true,
+                              // },
+                            }
+                          }
                           id="dob"
                           views={["year", "month", "day"]}
                           format="DD-MM-YYYY"
@@ -534,9 +554,7 @@ export default function RegisterPage() {
                             fontSize: "14px",
                             color: "red",
                           }}
-                          title={
-                            "Re-enter Password."
-                          }
+                          title={"Re-enter Password."}
                         >
                           <InfoIcon />
                         </Tooltip>
@@ -584,7 +602,7 @@ export default function RegisterPage() {
                 </div>
                 {files ? (
                   <div className={styles.imageContainer}>
-                    <p>{files.name}</p>
+                    <p onClick={onImageClick}>{files.name}</p>
                     <DeleteIcon
                       onClick={() => setFiles(null)}
                       className={styles.deleteIcon}

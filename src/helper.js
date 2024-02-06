@@ -42,10 +42,10 @@ const openFileNewWindow = async (fileData) => {
 	if (userAgent.includes("Windows")) {
 		const win = window.open();
 		win.document.write(
-			'<iframe src="' +
+			'<div style="display: flex; justify-content: center; align-items: center; height: 100vh;"><img src="' +
 			blobUrl +
-			'" frameborder="0" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" allowfullscreen></iframe>'
-		);
+			'" style="max-width: 100%; max-height: 100%;"></div>'
+				);
 	} else {
 		window.open(
 			blobUrl,
@@ -97,103 +97,103 @@ const keyMatchLoop = (key, data, value, isString = true) => {
 	})
  */
 
-// const fileReaderFunction = async ({
-// 	fileEvent,
-// 	fileType,
-// 	fileSize,
-// 	errorMessage,
-// 	fileRead = "readAsArrayBuffer",
-// 	noLimit = false,
-// }) => {
-// 	let fileDataArray;
-// 	const file = fileEvent.target.files;
-// 	const fileLength = fileEvent.target.files.length;
-// 	if (!fileType || (!fileSize && noLimit === false) || !errorMessage) {
-// 		throw new Error("Some arguments are missing");
-// 	} else if (typeof fileType !== "string") {
-// 		throw new Error("fileType should be a String");
-// 	} else if (typeof fileSize !== "number" && noLimit === false) {
-// 		throw new Error("fileSize should be a Number");
-// 	} else if (typeof errorMessage !== "object") {
-// 		throw new Error("errorMessage should be an Object");
-// 	} else if (
-// 		!errorMessage.NoFileError ||
-// 		!errorMessage.fileTypeErr ||
-// 		!errorMessage.fileSizeErr
-// 	) {
-// 		throw new Error("Some Keys of errorMessage Object is missing");
-// 	} else if (!file) {
-// 		throw new Error(errorMessage.NoFileError);
-// 	}
+const fileReaderFunction = async ({
+	fileEvent,
+	fileType,
+	fileSize,
+	errorMessage,
+	fileRead = "readAsArrayBuffer",
+	noLimit = false,
+}) => {
+	let fileDataArray;
+	const file = fileEvent.target.files;
+	const fileLength = fileEvent.target.files.length;
+	if (!fileType || (!fileSize && noLimit === false) || !errorMessage) {
+		throw new Error("Some arguments are missing");
+	} else if (typeof fileType !== "string") {
+		throw new Error("fileType should be a String");
+	} else if (typeof fileSize !== "number" && noLimit === false) {
+		throw new Error("fileSize should be a Number");
+	} else if (typeof errorMessage !== "object") {
+		throw new Error("errorMessage should be an Object");
+	} else if (
+		!errorMessage.NoFileError ||
+		!errorMessage.fileTypeErr ||
+		!errorMessage.fileSizeErr
+	) {
+		throw new Error("Some Keys of errorMessage Object is missing");
+	} else if (!file) {
+		throw new Error(errorMessage.NoFileError);
+	}
 
-// 	function readFile(file) {
-// 		const fileObject = {};
-// 		const reader = new FileReader();
-// 		if (!file.type.includes(fileType)) {
-// 			throw new Error(errorMessage.fileTypeErr);
-// 		} else if (file.size > fileSize && noLimit === false) {
-// 			throw new Error(errorMessage.fileSizeErr);
-// 		}
-// 		const promiseFileFunction = new Promise((_resolve) => {
-// 			reader.onload = async () => {
-// 				const existingPdfBytes = new Uint8Array(reader.result);
-// 				// Creating new empty pdf
-// 				const pdfDoc = await PDFDocument.create();
-// 				// Copy all pages from the existing PDF to the new PDF
-// 				const existingPdf = await PDFDocument.load(existingPdfBytes);
-// 				const pages = await pdfDoc.copyPages(
-// 					existingPdf,
-// 					existingPdf.getPageIndices()
-// 				);
-// 				pages.forEach((page) => {
-// 					pdfDoc.addPage(page);
-// 				});
+	function readFile(file) {
+		const fileObject = {};
+		const reader = new FileReader();
+		if (!file.type.includes(fileType)) {
+			throw new Error(errorMessage.fileTypeErr);
+		} else if (file.size > fileSize && noLimit === false) {
+			throw new Error(errorMessage.fileSizeErr);
+		}
+		const promiseFileFunction = new Promise((_resolve) => {
+			reader.onload = async () => {
+				const existingPdfBytes = new Uint8Array(reader.result);
+				// Creating new empty pdf
+				const pdfDoc = await PDFDocument.create();
+				// Copy all pages from the existing PDF to the new PDF
+				const existingPdf = await PDFDocument.load(existingPdfBytes);
+				const pages = await pdfDoc.copyPages(
+					existingPdf,
+					existingPdf.getPageIndices()
+				);
+				pages.forEach((page) => {
+					pdfDoc.addPage(page);
+				});
 
-// 				// Remove metadata properties from the new PDF
-// 				pdfDoc.setTitle("");
-// 				pdfDoc.setAuthor("");
-// 				pdfDoc.setSubject("");
-// 				pdfDoc.setKeywords([]);
-// 				pdfDoc.setProducer("");
-// 				pdfDoc.setCreator("");
+				// Remove metadata properties from the new PDF
+				pdfDoc.setTitle("");
+				pdfDoc.setAuthor("");
+				pdfDoc.setSubject("");
+				pdfDoc.setKeywords([]);
+				pdfDoc.setProducer("");
+				pdfDoc.setCreator("");
 
-// 				const base64String = await pdfDoc.saveAsBase64({
-// 					dataUri: true,
-// 				});
-// 				fileObject.fileData = base64String;
-// 				fileObject.fileName = file.name;
-// 				fileObject.fileSize = file.size;
-// 				fileObject.fileType = file.type;
-// 				_resolve(fileObject);
-// 			};
-// 			reader.readAsArrayBuffer(file);
-// 		});
-// 		return promiseFileFunction;
-// 	}
+				const base64String = await pdfDoc.saveAsBase64({
+					dataUri: true,
+				});
+				fileObject.fileData = base64String;
+				fileObject.fileName = file.name;
+				fileObject.fileSize = file.size;
+				fileObject.fileType = file.type;
+				_resolve(fileObject);
+			};
+			reader.readAsArrayBuffer(file);
+		});
+		return promiseFileFunction;
+	}
 
-// 	// eslint-disable-next-line no-useless-catch
-// 	try {
-// 		fileDataArray = Array.from(file).map((singleFile) =>
-// 			readFile(singleFile, fileRead)
-// 		);
-// 	} catch (error) {
-// 		throw error;
-// 	}
+	// eslint-disable-next-line no-useless-catch
+	try {
+		fileDataArray = Array.from(file).map((singleFile) =>
+			readFile(singleFile, fileRead)
+		);
+	} catch (error) {
+		throw error;
+	}
 
-// 	const returnData = await Promise.all(fileDataArray);
+	const returnData = await Promise.all(fileDataArray);
 
-// 	if (fileLength === 1) {
-// 		return returnData[0];
-// 	} else {
-// 		let size = returnData
-// 			.map((file) => file.fileSize)
-// 			.reduce((prev, curr) => prev + curr, 0);
-// 		if (size > fileSize && noLimit === false) {
-// 			throw new Error(errorMessage.fileSizeErr);
-// 		}
-// 		return returnData;
-// 	}
-// };
+	if (fileLength === 1) {
+		return returnData[0];
+	} else {
+		let size = returnData
+			.map((file) => file.fileSize)
+			.reduce((prev, curr) => prev + curr, 0);
+		if (size > fileSize && noLimit === false) {
+			throw new Error(errorMessage.fileSizeErr);
+		}
+		return returnData;
+	}
+};
 
 /**
  * Function for fetching Data
@@ -656,7 +656,7 @@ export {
 	removeSpacesInString,
 	openFileNewWindow,
 	keyMatchLoop,
-	// fileReaderFunction,
+	fileReaderFunction,
 	fetchData,
 	trimString,
 	convertFirstLettersAsUpperCase,
