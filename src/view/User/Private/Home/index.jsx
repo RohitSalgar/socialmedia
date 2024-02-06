@@ -1,11 +1,17 @@
-import { Box, Typography, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import Navbar from "../navbar/index";
 import UserWidget from "../../widgets/UserWidget";
 import MyPostWidget from "../../Private/Posts/MyPostWidget";
 import PostWidget from "../../Private/Posts/PostWidget";
 import AdvertWidget from "../../widgets/AdvertWidget";
 import FriendListWidget from "../../widgets/FriendListWidget";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ChatLayout from "../chat/index";
 import OptionalTab from "../Tabs/Tabs";
 import Profile from "../../../../components/Profile/Profile";
@@ -39,6 +45,10 @@ import Advertisement from "../Advertisement/Advertisement";
 import { useInView } from "react-intersection-observer";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
+import FlexBetween from "../../../../components/FlexBetween";
+import CloseIcon from "@mui/icons-material/Close";
+import { removeHastag } from "../../../../redux/slices/post";
+import { setDashboardView } from "../../../../redux/slices/profileSlice";
 
 const HomePage = () => {
   const { ref, inView } = useInView();
@@ -54,6 +64,9 @@ const HomePage = () => {
   const { tabView } = useSelector((state) => state.profile);
   const { adStatus } = useSelector((state) => state.advert);
   const { sideView } = useSelector((state) => state.profile);
+
+  const dispatch = useDispatch();
+
   const {
     data: trendingPost,
     refetch: trendingPostPostRefetch,
@@ -79,7 +92,7 @@ const HomePage = () => {
     isFetchingNextPage: hashTagDataFetchingNextPage,
     fetchNextPage: hashTagDataFetchNextPage,
   } = useGetHashTagPosts(hashtag);
-  console.log(hashTagPostData, "has");
+
   const {
     data: newsPostData,
     refetch: newsPostDataRefetch,
@@ -201,6 +214,12 @@ const HomePage = () => {
   if (isLoading || frdRequestLoading || topPagesLoading) {
     return <Loader />;
   }
+
+  const handleClose = () => {
+    dispatch(removeHastag());
+    dispatch(setDashboardView(dashboardView));
+  };
+
   return (
     <Box>
       <Navbar />
@@ -216,11 +235,18 @@ const HomePage = () => {
             <UserWidget />
           </Box>
           <Box width="50%">
-            {console.log(hashTagPostData)}
             {hashtag !== "" && hashTagPostData?.pages ? (
               <>
                 <WidgetWrapper>
-                  <Typography>hi</Typography>
+                  <FlexBetween>
+                    <Typography sx={{ fontWeight: "500" }}>
+                      {"#"}
+                      {hashtag}
+                    </Typography>
+                    <IconButton onClick={() => handleClose()}>
+                      <CloseIcon />
+                    </IconButton>
+                  </FlexBetween>
                 </WidgetWrapper>
                 <Box>
                   {hashTagPostData?.pages.length > 0 ? (
