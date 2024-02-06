@@ -74,9 +74,12 @@ const HomePage = () => {
     fetchNextPage: friendFetchNextPage,
     hasNextPage: friendHasNextPage,
   } = useGetFriendsPost(tabView, { userId });
-  const { data: hashTagPostData, isFetchingNextPage: hashTagDataFetchingNextPage, fetchNextPage: hashTagDataFetchNextPage } =
-    useGetHashTagPosts(hashtag);
-  console.log(hashTagPostData, "has")
+  const {
+    data: hashTagPostData,
+    isFetchingNextPage: hashTagDataFetchingNextPage,
+    fetchNextPage: hashTagDataFetchNextPage,
+  } = useGetHashTagPosts(hashtag);
+  console.log(hashTagPostData, "has");
   const {
     data: newsPostData,
     refetch: newsPostDataRefetch,
@@ -128,62 +131,72 @@ const HomePage = () => {
 
   useEffect(() => {
     if (inView) {
-      if (
-        tabView === "trending" &&
-        hashtag === "" &&
-        !trendingPost?.pageParams.includes(
-          Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        fetchNextPage();
-      } else if (
-        tabView === "forYou" &&
-        hashtag === "" &&
-        !forYouData?.pageParams.includes(
-          Math.ceil(forYouData?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        forYouFetchNextPage();
-      } else if (
-        tabView === "friend" &&
-        hashtag === "" &&
-        !friendPostData?.pageParams.includes(
-          Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        friendFetchNextPage();
-      } else if (
-        tabView === "news" &&
-        hashtag === "" &&
-        !newsPostData?.pageParams.includes(
-          Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        newsFetchNextPage();
-      } else if (
-        tabView === "pages" &&
-        hashtag === "" &&
-        !pagePostData?.pageParams.includes(
-          Math.ceil(pagePostData?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        pagePostFetchNextPage();
-      } else if (
-        tabView === "qa" &&
-        hashtag === "" &&
-        !allQaData?.pageParams.includes(
-          Math.ceil(allQaData?.pages[0]?.totalCount / 5)
-        )
-      ) {
-        qaDataFetchNextPage();
-      } else if (hashtag !== "" &&
-        !hashTagPostData?.pageParams.includes(
-          Math.ceil(hashTagPostData?.pages[0]?.totalCount / 5)
-        )) {
-        hashTagDataFetchNextPage()
+      switch (tabView) {
+        case "trending":
+          if (
+            hashtag === "" &&
+            !trendingPost?.pageParams.includes(
+              Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            fetchNextPage();
+          }
+          break;
+        case "forYou":
+          if (
+            hashtag === "" &&
+            !forYouData?.pageParams.includes(
+              Math.ceil(forYouData?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            forYouFetchNextPage();
+          }
+          break;
+        case "friend":
+          if (
+            hashtag === "" &&
+            !friendPostData?.pageParams.includes(
+              Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            friendFetchNextPage();
+          }
+          break;
+        case "news":
+          if (
+            hashtag === "" &&
+            !newsPostData?.pageParams.includes(
+              Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            newsFetchNextPage();
+          }
+          break;
+        case "pages":
+          if (
+            hashtag === "" &&
+            !pagePostData?.pageParams.includes(
+              Math.ceil(pagePostData?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            pagePostFetchNextPage();
+          }
+          break;
+        case "qa":
+          if (
+            hashtag === "" &&
+            !allQaData?.pageParams.includes(
+              Math.ceil(allQaData?.pages[0]?.totalCount / 5)
+            )
+          ) {
+            qaDataFetchNextPage();
+          }
+          break;
+        default:
+          break;
       }
     }
-  }, [inView]);
+  }, [inView, tabView]);
 
   if (isLoading || frdRequestLoading || topPagesLoading) {
     return <Loader />;
@@ -206,7 +219,7 @@ const HomePage = () => {
             {console.log(hashTagPostData)}
             {hashtag !== "" && hashTagPostData?.pages ? (
               <>
-                <WidgetWrapper >
+                <WidgetWrapper>
                   <Typography>hi</Typography>
                 </WidgetWrapper>
                 <Box>
@@ -236,124 +249,125 @@ const HomePage = () => {
                 </Box>
               </>
             ) : null}
-            {(dashboardView === "home" || dashboardView === "news") && hashtag === "" && (
-              <>
-                <MyPostWidget />
-                {dashboardView === "home" && (
-                  <Box fullWidth width="100%">
-                    <OptionalTab />
+            {(dashboardView === "home" || dashboardView === "news") &&
+              hashtag === "" && (
+                <>
+                  <MyPostWidget />
+                  {dashboardView === "home" && (
+                    <Box fullWidth width="100%">
+                      <OptionalTab />
+                    </Box>
+                  )}
+                  <Box>
+                    {tabView === "trending" && trendingPost?.pages ? (
+                      trendingPost?.pages?.length > 0 ? (
+                        <Box>
+                          {trendingPost.pages.map(({ data }) => {
+                            return data.map((data) => (
+                              <PostWidget key={data._id} postData={data} />
+                            ));
+                          })}
+                          {!trendingPost?.pageParams.includes(
+                            Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
+                          ) && <PostSkeleton />}
+                          <div
+                            ref={ref}
+                            style={{ height: "10px" }}
+                            onClick={() => fetchNextPage()}
+                          >
+                            {isFetchingNextPage && <PostSkeleton />}
+                          </div>
+                        </Box>
+                      ) : (
+                        <div style={{ marginTop: "10px" }}>
+                          <LookingEmpty
+                            description={
+                              "Seems No Post. Be The First Person To POST..!"
+                            }
+                          />
+                        </div>
+                      )
+                    ) : null}
+                    {tabView === "forYou" && forYouData?.pages ? (
+                      forYouData?.pages?.length > 0 ? (
+                        <Box>
+                          {forYouData.pages.map(({ data }) => {
+                            return data.map((data) => (
+                              <PostWidget key={data._id} postData={data} />
+                            ));
+                          })}
+                          {!forYouData?.pageParams.includes(
+                            Math.ceil(forYouData?.pages[0]?.totalCount / 5)
+                          ) && <PostSkeleton />}
+                          <div
+                            ref={ref}
+                            style={{ height: "10px" }}
+                            onClick={() => forYouFetchNextPage()}
+                          >
+                            {forYouFetchingNextPage && <PostSkeleton />}
+                          </div>
+                        </Box>
+                      ) : (
+                        <div style={{ marginTop: "10px" }}>
+                          <LookingEmpty />
+                        </div>
+                      )
+                    ) : null}
+
+                    {tabView === "friend" && friendPostData?.pages ? (
+                      friendPostData?.pages?.length > 0 ? (
+                        <Box>
+                          {friendPostData.pages.map(({ data }) => {
+                            return data.map((data) => (
+                              <PostWidget key={data._id} postData={data} />
+                            ));
+                          })}
+                          {!friendPostData?.pageParams.includes(
+                            Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
+                          ) && <PostSkeleton />}
+                          <div
+                            ref={ref}
+                            style={{ height: "10px" }}
+                            onClick={() => friendFetchNextPage()}
+                          >
+                            {friendFetchingNextPage && <PostSkeleton />}
+                          </div>
+                        </Box>
+                      ) : (
+                        <div style={{ marginTop: "10px" }}>
+                          <LookingEmpty />
+                        </div>
+                      )
+                    ) : null}
+
+                    {tabView === "news" && newsPostData?.pages ? (
+                      newsPostData?.pages?.length > 0 ? (
+                        <Box>
+                          {newsPostData.pages.map(({ data }) => {
+                            return data.map((data) => (
+                              <PostWidget key={data._id} postData={data} />
+                            ));
+                          })}
+                          {!newsPostData?.pageParams.includes(
+                            Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
+                          ) && <PostSkeleton />}
+                          <div
+                            ref={ref}
+                            style={{ height: "10px" }}
+                            onClick={() => newsFetchNextPage()}
+                          >
+                            {newsFetchingNextPage && <PostSkeleton />}
+                          </div>
+                        </Box>
+                      ) : (
+                        <div style={{ marginTop: "10px" }}>
+                          <LookingEmpty />
+                        </div>
+                      )
+                    ) : null}
                   </Box>
-                )}
-                <Box>
-                  {tabView === "trending" && trendingPost?.pages ? (
-                    trendingPost?.pages?.length > 0 ? (
-                      <Box>
-                        {trendingPost.pages.map(({ data }) => {
-                          return data.map((data) => (
-                            <PostWidget key={data._id} postData={data} />
-                          ));
-                        })}
-                        {!trendingPost?.pageParams.includes(
-                          Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
-                        ) && <PostSkeleton />}
-                        <div
-                          ref={ref}
-                          style={{ height: "10px" }}
-                          onClick={() => fetchNextPage()}
-                        >
-                          {isFetchingNextPage && <PostSkeleton />}
-                        </div>
-                      </Box>
-                    ) : (
-                      <div style={{ marginTop: "10px" }}>
-                        <LookingEmpty
-                          description={
-                            "Seems No Post. Be The First Person To POST..!"
-                          }
-                        />
-                      </div>
-                    )
-                  ) : null}
-                  {tabView === "forYou" && forYouData?.pages ? (
-                    forYouData?.pages?.length > 0 ? (
-                      <Box>
-                        {forYouData.pages.map(({ data }) => {
-                          return data.map((data) => (
-                            <PostWidget key={data._id} postData={data} />
-                          ));
-                        })}
-                        {!forYouData?.pageParams.includes(
-                          Math.ceil(forYouData?.pages[0]?.totalCount / 5)
-                        ) && <PostSkeleton />}
-                        <div
-                          ref={ref}
-                          style={{ height: "10px" }}
-                          onClick={() => forYouFetchNextPage()}
-                        >
-                          {forYouFetchingNextPage && <PostSkeleton />}
-                        </div>
-                      </Box>
-                    ) : (
-                      <div style={{ marginTop: "10px" }}>
-                        <LookingEmpty />
-                      </div>
-                    )
-                  ) : null}
-
-                  {tabView === "friend" && friendPostData?.pages ? (
-                    friendPostData?.pages?.length > 0 ? (
-                      <Box>
-                        {friendPostData.pages.map(({ data }) => {
-                          return data.map((data) => (
-                            <PostWidget key={data._id} postData={data} />
-                          ));
-                        })}
-                        {!friendPostData?.pageParams.includes(
-                          Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
-                        ) && <PostSkeleton />}
-                        <div
-                          ref={ref}
-                          style={{ height: "10px" }}
-                          onClick={() => friendFetchNextPage()}
-                        >
-                          {friendFetchingNextPage && <PostSkeleton />}
-                        </div>
-                      </Box>
-                    ) : (
-                      <div style={{ marginTop: "10px" }}>
-                        <LookingEmpty />
-                      </div>
-                    )
-                  ) : null}
-
-                  {tabView === "news" && newsPostData?.pages ? (
-                    newsPostData?.pages?.length > 0 ? (
-                      <Box>
-                        {newsPostData.pages.map(({ data }) => {
-                          return data.map((data) => (
-                            <PostWidget key={data._id} postData={data} />
-                          ));
-                        })}
-                        {!newsPostData?.pageParams.includes(
-                          Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
-                        ) && <PostSkeleton />}
-                        <div
-                          ref={ref}
-                          style={{ height: "10px" }}
-                          onClick={() => newsFetchNextPage()}
-                        >
-                          {newsFetchingNextPage && <PostSkeleton />}
-                        </div>
-                      </Box>
-                    ) : (
-                      <div style={{ marginTop: "10px" }}>
-                        <LookingEmpty />
-                      </div>
-                    )
-                  ) : null}
-                </Box>
-              </>
-            )}
+                </>
+              )}
             {dashboardView === "schedule" && (
               <Box>
                 {data?.pageData?.status === 1 && <AddSchedule />}
@@ -362,7 +376,9 @@ const HomePage = () => {
             )}
             {dashboardView === "profile" && <Profile />}
             {dashboardView === "postprofile" && <PostProfile />}
-            {dashboardView === "pages" && hashtag === "" && pagePostData?.pages ? (
+            {dashboardView === "pages" &&
+            hashtag === "" &&
+            pagePostData?.pages ? (
               <>
                 {data?.pageData?.status === 1 && (
                   <>
@@ -426,7 +442,6 @@ const HomePage = () => {
                 </Box>
               </>
             ) : null}
-
           </Box>
           {isNonMobileScreens && (
             <Box width="25%">
