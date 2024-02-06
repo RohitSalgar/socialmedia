@@ -112,7 +112,7 @@ const Navbar = () => {
           )}
         </FlexBetween>
         {searchText != "" && searchData && searchData.length > 0 && (
-          <div className={classes.searchitemsContainer}>
+          <div className={classes.searchitemsContainer} style={{marginTop:"45px"}}>
             {searchData &&
               searchData.map((value) => {
                 return (

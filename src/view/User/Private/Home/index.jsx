@@ -1,4 +1,4 @@
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import Navbar from "../navbar/index";
 import UserWidget from "../../widgets/UserWidget";
 import MyPostWidget from "../../Private/Posts/MyPostWidget";
@@ -17,6 +17,7 @@ import {
 import {
   useGetForYouPost,
   useGetFriendsPost,
+  useGetHashTagPosts,
   useGetNewsPosts,
   useGetPagePost,
   useGetTrendingPosts,
@@ -37,13 +38,13 @@ import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
 import Advertisement from "../Advertisement/Advertisement";
 import { useInView } from "react-intersection-observer";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
+import WidgetWrapper from "../../../../components/WidgetWrapper";
 
 const HomePage = () => {
   const { ref, inView } = useInView();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { userId } = useSelector((state) => state.profile.profileData);
   const { hashtag } = useSelector((state) => state.post);
-  console.log(hashtag);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const { data: frdRequestData, isLoading: frdRequestLoading } =
     useGetAllFrdRequestByUserId(userId);
@@ -73,6 +74,9 @@ const HomePage = () => {
     fetchNextPage: friendFetchNextPage,
     hasNextPage: friendHasNextPage,
   } = useGetFriendsPost(tabView, { userId });
+  const { data: hashTagPostData, isFetchingNextPage: hashTagDataFetchingNextPage, fetchNextPage: hashTagDataFetchNextPage } =
+    useGetHashTagPosts(hashtag);
+  console.log(hashTagPostData, "has")
   const {
     data: newsPostData,
     refetch: newsPostDataRefetch,
@@ -126,6 +130,7 @@ const HomePage = () => {
     if (inView) {
       if (
         tabView === "trending" &&
+        hashtag === "" &&
         !trendingPost?.pageParams.includes(
           Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
         )
@@ -133,6 +138,7 @@ const HomePage = () => {
         fetchNextPage();
       } else if (
         tabView === "forYou" &&
+        hashtag === "" &&
         !forYouData?.pageParams.includes(
           Math.ceil(forYouData?.pages[0]?.totalCount / 5)
         )
@@ -140,6 +146,7 @@ const HomePage = () => {
         forYouFetchNextPage();
       } else if (
         tabView === "friend" &&
+        hashtag === "" &&
         !friendPostData?.pageParams.includes(
           Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
         )
@@ -147,6 +154,7 @@ const HomePage = () => {
         friendFetchNextPage();
       } else if (
         tabView === "news" &&
+        hashtag === "" &&
         !newsPostData?.pageParams.includes(
           Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
         )
@@ -154,6 +162,7 @@ const HomePage = () => {
         newsFetchNextPage();
       } else if (
         tabView === "pages" &&
+        hashtag === "" &&
         !pagePostData?.pageParams.includes(
           Math.ceil(pagePostData?.pages[0]?.totalCount / 5)
         )
@@ -161,11 +170,17 @@ const HomePage = () => {
         pagePostFetchNextPage();
       } else if (
         tabView === "qa" &&
+        hashtag === "" &&
         !allQaData?.pageParams.includes(
           Math.ceil(allQaData?.pages[0]?.totalCount / 5)
         )
       ) {
         qaDataFetchNextPage();
+      } else if (hashtag !== "" &&
+        !hashTagPostData?.pageParams.includes(
+          Math.ceil(hashTagPostData?.pages[0]?.totalCount / 5)
+        )) {
+        hashTagDataFetchNextPage()
       }
     }
   }, [inView]);
@@ -188,7 +203,40 @@ const HomePage = () => {
             <UserWidget />
           </Box>
           <Box width="50%">
-            {(dashboardView === "home" || dashboardView === "news") && (
+            {console.log(hashTagPostData)}
+            {hashtag !== "" && hashTagPostData?.pages ? (
+              <>
+                <WidgetWrapper >
+                  <Typography>hi</Typography>
+                </WidgetWrapper>
+                <Box>
+                  {hashTagPostData?.pages.length > 0 ? (
+                    <>
+                      {hashTagPostData.pages.map(({ data }) =>
+                        data.map((postData) => (
+                          <PostWidget key={postData._id} postData={postData} />
+                        ))
+                      )}
+                      {!hashTagPostData.pageParams.includes(
+                        Math.ceil(hashTagPostData.pages[0]?.totalCount / 5)
+                      ) && <PostSkeleton />}
+                      <div
+                        ref={ref}
+                        style={{ height: "10px" }}
+                        onClick={() => hashTagDataFetchNextPage()}
+                      >
+                        {hashTagDataFetchingNextPage && <PostSkeleton />}
+                      </div>
+                    </>
+                  ) : (
+                    <div style={{ marginTop: "10px" }}>
+                      <LookingEmpty />
+                    </div>
+                  )}
+                </Box>
+              </>
+            ) : null}
+            {(dashboardView === "home" || dashboardView === "news") && hashtag === "" && (
               <>
                 <MyPostWidget />
                 {dashboardView === "home" && (
@@ -314,7 +362,7 @@ const HomePage = () => {
             )}
             {dashboardView === "profile" && <Profile />}
             {dashboardView === "postprofile" && <PostProfile />}
-            {dashboardView === "pages" && pagePostData?.pages ? (
+            {dashboardView === "pages" && hashtag === "" && pagePostData?.pages ? (
               <>
                 {data?.pageData?.status === 1 && (
                   <>
@@ -378,6 +426,7 @@ const HomePage = () => {
                 </Box>
               </>
             ) : null}
+
           </Box>
           {isNonMobileScreens && (
             <Box width="25%">

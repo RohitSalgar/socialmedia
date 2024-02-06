@@ -5,21 +5,25 @@ import { fetchData } from "../helper";
 import { useSelector } from "react-redux";
 import { PAGE_SIZE } from "../config";
 
-// const useGetTrendingPosts = (tabView) => {
-//   return useQuery({
-//     queryKey: ["trending"],
-//     queryFn: () => {
-//       return fetchData({
-//         url: URL + "post/getTrendingPost",
-//         method: "POST",
-//         isAuthRequired: true,
-//       },
-//         { data:[{ page: 1, pageSize:PAGE_SIZE}] }
-//       );
-//     },
-//     enabled: tabView === "trending" || tabView === "forYou",
-//   });
-// };
+const useGetHashTagPosts = (hashtag) => {
+  return useInfiniteQuery({
+    queryKey: ["hashtagPosts"],
+    queryFn: ({ pageParam }) => {
+      return fetchData({
+        url: URL + "post/getPostByHashtag",
+        method: "POST",
+        isAuthRequired: true,
+      },
+        { data:[{ page: pageParam, pageSize: 5,hashTags: [hashtag]}] }
+      );
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? null : allPages.length + 1
+    },
+    enabled: hashtag !== "",
+  });
+};
 
 const useGetTrendingPosts = (tabView) => {
   return useInfiniteQuery({
@@ -326,4 +330,5 @@ export {
   useGetMyPagePost,
   usePostUnfollow,
   useGetSkipTrendingPosts,
+  useGetHashTagPosts
 };
