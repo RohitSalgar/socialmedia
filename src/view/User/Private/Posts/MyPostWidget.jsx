@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 import { useInsertPost } from "../../../../hooks/posts";
 import { useGetProfile } from "../../../../hooks/profile";
 import { toast } from "react-toastify";
+import { openFileNewWindow } from "../../../../helper";
 
 const MyPostWidget = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -57,13 +58,8 @@ const MyPostWidget = () => {
   }
 
   function acceptOnlyImages(file) {
-    const acceptedImageTypes = [
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-    ];
-    return acceptedImageTypes.includes(file.type)
-
+    const acceptedImageTypes = ["image/jpeg", "image/jpg", "image/png"];
+    return acceptedImageTypes.includes(file.type);
   }
 
   function removeTag(index) {
@@ -76,9 +72,9 @@ const MyPostWidget = () => {
       hashTagss = [...hashTagss, "news"];
     }
     if (image) {
-      const acceptFile = acceptOnlyImages(image)
+      const acceptFile = acceptOnlyImages(image);
       if (!acceptFile) {
-        return toast.error("Invalid File Format")
+        return toast.error("Invalid File Format");
       }
     }
     const formData = new FormData();
@@ -94,6 +90,17 @@ const MyPostWidget = () => {
     mutate(formData);
     setDescription("");
     setImage("");
+  };
+
+  const onImageClick = () => {
+    if (image) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const imageData = event.target.result;
+        openFileNewWindow(imageData);
+      };
+      reader.readAsDataURL(image);
+    }
   };
 
   return (
@@ -153,26 +160,28 @@ const MyPostWidget = () => {
                   sx={{ "&:hover": { cursor: "pointer" } }}
                 >
                   <input {...getInputProps()} />
-                  {!image ? (
+                  {!image && (
                     <IconButton onClick={() => setImage(null)}>
                       <MdAddPhotoAlternate
                         size={25}
                         style={{ color: mediumMain }}
                       />
                     </IconButton>
-                  ) : (
+                  )}
+                </Box>
+
+                {image && (
+                  <>
                     <FlexBetween>
-                      <Typography>{image && image.name}</Typography>
+                      <Typography onClick={onImageClick}>{image && image.name}</Typography>
                       <IconButton onClick={() => setImage(null)}>
                         <EditOutlined style={{ color: mediumMain }} />
                       </IconButton>
                     </FlexBetween>
-                  )}
-                </Box>
-                {image && (
-                  <IconButton onClick={() => setImage(null)}>
-                    <DeleteOutlined />
-                  </IconButton>
+                    <IconButton onClick={() => setImage(null)}>
+                      <DeleteOutlined />
+                    </IconButton>
+                  </>
                 )}
               </FlexBetween>
             )}

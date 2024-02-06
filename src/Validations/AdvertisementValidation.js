@@ -15,11 +15,11 @@ export const advertisementValidation = yup.object({
     .trim()
     .url()
     .required("Url Link is required"),
-  // adDate: yup
-  //   .string()
-  //   .required("Advertisement Maximum Date is required")
-  //   .transform((value) =>
-  //     value !== null ? moment(value).format("MM-DD-YYYY") : value
-  //   ),
+  adDate: yup
+    .string()
+    .required("Advertisement Maximum Date is required")
+    .transform((value) =>
+      value !== null ? moment(value).format("MM-DD-YYYY") : value
+    ),
 
 });
