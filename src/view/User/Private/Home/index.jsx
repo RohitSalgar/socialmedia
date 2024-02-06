@@ -110,7 +110,6 @@ const HomePage = () => {
                   {tabView === "trending" && trendingPost?.pages ? (
                     trendingPost?.pages?.length > 0 ? <Box>
                       {trendingPost.pages.map(({data}) => {
-                        console.log(data,"asdasd")
                        return data.map((data) => (
                           <PostWidget key={data._id} postData={data} />
                         ))

@@ -110,6 +110,7 @@ const PostWidget = ({ postData }) => {
   const handleHashtagClick = (hashtag) => {
     dispatch(updateHashtag(hashtag))
   };
+  
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
@@ -118,7 +119,6 @@ const PostWidget = ({ postData }) => {
       </Typography>
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
         {postData?.hashtags.map((hash) => (
-          // Render hashtags with a clickable span
           <span
             key={hash}
             style={{ color: primary, cursor: "pointer" }}
