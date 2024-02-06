@@ -18,7 +18,6 @@ const Advertisement = () => {
   const { data: adData, isLoading } = useGetAllAdvertisements();
   const [searchTerm, setSearchTerm] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  console.log(adData,"ad")
   const columns = [
     {
       field: "title",

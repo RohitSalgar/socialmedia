@@ -26,7 +26,6 @@ const Advertisement = ({ companyData }) => {
   if (isPending || isLoading) {
     return;
   }
-  console.log(data)
   const handleCardClick = () => {
     const url = data[0]?.link;
     if (url) {

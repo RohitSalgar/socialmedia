@@ -49,7 +49,6 @@ const CompanyPage = ({ postData }) => {
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
-console.log(postData)
   function addIdsToComments(data, parentId = null) {
     let count = 1;
     if (data != null) {

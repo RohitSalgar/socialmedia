@@ -256,7 +256,6 @@ export default function AdvertisementModal({ handleClose, data, open }) {
                 />
               </FormControl>
             </div>
-            {console.log(errors)}
             {/* <Box className={styles.loginforminputs} width="100%">
               <Box className={styles.labelDiv}>
                 <label className={styles.forminputlabel} htmlFor="adDate">

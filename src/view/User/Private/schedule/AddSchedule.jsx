@@ -139,7 +139,7 @@ const AddSchedule = () => {
               }}
             />
           </FlexBetween>
-          <Box>
+          <Box style={{display:"flex",justifyContent:"end", marginTop: "1rem"}}>
             <Button
               type="submit"
               className={styles.btns}
@@ -147,9 +147,6 @@ const AddSchedule = () => {
                 color: palette.background.alt,
                 backgroundColor: palette.primary.main,
                 borderRadius: "1rem",
-                marginTop: "1rem",
-                mr: "10px",
-                marginLeft:"75%",
               }}
             >
               Post Schedule

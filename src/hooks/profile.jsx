@@ -36,7 +36,6 @@ const useEditProfile = (onSuccessFunctions) => {
     mutationFn: (data) =>
     editProfile(data),
     onSuccess: (data) => {
-      console.log("sdfsdf")
       onSuccessFunctions(data)
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },

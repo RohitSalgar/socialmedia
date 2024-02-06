@@ -40,7 +40,6 @@ function CommentHeader({
   //   },5000)
   //   return () => clearInterval(interval)
   // },[createdAt])
-  console.log(postData, "postData");
   return (
     <>
       <Box

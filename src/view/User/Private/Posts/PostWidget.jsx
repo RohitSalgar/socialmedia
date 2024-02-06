@@ -25,10 +25,13 @@ import {
 } from "../../../../hooks/likeComment";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import { BsFillSendExclamationFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
+import { updateHashtag } from "../../../../redux/slices/post";
+import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 
 const PostWidget = ({ postData }) => {
+  const dispatch = useDispatch()
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
   const [report, setReport] = useState(false);
@@ -104,6 +107,9 @@ const PostWidget = ({ postData }) => {
     }
   };
 
+  const handleHashtagClick = (hashtag) => {
+    dispatch(updateHashtag(hashtag))
+  };
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
@@ -111,7 +117,16 @@ const PostWidget = ({ postData }) => {
         {postData?.description}
       </Typography>
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
-        {postData?.hashtags.map((hash) => `#${hash} `)}
+        {postData?.hashtags.map((hash) => (
+          // Render hashtags with a clickable span
+          <span
+            key={hash}
+            style={{ color: primary, cursor: "pointer" }}
+            onClick={() => handleHashtagClick(hash)}
+          >
+            #{hash}{" "}
+          </span>
+        ))}
       </Typography>
       {postData.files && postData.files.length > 0 && (
         <img
@@ -219,7 +234,7 @@ const PostWidget = ({ postData }) => {
                 reportPost();
               }
             }}
-            // type={type}
+          // type={type}
           />
           {reportText && (
             <IconButton onClick={reportPost}>

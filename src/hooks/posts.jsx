@@ -1,17 +1,40 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { URL } from "../config";
 import { fetchData } from "../helper";
 import { useSelector } from "react-redux";
 
+// const useGetTrendingPosts = (tabView) => {
+//   return useQuery({
+//     queryKey: ["trending"],
+//     queryFn: () => {
+//       return fetchData({
+//         url: URL + "post/getTrendingPost",
+//         method: "POST",
+//         isAuthRequired: true,
+//       },
+//         { data:[{ page: 1, pageSize: 10}] }
+//       );
+//     },
+//     enabled: tabView === "trending" || tabView === "forYou",
+//   });
+// };
+
 const useGetTrendingPosts = (tabView) => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["trending"],
-    queryFn: () => {
+    queryFn: ({pageParam}) => {
       return fetchData({
         url: URL + "post/getTrendingPost",
+        method: "POST",
         isAuthRequired: true,
-      });
+      },
+        { data: [{ page: pageParam, pageSize: 5 }] }
+      );
+    },
+    initialPageParam:1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? null : allPages.length + 1
     },
     enabled: tabView === "trending" || tabView === "forYou",
   });
@@ -19,7 +42,7 @@ const useGetTrendingPosts = (tabView) => {
 
 const useGetSkipTrendingPosts = () => {
   return useQuery({
-    queryKey: ["trending"],
+    queryKey: ["publictrending"],
     queryFn: () => {
       return fetchData({
         url: URL + "post/getTrendingPost",
@@ -36,7 +59,9 @@ const useGetPagePost = (tabView) => {
       fetchData({
         url: URL + "post/getPagePost",
         isAuthRequired: true,
-      }),
+        method: "POST"
+      },
+        { data: [{ page: 1, pageSize: 10 }] }),
 
     enabled: tabView === "pages",
   });
@@ -49,6 +74,9 @@ const useGetNewsPosts = (tabView) => {
       return fetchData({
         url: URL + "post/getAllNews",
         isAuthRequired: true,
+        method: "POST",
+      }, {
+        data: [{ page: 1, pageSize: 10 }]
       });
     },
     enabled: tabView === "news",
@@ -65,7 +93,7 @@ const useGetFriendsPost = (tabView, payload, onSuccess) => {
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [payload] }
+        { data: [{ ...payload, page: 1, pageSize: 10 }] }
       ),
     onSuccess: (data) => {
       onSuccess(data);
@@ -87,7 +115,7 @@ const useGetForYouPost = (tabView, payload, onSuccess) => {
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [payload] }
+        { data: [{ ...payload, page: 1, pageSize: 10 }] }
       ),
     onSuccess: (data) => {
       onSuccess(data);

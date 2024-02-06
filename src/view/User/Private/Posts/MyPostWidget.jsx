@@ -108,7 +108,7 @@ const MyPostWidget = () => {
           onChange={(e) => setDescription(e.target.value)}
           value={description}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && description) {
+            if (e.key === 'Enter'  && !e.shiftKey && description) {
               e.preventDefault();
               if (dashboardView === "news") {
                 onSubmit("news");
@@ -191,7 +191,6 @@ const MyPostWidget = () => {
               onClick={() => onSubmit("news")}
               sx={{
                 borderRadius: "1rem",
-                mr: "10px",
               }}
             >
               Feed News
