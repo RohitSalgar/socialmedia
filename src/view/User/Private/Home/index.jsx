@@ -35,7 +35,12 @@ import CompanyPage from "../CompanyPage";
 import { useEffect } from "react";
 import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
 import Advertisement from "../Advertisement/Advertisement";
+import { useInView } from 'react-intersection-observer'
+import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
+
+
 const HomePage = () => {
+  const { ref, inView } = useInView()
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { userId } = useSelector((state) => state.profile.profileData);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
@@ -46,9 +51,8 @@ const HomePage = () => {
 
   const { tabView } = useSelector((state) => state.profile);
   const { adStatus } = useSelector((state) => state.advert);
-  console.log(adStatus);
   const { sideView } = useSelector((state) => state.profile);
-  const { data: trendingPost, refetch: trendingPostPostRefetch } =
+  const { data: trendingPost, refetch: trendingPostPostRefetch, isPending: trendingPostPending, isFetchingNextPage, error, isFetching, fetchNextPage, hasNextPage, } =
     useGetTrendingPosts(tabView);
   const { data: friendPostData, refetch: friendPostDataRefetch } =
     useGetFriendsPost(tabView, { userId });
@@ -63,15 +67,21 @@ const HomePage = () => {
     }
   );
   const { data } = useGetProfile(userId);
+
   useEffect(() => {
     forYouDataRefetch();
     trendingPostPostRefetch();
     friendPostDataRefetch();
   }, [tabView]);
 
+    useEffect(() => {
+      if (inView){fetchNextPage()}
+  }, [inView])
+
   if (isLoading || frdRequestLoading || topPagesLoading) {
     return <Loader />;
   }
+
 
   return (
     <Box>
@@ -97,12 +107,17 @@ const HomePage = () => {
                   </Box>
                 )}
                 <Box>
-                  {tabView === "trending" && trendingPost ? (
-                    trendingPost.length > 0 ? (
-                      trendingPost.map((data) => (
-                        <PostWidget key={data._id} postData={data} />
-                      ))
-                    ) : (
+                  {tabView === "trending" && trendingPost?.pages ? (
+                    trendingPost?.pages?.length > 0 ? <Box>
+                      {trendingPost.pages.map(({data}) => {
+                        console.log(data,"asdasd")
+                       return data.map((data) => (
+                          <PostWidget key={data._id} postData={data} />
+                        ))
+                      })}
+                      <PostSkeleton/>
+                      <div ref={ref} style={{height:"10px"}} onClick={() => fetchNextPage()}>{isFetchingNextPage && <PostSkeleton/>}</div>
+                    </Box> : (
                       <div style={{ marginTop: "10px" }}>
                         <LookingEmpty
                           description={

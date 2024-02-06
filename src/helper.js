@@ -43,8 +43,8 @@ const openFileNewWindow = async (fileData) => {
 		const win = window.open();
 		win.document.write(
 			'<iframe src="' +
-				blobUrl +
-				'" frameborder="0" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" allowfullscreen></iframe>'
+			blobUrl +
+			'" frameborder="0" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" allowfullscreen></iframe>'
 		);
 	} else {
 		window.open(
@@ -251,7 +251,7 @@ const fetchData = async (
 			// 	).toString();
 			// 	fetchObject.body = JSON.stringify({ data: [encryptedPayload] });
 			// } else {
-				fetchObject.body = JSON.stringify(data);
+			fetchObject.body = JSON.stringify(data);
 			// }
 		}
 	}
@@ -261,24 +261,20 @@ const fetchData = async (
 		if (status === 200) {
 			const responseData = await response.json();
 			if (responseData.status === 1) {
-				// if (
-				// 	isEncrypted === true &&
-				// 	Object.prototype.hasOwnProperty.call(responseData, "data")
-				// ) {
-				// 	const decryptBytes = CryptoJS.AES.decrypt(
-				// 		responseData.data,
-				// 		import.meta.env.VITE_ENCRYPTION_KEY
-				// 	);
-				// 	const decryptUTF = decryptBytes.toString(CryptoJS.enc.Utf8);
-				// 	return JSON.parse(decryptUTF);
-				// } else {
-					return Object.prototype.hasOwnProperty.call(
-						responseData,
-						"data"
-					)
-						? JSON.parse(responseData.data)
-						: responseData.response;
-				// }
+				if (Object.prototype.hasOwnProperty.call(
+					responseData,
+					"totalCount"
+				)) {
+					return { data: JSON.parse(responseData.data), totalCount: responseData.totalCount }
+				} else if (Object.prototype.hasOwnProperty.call(
+					responseData,
+					"data"
+				)) {
+					return JSON.parse(responseData.data)
+				} else {
+					return responseData.response;
+				}
+
 			} else {
 				throw new Error(responseData.response);
 			}

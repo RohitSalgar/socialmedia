@@ -90,6 +90,13 @@ const Myqa = () => {
           rows={1}
           placeholder="Ask your Question ?...."
           onChange={(e) => setquestion(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey ) {
+              e.preventDefault();
+                onSubmit();
+              
+            }
+          }}
           value={question}
           sx={{
             width: "100%",
