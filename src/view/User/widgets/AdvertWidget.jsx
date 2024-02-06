@@ -15,6 +15,7 @@ import {
   setDashboardView,
   setViewCompanyId,
 } from '../../../redux/slices/profileSlice';
+import { removeHastag } from '../../../redux/slices/post';
 
 const AdvertWidget = ({ companyData }) => {
   const { palette } = useTheme();
@@ -99,6 +100,7 @@ const AdvertWidget = ({ companyData }) => {
               <Paper key={company._id} elevation={2} sx={{ mr: 2, }}>
                 <div
                   onClick={() => {
+                    dispatch(removeHastag())
                     dispatch(setViewCompanyId(company._id));
                     dispatch(setDashboardView('postprofile'));
                   }}

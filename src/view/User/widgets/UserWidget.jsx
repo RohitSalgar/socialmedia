@@ -21,6 +21,7 @@ import {
 import { useGetProfile } from "../../../hooks/profile";
 import Loader from "../../../components/Loader/Loader";
 import styles from './index.module.css';
+import { removeHastag } from "../../../redux/slices/post";
 
 
 const UserWidget = () => {
@@ -157,6 +158,7 @@ const UserWidget = () => {
               dispatch(setDashboardView("home"));
               dispatch(setSideView("companyPage"))
               dispatch(setTabView("trending"));
+              dispatch(removeHastag());
             }}
           >
             <ListItemIcon>
@@ -171,6 +173,7 @@ const UserWidget = () => {
               dispatch(setDashboardView("news"));
               dispatch(setSideView("companyPage"))
               dispatch(setTabView("news"));
+              dispatch(removeHastag());
             }}
           >
             <ListItemIcon>
@@ -184,6 +187,7 @@ const UserWidget = () => {
             onClick={() => {
               dispatch(setSideView("companyPage"))
               dispatch(setDashboardView("schedule"));
+              dispatch(removeHastag());
             }}
           >
             <ListItemIcon>
@@ -211,6 +215,7 @@ const UserWidget = () => {
               dispatch(setDashboardView("pages"));
               dispatch(setTabView("pages"));
               dispatch(setSideView("companyPage"))
+              dispatch(removeHastag());
             }}
           >
             <ListItemIcon>
@@ -225,6 +230,7 @@ const UserWidget = () => {
               dispatch(setDashboardView("qa"));
               dispatch(setTabView("qa"));
               dispatch(setSideView("companyPage"))
+              dispatch(removeHastag());
             }}
           >
             <ListItemIcon>
@@ -238,6 +244,7 @@ const UserWidget = () => {
             onClick={() => {
               dispatch(setDashboardView("profile"));
               dispatch(setViewProfileId(userId));
+              dispatch(removeHastag());
               
             }}
           >

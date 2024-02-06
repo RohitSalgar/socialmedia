@@ -1,11 +1,17 @@
-import { Box, Typography, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import Navbar from "../navbar/index";
 import UserWidget from "../../widgets/UserWidget";
 import MyPostWidget from "../../Private/Posts/MyPostWidget";
 import PostWidget from "../../Private/Posts/PostWidget";
 import AdvertWidget from "../../widgets/AdvertWidget";
 import FriendListWidget from "../../widgets/FriendListWidget";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ChatLayout from "../chat/index";
 import OptionalTab from "../Tabs/Tabs";
 import Profile from "../../../../components/Profile/Profile";
@@ -39,6 +45,10 @@ import Advertisement from "../Advertisement/Advertisement";
 import { useInView } from "react-intersection-observer";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
+import FlexBetween from "../../../../components/FlexBetween";
+import CloseIcon from "@mui/icons-material/Close";
+import { removeHastag } from "../../../../redux/slices/post";
+import { setDashboardView } from "../../../../redux/slices/profileSlice";
 
 const HomePage = () => {
   const { ref, inView } = useInView();
@@ -54,6 +64,9 @@ const HomePage = () => {
   const { tabView } = useSelector((state) => state.profile);
   const { adStatus } = useSelector((state) => state.advert);
   const { sideView } = useSelector((state) => state.profile);
+
+  const dispatch = useDispatch();
+
   const {
     data: trendingPost,
     refetch: trendingPostPostRefetch,
@@ -74,9 +87,12 @@ const HomePage = () => {
     fetchNextPage: friendFetchNextPage,
     hasNextPage: friendHasNextPage,
   } = useGetFriendsPost(tabView, { userId });
-  const { data: hashTagPostData, isFetchingNextPage: hashTagDataFetchingNextPage, fetchNextPage: hashTagDataFetchNextPage } =
-    useGetHashTagPosts(hashtag);
-  console.log(hashTagPostData, "has")
+  const {
+    data: hashTagPostData,
+    isFetchingNextPage: hashTagDataFetchingNextPage,
+    fetchNextPage: hashTagDataFetchNextPage,
+  } = useGetHashTagPosts(hashtag);
+
   const {
     data: newsPostData,
     refetch: newsPostDataRefetch,
@@ -176,11 +192,13 @@ const HomePage = () => {
         )
       ) {
         qaDataFetchNextPage();
-      } else if (hashtag !== "" &&
+      } else if (
+        hashtag !== "" &&
         !hashTagPostData?.pageParams.includes(
           Math.ceil(hashTagPostData?.pages[0]?.totalCount / 5)
-        )) {
-        hashTagDataFetchNextPage()
+        )
+      ) {
+        hashTagDataFetchNextPage();
       }
     }
   }, [inView]);
@@ -188,6 +206,12 @@ const HomePage = () => {
   if (isLoading || frdRequestLoading || topPagesLoading) {
     return <Loader />;
   }
+
+  const handleClose = () => {
+    dispatch(removeHastag());
+    dispatch(setDashboardView(dashboardView));
+  };
+
   return (
     <Box>
       <Navbar />
@@ -203,11 +227,18 @@ const HomePage = () => {
             <UserWidget />
           </Box>
           <Box width="50%">
-            {console.log(hashTagPostData)}
             {hashtag !== "" && hashTagPostData?.pages ? (
               <>
-                <WidgetWrapper >
-                  <Typography>hi</Typography>
+                <WidgetWrapper>
+                  <FlexBetween>
+                    <Typography sx={{ fontWeight: "500" }}>
+                      {"#"}
+                      {hashtag}
+                    </Typography>
+                    <IconButton onClick={() => handleClose()}>
+                      <CloseIcon />
+                    </IconButton>
+                  </FlexBetween>
                 </WidgetWrapper>
                 <Box>
                   {hashTagPostData?.pages.length > 0 ? (
@@ -236,124 +267,125 @@ const HomePage = () => {
                 </Box>
               </>
             ) : null}
-            {(dashboardView === "home" || dashboardView === "news") && hashtag === "" && (
-              <>
-                <MyPostWidget />
-                {dashboardView === "home" && (
-                  <Box fullWidth width="100%">
-                    <OptionalTab />
+            {(dashboardView === "home" || dashboardView === "news") &&
+              hashtag === "" && (
+                <>
+                  <MyPostWidget />
+                  {dashboardView === "home" && (
+                    <Box fullWidth width="100%">
+                      <OptionalTab />
+                    </Box>
+                  )}
+                  <Box>
+                    {tabView === "trending" && trendingPost?.pages ? (
+                      trendingPost?.pages?.length > 0 ? (
+                        <Box>
+                          {trendingPost.pages.map(({ data }) => {
+                            return data.map((data) => (
+                              <PostWidget key={data._id} postData={data} />
+                            ));
+                          })}
+                          {!trendingPost?.pageParams.includes(
+                            Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
+                          ) && <PostSkeleton />}
+                          <div
+                            ref={ref}
+                            style={{ height: "10px" }}
+                            onClick={() => fetchNextPage()}
+                          >
+                            {isFetchingNextPage && <PostSkeleton />}
+                          </div>
+                        </Box>
+                      ) : (
+                        <div style={{ marginTop: "10px" }}>
+                          <LookingEmpty
+                            description={
+                              "Seems No Post. Be The First Person To POST..!"
+                            }
+                          />
+                        </div>
+                      )
+                    ) : null}
+                    {tabView === "forYou" && forYouData?.pages ? (
+                      forYouData?.pages?.length > 0 ? (
+                        <Box>
+                          {forYouData.pages.map(({ data }) => {
+                            return data.map((data) => (
+                              <PostWidget key={data._id} postData={data} />
+                            ));
+                          })}
+                          {!forYouData?.pageParams.includes(
+                            Math.ceil(forYouData?.pages[0]?.totalCount / 5)
+                          ) && <PostSkeleton />}
+                          <div
+                            ref={ref}
+                            style={{ height: "10px" }}
+                            onClick={() => forYouFetchNextPage()}
+                          >
+                            {forYouFetchingNextPage && <PostSkeleton />}
+                          </div>
+                        </Box>
+                      ) : (
+                        <div style={{ marginTop: "10px" }}>
+                          <LookingEmpty />
+                        </div>
+                      )
+                    ) : null}
+
+                    {tabView === "friend" && friendPostData?.pages ? (
+                      friendPostData?.pages?.length > 0 ? (
+                        <Box>
+                          {friendPostData.pages.map(({ data }) => {
+                            return data.map((data) => (
+                              <PostWidget key={data._id} postData={data} />
+                            ));
+                          })}
+                          {!friendPostData?.pageParams.includes(
+                            Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
+                          ) && <PostSkeleton />}
+                          <div
+                            ref={ref}
+                            style={{ height: "10px" }}
+                            onClick={() => friendFetchNextPage()}
+                          >
+                            {friendFetchingNextPage && <PostSkeleton />}
+                          </div>
+                        </Box>
+                      ) : (
+                        <div style={{ marginTop: "10px" }}>
+                          <LookingEmpty />
+                        </div>
+                      )
+                    ) : null}
+
+                    {tabView === "news" && newsPostData?.pages ? (
+                      newsPostData?.pages?.length > 0 ? (
+                        <Box>
+                          {newsPostData.pages.map(({ data }) => {
+                            return data.map((data) => (
+                              <PostWidget key={data._id} postData={data} />
+                            ));
+                          })}
+                          {!newsPostData?.pageParams.includes(
+                            Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
+                          ) && <PostSkeleton />}
+                          <div
+                            ref={ref}
+                            style={{ height: "10px" }}
+                            onClick={() => newsFetchNextPage()}
+                          >
+                            {newsFetchingNextPage && <PostSkeleton />}
+                          </div>
+                        </Box>
+                      ) : (
+                        <div style={{ marginTop: "10px" }}>
+                          <LookingEmpty />
+                        </div>
+                      )
+                    ) : null}
                   </Box>
-                )}
-                <Box>
-                  {tabView === "trending" && trendingPost?.pages ? (
-                    trendingPost?.pages?.length > 0 ? (
-                      <Box>
-                        {trendingPost.pages.map(({ data }) => {
-                          return data.map((data) => (
-                            <PostWidget key={data._id} postData={data} />
-                          ));
-                        })}
-                        {!trendingPost?.pageParams.includes(
-                          Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
-                        ) && <PostSkeleton />}
-                        <div
-                          ref={ref}
-                          style={{ height: "10px" }}
-                          onClick={() => fetchNextPage()}
-                        >
-                          {isFetchingNextPage && <PostSkeleton />}
-                        </div>
-                      </Box>
-                    ) : (
-                      <div style={{ marginTop: "10px" }}>
-                        <LookingEmpty
-                          description={
-                            "Seems No Post. Be The First Person To POST..!"
-                          }
-                        />
-                      </div>
-                    )
-                  ) : null}
-                  {tabView === "forYou" && forYouData?.pages ? (
-                    forYouData?.pages?.length > 0 ? (
-                      <Box>
-                        {forYouData.pages.map(({ data }) => {
-                          return data.map((data) => (
-                            <PostWidget key={data._id} postData={data} />
-                          ));
-                        })}
-                        {!forYouData?.pageParams.includes(
-                          Math.ceil(forYouData?.pages[0]?.totalCount / 5)
-                        ) && <PostSkeleton />}
-                        <div
-                          ref={ref}
-                          style={{ height: "10px" }}
-                          onClick={() => forYouFetchNextPage()}
-                        >
-                          {forYouFetchingNextPage && <PostSkeleton />}
-                        </div>
-                      </Box>
-                    ) : (
-                      <div style={{ marginTop: "10px" }}>
-                        <LookingEmpty />
-                      </div>
-                    )
-                  ) : null}
-
-                  {tabView === "friend" && friendPostData?.pages ? (
-                    friendPostData?.pages?.length > 0 ? (
-                      <Box>
-                        {friendPostData.pages.map(({ data }) => {
-                          return data.map((data) => (
-                            <PostWidget key={data._id} postData={data} />
-                          ));
-                        })}
-                        {!friendPostData?.pageParams.includes(
-                          Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
-                        ) && <PostSkeleton />}
-                        <div
-                          ref={ref}
-                          style={{ height: "10px" }}
-                          onClick={() => friendFetchNextPage()}
-                        >
-                          {friendFetchingNextPage && <PostSkeleton />}
-                        </div>
-                      </Box>
-                    ) : (
-                      <div style={{ marginTop: "10px" }}>
-                        <LookingEmpty />
-                      </div>
-                    )
-                  ) : null}
-
-                  {tabView === "news" && newsPostData?.pages ? (
-                    newsPostData?.pages?.length > 0 ? (
-                      <Box>
-                        {newsPostData.pages.map(({ data }) => {
-                          return data.map((data) => (
-                            <PostWidget key={data._id} postData={data} />
-                          ));
-                        })}
-                        {!newsPostData?.pageParams.includes(
-                          Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
-                        ) && <PostSkeleton />}
-                        <div
-                          ref={ref}
-                          style={{ height: "10px" }}
-                          onClick={() => newsFetchNextPage()}
-                        >
-                          {newsFetchingNextPage && <PostSkeleton />}
-                        </div>
-                      </Box>
-                    ) : (
-                      <div style={{ marginTop: "10px" }}>
-                        <LookingEmpty />
-                      </div>
-                    )
-                  ) : null}
-                </Box>
-              </>
-            )}
+                </>
+              )}
             {dashboardView === "schedule" && (
               <Box>
                 {data?.pageData?.status === 1 && <AddSchedule />}
@@ -362,7 +394,9 @@ const HomePage = () => {
             )}
             {dashboardView === "profile" && <Profile />}
             {dashboardView === "postprofile" && <PostProfile />}
-            {dashboardView === "pages" && hashtag === "" && pagePostData?.pages ? (
+            {dashboardView === "pages" &&
+            hashtag === "" &&
+            pagePostData?.pages ? (
               <>
                 {data?.pageData?.status === 1 && (
                   <>
@@ -426,7 +460,6 @@ const HomePage = () => {
                 </Box>
               </>
             ) : null}
-
           </Box>
           {isNonMobileScreens && (
             <Box width="25%">

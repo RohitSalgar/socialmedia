@@ -7,6 +7,7 @@ import { DeleteOutlined } from "@mui/icons-material";
 import moment from "moment";
 import { useDeletePost } from "../../../../hooks/posts";
 import { setDashboardView, setViewCompanyId } from "../../../../redux/slices/profileSlice";
+import { removeHastag } from "../../../../redux/slices/post";
 
 const PostTitle = ({ data }) => {
   const { palette } = useTheme();
@@ -53,7 +54,7 @@ const PostTitle = ({ data }) => {
         </Typography>
       </FlexBetween>
       {data?.createdBy != userId ? (
-        <IconButton onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
+        <IconButton onClick={() => {  dispatch(removeHastag()) , dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
           <PersonAddOutlined sx={{ color: primaryDark }} />
         </IconButton>
       ) : (
