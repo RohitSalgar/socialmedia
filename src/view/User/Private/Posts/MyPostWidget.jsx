@@ -21,12 +21,14 @@ import { useInsertPost } from "../../../../hooks/posts";
 import { useGetProfile } from "../../../../hooks/profile";
 import { toast } from "react-toastify";
 import { openFileNewWindow } from "../../../../helper";
+import Slider from "react-slick";
 
 const MyPostWidget = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const [isImage, setIsImage] = useState(false);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
   const [hashTag, setHashTags] = useState(false);
   let [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
@@ -45,9 +47,52 @@ const MyPostWidget = () => {
     setDescription("");
     setHashTags(false);
     setIsImage(false);
-    setImage(null);
+    setImage([]);
   };
   const { mutate, isLoading } = useInsertPost(onSuccess);
+
+  function SampleArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "block",
+          background: "#f3cf00",
+          borderRadius: "3rem",
+        }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  const settings = {
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+        },
+      },
+    ],
+    nextArrow: <SampleArrow />,
+    prevArrow: <SampleArrow />,
+  };
 
   function handleKeyDown(e) {
     if (e.key !== "Enter") return;
@@ -58,7 +103,7 @@ const MyPostWidget = () => {
   }
 
   function acceptOnlyImages(file) {
-    const acceptedImageTypes = ["image/jpeg", "image/jpg", "image/png"];
+    const acceptedImageTypes = ["image/jpeg", "image/jpg", "image/png", "video/mp4"];
     return acceptedImageTypes.includes(file.type);
   }
 
@@ -71,14 +116,24 @@ const MyPostWidget = () => {
     if (post === "news") {
       hashTagss = [...hashTagss, "news"];
     }
-    if (image) {
-      const acceptFile = acceptOnlyImages(image);
+    image && image.forEach((file) => {
+      const acceptFile = acceptOnlyImages(file);
+      console.log(acceptFile,"accept file")
       if (!acceptFile) {
         return toast.error("Invalid File Format");
       }
-    }
+    })
+    // if (image) {
+    //   const acceptFile = acceptOnlyImages(image);
+    //   if (!acceptFile) {
+    //     return toast.error("Invalid File Format");
+    //   }
+    // }
     const formData = new FormData();
-    formData.append("file", image);
+    image &&
+      image.forEach((item) => {
+        formData.append("file", item);
+      });
     formData.append("createdBy", userId);
     formData.append("description", description);
     formData.append("hashTags", JSON.stringify(hashTagss));
@@ -89,7 +144,8 @@ const MyPostWidget = () => {
     }
     mutate(formData);
     setDescription("");
-    setImage("");
+    setImage([]);
+    setImageUrls([]);
   };
 
   const onImageClick = () => {
@@ -101,6 +157,32 @@ const MyPostWidget = () => {
       };
       reader.readAsDataURL(image);
     }
+  };
+
+  const fileChangeFn = (files) => {
+    let urls = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      console.log(file, "file");
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const imageUrl = e.target.result;
+        urls.push({ imageUrl, ...file });
+        setImageUrls([...imageUrls, ...urls]);
+      };
+
+      reader.readAsDataURL(file);
+    }
+    setImage([...image, ...files]);
+  };
+
+  const deleteImageFn = (i) => {
+    let images = [...image],
+      urls = [...imageUrls];
+    images.splice(1, 1);
+    urls.splice(i, 1);
+    setImage(images);
+    setImageUrls(urls);
   };
 
   return (
@@ -115,7 +197,7 @@ const MyPostWidget = () => {
           onChange={(e) => setDescription(e.target.value)}
           value={description}
           onKeyDown={(e) => {
-            if (e.key === 'Enter'  && !e.shiftKey && description) {
+            if (e.key === "Enter" && !e.shiftKey && description) {
               e.preventDefault();
               if (dashboardView === "news") {
                 onSubmit("news");
@@ -145,13 +227,60 @@ const MyPostWidget = () => {
         )}
       </FlexBetween>
       <Divider sx={{ margin: "0.7rem 0" }} />
+      {imageUrls && imageUrls.length > 1 && (
+        <Slider {...settings}>
+          {imageUrls &&
+            imageUrls.length > 0 &&
+            imageUrls.map((file, i) => {
+              return (
+                <div className={styles.sliderContainer}>
+                  <div className={styles.imageContainer} key={i}>
+                    {file.imageUrl.startsWith("data:image") ? (
+                      <img
+                        src={file.imageUrl}
+                        style={{ marginRight: "10px" }}
+                        alt={`Image ${i}`}
+                      />
+                    ) : (
+                      <video src={file.imageUrl} controls />
+                    )}
+                  </div>
+                  <div className={styles.imageFooter}>
+                    <Typography onClick={onImageClick}>{file.path}</Typography>
+                    <IconButton onClick={() => deleteImageFn(i)}>
+                      <DeleteOutlined />
+                    </IconButton>
+                  </div>
+                </div>
+              );
+            })}
+        </Slider>
+      )}
+      {imageUrls && imageUrls.length === 1 && (
+        <div className={styles.sliderContainer}>
+          <div className={styles.imageContainer}>
+            {imageUrls[0].imageUrl.startsWith("data:image") ? (
+              <img src={imageUrls[0].imageUrl} alt="post_image" />
+            ) : (
+              <video src={imageUrls[0].imageUrl} controls />
+            )}
+          </div>
+          <div className={styles.imageFooter}>
+            <Typography onClick={onImageClick}>{imageUrls[0].path}</Typography>
+            <IconButton
+              onClick={() => {
+                setImage([]);
+                setImageUrls([]);
+              }}
+            >
+              <DeleteOutlined />
+            </IconButton>
+          </div>
+        </div>
+      )}
       <FlexBetween>
         <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>
-          <Dropzone
-            accept="image/*"
-            multiple={false}
-            onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
-          >
+          <Dropzone accept="image/*" multiple={true} onDrop={fileChangeFn}>
             {({ getRootProps, getInputProps }) => (
               <FlexBetween>
                 <Box
@@ -160,8 +289,8 @@ const MyPostWidget = () => {
                   sx={{ "&:hover": { cursor: "pointer" } }}
                 >
                   <input {...getInputProps()} />
-                  {!image && (
-                    <IconButton onClick={() => setImage(null)}>
+                  {image.length === 0 && (
+                    <IconButton onClick={() => setImage([])}>
                       <MdAddPhotoAlternate
                         size={25}
                         style={{ color: mediumMain }}
@@ -170,19 +299,24 @@ const MyPostWidget = () => {
                   )}
                 </Box>
 
-                {image && (
-                  <>
-                    <FlexBetween>
-                      <Typography onClick={onImageClick}>{image && image.name}</Typography>
-                      <IconButton onClick={() => setImage(null)}>
-                        <EditOutlined style={{ color: mediumMain }} />
-                      </IconButton>
-                    </FlexBetween>
-                    <IconButton onClick={() => setImage(null)}>
-                      <DeleteOutlined />
-                    </IconButton>
-                  </>
-                )}
+                {/* {image.length > 0 &&
+                  image.map((image, i) => {
+                    return (
+                      <>
+                        <FlexBetween key={i}>
+                          <Typography onClick={onImageClick}>
+                            {image && image.name}
+                          </Typography>
+                          <IconButton onClick={() => setImage([])}>
+                            <EditOutlined style={{ color: mediumMain }} />
+                          </IconButton>
+                        </FlexBetween>
+                        <IconButton onClick={() => setImage([])}>
+                          <DeleteOutlined />
+                        </IconButton>
+                      </>
+                    );
+                  })} */}
               </FlexBetween>
             )}
           </Dropzone>
