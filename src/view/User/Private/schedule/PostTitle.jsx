@@ -29,6 +29,19 @@ const PostTitle = ({ data }) => {
     };
     mutate(postData);
   };
+
+  const formatDate = (createdAt) => {
+    const now = moment();
+    const createdAtMoment = moment(createdAt);
+    if (now.isSame(createdAtMoment, 'day')) {
+      return createdAtMoment.fromNow();
+    } else if (now.subtract(1, 'day').isSame(createdAtMoment, 'day')) {
+      return 'Yesterday';
+    } else {
+      return createdAtMoment.format("MMM Do YYYY");
+    }
+  };
+  
   if (isLoading) {
     <Loader />;
   }
@@ -58,7 +71,7 @@ const PostTitle = ({ data }) => {
           </Typography>
         </Box>
         <Typography color={medium} fontSize="0.75rem">
-          {moment(data?.createdAt).format("MMM Do YYYY, h:mm a")}
+          {formatDate(data?.createdAt)}
         </Typography>
       </FlexBetween>
       {data?.companyId !== companyId ? (
