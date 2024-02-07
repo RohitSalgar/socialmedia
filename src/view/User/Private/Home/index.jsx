@@ -49,6 +49,7 @@ import FlexBetween from "../../../../components/FlexBetween";
 import CloseIcon from "@mui/icons-material/Close";
 import { removeHastag } from "../../../../redux/slices/post";
 import { setDashboardView } from "../../../../redux/slices/profileSlice";
+import NotificationLayout from "../Notification/NotificationLayout";
 
 const HomePage = () => {
   const { ref, inView } = useInView();
@@ -402,6 +403,7 @@ const HomePage = () => {
             )}
             {dashboardView === "profile" && <Profile />}
             {dashboardView === "postprofile" && <PostProfile />}
+            {dashboardView === "notification" && <Profile />}
             {dashboardView === "pages" &&
             hashtag === "" &&
             pagePostData?.pages ? (
@@ -483,6 +485,7 @@ const HomePage = () => {
                 </>
               )}
               {sideView === "chat" && <ChatLayout />}
+              {sideView === "notification" && <NotificationLayout />}
               {sideView === "editprofile" && <EditProfile />}
               {sideView === "createcompany" && <CreateCompany />}
               {sideView === "pagesotp" && <PagesOTP />}

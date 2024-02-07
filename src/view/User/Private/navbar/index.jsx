@@ -6,6 +6,7 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
+  Badge,
 } from "@mui/material";
 import {
   Search,
@@ -32,6 +33,7 @@ import { useNavSearch } from "../../../../hooks/user";
 import { setRemoveChatState } from "../../../../redux/slices/chat";
 import { openAdvert } from "../../../../redux/slices/advert";
 import { removePostData } from "../../../../redux/slices/post";
+import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -68,7 +70,11 @@ const Navbar = () => {
   }
 
   return (
-    <FlexBetween padding="1rem 3%" backgroundColor={alt} className={classes.headermain}>
+    <FlexBetween
+      padding="1rem 3%"
+      backgroundColor={alt}
+      className={classes.headermain}
+    >
       <FlexBetween gap="1.75rem">
         <Typography
           fontWeight="bold"
@@ -76,7 +82,6 @@ const Navbar = () => {
           color="primary"
           sx={{ cursor: "pointer" }}
           onClick={() => dispatch(setDashboardView("home"))}
-          
         >
           AllMasters
         </Typography>
@@ -112,7 +117,10 @@ const Navbar = () => {
           )}
         </FlexBetween>
         {searchText != "" && searchData && searchData.length > 0 && (
-          <div className={classes.searchitemsContainer} style={{marginTop:"45px"}}>
+          <div
+            className={classes.searchitemsContainer}
+            style={{ marginTop: "45px" }}
+          >
             {searchData &&
               searchData.map((value) => {
                 return (
@@ -139,65 +147,70 @@ const Navbar = () => {
       </div>
 
       {/* DESKTOP NAV */}
-      {isNonMobileScreens && tokenId !== null && (
-        <FlexBetween gap="2rem">
-          {/* <IconButton onClick={() => dispatch(setMode())}>
+      {
+        isNonMobileScreens && tokenId !== null && (
+          <FlexBetween gap="2rem">
+            {/* <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
               <DarkMode sx={{ fontSize: "25px" }} />
             ) : (
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
           </IconButton> */}
-          {sideView === "companyPage" && (
             <Message
               sx={{ fontSize: "25px", cursor: "pointer" }}
               onClick={() => dispatch(setSideView("chat"))}
             />
-          )}
-          {/* <Notifications sx={{ fontSize: "25px" }} /> */}
-          <ImSwitch
-            style={{ fontSize: "25px", cursor: "pointer" }}
-            onClick={() => {
-              if (signedIn === "true") {
-                dispatch(removeProfileData());
-                dispatch(setRemoveChatState());
-                dispatch(openAdvert())
-                dispatch(removePostData())
-                localStorage.removeItem("amsSocialToken");
-                localStorage.removeItem("amsSocialId");
-                localStorage.removeItem("amsSocialSignedIn");
-              } else {
-                localStorage.clear();
-                localStorage.removeItem("amsSocialSignedIn");
-                dispatch(clearSkip());
-              }
-              navigate("/login");
-            }}
-          />
-        </FlexBetween>
-      ) 
-      // : (
-      //   <Button
-      //     style={{ fontSize: "15px" }}
-      //     onClick={() => {
-      //       if (signedIn === "true") {
-      //         dispatch(removeProfileData());
-      //         dispatch(setRemoveChatState());
-      //         localStorage.removeItem("amsSocialToken");
-      //         localStorage.removeItem("amsSocialId");
-      //         localStorage.removeItem("amsSocialSignedIn");
-      //       } else {
-      //         localStorage.clear();
-      //         localStorage.removeItem("amsSocialSignedIn");
-      //         dispatch(clearSkip());
-      //       }
-      //       setIsMobileMenuToggled(!isMobileMenuToggled)
-      //       navigate("/login");
-      //     }}
-      //   >
-      //     SignIN
-      //   </Button>
-      // )
+
+            <Badge badgeContent={4} color="primary">
+              <NotificationImportantIcon
+                sx={{ fontSize: "25px", cursor: "pointer" }}
+                onClick={() => dispatch(setSideView("notification"))}
+              />
+            </Badge>
+            <ImSwitch
+              style={{ fontSize: "25px", cursor: "pointer" }}
+              onClick={() => {
+                if (signedIn === "true") {
+                  dispatch(removeProfileData());
+                  dispatch(setRemoveChatState());
+                  dispatch(openAdvert());
+                  dispatch(removePostData());
+                  localStorage.removeItem("amsSocialToken");
+                  localStorage.removeItem("amsSocialId");
+                  localStorage.removeItem("amsSocialSignedIn");
+                } else {
+                  localStorage.clear();
+                  localStorage.removeItem("amsSocialSignedIn");
+                  dispatch(clearSkip());
+                }
+                navigate("/login");
+              }}
+            />
+          </FlexBetween>
+        )
+        // : (
+        //   <Button
+        //     style={{ fontSize: "15px" }}
+        //     onClick={() => {
+        //       if (signedIn === "true") {
+        //         dispatch(removeProfileData());
+        //         dispatch(setRemoveChatState());
+        //         localStorage.removeItem("amsSocialToken");
+        //         localStorage.removeItem("amsSocialId");
+        //         localStorage.removeItem("amsSocialSignedIn");
+        //       } else {
+        //         localStorage.clear();
+        //         localStorage.removeItem("amsSocialSignedIn");
+        //         dispatch(clearSkip());
+        //       }
+        //       setIsMobileMenuToggled(!isMobileMenuToggled)
+        //       navigate("/login");
+        //     }}
+        //   >
+        //     SignIN
+        //   </Button>
+        // )
       }
 
       {/* MOBILE NAV */}
