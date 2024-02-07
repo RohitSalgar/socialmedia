@@ -25,7 +25,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useGetCompanyProfile, useGetPageFollowList } from "../../hooks/pages";
 import ProfileScheduleList from "../ProfileScheduleList/ProfileScheduleList";
 import { useFollowTopPage } from "../../hooks/user";
-
+import blockedimg from "../../assets/Images/blocked.jpg"
 const PostProfile = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const PostProfile = () => {
     userId,
     viewList
   );
-
+  
   if (isLoading || followLoading || postLoading || companyLoading) {
     <Loader />;
   }
@@ -113,9 +113,15 @@ const PostProfile = () => {
                   sx={{ textAlign: "center", cursor: "pointer" }}
                   onClick={() => setViewList("schedule")}
                 >
-                  <Typography color={dark} variant="h5" fontWeight="500">
-                    {checkIsNumber(companyData?.countData?.scheduleCount)}
-                  </Typography>
+                  {companyData?.companyPageData?.status === 1 ? (
+                    <Typography color={dark} variant="h5" fontWeight="500">
+                      {checkIsNumber(companyData?.countData?.scheduleCount)}
+                    </Typography>
+                  ) : (
+                    <Typography color={dark} variant="h5" fontWeight="500">
+                      0
+                    </Typography>
+                  )}
                   <Typography color={dark} variant="h6" fontWeight="400">
                     Schedules
                   </Typography>
@@ -134,9 +140,15 @@ const PostProfile = () => {
                   sx={{ textAlign: "center", cursor: "pointer" }}
                   onClick={() => setViewList("post")}
                 >
-                  <Typography color={dark} variant="h5" fontWeight="500">
-                    {checkIsNumber(companyData?.countData?.postCount)}
-                  </Typography>
+                  {companyData?.companyPageData?.status === 1 ? (
+                    <Typography color={dark} variant="h5" fontWeight="500">
+                      {checkIsNumber(companyData?.countData?.postCount)}
+                    </Typography>
+                  ) : (
+                    <Typography color={dark} variant="h5" fontWeight="500">
+                      0
+                    </Typography>
+                  )}
                   <Typography color={dark} variant="h6" fontWeight="400">
                     Posts
                   </Typography>
@@ -155,9 +167,15 @@ const PostProfile = () => {
                   sx={{ textAlign: "center", cursor: "pointer" }}
                   onClick={() => setViewList("followers")}
                 >
-                  <Typography color={dark} variant="h5" fontWeight="500">
-                    {checkIsNumber(companyData?.countData?.followCount)}
-                  </Typography>
+                  {companyData?.companyPageData?.status === 1 ? (
+                    <Typography color={dark} variant="h5" fontWeight="500">
+                      {checkIsNumber(companyData?.countData?.followCount)}
+                    </Typography>
+                  ) : (
+                    <Typography color={dark} variant="h5" fontWeight="500">
+                      0
+                    </Typography>
+                  )}
                   <Typography color={dark} variant="h6" fontWeight="400">
                     Followers
                   </Typography>
@@ -170,36 +188,50 @@ const PostProfile = () => {
               {companyData?.companyPageData?.companyName}
             </Typography>
             {/* {companyId == profileCompanyId && ( */}
-              <>
-                {followList &&
-                followList.some((item) => item.followerId === userId) ? (
-                  <Button
-                    variant="outlined"
-                    disabled={pagetUnfollowPending}
-                    className={styles.createbtn}
-                    onClick={pageUnFollowFn}
-                  >
-                    {pagetUnfollowPending ? <CircularProgress /> : "UnFollow"}
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    disabled={isPending}
-                    className={styles.createbtn}
-                    onClick={() =>
-                      pageFollowMutate({
-                        companyId: profileCompanyId,
-                        followerId: userId,
-                      })
-                    }
-                  >
-                    {isPending ? <CircularProgress /> : "Follow"}
-                  </Button>
-                )}
-              </>
+            {companyData?.companyPageData?.status===1 &&
+            <>
+              {followList &&
+              followList.some((item) => item.followerId === userId) ? (
+                <Button
+                  variant="outlined"
+                  disabled={pagetUnfollowPending}
+                  className={styles.createbtn}
+                  onClick={pageUnFollowFn}
+                >
+                  {pagetUnfollowPending ? <CircularProgress /> : "UnFollow"}
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  disabled={isPending}
+                  className={styles.createbtn}
+                  onClick={() =>
+                    pageFollowMutate({
+                      companyId: profileCompanyId,
+                      followerId: userId,
+                    })
+                  }
+                >
+                  {isPending ? <CircularProgress /> : "Follow"}
+                </Button>
+              )}
+            </>
+}
             {/* )} */}
             {profileId === userId &&
               data?.pageData?.status === 1 &&
+              companyId === profileCompanyId && (
+                <Box className={styles.closediv}>
+                  <Button
+                    className={styles.createbtn}
+                    onClick={() => dispatch(setDashboardView("profile"))}
+                  >
+                    Personal Account
+                  </Button>
+                </Box>
+              )}
+            {profileId === userId &&
+              data?.pageData?.status === 5 &&
               companyId === profileCompanyId && (
                 <Box className={styles.closediv}>
                   <Button
@@ -222,21 +254,25 @@ const PostProfile = () => {
             {companyData?.companyPageData?.about}
           </Typography>
         </Typography>
-        <hr/>
-        {viewList === "schedule" && (
-          <Box>
+        <hr />
+        {companyData?.companyPageData?.status === 1 && viewList === "schedule" ?(
             <Box>
-              <Typography color={dark} sx={{ fontWeight: "bold" }}>
-                Schedules
-              </Typography>
+              <Box>
+                <Typography color={dark} sx={{ fontWeight: "bold" }}>
+                  Schedules
+                </Typography>
+              </Box>
+              <Box className={styles.postdiv}>
+                <ProfileScheduleList />
+                {companyData?.countData?.scheduleCount === 0 && (
+                  <LookingEmpty />
+                )}
+              </Box>
             </Box>
-            <Box className={styles.postdiv}>
-              <ProfileScheduleList />
-              {companyData?.countData?.scheduleCount === 0 && <LookingEmpty />}
-            </Box>
-          </Box>
-        )}
-        {viewList === "post" && (
+          ):(
+            <img style={{width:"100%", height:"100%"}} src={blockedimg}/>
+          )}
+        {companyData?.companyPageData?.status === 1 && viewList === "post" && (
           <Box>
             <Box>
               <Typography color={dark} sx={{ fontWeight: "bold" }}>
@@ -251,29 +287,30 @@ const PostProfile = () => {
             </Box>
           </Box>
         )}
-        {viewList === "followers" && (
-          <Box>
+        {companyData?.companyPageData?.status === 1 &&
+          viewList === "followers" && (
             <Box>
-              <Typography color={dark} sx={{ fontWeight: "bold" }}>
-                Followers
-              </Typography>
+              <Box>
+                <Typography color={dark} sx={{ fontWeight: "bold" }}>
+                  Followers
+                </Typography>
+              </Box>
+              <Box className={styles.postdiv}>
+                {followList?.map((e, i) => {
+                  return (
+                    <Followers
+                      key={i}
+                      id={e?.senderId}
+                      fullName={e?.senderName}
+                      data={e}
+                      type="companyfollowers"
+                    />
+                  );
+                })}
+                {followList?.length === 0 && <LookingEmpty />}
+              </Box>
             </Box>
-            <Box className={styles.postdiv}>
-              {followList?.map((e, i) => {
-                return (
-                  <Followers
-                    key={i}
-                    id={e?.senderId}
-                    fullName={e?.senderName}
-                    data={e}
-                    type="companyfollowers"
-                  />
-                );
-              })}
-              {followList?.length === 0 && <LookingEmpty />}
-            </Box>
-          </Box>
-        )}
+          )}
       </Box>
     </WidgetWrapper>
   );
