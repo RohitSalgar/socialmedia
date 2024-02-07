@@ -16,7 +16,7 @@ const pages = () => {
   const { data: pagesData, isLoading } = useGetAllUnverifiedPages();
   const { mutate, isPaused } = useVerifyPage();
   const [searchTerm, setSearchTerm] = useState("");
-
+  
   const columns = [
     {
       field: "companyName",
@@ -71,7 +71,12 @@ const pages = () => {
         if (row.status === 1) {
           return (
             <Box sx={{ display: "flex", gap: "3px" }}>
-              <Typography sx={{ color: "#f3cf00" }}>Approved</Typography>
+              <Button
+                sx={{ border: "1px solid" }}
+                onClick={() => mutate({ id: row._id, status: 5 })}
+              >
+                BLOCK
+              </Button>
             </Box>
           );
         } else if (row.status === 4) {
@@ -80,7 +85,18 @@ const pages = () => {
               <Typography sx={{ color: "red" }}>Rejected</Typography>
             </Box>
           );
-        } else if(row.status === 3) {
+        } else if (row.status === 5) {
+          return (
+            <Box sx={{ display: "flex", gap: "3px" }}>
+              <Button
+                sx={{ color: "#f3cf00", border: "1px solid #f3cf00" }}
+                onClick={() => mutate({ id: row._id, status: 1 })}
+              >
+                UNBLOCK
+              </Button>
+            </Box>
+          );
+        } else if (row.status === 3) {
           return (
             <Box sx={{ display: "flex", gap: "3px" }}>
               <Button
@@ -90,7 +106,7 @@ const pages = () => {
                 Approve
               </Button>
               <Button
-                sx={{  border: "1px solid" }}
+                sx={{ border: "1px solid" }}
                 onClick={() => mutate({ id: row._id, status: 4 })}
               >
                 Reject

@@ -395,9 +395,24 @@ const Profile = () => {
                   className={styles.createbtn}
                   onClick={() => {
                     dispatch(setDashboardView("postprofile"));
-                      dispatch(setSideView("companyPage"));
+                    dispatch(setSideView("companyPage"));
                     dispatch(setCompanyId(companyId));
-                    dispatch(setViewCompanyId(companyId))
+                    dispatch(setViewCompanyId(companyId));
+                  }}
+                >
+                  Company Account
+                </Button>
+              </Box>
+            )}
+            {profileId === userId && data?.pageData?.status === 5 && (
+              <Box className={styles.closediv}>
+                <Button
+                  className={styles.createbtn}
+                  onClick={() => {
+                    dispatch(setDashboardView("postprofile"));
+                    dispatch(setSideView("companyPage"));
+                    dispatch(setCompanyId(companyId));
+                    dispatch(setViewCompanyId(companyId));
                   }}
                 >
                   Company Account
@@ -415,7 +430,7 @@ const Profile = () => {
             {data?.userData?.about}
           </Typography>
         </Typography>
-        <hr/>
+        <hr />
         {viewList === "post" && (
           <Box>
             <Box>
@@ -425,9 +440,7 @@ const Profile = () => {
             </Box>
             <Box className={styles.postdiv}>
               {postList?.map((data) => (
-                
                 <PostWidget key={data._id} postData={data} page={"profile"} />
-
               ))}
               {postList?.length === 0 && <LookingEmpty />}
             </Box>
