@@ -50,6 +50,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { removeHastag } from "../../../../redux/slices/post";
 import { setDashboardView } from "../../../../redux/slices/profileSlice";
 import NotificationLayout from "../Notification/NotificationLayout";
+import { useGetNotificationPostById } from "../../../../hooks/notifications";
 
 const HomePage = () => {
   const { ref, inView } = useInView();
@@ -65,8 +66,12 @@ const HomePage = () => {
   const { tabView } = useSelector((state) => state.profile);
   const { adStatus } = useSelector((state) => state.advert);
   const { sideView } = useSelector((state) => state.profile);
+  const { notificationPostId } = useSelector((state) => state.post);
 
   const dispatch = useDispatch();
+
+  const { data: notificationPostData, isLoading: notificationPostLoading } =
+    useGetNotificationPostById(notificationPostId);
 
   const {
     data: trendingPost,
@@ -212,7 +217,12 @@ const HomePage = () => {
     }
   }, [inView, tabView]);
 
-  if (isLoading || frdRequestLoading || topPagesLoading) {
+  if (
+    isLoading ||
+    frdRequestLoading ||
+    topPagesLoading ||
+    notificationPostLoading
+  ) {
     return <Loader />;
   }
 
@@ -403,7 +413,16 @@ const HomePage = () => {
             )}
             {dashboardView === "profile" && <Profile />}
             {dashboardView === "postprofile" && <PostProfile />}
-            {dashboardView === "notification" && <Profile />}
+            {dashboardView === "notification" &&
+              notificationPostData &&
+              notificationPostData.length > 0 && (
+                <>
+                  {notificationPostData.map((e, i) => {
+                    return <PostWidget key={i} postData={e} />;
+                  })}
+                </>
+              )}
+
             {dashboardView === "pages" &&
             hashtag === "" &&
             pagePostData?.pages ? (

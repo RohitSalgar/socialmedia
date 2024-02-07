@@ -19,18 +19,25 @@
 .optionDiv {
   display: flex;
 }
-.notificationDiv {
+.NotificationTemplateDiv {
   margin: 0.3rem;
   width: 96%;
   padding: 0.2rem;
   cursor: pointer;
-  display: flex;
   gap: 0.4rem;
   border-radius: 7px;
+}
+
+.unReadmsg {
   box-shadow: rgba(246, 195, 26, 0.12) 0px 2px 4px 0px,
     rgba(234, 221, 49, 0.32) 0px 2px 16px 0px;
 }
+.notificationDiv {
+  cursor: pointer;
+  display: flex;
+  gap: 0.4rem;
+}
 
 .linkWord {
-  color: blue;
+  color: #f3cf00;
 }

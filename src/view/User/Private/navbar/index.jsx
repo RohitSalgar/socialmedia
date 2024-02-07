@@ -34,6 +34,8 @@ import { setRemoveChatState } from "../../../../redux/slices/chat";
 import { openAdvert } from "../../../../redux/slices/advert";
 import { removePostData } from "../../../../redux/slices/post";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
+import { useGetAllNotificationById } from "../../../../hooks/notifications";
+import Loader from "../../../../components/Loader/Loader";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -41,6 +43,8 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const signedIn = localStorage.getItem("amsSocialSignedIn");
   const { sideView } = useSelector((state) => state.profile);
+  const { userId } = useSelector((state) => state.profile.profileData);
+  const { data, isLoading } = useGetAllNotificationById(userId);
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
   const onSearchSuccess = (data) => {
@@ -67,6 +71,10 @@ const Navbar = () => {
       dispatch(setViewCompanyId(value?._id));
       dispatch(setDashboardView("postprofile"));
     }
+  }
+
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (
@@ -162,7 +170,10 @@ const Navbar = () => {
               onClick={() => dispatch(setSideView("chat"))}
             />
 
-            <Badge badgeContent={4} color="primary">
+            <Badge
+              badgeContent={data && data?.filter((e) => e.status === 1).length}
+              color="primary"
+            >
               <NotificationImportantIcon
                 sx={{ fontSize: "25px", cursor: "pointer" }}
                 onClick={() => dispatch(setSideView("notification"))}

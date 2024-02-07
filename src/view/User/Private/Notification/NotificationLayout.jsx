@@ -6,7 +6,6 @@ const NotificationLayout = () => {
   return (
     <WidgetWrapper>
       <NotificationHeader />
-      
       <NotificationContent />
     </WidgetWrapper>
   );
