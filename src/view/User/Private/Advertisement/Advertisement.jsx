@@ -36,16 +36,16 @@ const Advertisement = ({ companyData }) => {
     // <WidgetWrapper sx={{ minWidth: "100%", maxWidth: "300px", height: "47vh", marginBottom:"10px" }}>
     <Card
       sx={{ borderRadius: "0.75rem", marginBottom: "0.7rem", position: 'relative' }}
-      onClick={handleCardClick}
-    >
+      
+    >{data !== undefined &&
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
           image={data[0]?.files}
-          alt="green iguana"
+          // alt="green iguana"
         />
-        <CardContent>
+        <CardContent onClick={handleCardClick}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography gutterBottom variant="h5" component="div">
               {data[0]?.title}
@@ -72,6 +72,7 @@ const Advertisement = ({ companyData }) => {
           <CloseIcon />
         </IconButton>
       </CardActionArea>
+}
     </Card>
     // </WidgetWrapper>
   );

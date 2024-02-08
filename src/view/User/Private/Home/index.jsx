@@ -54,6 +54,7 @@ import { setDashboardView } from "../../../../redux/slices/profileSlice";
 import NotificationLayout from "../Notification/NotificationLayout";
 import { useGetNotificationPostById } from "../../../../hooks/notifications";
 import notfound from "../../../../assets/Images/notfound.jpg";
+import { AdvertisementWidget } from "../Posts/AdvertisementWidget";
 
 const HomePage = () => {
   const { ref, inView } = useInView();
@@ -144,7 +145,7 @@ const HomePage = () => {
     country: "India",
   });
   const { data } = useGetProfile(userId);
-
+  console.log(trendingPost, "trendingpost");
   useEffect(() => {
     forYouDataRefetch();
     trendingPostPostRefetch();
@@ -303,9 +304,27 @@ const HomePage = () => {
                       trendingPost?.pages?.length > 0 ? (
                         <Box>
                           {trendingPost.pages.map(({ data }) => {
-                            return data.map((data) => (
-                              <PostWidget key={data._id} postData={data} />
-                            ));
+                            let shouldRenderAd = false;
+                            return data.map((postData) => {
+                              if (postData.title) {
+                                shouldRenderAd = true;
+                              }
+                              if (shouldRenderAd) {
+                                shouldRenderAd = false;
+                                return (
+                                  <AdvertisementWidget
+                                    key={`ad-${postData._id}`}
+                                    postData={postData}
+                                  />
+                                );
+                              }
+                              return (
+                                <PostWidget
+                                  key={postData._id}
+                                  postData={postData}
+                                />
+                              );
+                            });
                           })}
                           {!trendingPost?.pageParams.includes(
                             Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
