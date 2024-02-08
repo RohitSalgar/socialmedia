@@ -154,7 +154,7 @@ const PostWidget = ({ postData }) => {
   const handleHashtagClick = (hashtag) => {
     dispatch(updateHashtag(hashtag))
   };
-  
+
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
@@ -181,17 +181,17 @@ const PostWidget = ({ postData }) => {
           src={postData.files[0]}
         />
       )}
-      {postData.files && postData.files.length > 1 && 
-      <Slider {...settings}>
-        {postData.files && postData.files.map(item => {
-          return <img
-          width="100%"
-          height="auto"
-          alt="post"
-          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={item}
-        />
-        })}
+      {postData.files && postData.files.length > 1 &&
+        <Slider {...settings}>
+          {postData.files && postData.files.map(item => {
+            return <img
+              width="100%"
+              height="auto"
+              alt="post"
+              style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
+              src={item}
+            />
+          })}
         </Slider>}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
