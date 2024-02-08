@@ -55,7 +55,7 @@ import NotificationLayout from "../Notification/NotificationLayout";
 import { useGetNotificationPostById } from "../../../../hooks/notifications";
 import notfound from "../../../../assets/Images/notfound.jpg";
 import { AdvertisementWidget } from "../Posts/AdvertisementWidget";
-
+import { PAGE_SIZE } from "../../../../config";
 const HomePage = () => {
   const { ref, inView } = useInView();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -157,7 +157,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !trendingPost?.pageParams.includes(
-              Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
+              Math.ceil(trendingPost?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             fetchNextPage();
@@ -167,7 +167,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !forYouData?.pageParams.includes(
-              Math.ceil(forYouData?.pages[0]?.totalCount / 5)
+              Math.ceil(forYouData?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             forYouFetchNextPage();
@@ -177,7 +177,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !friendPostData?.pageParams.includes(
-              Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
+              Math.ceil(friendPostData?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             friendFetchNextPage();
@@ -187,7 +187,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !newsPostData?.pageParams.includes(
-              Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
+              Math.ceil(newsPostData?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             newsFetchNextPage();
@@ -197,7 +197,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !pagePostData?.pageParams.includes(
-              Math.ceil(pagePostData?.pages[0]?.totalCount / 5)
+              Math.ceil(pagePostData?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             pagePostFetchNextPage();
@@ -207,7 +207,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !allQaData?.pageParams.includes(
-              Math.ceil(allQaData?.pages[0]?.totalCount / 5)
+              Math.ceil(allQaData?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             qaDataFetchNextPage();
@@ -232,7 +232,7 @@ const HomePage = () => {
     dispatch(removeHastag());
     dispatch(setDashboardView(dashboardView));
   };
-
+console.log(trendingPost,"trendingpost")
   return (
     <Box>
       <Navbar />
@@ -270,7 +270,7 @@ const HomePage = () => {
                         ))
                       )}
                       {!hashTagPostData.pageParams.includes(
-                        Math.ceil(hashTagPostData.pages[0]?.totalCount / 5)
+                        Math.ceil(hashTagPostData.pages[0]?.totalCount / PAGE_SIZE)
                       ) && <PostSkeleton />}
                       <div
                         ref={ref}
@@ -320,7 +320,7 @@ const HomePage = () => {
                             });
                           })}
                           {!trendingPost?.pageParams.includes(
-                            Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
+                            Math.ceil(trendingPost?.pages[0]?.totalCount / 10)
                           ) && <PostSkeleton />}
                           <div
                             ref={ref}
@@ -362,7 +362,7 @@ const HomePage = () => {
                             });
                           })}
                           {!forYouData?.pageParams.includes(
-                            Math.ceil(forYouData?.pages[0]?.totalCount / 5)
+                            Math.ceil(forYouData?.pages[0]?.totalCount / PAGE_SIZE)
                           ) && <PostSkeleton />}
                           <div
                             ref={ref}
@@ -401,7 +401,7 @@ const HomePage = () => {
                             });
                           })}
                           {!friendPostData?.pageParams.includes(
-                            Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
+                            Math.ceil(friendPostData?.pages[0]?.totalCount / PAGE_SIZE)
                           ) && <PostSkeleton />}
                           <div
                             ref={ref}
@@ -440,7 +440,7 @@ const HomePage = () => {
                             });
                           })}
                           {!newsPostData?.pageParams.includes(
-                            Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
+                            Math.ceil(newsPostData?.pages[0]?.totalCount / PAGE_SIZE)
                           ) && <PostSkeleton />}
                           <div
                             ref={ref}
@@ -530,7 +530,7 @@ const HomePage = () => {
                         });
                       })}
                       {!pagePostData.pageParams.includes(
-                        Math.ceil(pagePostData.pages[0]?.totalCount / 5)
+                        Math.ceil(pagePostData.pages[0]?.totalCount / PAGE_SIZE)
                       ) && <PostSkeleton />}
                       <div
                         ref={ref}
@@ -568,7 +568,7 @@ const HomePage = () => {
                         });
                       })}
                       {!allQaData.pageParams.includes(
-                        Math.ceil(allQaData.pages[0]?.totalCount / 5)
+                        Math.ceil(allQaData.pages[0]?.totalCount / PAGE_SIZE)
                       ) && <PostSkeleton />}
                       <div
                         ref={ref}
