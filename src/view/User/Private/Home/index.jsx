@@ -429,16 +429,16 @@ const HomePage = () => {
                 <Box
                   sx={{
                     display: "flex",
+                    flexDirection: "column",
+                    gap: "0.4rem",
                     justifyContent: "center",
                     alignItems: "center",
                     margin: "1rem",
                   }}
                 >
-                  <img src={notfound} alt="notfound" />
+                  <img src={notfound} alt="notfound" width={'80%'}/>
+                  <p style={{fontSize:'22px'}}>The Post isn't available</p>
                 </Box>
-                <Alert severity="error" sx={{
-                  fontSize:'20px',
-                }}>Post Not Found</Alert>
               </>
             )}
 
