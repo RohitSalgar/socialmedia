@@ -150,7 +150,6 @@ const HomePage = () => {
     trendingPostPostRefetch();
     friendPostDataRefetch();
   }, [tabView]);
-
   useEffect(() => {
     if (inView) {
       switch (tabView) {
@@ -303,13 +302,8 @@ const HomePage = () => {
                       trendingPost?.pages?.length > 0 ? (
                         <Box>
                           {trendingPost.pages.map(({ data }) => {
-                            let shouldRenderAd = false;
                             return data.map((postData) => {
                               if (postData.title) {
-                                shouldRenderAd = true;
-                              }
-                              if (shouldRenderAd) {
-                                shouldRenderAd = false;
                                 return (
                                   <AdvertisementWidget
                                     key={`ad-${postData._id}`}
@@ -350,9 +344,22 @@ const HomePage = () => {
                       forYouData?.pages?.length > 0 ? (
                         <Box>
                           {forYouData.pages.map(({ data }) => {
-                            return data.map((data) => (
-                              <PostWidget key={data._id} postData={data} />
-                            ));
+                            return data.map((postData) => {
+                              if (postData.title) {
+                                return (
+                                  <AdvertisementWidget
+                                    key={`ad-${postData._id}`}
+                                    postData={postData}
+                                  />
+                                );
+                              }
+                              return (
+                                <PostWidget
+                                  key={postData._id}
+                                  postData={postData}
+                                />
+                              );
+                            });
                           })}
                           {!forYouData?.pageParams.includes(
                             Math.ceil(forYouData?.pages[0]?.totalCount / 5)
@@ -376,9 +383,22 @@ const HomePage = () => {
                       friendPostData?.pages?.length > 0 ? (
                         <Box>
                           {friendPostData.pages.map(({ data }) => {
-                            return data.map((data) => (
-                              <PostWidget key={data._id} postData={data} />
-                            ));
+                            return data.map((postData) => {
+                              if (postData.title) {
+                                return (
+                                  <AdvertisementWidget
+                                    key={`ad-${postData._id}`}
+                                    postData={postData}
+                                  />
+                                );
+                              }
+                              return (
+                                <PostWidget
+                                  key={postData._id}
+                                  postData={postData}
+                                />
+                              );
+                            });
                           })}
                           {!friendPostData?.pageParams.includes(
                             Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
@@ -402,9 +422,22 @@ const HomePage = () => {
                       newsPostData?.pages?.length > 0 ? (
                         <Box>
                           {newsPostData.pages.map(({ data }) => {
-                            return data.map((data) => (
-                              <PostWidget key={data._id} postData={data} />
-                            ));
+                            return data.map((postData) => {
+                              if (postData.title) {
+                                return (
+                                  <AdvertisementWidget
+                                    key={`ad-${postData._id}`}
+                                    postData={postData}
+                                  />
+                                );
+                              }
+                              return (
+                                <PostWidget
+                                  key={postData._id}
+                                  postData={postData}
+                                />
+                              );
+                            });
                           })}
                           {!newsPostData?.pageParams.includes(
                             Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
@@ -478,11 +511,24 @@ const HomePage = () => {
                 <Box>
                   {pagePostData.pages.length > 0 ? (
                     <>
-                      {pagePostData.pages.map(({ data }) =>
-                        data.map((postData) => (
-                          <CompanyPage key={postData._id} postData={postData} />
-                        ))
-                      )}
+                      {pagePostData.pages.map(({ data }) => {
+                        return data.map((postData) => {
+                          if (postData.title) {
+                            return (
+                              <AdvertisementWidget
+                                key={`ad-${postData._id}`}
+                                postData={postData}
+                              />
+                            );
+                          }
+                          return (
+                            <PostWidget
+                              key={postData._id}
+                              postData={postData}
+                            />
+                          );
+                        });
+                      })}
                       {!pagePostData.pageParams.includes(
                         Math.ceil(pagePostData.pages[0]?.totalCount / 5)
                       ) && <PostSkeleton />}
@@ -506,11 +552,21 @@ const HomePage = () => {
                 <Box>
                   {allQaData.pages.length > 0 ? (
                     <>
-                      {allQaData.pages.map(({ data }) =>
-                        data.map((postData) => (
-                          <QaWidget key={postData._id} postData={postData} />
-                        ))
-                      )}
+                      {allQaData.pages.map(({ data }) => {
+                        return data.map((postData) => {
+                          if (postData.title) {
+                            return (
+                              <AdvertisementWidget
+                                key={`ad-${postData._id}`}
+                                postData={postData}
+                              />
+                            );
+                          }
+                          return (
+                            <QaWidget key={postData._id} postData={postData} />
+                          );
+                        });
+                      })}
                       {!allQaData.pageParams.includes(
                         Math.ceil(allQaData.pages[0]?.totalCount / 5)
                       ) && <PostSkeleton />}
