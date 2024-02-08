@@ -6,6 +6,7 @@ const initialState = {
     hashtag: "",
     page: 1,
     pageSize: 10,
+    notificationPostId: ''
 };
 
 export const postSlice = createSlice({
@@ -37,9 +38,12 @@ export const postSlice = createSlice({
         resetPage: (state) => {
             state.page = 1
         },
+        setNotificationPostId: (state, action) => {
+            state.notificationPostId = action.payload;
+        }
     },
 });
 
-export const { setTab, setReplyInput, updateHashtag, removeHastag, removePostData } =
+export const { setTab, setReplyInput, updateHashtag, removeHastag, removePostData, setNotificationPostId } =
     postSlice.actions;
 export default postSlice.reducer;

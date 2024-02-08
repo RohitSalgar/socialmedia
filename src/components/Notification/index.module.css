@@ -1,0 +1,44 @@
+.buttonDiv {
+  width: 10dvw;
+  border-radius: 5px;
+  padding: 3px 5px;
+  margin: 2px;
+  cursor: pointer;
+  width: fit-content;
+}
+.notificationMainDiv {
+  height: 390px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.selectedButton {
+  background-color: #f3cf00;
+  color: #fff;
+  width: fit-content;
+}
+.optionDiv {
+  display: flex;
+}
+.NotificationTemplateDiv {
+  margin: 0.3rem;
+  width: 96%;
+  padding: 0.2rem;
+  cursor: pointer;
+  gap: 0.4rem;
+  border-bottom: 1px solid #f3cf00;
+}
+
+.unReadmsg {
+  box-shadow: rgba(246, 195, 26, 0.12) 0px 2px 4px 0px,
+    rgba(234, 221, 49, 0.32) 0px 2px 16px 0px;
+  border-bottom: none !important;
+}
+.notificationDiv {
+  cursor: pointer;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.linkWord {
+  color: #f3cf00;
+}

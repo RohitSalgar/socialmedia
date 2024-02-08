@@ -1,4 +1,6 @@
 import {
+  Alert,
+  Avatar,
   Box,
   Button,
   IconButton,
@@ -49,7 +51,11 @@ import FlexBetween from "../../../../components/FlexBetween";
 import CloseIcon from "@mui/icons-material/Close";
 import { removeHastag } from "../../../../redux/slices/post";
 import { setDashboardView } from "../../../../redux/slices/profileSlice";
+import NotificationLayout from "../Notification/NotificationLayout";
+import { useGetNotificationPostById } from "../../../../hooks/notifications";
+import notfound from "../../../../assets/Images/notfound.jpg";
 import { AdvertisementWidget } from "../Posts/AdvertisementWidget";
+
 const HomePage = () => {
   const { ref, inView } = useInView();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -64,8 +70,12 @@ const HomePage = () => {
   const { tabView } = useSelector((state) => state.profile);
   const { adStatus } = useSelector((state) => state.advert);
   const { sideView } = useSelector((state) => state.profile);
+  const { notificationPostId } = useSelector((state) => state.post);
 
   const dispatch = useDispatch();
+
+  const { data: notificationPostData, isLoading: notificationPostLoading } =
+    useGetNotificationPostById(notificationPostId);
 
   const {
     data: trendingPost,
@@ -211,7 +221,12 @@ const HomePage = () => {
     }
   }, [inView, tabView]);
 
-  if (isLoading || frdRequestLoading || topPagesLoading) {
+  if (
+    isLoading ||
+    frdRequestLoading ||
+    topPagesLoading ||
+    notificationPostLoading
+  ) {
     return <Loader />;
   }
 
@@ -420,6 +435,32 @@ const HomePage = () => {
             )}
             {dashboardView === "profile" && <Profile />}
             {dashboardView === "postprofile" && <PostProfile />}
+            {dashboardView === "notification" &&
+            notificationPostData &&
+            notificationPostData.length > 0 ? (
+              <>
+                {notificationPostData.map((e, i) => {
+                  return <PostWidget key={i} postData={e} />;
+                })}
+              </>
+            ) : (
+              <>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.4rem",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "1rem",
+                  }}
+                >
+                  <img src={notfound} alt="notfound" width={'80%'}/>
+                  <p style={{fontSize:'22px'}}>The Post isn't available</p>
+                </Box>
+              </>
+            )}
+
             {dashboardView === "pages" &&
             hashtag === "" &&
             pagePostData?.pages ? (
@@ -501,6 +542,7 @@ const HomePage = () => {
                 </>
               )}
               {sideView === "chat" && <ChatLayout />}
+              {sideView === "notification" && <NotificationLayout />}
               {sideView === "editprofile" && <EditProfile />}
               {sideView === "createcompany" && <CreateCompany />}
               {sideView === "pagesotp" && <PagesOTP />}
