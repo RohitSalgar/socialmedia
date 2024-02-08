@@ -30,7 +30,7 @@ import {
 } from "../../../../redux/slices/profileSlice";
 import classes from "./index.module.css";
 import { useNavSearch } from "../../../../hooks/user";
-import { setRemoveChatState } from "../../../../redux/slices/chat";
+import { resetLiveChatUsers, setRemoveChatState } from "../../../../redux/slices/chat";
 import { openAdvert } from "../../../../redux/slices/advert";
 import { removePostData } from "../../../../redux/slices/post";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
@@ -167,7 +167,7 @@ const Navbar = () => {
           </IconButton> */}
             <Message
               sx={{ fontSize: "25px", cursor: "pointer" }}
-              onClick={() => dispatch(setSideView("chat"))}
+              onClick={() => {dispatch(setSideView("chat")); dispatch(resetLiveChatUsers())}}
             />
 
             <Badge
@@ -187,7 +187,8 @@ const Navbar = () => {
                   dispatch(setRemoveChatState());
                   dispatch(openAdvert());
                   dispatch(removePostData());
-                  localStorage.removeItem("amsSocialToken");
+                  dispatch(resetLiveChatUsers())
+                localStorage.removeItem("amsSocialToken");
                   localStorage.removeItem("amsSocialId");
                   localStorage.removeItem("amsSocialSignedIn");
                 } else {
