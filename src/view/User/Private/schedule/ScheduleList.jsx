@@ -11,10 +11,11 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
+import { AdvertisementWidget } from "../Posts/AdvertisementWidget";
 
 const ScheduleList = () => {
   const { ref, inView } = useInView();
-  const {hashtag} = useSelector((state)=>state.post)
+  const { hashtag } = useSelector((state) => state.post);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
   const {
     data,
@@ -47,43 +48,55 @@ const ScheduleList = () => {
       {data && data?.pages && data.pages.length > 0 ? (
         data.pages.map(({ data }) => {
           return data.map((e, i) => (
-            <WidgetWrapper key={i} sx={{ marginBottom: "10px" }}>
-              <PostTitle data={e} />
-              <Box className={styles.scheduleListDiv}>
-                <Box>
-                  <Box className={styles.scheduleListSubDiv}>
-                    <Typography>POL: </Typography>
-                    <Typography>{e.pol}</Typography>
-                  </Box>
-                  <Box className={styles.scheduleListSubDiv}>
-                    <Typography>POD: </Typography>
-                    <Typography>{e.pod}</Typography>
-                  </Box>
-                </Box>
-                <Box>
-                  <Box className={styles.scheduleListSubDiv}>
-                    <Typography>Opening On: </Typography>
-                    <Typography>
-                      {moment(e.openingOn).format("DD-MM-YYYY")}
-                    </Typography>
-                  </Box>
-                  <Box className={styles.scheduleListSubDiv}>
-                    <Typography>Booking Cut-Off: </Typography>
-                    <Typography>
-                      {moment(e.bookingCutOff).format("DD-MM-YYYY")}
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-              {e.description !== "" && (
-                <Box className={styles.descriptiondiv}>
-                  <p>{e.description}</p>
-                </Box>
+            <>
+              {e?.title ? (
+                <AdvertisementWidget postData={e} />
+              ) : (
+                <>
+                  <WidgetWrapper key={i} sx={{ marginBottom: "10px" }}>
+                    <PostTitle data={e} />
+                    <Box className={styles.scheduleListDiv}>
+                      <Box>
+                        <Box className={styles.scheduleListSubDiv}>
+                          <Typography>POL: </Typography>
+                          <Typography>{e.pol}</Typography>
+                        </Box>
+                        <Box className={styles.scheduleListSubDiv}>
+                          <Typography>POD: </Typography>
+                          <Typography>{e.pod}</Typography>
+                        </Box>
+                      </Box>
+                      <Box>
+                        <Box className={styles.scheduleListSubDiv}>
+                          <Typography>Opening On: </Typography>
+                          <Typography>
+                            {moment(e.openingOn).format("DD-MM-YYYY")}
+                          </Typography>
+                        </Box>
+                        <Box className={styles.scheduleListSubDiv}>
+                          <Typography>Booking Cut-Off: </Typography>
+                          <Typography>
+                            {moment(e.bookingCutOff).format("DD-MM-YYYY")}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                    {e.description !== "" && (
+                      <Box className={styles.descriptiondiv}>
+                        <p>{e.description}</p>
+                      </Box>
+                    )}
+                    <Box>
+                      <LikeComment
+                        key={e._id}
+                        postData={e}
+                        scheduleId={e._id}
+                      />
+                    </Box>
+                  </WidgetWrapper>
+                </>
               )}
-              <Box>
-                <LikeComment key={e._id} postData={e} scheduleId={e._id} />
-              </Box>
-            </WidgetWrapper>
+            </>
           ));
         })
       ) : (
