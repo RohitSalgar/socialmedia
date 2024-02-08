@@ -10,16 +10,18 @@ import Loader from "../../../../components/Loader/Loader";
 import { setSideView } from "../../../../redux/slices/profileSlice";
 import { useEffect, useState } from "react";
 import { useGetProfile } from "../../../../hooks/profile";
-import { useSocket } from "../../../../hooks/socket";
 import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
-import { setSingleChatModeOff } from "../../../../redux/slices/chat";
+import { setLiveUsers, setSingleChatModeOff } from "../../../../redux/slices/chat";
+import { useSocket } from "../../../../hooks/socket";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
-  const { chatNotification } = useSelector((state) => state.chat);
-  const [liveUser, setLiveUser] = useState(null);
+  const { chatNotification } = useSelector((state) => state.chat)
   const dark = palette.neutral.dark;
+  const [liveUser, setLiveUser] = useState(null);
+
   const socket = useSocket();
+  const [notification, setNotification] = useState([])
   const [text, setText] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
   const { isSingleChatOn } = useSelector((state) => state.chat);
@@ -27,17 +29,66 @@ const ChatLayout = () => {
   const { data } = useGetProfile(userId);
   const dispatch = useDispatch();
 
+  const findId = (id, array) => {
+    let correspondingId = null;
+
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].senderId === id || array[i].recipientId === id) {
+        correspondingId = array[i]._id;
+        break;
+      }
+    }
+    return correspondingId
+  }
+console.log(liveUser,"live")
   useEffect(() => {
-    socket &&
-      socket.on("connect", () => {
-        console.warn("connected");
-      });
+    socket?.on("connect", () => {
+      console.warn("connected");
+    });
 
     socket?.emit("users", userId);
     socket?.on("getUsers", (users) => {
       setLiveUser(users);
+      dispatch(setLiveUsers(users))
     });
   }, [socket]);
+
+  useEffect(() => {
+    if (allChatInfo != null) {
+      socket?.on("getNotification", (notify) => {
+        const requiredId = allChatInfo && findId(notify.senderId, allChatInfo)
+        if (requiredId != null) {
+          if (notification.length === 0) {
+            const newNotification = {
+              _id: requiredId,
+              notifyCount: 1
+            }
+            setNotification([newNotification])
+          } else {
+            const index = notification.findIndex(item => item._id === requiredId);
+            if (index !== -1) {
+              setNotification(prevState => {
+                const newState = [...prevState];
+                newState[index] = {
+                  ...newState[index],
+                  notifyCount: newState[index].notifyCount + 1
+                };
+                return newState;
+              });
+            } else {
+              setNotification(prevState => [
+                ...prevState,
+                {
+                  _id: requiredId,
+                  notifyCount: 1
+                }
+              ]);
+            }
+          }
+        }
+      });
+    }
+  }, [socket, allChatInfo]);
 
   if (isLoading) {
     return <Loader />;
@@ -56,12 +107,12 @@ const ChatLayout = () => {
   }
 
   return (
-    <WidgetWrapper>
+    <WidgetWrapper >
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          alignContent: "center",
+          alignContent: "center"
         }}
       >
         <Typography color={dark} sx={{ fontSize: "22px", fontWeight: "bold" }}>
@@ -89,7 +140,7 @@ const ChatLayout = () => {
             borderBottom: "1px solid black",
             paddingLeft: "2px",
             marginTop: "2px",
-            marginBottom: "2px",
+            marginBottom: "2px"
           }}
           onChange={(e) => setText(e.target.value)}
         />
@@ -97,9 +148,9 @@ const ChatLayout = () => {
       <Box
         sx={{
           marginRight: "5px",
-          height: "68vh",
-          overflow: "scroll",
-          paddingBottom: "10px",
+          height: '68vh',
+          overflow: 'scroll',
+          paddingBottom: '10px'
         }}
       >
         {allChatInfo?.length > 0 && data ? (
@@ -119,7 +170,7 @@ const ChatLayout = () => {
                   margin: "1px",
                 }}
               >
-                {!isSingleChatOn && <ChatPerson id={i} data={e} />}
+                {!isSingleChatOn && <ChatPerson id={i} data={e} socket={socket} notification={notification} />}
               </Box>
             ))
         ) : (
@@ -127,7 +178,7 @@ const ChatLayout = () => {
           <LookingEmpty />
         )}
 
-        {isSingleChatOn && <ChatPage data={allChatInfo} liveUser={liveUser} />}
+        {isSingleChatOn && <ChatPage data={allChatInfo} socket={socket} liveUser={liveUser}/>}
       </Box>
     </WidgetWrapper>
   );

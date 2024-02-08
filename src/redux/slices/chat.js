@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     isSingleChatOn: false,
     singleConnectionId: null,
-    chatNotification: []
+    chatliveUsers: [],
 };
 
 export const chatSlice = createSlice({
@@ -34,18 +34,15 @@ export const chatSlice = createSlice({
             state.isSingleChatOn = false;
             state.singleConnectionId = null
         },
-        setNotification: (state, action) => {
-            // let data
-            // if(state.chatNotification.length === 0 ){
-            //     data = [action.payload]
-            // }else{
-            //     data = action.payload
-            // }
-            state.chatNotification = [...state.chatNotification,action.payload ];
+        setLiveUsers: (state, action) => {
+            state.chatliveUsers=action.payload
+        },
+        resetLiveChatUsers: (state) => {
+            state.chatliveUsers = []
         }
     },
 });
 
-export const { setChatModeOff, setChatModeOn, setSingleChatModeOff, setSingleChatModeOn, setEditOn, setNotification, setEditOff, setRemoveChatState } =
+export const { setChatModeOn, setChatModeOff, setSingleChatModeOn, setSingleChatModeOff, setEditOn, setEditOff, setRemoveChatState, setLiveUsers, resetLiveChatUsers } =
     chatSlice.actions;
 export default chatSlice.reducer;

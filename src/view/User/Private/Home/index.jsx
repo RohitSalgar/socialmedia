@@ -145,7 +145,6 @@ const HomePage = () => {
     country: "India",
   });
   const { data } = useGetProfile(userId);
-  console.log(trendingPost, "trendingpost");
   useEffect(() => {
     forYouDataRefetch();
     trendingPostPostRefetch();

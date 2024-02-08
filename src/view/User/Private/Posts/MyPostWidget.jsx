@@ -131,14 +131,12 @@ const MyPostWidget = () => {
     if (post === "news") {
       hashTagss = [...hashTagss, "news"];
     }
-    image &&
-      image.forEach((file) => {
-        const acceptFile = acceptOnlyImages(file);
-        console.log(acceptFile, "accept file");
-        if (!acceptFile) {
-          return toast.error("Invalid File Format");
-        }
-      });
+    image && image.forEach((file) => {
+      const acceptFile = acceptOnlyImages(file);
+      if (!acceptFile) {
+        return toast.error("Invalid File Format");
+      }
+    })
     // if (image) {
     //   const acceptFile = acceptOnlyImages(image);
     //   if (!acceptFile) {
@@ -179,7 +177,6 @@ const MyPostWidget = () => {
     let urls = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      console.log(file, "file");
       const reader = new FileReader();
       reader.onload = function (e) {
         const imageUrl = e.target.result;
@@ -200,9 +197,8 @@ const MyPostWidget = () => {
     setImage(images);
     setImageUrls(urls);
   };
-
   function handleClick(value) {
-    
+
   }
 
 
