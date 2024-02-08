@@ -1,10 +1,11 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Alert, Box, Divider, Typography } from "@mui/material";
 import styles from "./index.module.css";
 import { useEffect, useRef, useState } from "react";
 import NotificationTemplate from "./NotificationTemplate";
 import { useGetAllNotificationById } from "../../hooks/notifications";
 import { useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
+import LookingEmpty from "../LookingEmpty/LookingEmpty";
 
 const NotificationContent = () => {
   const [selected, setSelected] = useState("all");
@@ -56,12 +57,17 @@ const NotificationContent = () => {
       </Box>
       <Divider sx={{ marginTop: "0.2rem" }} />
       <Box className={styles.notificationMainDiv} ref={notificationRef}>
-        {data &&
-          data
-            .filter((e) => e.status !== 0)
-            .map((e, i) => {
-              return <NotificationTemplate key={i} data={e} />;
-            })}
+        {data && data?.length > 0 ? (
+          <>
+            {data
+              .filter((e) => e.status !== 0)
+              .map((e, i) => {
+                return <NotificationTemplate key={i} data={e} />;
+              })}
+          </>
+        ) : (
+          <LookingEmpty />
+        )}
       </Box>
     </Box>
   );

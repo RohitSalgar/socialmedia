@@ -435,29 +435,33 @@ const HomePage = () => {
             )}
             {dashboardView === "profile" && <Profile />}
             {dashboardView === "postprofile" && <PostProfile />}
-            {dashboardView === "notification" &&
-            notificationPostData &&
-            notificationPostData.length > 0 ? (
+            {dashboardView === "notification" && (
               <>
-                {notificationPostData.map((e, i) => {
-                  return <PostWidget key={i} postData={e} />;
-                })}
-              </>
-            ) : (
-              <>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.4rem",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    margin: "1rem",
-                  }}
-                >
-                  <img src={notfound} alt="notfound" width={'80%'}/>
-                  <p style={{fontSize:'22px'}}>The Post isn't available</p>
-                </Box>
+                {notificationPostData && notificationPostData.length > 0 ? (
+                  <>
+                    {notificationPostData.map((e, i) => {
+                      return <PostWidget key={i} postData={e} />;
+                    })}
+                  </>
+                ) : (
+                  <>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.4rem",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        margin: "1rem",
+                      }}
+                    >
+                      <img src={notfound} alt="notfound" width={"80%"} />
+                      <p style={{ fontSize: "22px" }}>
+                        The Post isn't available
+                      </p>
+                    </Box>
+                  </>
+                )}
               </>
             )}
 
