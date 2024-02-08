@@ -1,4 +1,6 @@
 import {
+  Alert,
+  Avatar,
   Box,
   Button,
   IconButton,
@@ -51,6 +53,7 @@ import { removeHastag } from "../../../../redux/slices/post";
 import { setDashboardView } from "../../../../redux/slices/profileSlice";
 import NotificationLayout from "../Notification/NotificationLayout";
 import { useGetNotificationPostById } from "../../../../hooks/notifications";
+import notfound from "../../../../assets/Images/notfound.jpg";
 
 const HomePage = () => {
   const { ref, inView } = useInView();
@@ -414,14 +417,30 @@ const HomePage = () => {
             {dashboardView === "profile" && <Profile />}
             {dashboardView === "postprofile" && <PostProfile />}
             {dashboardView === "notification" &&
-              notificationPostData &&
-              notificationPostData.length > 0 && (
-                <>
-                  {notificationPostData.map((e, i) => {
-                    return <PostWidget key={i} postData={e} />;
-                  })}
-                </>
-              )}
+            notificationPostData &&
+            notificationPostData.length > 0 ? (
+              <>
+                {notificationPostData.map((e, i) => {
+                  return <PostWidget key={i} postData={e} />;
+                })}
+              </>
+            ) : (
+              <>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "1rem",
+                  }}
+                >
+                  <img src={notfound} alt="notfound" />
+                </Box>
+                <Alert severity="error" sx={{
+                  fontSize:'20px',
+                }}>Post Not Found</Alert>
+              </>
+            )}
 
             {dashboardView === "pages" &&
             hashtag === "" &&

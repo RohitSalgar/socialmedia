@@ -57,9 +57,11 @@ const NotificationContent = () => {
       <Divider sx={{ marginTop: "0.2rem" }} />
       <Box className={styles.notificationMainDiv} ref={notificationRef}>
         {data &&
-          data.map((e, i) => {
-            return <NotificationTemplate key={i} data={e} />;
-          })}
+          data
+            .filter((e) => e.status !== 0)
+            .map((e, i) => {
+              return <NotificationTemplate key={i} data={e} />;
+            })}
       </Box>
     </Box>
   );

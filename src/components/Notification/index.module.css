@@ -25,12 +25,13 @@
   padding: 0.2rem;
   cursor: pointer;
   gap: 0.4rem;
-  border-radius: 7px;
+  border-bottom: 1px solid #f3cf00;
 }
 
 .unReadmsg {
   box-shadow: rgba(246, 195, 26, 0.12) 0px 2px 4px 0px,
     rgba(234, 221, 49, 0.32) 0px 2px 16px 0px;
+  border-bottom: none !important;
 }
 .notificationDiv {
   cursor: pointer;
