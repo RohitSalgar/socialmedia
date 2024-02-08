@@ -16,12 +16,13 @@ import WidgetWrapper from "../../../../components/WidgetWrapper";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { HiMiniHashtag } from "react-icons/hi2";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useInsertPost } from "../../../../hooks/posts";
 import { useGetProfile } from "../../../../hooks/profile";
 import { toast } from "react-toastify";
 import { openFileNewWindow } from "../../../../helper";
 import Slider from "react-slick";
+import { useNavSearch } from "../../../../hooks/user";
 
 const MyPostWidget = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -29,7 +30,9 @@ const MyPostWidget = () => {
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
+  const [searchData, setSearchData] = useState([]);
   const [hashTag, setHashTags] = useState(false);
+  const dispatch = useDispatch();
   let [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [location, setLocation] = useState({
@@ -39,9 +42,16 @@ const MyPostWidget = () => {
   const { palette } = useTheme();
   const { data } = useGetProfile(userId);
 
+  const onSearchSuccess = (data) => {
+    setSearchData(data);
+  };
+
+  const { mutate: navesearchMutate } = useNavSearch(onSearchSuccess);
+
   // const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
   // const medium = palette.neutral.medium;
+
   const onSuccess = () => {
     setTags([]);
     setDescription("");
@@ -103,7 +113,12 @@ const MyPostWidget = () => {
   }
 
   function acceptOnlyImages(file) {
-    const acceptedImageTypes = ["image/jpeg", "image/jpg", "image/png", "video/mp4"];
+    const acceptedImageTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "video/mp4",
+    ];
     return acceptedImageTypes.includes(file.type);
   }
 
@@ -116,13 +131,14 @@ const MyPostWidget = () => {
     if (post === "news") {
       hashTagss = [...hashTagss, "news"];
     }
-    image && image.forEach((file) => {
-      const acceptFile = acceptOnlyImages(file);
-      console.log(acceptFile,"accept file")
-      if (!acceptFile) {
-        return toast.error("Invalid File Format");
-      }
-    })
+    image &&
+      image.forEach((file) => {
+        const acceptFile = acceptOnlyImages(file);
+        console.log(acceptFile, "accept file");
+        if (!acceptFile) {
+          return toast.error("Invalid File Format");
+        }
+      });
     // if (image) {
     //   const acceptFile = acceptOnlyImages(image);
     //   if (!acceptFile) {
@@ -185,6 +201,14 @@ const MyPostWidget = () => {
     setImageUrls(urls);
   };
 
+  function handleClick(value) {
+    
+  }
+
+
+  console.log(searchData , 'searchdatA')
+
+
   return (
     <WidgetWrapper>
       <FlexBetween flexDirection={"column"}>
@@ -192,9 +216,16 @@ const MyPostWidget = () => {
           className={styles.searchinput}
           id="outlined-multiline-static"
           multiline
-          rows={1}
+          // rows={1}
           placeholder="What's Happening..."
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => {
+            setDescription(e.target.value);
+            if (description.startsWith(" @")) {
+              return navesearchMutate({
+                term: e.target.value,
+              });
+            }
+          }}
           value={description}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey && description) {
@@ -255,6 +286,38 @@ const MyPostWidget = () => {
               );
             })}
         </Slider>
+      )}
+      {description.includes(" @") && searchData && searchData?.length > 0 && (
+        <Box sx={{ width: "220px", height: "350px" }}>
+          {searchData && searchData.length > 0 && (
+            <div
+              className={styles.searchitemsContainer}
+              style={{ marginTop: "45px" }}
+            >
+              {searchData &&
+                searchData.map((value) => {
+                  return (
+                    <div
+                      onClick={() => handleClick(value)}
+                      key={value._id}
+                      className={styles.profileContainer}
+                    >
+                      <div>
+                        <img
+                          className={styles.profilePic}
+                          src={value.profile}
+                          alt=""
+                        />
+                      </div>
+                      <div>
+                        {value.fullName ? value.fullName : value.companyName}
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          )}
+        </Box>
       )}
       {imageUrls && imageUrls.length === 1 && (
         <div className={styles.sliderContainer}>
