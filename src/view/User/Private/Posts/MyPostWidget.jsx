@@ -39,6 +39,7 @@ const MyPostWidget = () => {
     state: "TamilNadu",
     country: "India",
   });
+  const [searchDivToggle, setSearchDivToggle] = useState(false);
   const { palette } = useTheme();
   const { data } = useGetProfile(userId);
 
@@ -131,12 +132,13 @@ const MyPostWidget = () => {
     if (post === "news") {
       hashTagss = [...hashTagss, "news"];
     }
-    image && image.forEach((file) => {
-      const acceptFile = acceptOnlyImages(file);
-      if (!acceptFile) {
-        return toast.error("Invalid File Format");
-      }
-    })
+    image &&
+      image.forEach((file) => {
+        const acceptFile = acceptOnlyImages(file);
+        if (!acceptFile) {
+          return toast.error("Invalid File Format");
+        }
+      });
     // if (image) {
     //   const acceptFile = acceptOnlyImages(image);
     //   if (!acceptFile) {
@@ -197,13 +199,13 @@ const MyPostWidget = () => {
     setImage(images);
     setImageUrls(urls);
   };
+
   function handleClick(value) {
-
+    setDescription((prevState) => {
+      return `${prevState} ${value.fullName}`;
+    });
+    setSearchDivToggle(false);
   }
-
-
-  console.log(searchData , 'searchdatA')
-
 
   return (
     <WidgetWrapper>
@@ -212,13 +214,13 @@ const MyPostWidget = () => {
           className={styles.searchinput}
           id="outlined-multiline-static"
           multiline
-          // rows={1}
           placeholder="What's Happening..."
           onChange={(e) => {
             setDescription(e.target.value);
-            if (description.startsWith(" @")) {
+            if (description.includes(" @")) {
+              setSearchDivToggle(true);
               return navesearchMutate({
-                term: e.target.value,
+                term: e.target.value.split(" @")[1],
               });
             }
           }}
@@ -283,38 +285,41 @@ const MyPostWidget = () => {
             })}
         </Slider>
       )}
-      {description.includes(" @") && searchData && searchData?.length > 0 && (
-        <Box sx={{ width: "220px", height: "350px" }}>
-          {searchData && searchData.length > 0 && (
-            <div
-              className={styles.searchitemsContainer}
-              style={{ marginTop: "45px" }}
-            >
-              {searchData &&
-                searchData.map((value) => {
-                  return (
-                    <div
-                      onClick={() => handleClick(value)}
-                      key={value._id}
-                      className={styles.profileContainer}
-                    >
-                      <div>
-                        <img
-                          className={styles.profilePic}
-                          src={value.profile}
-                          alt=""
-                        />
+      {searchDivToggle &&
+        description.includes(" @") &&
+        searchData &&
+        searchData?.length > 0 && (
+          <Box sx={{ width: "220px", height: "350px" }}>
+            {searchData && searchData.length > 0 && (
+              <div
+                className={styles.searchitemsContainer}
+                style={{ marginTop: "45px" }}
+              >
+                {searchData &&
+                  searchData.map((value) => {
+                    return (
+                      <div
+                        onClick={() => handleClick(value)}
+                        key={value._id}
+                        className={styles.profileContainer}
+                      >
+                        <div>
+                          <img
+                            className={styles.profilePic}
+                            src={value.profile}
+                            alt=""
+                          />
+                        </div>
+                        <div>
+                          {value.fullName ? value.fullName : value.companyName}
+                        </div>
                       </div>
-                      <div>
-                        {value.fullName ? value.fullName : value.companyName}
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-          )}
-        </Box>
-      )}
+                    );
+                  })}
+              </div>
+            )}
+          </Box>
+        )}
       {imageUrls && imageUrls.length === 1 && (
         <div className={styles.sliderContainer}>
           <div className={styles.imageContainer}>
