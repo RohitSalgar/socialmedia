@@ -22,6 +22,7 @@ import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
 import { useGetQaComment, useQaLikeDisLike } from "../../../../hooks/qa";
+import {CancelOutlined} from "@mui/icons-material";
 
 const QaWidget = ({ postData }) => {
   const [isComments, setIsComments] = useState(false);
@@ -191,6 +192,22 @@ const QaWidget = ({ postData }) => {
         <Box mt="0.5rem">
           <Box>
             <Divider />
+            <Box
+                onClick={() => {
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent:"end"
+                }}
+              >
+                <IconButton>
+                  <CancelOutlined />
+                </IconButton>
+                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {

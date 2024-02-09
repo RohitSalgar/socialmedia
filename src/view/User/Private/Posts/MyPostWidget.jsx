@@ -34,6 +34,7 @@ const MyPostWidget = () => {
   const [hashTag, setHashTags] = useState(false);
   const dispatch = useDispatch();
   let [description, setDescription] = useState("");
+  let [lastWordBeforeCursor, setLastWordBeforeCursor] = useState("");
   const [tags, setTags] = useState([]);
   const [location, setLocation] = useState({
     state: "TamilNadu",
@@ -217,25 +218,42 @@ const MyPostWidget = () => {
           placeholder="What's Happening..."
           onChange={(e) => {
             setDescription(e.target.value);
-            if (description.includes(" @")) {
+            const words = e.target.value.split(' ');
+            const lastWord = words[words.length - 1];
+            const cursorPosition = e.target.selectionStart;
+
+            // Extract the word at the cursor position
+            const wordsBeforeCursor = e.target.value.substring(0, cursorPosition).split(' ');
+            const lastWordBeforeCursor = wordsBeforeCursor[wordsBeforeCursor.length - 1];
+            setLastWordBeforeCursor(lastWordBeforeCursor)
+            console.log(lastWordBeforeCursor)
+            // if (lastWordBeforeCursor.startsWith("@")) {
+            //   setSearchDivToggle(true);
+            //   navesearchMutate({
+            //     term: lastWord.substring(1),
+            //   });
+            // }
+            if ((lastWordBeforeCursor.startsWith('@') || lastWordBeforeCursor.endsWith('@')) && lastWordBeforeCursor.length >= 1) {
               setSearchDivToggle(true);
-              return navesearchMutate({
-                term: e.target.value.split(" @")[1],
+              console.log(lastWordBeforeCursor)
+              navesearchMutate({
+                term: lastWord.substring(1),
               });
             }
           }}
           value={description}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey && description) {
+            if (e.key === 'Enter' && !e.shiftKey && description) {
               e.preventDefault();
-              if (dashboardView === "news") {
-                onSubmit("news");
+              if (dashboardView === 'news') {
+                onSubmit('news');
               } else {
                 onSubmit();
               }
             }
           }}
         />
+
         {hashTag && (
           <div className={styles.tagsInputContainer}>
             {tags.map((tag, index) => (
@@ -262,7 +280,7 @@ const MyPostWidget = () => {
             imageUrls.length > 0 &&
             imageUrls.map((file, i) => {
               return (
-                <div className={styles.sliderContainer}>
+                <div className={styles.sliderContainer} key={i}>
                   <div className={styles.imageContainer} key={i}>
                     {file.imageUrl.startsWith("data:image") ? (
                       <img
@@ -286,7 +304,8 @@ const MyPostWidget = () => {
         </Slider>
       )}
       {searchDivToggle &&
-        description.includes(" @") &&
+        // lastWordBeforeCursor.startsWith("@") &&
+        (lastWordBeforeCursor.startsWith('@') || lastWordBeforeCursor.endsWith('@')) && lastWordBeforeCursor.length >= 1 &&
         searchData &&
         searchData?.length > 0 && (
           <Box sx={{ width: "220px", height: "350px" }}>
@@ -344,7 +363,7 @@ const MyPostWidget = () => {
       )}
 
 
-    
+
 
       <FlexBetween>
         <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>

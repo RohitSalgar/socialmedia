@@ -22,6 +22,7 @@ import Loader from "../../../../components/Loader/Loader";
 import CommentInputBox from "../../../../components/Comments/CommentInputBox";
 import CommentBox from "../../../../components/Comments/CommentBox";
 import styles from "./index.module.css";
+import {CancelOutlined} from "@mui/icons-material";
 
 const LikeComment = (props) => {
   const { palette } = useTheme();
@@ -140,6 +141,22 @@ const LikeComment = (props) => {
               <Box mt="0.5rem">
                 <Box>
                   <Divider />
+                  <Box
+                onClick={() => {
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent:"end"
+                }}
+              >
+                <IconButton>
+                  <CancelOutlined />
+                </IconButton>
+                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              </Box>
                   <Stack>
                     <CommentInputBox
                       type="comment"
