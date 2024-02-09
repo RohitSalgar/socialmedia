@@ -342,6 +342,10 @@ const MyPostWidget = () => {
           </div>
         </div>
       )}
+
+
+    
+
       <FlexBetween>
         <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>
           <Dropzone accept="image/*" multiple={true} onDrop={fileChangeFn}>
