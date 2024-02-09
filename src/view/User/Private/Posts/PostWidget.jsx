@@ -30,7 +30,7 @@ import { updateHashtag } from "../../../../redux/slices/post";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 import Slider from "react-slick";
 import CloseIcon from "@mui/icons-material/Close";
-
+import {CancelOutlined} from "@mui/icons-material";
 const PostWidget = ({ postData }) => {
   const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
@@ -253,21 +253,27 @@ const PostWidget = ({ postData }) => {
               <Typography sx={{ cursor: "pointer" }}>{"report"}</Typography>
             </Box>
           </FlexBetween>
+          {(report === true || isComments === true) && (
+            <FlexBetween gap="0.3rem">
+              {/* <Box
+                onClick={() => {
+                  setReport(false);
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <IconButton>
+                  <CancelOutlined />
+                </IconButton>
+                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              </Box> */}
+            </FlexBetween>
+          )}
         </FlexBetween>
-        {(report === true || isComments === true) && (
-          <FlexBetween gap="0.3rem">
-            <Box
-              onClick={() => {
-                setReport(false);
-                setIsComments(false);
-              }}
-            >
-              <IconButton>
-                <CloseIcon />
-              </IconButton>
-            </Box>
-          </FlexBetween>
-        )}
       </FlexBetween>
       {report === true && isComments === false && (
         <FlexBetween gap="5px">
@@ -297,12 +303,45 @@ const PostWidget = ({ postData }) => {
               <BsFillSendExclamationFill size={25} />
             </IconButton>
           )}
+               <Box
+                onClick={() => {
+                  setReport(false);
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <IconButton>
+                  <CancelOutlined />
+                </IconButton>
+                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              </Box>
         </FlexBetween>
       )}
       {isComments === true && report === false && (
         <Box mt="0.5rem">
           <Box>
             <Divider />
+            <Box
+                onClick={() => {
+                  setReport(false);
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent:"end"
+                }}
+              >
+                <IconButton>
+                  <CancelOutlined />
+                </IconButton>
+                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {
