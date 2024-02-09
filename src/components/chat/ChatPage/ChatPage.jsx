@@ -133,7 +133,7 @@ const ChatPage = ({ data, socket, liveUser }) => {
 
   const formatDate = (date) => {
     if (moment(date).isSame(moment(), "day")) {
-      return moment(date).fromNow();
+      return moment(date).fromNow().replace("seconds", "sec").replace("minutes","min").replace("hours","hr");
     } else {
       return moment(date).format(" h:mm A");
     }
