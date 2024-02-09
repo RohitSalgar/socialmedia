@@ -2,7 +2,6 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  CancelOutlined,
 } from "@mui/icons-material";
 import {
   Box,
@@ -31,9 +30,9 @@ import { updateHashtag } from "../../../../redux/slices/post";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 import Slider from "react-slick";
 import styles from "./index.module.css";
-
+import CloseIcon from "@mui/icons-material/Close";
+import {CancelOutlined} from "@mui/icons-material";
 const PostWidget = ({ postData }) => {
-  console.log(postData, "post data");
   const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
@@ -190,9 +189,9 @@ const PostWidget = ({ postData }) => {
       {postData.files && postData.files.length > 1 && (
         <Slider {...settings}>
           {postData.files &&
-            postData.files.map((item) => {
+            postData.files.map((item,i) => {
               return (
-                <div>
+                <div key={i}>
                   {item?.fileType.includes("image") ? (
                     <img src={item.filePath} alt="post_image" />
                   ) : (
@@ -265,7 +264,7 @@ const PostWidget = ({ postData }) => {
           </FlexBetween>
           {(report === true || isComments === true) && (
             <FlexBetween gap="0.3rem">
-              <Box
+              {/* <Box
                 onClick={() => {
                   setReport(false);
                   setIsComments(false);
@@ -280,7 +279,7 @@ const PostWidget = ({ postData }) => {
                   <CancelOutlined />
                 </IconButton>
                 <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
-              </Box>
+              </Box> */}
             </FlexBetween>
           )}
         </FlexBetween>
@@ -313,12 +312,45 @@ const PostWidget = ({ postData }) => {
               <BsFillSendExclamationFill size={25} />
             </IconButton>
           )}
+               <Box
+                onClick={() => {
+                  setReport(false);
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <IconButton>
+                  <CancelOutlined />
+                </IconButton>
+                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              </Box>
         </FlexBetween>
       )}
       {isComments === true && report === false && (
         <Box mt="0.5rem">
           <Box>
             <Divider />
+            <Box
+                onClick={() => {
+                  setReport(false);
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent:"end"
+                }}
+              >
+                <IconButton>
+                  <CancelOutlined />
+                </IconButton>
+                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {

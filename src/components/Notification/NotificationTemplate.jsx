@@ -18,6 +18,8 @@ const NotificationTemplate = ({ data }) => {
     mutate(payload);
   };
 
+  console.log(data, "data");
+
   return (
     <Box
       className={`${data?.status === 1 && styles.unReadmsg} ${
@@ -33,8 +35,12 @@ const NotificationTemplate = ({ data }) => {
           src={data?.userProfile}
         />
         <Box sx={{ fontSize: "12px" }}>
-          <span className={styles.linkWord}>{data?.userName}</span>{" "}
-          {data?.category === 2 ? "commented on your post" : "liked your post"}{" "}
+          <span className={styles.linkWord}>{data?.userName}</span>
+          {data?.category === 2
+            ? " commented on your post"
+            : data?.category === 3
+            ? " tagged you in his post"
+            : " liked your post"}
           <span style={{ fontSize: "10px", fontWeight: "500" }}>
             at {moment(data?.createdAt).format("DD-MM-YYYY")}
           </span>
