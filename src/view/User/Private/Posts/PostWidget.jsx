@@ -29,6 +29,7 @@ import { useReportPost } from "../../../../hooks/posts";
 import { updateHashtag } from "../../../../redux/slices/post";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 import Slider from "react-slick";
+import styles from "./index.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import {CancelOutlined} from "@mui/icons-material";
 const PostWidget = ({ postData }) => {
@@ -173,26 +174,34 @@ const PostWidget = ({ postData }) => {
         ))}
       </Typography>
       {postData.files && postData.files.length === 1 && (
-        <img
-          width="100%"
-          height="auto"
-          alt="post"
-          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={postData.files[0]}
-        />
+        <div>
+          {postData.files[0]?.fileType?.includes("image") ? (
+            <img src={postData.files[0].filePath} alt="post_image" />
+          ) : (
+            <video
+              className={styles.video}
+              src={postData.files[0].filePath}
+              controls
+            />
+          )}
+        </div>
       )}
       {postData.files && postData.files.length > 1 && (
         <Slider {...settings}>
           {postData.files &&
-            postData.files.map((item) => {
+            postData.files.map((item,i) => {
               return (
-                <img
-                  width="100%"
-                  height="auto"
-                  alt="post"
-                  style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-                  src={item}
-                />
+                <div key={i}>
+                  {item?.fileType.includes("image") ? (
+                    <img src={item.filePath} alt="post_image" />
+                  ) : (
+                    <video
+                      className={styles.video}
+                      src={item.filePath}
+                      controls
+                    />
+                  )}
+                </div>
               );
             })}
         </Slider>
