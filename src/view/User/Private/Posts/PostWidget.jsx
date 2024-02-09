@@ -30,9 +30,11 @@ import { useReportPost } from "../../../../hooks/posts";
 import { updateHashtag } from "../../../../redux/slices/post";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 import Slider from "react-slick";
+import styles from "./index.module.css";
 
 const PostWidget = ({ postData }) => {
-  const dispatch = useDispatch()
+  console.log(postData, "post data");
+  const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
   const [report, setReport] = useState(false);
@@ -152,9 +154,9 @@ const PostWidget = ({ postData }) => {
   };
 
   const handleHashtagClick = (hashtag) => {
-    dispatch(updateHashtag(hashtag))
+    dispatch(updateHashtag(hashtag));
   };
-  
+
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
@@ -173,30 +175,45 @@ const PostWidget = ({ postData }) => {
         ))}
       </Typography>
       {postData.files && postData.files.length === 1 && (
-        <img
-          width="100%"
-          height="auto"
-          alt="post"
-          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={postData.files[0]}
-        />
+        <div>
+          {postData.files[0]?.fileType?.includes("image") ? (
+            <img src={postData.files[0].filePath} alt="post_image" />
+          ) : (
+            <video
+              className={styles.video}
+              src={postData.files[0].filePath}
+              controls
+            />
+          )}
+        </div>
       )}
-      {postData.files && postData.files.length > 1 && 
-      <Slider {...settings}>
-        {postData.files && postData.files.map(item => {
-          return <img
-          width="100%"
-          height="auto"
-          alt="post"
-          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={item}
-        />
-        })}
-        </Slider>}
+      {postData.files && postData.files.length > 1 && (
+        <Slider {...settings}>
+          {postData.files &&
+            postData.files.map((item) => {
+              return (
+                <div>
+                  {item?.fileType.includes("image") ? (
+                    <img src={item.filePath} alt="post_image" />
+                  ) : (
+                    <video
+                      className={styles.video}
+                      src={item.filePath}
+                      controls
+                    />
+                  )}
+                </div>
+              );
+            })}
+        </Slider>
+      )}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
-            <IconButton onClick={likeDislike} disabled={likeDislikeLoading || !postData}>
+            <IconButton
+              onClick={likeDislike}
+              disabled={likeDislikeLoading || !postData}
+            >
               {isLiked ? (
                 <FavoriteOutlined sx={{ color: primary }} />
               ) : (
@@ -289,7 +306,7 @@ const PostWidget = ({ postData }) => {
                 reportPost();
               }
             }}
-          // type={type}
+            // type={type}
           />
           {reportText && (
             <IconButton onClick={reportPost}>

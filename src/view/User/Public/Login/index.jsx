@@ -32,6 +32,7 @@ import { useNavigate } from "react-router";
 import { useTheme } from "@emotion/react";
 import { Button } from "@mui/material";
 import { FaShip } from "react-icons/fa6";
+import { URL } from "../../../../config";
 const loginValidation = yup.object({
   email: yup
     .string()
@@ -121,6 +122,10 @@ export default function Register() {
   const onSubmit = (data) => {
     loginData.mutate(data);
   };
+
+  const googleSignUpFn = async() => {
+    await fetch(URL + "users/auth/google")
+  }
 
   return (
     <ThemeProvider theme={defaultTheme} className={styles.maindiv}>
@@ -319,6 +324,21 @@ export default function Register() {
                   }}
                 >
                   Login
+                </Button>
+                <Button
+                  onClick={googleSignUpFn}
+                  className={styles.submitbtn}
+                  // type="submit"
+                  fullWidth
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    background: `${primary}`,
+                    color: "#fff",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Signup with Google
                 </Button>
                 <Grid
                   item
