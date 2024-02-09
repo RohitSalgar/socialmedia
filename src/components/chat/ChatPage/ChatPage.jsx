@@ -11,11 +11,13 @@ import {
   setLiveUsers,
   resetLiveChatUsers,
 } from "../../../redux/slices/chat";
-import { useGetChatById } from "../../../hooks/chat";
+import { useGetChatById, useUpdateChatStatus } from "../../../hooks/chat";
 import Loader from "../../Loader/Loader";
 
-const ChatPage = ({ data, socket, liveUser }) => {
+const ChatPage = ({ data, socket, resetNotification }) => {
   const dispatch = useDispatch();
+  const { chatliveUsers } = useSelector((state) => state.chat)
+  const { mutate } = useUpdateChatStatus();
   const messagesDivRef = useRef(null);
   const { singleConnectionId } = useSelector((state) => state.chat);
   const [chatMessage, setChatMessage] = useState([]);
@@ -23,7 +25,7 @@ const ChatPage = ({ data, socket, liveUser }) => {
   const { userId } = useSelector((state) => state.profile.profileData);
   let filteredData = data?.filter((e) => e._id === singleConnectionId);
   const [messageEmitted, setMessageEmitted] = useState(false);
-  const { data: chatData, isLoading: chatLoading } = useGetChatById(
+  const { data: chatData, isLoading: chatLoading, refetch } = useGetChatById(
     filteredData[0]._id
   );
 
@@ -37,6 +39,10 @@ const ChatPage = ({ data, socket, liveUser }) => {
     if (chatData) {
       setChatMessage(chatData);
     }
+    let payload = {};
+    payload.userId = userId;
+    payload.connectionId = filteredData[0]._id;
+    mutate(payload);
   }, [chatData, socket]);
 
   // useEffect(() => {
@@ -46,10 +52,12 @@ const ChatPage = ({ data, socket, liveUser }) => {
 
   //   emitMessageOnce();
   // }, [socket]);
-
+  console.log("running")
   useEffect(() => {
-    if (messageEmitted === false) {
+    refetch()
+    if (!messageEmitted) {
       socket?.on("getMessage", (data) => {
+        console.log(data)
         const newChat = {
           message: data.message,
           createdAt: data.createdAt,
@@ -57,31 +65,14 @@ const ChatPage = ({ data, socket, liveUser }) => {
         };
 
         setChatMessage((prev) => [...prev, newChat]);
-        setMessageEmitted(true);
       });
+      setMessageEmitted(true);
     }
-  }, [socket]);
+    return () => {
+      socket?.off("getMessage");
+    };
+  }, []);
 
-  // const emitMessageOnce = () => {
-  //   socket?.emit("users", filteredData[0]._id, userId);
-  //   socket?.on("getUsers", (users) => {
-  //     setLiveUser(users);
-  //     dispatch(setLiveUsers(users))
-  //   });
-
-  //   if (messageEmitted === false) {
-  //     socket?.on("getMessage", (data) => {
-  //       const newChat = {
-  //         message: data.message,
-  //         createdAt: data.createdAt,
-  //         senderId: data.senderId,
-  //       };
-
-  //       setChatMessage((prev) => [...prev, newChat]);
-  //       setMessageEmitted(true);
-  //     });
-  //   }
-  // };
 
   const sendChatMessage = (e) => {
     e.preventDefault();
@@ -162,7 +153,7 @@ const ChatPage = ({ data, socket, liveUser }) => {
     <Box className={styles.chatPage} sx={{ height: "65vh" }}>
       <KeyboardBackspaceIcon
         sx={{ cursor: "pointer" }}
-        onClick={() => dispatch(setSingleChatModeOff())}
+        onClick={() =>{ dispatch(setSingleChatModeOff()); resetNotification()}}
       />
       <Box className={styles.chatHeader}>
         <p className={styles.contactName}>
@@ -171,7 +162,7 @@ const ChatPage = ({ data, socket, liveUser }) => {
             : filteredData[0].senderName}
         </p>
         <p className={styles.activeLogo}>
-          {liveUser && isUserIdPresent(liveUser, filteredData[0])
+          {chatliveUsers && isUserIdPresent(chatliveUsers, filteredData[0])
             ? "Online"
             : "Offline"}
         </p>

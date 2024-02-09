@@ -53,6 +53,7 @@ const AdvertWidget = ({ companyData }) => {
   
   const settings = {
     speed: 500,
+    // dots: true,
     slidesToShow: 2,
     slidesToScroll: 2,
     responsive: [

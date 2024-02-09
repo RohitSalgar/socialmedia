@@ -22,13 +22,18 @@ const ChatLayout = () => {
 
   const socket = useSocket();
   const [notification, setNotification] = useState([])
+  const [notificationSent, setNotificationSent] = useState(false);
+
   const [text, setText] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
   const { isSingleChatOn } = useSelector((state) => state.chat);
-  const { data: allChatInfo, isLoading } = usegetAllChatInfo(userId);
+  const { data: allChatInfo, isLoading, refetch } = usegetAllChatInfo(userId);
   const { data } = useGetProfile(userId);
   const dispatch = useDispatch();
 
+  const resetNotification = () => {
+    setNotification([])
+  }
   const findId = (id, array) => {
     let correspondingId = null;
 
@@ -40,8 +45,9 @@ const ChatLayout = () => {
     }
     return correspondingId
   }
-console.log(liveUser,"live")
+  // console.log(liveUser,"live")
   useEffect(() => {
+    refetch()
     socket?.on("connect", () => {
       console.warn("connected");
     });
@@ -53,19 +59,23 @@ console.log(liveUser,"live")
     });
   }, [socket]);
 
+  console.log(notification,"out")
+
   useEffect(() => {
     if (allChatInfo != null) {
       socket?.on("getNotification", (notify) => {
-        const requiredId = allChatInfo && findId(notify.senderId, allChatInfo)
+        console.log("run")
+        const requiredId = allChatInfo && findId(notify.senderId, allChatInfo);
         if (requiredId != null) {
           if (notification.length === 0) {
             const newNotification = {
               _id: requiredId,
               notifyCount: 1
-            }
-            setNotification([newNotification])
+            };
+            setNotification([...notification,newNotification]);
           } else {
             const index = notification.findIndex(item => item._id === requiredId);
+            console.log(index)
             if (index !== -1) {
               setNotification(prevState => {
                 const newState = [...prevState];
@@ -76,8 +86,9 @@ console.log(liveUser,"live")
                 return newState;
               });
             } else {
-              setNotification(prevState => [
-                ...prevState,
+              console.log(notification)
+              setNotification( [
+                ...notification,
                 {
                   _id: requiredId,
                   notifyCount: 1
@@ -88,7 +99,8 @@ console.log(liveUser,"live")
         }
       });
     }
-  }, [socket, allChatInfo]);
+  }, [allChatInfo, notification]);
+  
 
   if (isLoading) {
     return <Loader />;
@@ -174,11 +186,10 @@ console.log(liveUser,"live")
               </Box>
             ))
         ) : (
-          // Render another component when the length is zero
           <LookingEmpty />
         )}
 
-        {isSingleChatOn && <ChatPage data={allChatInfo} socket={socket} liveUser={liveUser}/>}
+        {isSingleChatOn && <ChatPage data={allChatInfo} socket={socket} resetNotification={resetNotification} />}
       </Box>
     </WidgetWrapper>
   );
