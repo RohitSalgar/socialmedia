@@ -248,7 +248,7 @@ const PostWidget = ({ postData }) => {
           </FlexBetween>
           {(report === true || isComments === true) && (
             <FlexBetween gap="0.3rem">
-              <Box
+              {/* <Box
                 onClick={() => {
                   setReport(false);
                   setIsComments(false);
@@ -263,7 +263,7 @@ const PostWidget = ({ postData }) => {
                   <CancelOutlined />
                 </IconButton>
                 <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
-              </Box>
+              </Box> */}
             </FlexBetween>
           )}
         </FlexBetween>
@@ -296,12 +296,45 @@ const PostWidget = ({ postData }) => {
               <BsFillSendExclamationFill size={25} />
             </IconButton>
           )}
+               <Box
+                onClick={() => {
+                  setReport(false);
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <IconButton>
+                  <CancelOutlined />
+                </IconButton>
+                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              </Box>
         </FlexBetween>
       )}
       {isComments === true && report === false && (
         <Box mt="0.5rem">
           <Box>
             <Divider />
+            <Box
+                onClick={() => {
+                  setReport(false);
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent:"end"
+                }}
+              >
+                <IconButton>
+                  <CancelOutlined />
+                </IconButton>
+                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {
