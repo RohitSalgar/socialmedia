@@ -367,7 +367,7 @@ const MyPostWidget = () => {
 
       <FlexBetween>
         <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>
-          <Dropzone accept="image/*" multiple={true} onDrop={fileChangeFn}>
+          <Dropzone accept="image/*" multiple={true} onDrop={(files) => fileChangeFn(files)}>
             {({ getRootProps, getInputProps }) => (
               <FlexBetween>
                 <Box
@@ -376,34 +376,13 @@ const MyPostWidget = () => {
                   sx={{ "&:hover": { cursor: "pointer" } }}
                 >
                   <input {...getInputProps()} />
-                  {image.length === 0 && (
-                    <IconButton onClick={() => setImage([])}>
+                    <IconButton>
                       <MdAddPhotoAlternate
                         size={25}
                         style={{ color: mediumMain }}
                       />
                     </IconButton>
-                  )}
                 </Box>
-
-                {/* {image.length > 0 &&
-                  image.map((image, i) => {
-                    return (
-                      <>
-                        <FlexBetween key={i}>
-                          <Typography onClick={onImageClick}>
-                            {image && image.name}
-                          </Typography>
-                          <IconButton onClick={() => setImage([])}>
-                            <EditOutlined style={{ color: mediumMain }} />
-                          </IconButton>
-                        </FlexBetween>
-                        <IconButton onClick={() => setImage([])}>
-                          <DeleteOutlined />
-                        </IconButton>
-                      </>
-                    );
-                  })} */}
               </FlexBetween>
             )}
           </Dropzone>
