@@ -10,6 +10,7 @@ import {
   setViewProfileId,
   setDashboardView,
 } from "../../redux/slices/profileSlice";
+import { AVATAR_COLORS } from "../../assets/avatarBgColors";
 function CommentHeader({
   user,
   createdAt,
@@ -40,6 +41,8 @@ function CommentHeader({
   //   },5000)
   //   return () => clearInterval(interval)
   // },[createdAt])
+  const coloredAvatars =
+    AVATAR_COLORS[postData.userInfo.fullName.charAt(0).toUpperCase()];
   return (
     <>
       <Box
@@ -55,26 +58,31 @@ function CommentHeader({
           sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}
         >
           {/* <Avatar alt="avatar" sx={{ width: 25, height: 25 }} /> */}
-          <span
-            style={{
-              display: "inline-block",
-              width: 25,
-              height: 25,
-              marginRight: 1,
-              backgroundColor: "#bdbdbd",
-              borderRadius: "50%",
-              textAlign: "center",
-              lineHeight: "25px",
-              color: "#fff",
-              cursor: "pointer",
-            }}
+          <Avatar
             onClick={() => {
+              if(postData.userId){
               dispatch(setViewProfileId(postData.userId));
               dispatch(setDashboardView("profile"));
+              }else{
+                dispatch(setViewProfileId(postData.userReplied));
+              dispatch(setDashboardView("profile"));
+              }
+            }}
+            style={{
+              backgroundColor: coloredAvatars,
+              borderRadius: "50%",
+              width: 25,
+              height: 25,
+              fontSize:"12px"
             }}
           >
-            {postData.userInfo.fullName.charAt(0).toUpperCase()}
-          </span>
+            {postData.userInfo.fullName.includes(" ")
+              ? postData.userInfo.fullName
+                  .split(" ")
+                  .map((name) => name.charAt(0).toUpperCase())
+                  .join("")
+              : postData.userInfo.fullName.charAt(0).toUpperCase()}
+          </Avatar>
           <Box
             sx={{
               display: "flex",
@@ -109,18 +117,9 @@ function CommentHeader({
                   color={dark}
                   variant="fullName"
                   fontWeight="400"
-                  sx={{ ml: 1 }}
+                  sx={{ ml: 1, padding: "5px" }}
                 >
                   {postData?.userInfo?.fullName}
-                </Typography>
-                <Typography
-                  color={dark}
-                  variant="designation"
-                  fontWeight="300"
-                  fontSize="12px"
-                  paddingRight={1}
-                >
-                  ({postData?.userInfo?.designation})
                 </Typography>
               </Box>
             )}

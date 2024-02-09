@@ -20,6 +20,7 @@ import { useInsertQaComment, useInsertQaReply } from "../../hooks/qa";
 import { useGetProfile } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
 import { setReplyInput } from "../../redux/slices/post";
+import { AVATAR_COLORS } from "../../assets/avatarBgColors";
 function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   const { palette } = useTheme();
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -98,6 +99,8 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
       }
     }
   }
+  const coloredAvatars =
+    AVATAR_COLORS[profiledate?.userData?.fullName?.charAt(0).toUpperCase()];
   if (profileLoading) {
     return <Loader />;
   }
@@ -130,21 +133,24 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
 
               {type === "reply" && replyInput === "true" && (
                 <>
-                  <span
+                  <Avatar
                     style={{
-                      display: "inline-block",
-                      width: 30,
-                      height: 25,
-                      marginRight:"0.5rem",
-                      backgroundColor: "#bdbdbd",
+                      backgroundColor: coloredAvatars,
                       borderRadius: "50%",
-                      textAlign: "center",
-                      lineHeight: "25px",
-                      color: "#fff",
+                      width: 25,
+                      height: 25,
+                      fontSize:"12px"
                     }}
                   >
-                    {profiledate.userData.fullName.charAt(0).toUpperCase()}
-                  </span>
+                    {profiledate?.userData?.fullName?.includes("")
+                      ? profiledate?.userData?.fullName
+                          ?.split(" ")
+                          .map((name) => name.charAt(0).toUpperCase())
+                          .join("")
+                      : profiledate?.userData?.fullName
+                          ?.charAt(0)
+                          .toUpperCase()}
+                  </Avatar>
                   <TextField
                     id="outlined-multiline-static"
                     multiline
@@ -178,21 +184,24 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
               )}
               {type !== "reply" && (
                 <>
-                  <span
+                  <Avatar
                     style={{
-                      display: "inline-block",
-                      width: 30,
-                      height: 25,
-                      marginRight : '0.5rem',
-                      backgroundColor: "#bdbdbd",
+                      backgroundColor: coloredAvatars,
                       borderRadius: "50%",
-                      textAlign: "center",
-                      lineHeight: "25px",
-                      color: "#fff",
+                      width: 25,
+                      height: 25,
+                      fontSize:"12px"
                     }}
                   >
-                    {profiledate.userData.fullName.charAt(0).toUpperCase()}
-                  </span>
+                    {profiledate?.userData?.fullName?.includes("")
+                      ? profiledate?.userData?.fullName
+                          ?.split(" ")
+                          .map((name) => name.charAt(0).toUpperCase())
+                          .join("")
+                      : profiledate?.userData?.fullName
+                          ?.charAt(0)
+                          .toUpperCase()}
+                  </Avatar>
                   <TextField
                     id="outlined-multiline-static"
                     multiline
