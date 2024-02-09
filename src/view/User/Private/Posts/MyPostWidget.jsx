@@ -118,7 +118,6 @@ const MyPostWidget = () => {
     }
     image && image.forEach((file) => {
       const acceptFile = acceptOnlyImages(file);
-      console.log(acceptFile,"accept file")
       if (!acceptFile) {
         return toast.error("Invalid File Format");
       }
@@ -163,7 +162,6 @@ const MyPostWidget = () => {
     let urls = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      console.log(file, "file");
       const reader = new FileReader();
       reader.onload = function (e) {
         const imageUrl = e.target.result;

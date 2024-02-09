@@ -7,19 +7,17 @@ import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { CancelScheduleSend } from "@mui/icons-material";
 import {
-  setNotification,
   setSingleChatModeOff,
+  setLiveUsers,
+  resetLiveChatUsers,
 } from "../../../redux/slices/chat";
 import { useGetChatById } from "../../../hooks/chat";
 import Loader from "../../Loader/Loader";
-import { useSocket } from "../../../hooks/socket";
 
-const ChatPage = ({ data, liveUser }) => {
+const ChatPage = ({ data, socket, liveUser }) => {
   const dispatch = useDispatch();
-  const socket = useSocket();
   const messagesDivRef = useRef(null);
   const { singleConnectionId } = useSelector((state) => state.chat);
-
   const [chatMessage, setChatMessage] = useState([]);
   const [sendMessage, setSendMessage] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -41,19 +39,15 @@ const ChatPage = ({ data, liveUser }) => {
     }
   }, [chatData, socket]);
 
-  socket &&
-    socket.on("connect", () => {
-      console.warn("connected");
-    });
+  // useEffect(() => {
+  //   socket?.on("connect", () => {
+  //     console.warn("connected");
+  //   });
+
+  //   emitMessageOnce();
+  // }, [socket]);
 
   useEffect(() => {
-    socket?.on("getNotification", (data) => {
-      // dispatch(setNotification(data))
-    });
-    emitMessageOnce();
-  }, [socket]);
-
-  const emitMessageOnce = () => {
     if (messageEmitted === false) {
       socket?.on("getMessage", (data) => {
         const newChat = {
@@ -66,7 +60,28 @@ const ChatPage = ({ data, liveUser }) => {
         setMessageEmitted(true);
       });
     }
-  };
+  }, [socket]);
+
+  // const emitMessageOnce = () => {
+  //   socket?.emit("users", filteredData[0]._id, userId);
+  //   socket?.on("getUsers", (users) => {
+  //     setLiveUser(users);
+  //     dispatch(setLiveUsers(users))
+  //   });
+
+  //   if (messageEmitted === false) {
+  //     socket?.on("getMessage", (data) => {
+  //       const newChat = {
+  //         message: data.message,
+  //         createdAt: data.createdAt,
+  //         senderId: data.senderId,
+  //       };
+
+  //       setChatMessage((prev) => [...prev, newChat]);
+  //       setMessageEmitted(true);
+  //     });
+  //   }
+  // };
 
   const sendChatMessage = (e) => {
     e.preventDefault();
@@ -116,6 +131,29 @@ const ChatPage = ({ data, liveUser }) => {
     return userPresent;
   }
 
+  const formatDate = (date) => {
+    if (moment(date).isSame(moment(), "day")) {
+      return moment(date).fromNow().replace("seconds", "sec").replace("minutes","min").replace("hours","hr");
+    } else {
+      return moment(date).format(" h:mm A");
+    }
+  };
+
+  // const getMessageDate = (createdAt) => {
+  //   const today = moment().startOf("day");
+  //   const yesterday = moment().subtract(1, "day").startOf("day");
+  //   const messageDate = moment(createdAt).startOf("day");
+
+  //   if (messageDate.isSame(today, "day")) {
+  //     return "Today";
+  //   } else if (messageDate.isSame(yesterday, "day")) {
+  //     return "Yesterday";
+  //   } else {
+  //     return moment(createdAt).format("MMM DD, YYYY");
+  //   }
+  // };
+
+
   if (chatLoading) {
     return <Loader />;
   }
@@ -149,18 +187,19 @@ const ChatPage = ({ data, liveUser }) => {
                       {message.message}
                     </Typography>
                     <p className={styles.senderTime}>
-                      {moment(message?.createdAt).format("DD MM YYYY, h:mm A")}
+                      {formatDate(message?.createdAt)}
                     </p>
                   </Box>
                 )}
                 {message.senderId === userId && (
                   <Box>
+                    {console.log(message.message)}
                     <Typography className={styles.receiver}>
                       {message.message}
                     </Typography>
 
                     <p className={`${styles.receiverTime}`}>
-                      {moment(message?.createdAt).format("DD MM YYYY, h:mm A")}
+                      {formatDate(message?.createdAt)}
                     </p>
                   </Box>
                 )}

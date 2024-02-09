@@ -55,7 +55,7 @@ import NotificationLayout from "../Notification/NotificationLayout";
 import { useGetNotificationPostById } from "../../../../hooks/notifications";
 import notfound from "../../../../assets/Images/notfound.jpg";
 import { AdvertisementWidget } from "../Posts/AdvertisementWidget";
-
+import { PAGE_SIZE } from "../../../../config";
 const HomePage = () => {
   const { ref, inView } = useInView();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -145,13 +145,11 @@ const HomePage = () => {
     country: "India",
   });
   const { data } = useGetProfile(userId);
-  console.log(trendingPost, "trendingpost");
   useEffect(() => {
     forYouDataRefetch();
     trendingPostPostRefetch();
     friendPostDataRefetch();
   }, [tabView]);
-
   useEffect(() => {
     if (inView) {
       switch (tabView) {
@@ -159,7 +157,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !trendingPost?.pageParams.includes(
-              Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
+              Math.ceil(trendingPost?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             fetchNextPage();
@@ -169,7 +167,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !forYouData?.pageParams.includes(
-              Math.ceil(forYouData?.pages[0]?.totalCount / 5)
+              Math.ceil(forYouData?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             forYouFetchNextPage();
@@ -179,7 +177,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !friendPostData?.pageParams.includes(
-              Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
+              Math.ceil(friendPostData?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             friendFetchNextPage();
@@ -189,7 +187,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !newsPostData?.pageParams.includes(
-              Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
+              Math.ceil(newsPostData?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             newsFetchNextPage();
@@ -199,7 +197,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !pagePostData?.pageParams.includes(
-              Math.ceil(pagePostData?.pages[0]?.totalCount / 5)
+              Math.ceil(pagePostData?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             pagePostFetchNextPage();
@@ -209,7 +207,7 @@ const HomePage = () => {
           if (
             hashtag === "" &&
             !allQaData?.pageParams.includes(
-              Math.ceil(allQaData?.pages[0]?.totalCount / 5)
+              Math.ceil(allQaData?.pages[0]?.totalCount / PAGE_SIZE)
             )
           ) {
             qaDataFetchNextPage();
@@ -234,7 +232,7 @@ const HomePage = () => {
     dispatch(removeHastag());
     dispatch(setDashboardView(dashboardView));
   };
-
+console.log(trendingPost,"trendingpost")
   return (
     <Box>
       <Navbar />
@@ -272,7 +270,7 @@ const HomePage = () => {
                         ))
                       )}
                       {!hashTagPostData.pageParams.includes(
-                        Math.ceil(hashTagPostData.pages[0]?.totalCount / 5)
+                        Math.ceil(hashTagPostData.pages[0]?.totalCount / PAGE_SIZE)
                       ) && <PostSkeleton />}
                       <div
                         ref={ref}
@@ -304,13 +302,8 @@ const HomePage = () => {
                       trendingPost?.pages?.length > 0 ? (
                         <Box>
                           {trendingPost.pages.map(({ data }) => {
-                            let shouldRenderAd = false;
                             return data.map((postData) => {
                               if (postData.title) {
-                                shouldRenderAd = true;
-                              }
-                              if (shouldRenderAd) {
-                                shouldRenderAd = false;
                                 return (
                                   <AdvertisementWidget
                                     key={`ad-${postData._id}`}
@@ -327,7 +320,7 @@ const HomePage = () => {
                             });
                           })}
                           {!trendingPost?.pageParams.includes(
-                            Math.ceil(trendingPost?.pages[0]?.totalCount / 5)
+                            Math.ceil(trendingPost?.pages[0]?.totalCount / 10)
                           ) && <PostSkeleton />}
                           <div
                             ref={ref}
@@ -351,12 +344,25 @@ const HomePage = () => {
                       forYouData?.pages?.length > 0 ? (
                         <Box>
                           {forYouData.pages.map(({ data }) => {
-                            return data.map((data) => (
-                              <PostWidget key={data._id} postData={data} />
-                            ));
+                            return data.map((postData) => {
+                              if (postData.title) {
+                                return (
+                                  <AdvertisementWidget
+                                    key={`ad-${postData._id}`}
+                                    postData={postData}
+                                  />
+                                );
+                              }
+                              return (
+                                <PostWidget
+                                  key={postData._id}
+                                  postData={postData}
+                                />
+                              );
+                            });
                           })}
                           {!forYouData?.pageParams.includes(
-                            Math.ceil(forYouData?.pages[0]?.totalCount / 5)
+                            Math.ceil(forYouData?.pages[0]?.totalCount / PAGE_SIZE)
                           ) && <PostSkeleton />}
                           <div
                             ref={ref}
@@ -377,12 +383,25 @@ const HomePage = () => {
                       friendPostData?.pages?.length > 0 ? (
                         <Box>
                           {friendPostData.pages.map(({ data }) => {
-                            return data.map((data) => (
-                              <PostWidget key={data._id} postData={data} />
-                            ));
+                            return data.map((postData) => {
+                              if (postData.title) {
+                                return (
+                                  <AdvertisementWidget
+                                    key={`ad-${postData._id}`}
+                                    postData={postData}
+                                  />
+                                );
+                              }
+                              return (
+                                <PostWidget
+                                  key={postData._id}
+                                  postData={postData}
+                                />
+                              );
+                            });
                           })}
                           {!friendPostData?.pageParams.includes(
-                            Math.ceil(friendPostData?.pages[0]?.totalCount / 5)
+                            Math.ceil(friendPostData?.pages[0]?.totalCount / PAGE_SIZE)
                           ) && <PostSkeleton />}
                           <div
                             ref={ref}
@@ -403,12 +422,25 @@ const HomePage = () => {
                       newsPostData?.pages?.length > 0 ? (
                         <Box>
                           {newsPostData.pages.map(({ data }) => {
-                            return data.map((data) => (
-                              <PostWidget key={data._id} postData={data} />
-                            ));
+                            return data.map((postData) => {
+                              if (postData.title) {
+                                return (
+                                  <AdvertisementWidget
+                                    key={`ad-${postData._id}`}
+                                    postData={postData}
+                                  />
+                                );
+                              }
+                              return (
+                                <PostWidget
+                                  key={postData._id}
+                                  postData={postData}
+                                />
+                              );
+                            });
                           })}
                           {!newsPostData?.pageParams.includes(
-                            Math.ceil(newsPostData?.pages[0]?.totalCount / 5)
+                            Math.ceil(newsPostData?.pages[0]?.totalCount / PAGE_SIZE)
                           ) && <PostSkeleton />}
                           <div
                             ref={ref}
@@ -479,13 +511,26 @@ const HomePage = () => {
                 <Box>
                   {pagePostData.pages.length > 0 ? (
                     <>
-                      {pagePostData.pages.map(({ data }) =>
-                        data.map((postData) => (
-                          <CompanyPage key={postData._id} postData={postData} />
-                        ))
-                      )}
+                      {pagePostData.pages.map(({ data }) => {
+                        return data.map((postData) => {
+                          if (postData.title) {
+                            return (
+                              <AdvertisementWidget
+                                key={`ad-${postData._id}`}
+                                postData={postData}
+                              />
+                            );
+                          }
+                          return (
+                            <PostWidget
+                              key={postData._id}
+                              postData={postData}
+                            />
+                          );
+                        });
+                      })}
                       {!pagePostData.pageParams.includes(
-                        Math.ceil(pagePostData.pages[0]?.totalCount / 5)
+                        Math.ceil(pagePostData.pages[0]?.totalCount / PAGE_SIZE)
                       ) && <PostSkeleton />}
                       <div
                         ref={ref}
@@ -507,13 +552,23 @@ const HomePage = () => {
                 <Box>
                   {allQaData.pages.length > 0 ? (
                     <>
-                      {allQaData.pages.map(({ data }) =>
-                        data.map((postData) => (
-                          <QaWidget key={postData._id} postData={postData} />
-                        ))
-                      )}
+                      {allQaData.pages.map(({ data }) => {
+                        return data.map((postData) => {
+                          if (postData.title) {
+                            return (
+                              <AdvertisementWidget
+                                key={`ad-${postData._id}`}
+                                postData={postData}
+                              />
+                            );
+                          }
+                          return (
+                            <QaWidget key={postData._id} postData={postData} />
+                          );
+                        });
+                      })}
                       {!allQaData.pageParams.includes(
-                        Math.ceil(allQaData.pages[0]?.totalCount / 5)
+                        Math.ceil(allQaData.pages[0]?.totalCount / PAGE_SIZE)
                       ) && <PostSkeleton />}
                       <div
                         ref={ref}
