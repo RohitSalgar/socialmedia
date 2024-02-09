@@ -155,6 +155,8 @@ const PostWidget = ({ postData }) => {
     dispatch(updateHashtag(hashtag));
   };
 
+  console.log(postData, "postdatas");
+
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
@@ -178,7 +180,7 @@ const PostWidget = ({ postData }) => {
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={postData.files[0]}
+          src={postData.files[0].filePath}
         />
       )}
       {postData.files && postData.files.length > 1 && (
@@ -191,7 +193,7 @@ const PostWidget = ({ postData }) => {
                   height="auto"
                   alt="post"
                   style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-                  src={item}
+                  src={item.filePath}
                 />
               );
             })}
