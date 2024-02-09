@@ -126,7 +126,9 @@ function CommentHeader({
             )}
           </Box>
           <Typography color={medium} fontSize="0.70rem">
-            {moment(postData.commentedOn).format("MMM Do YYYY, h:mm a")}
+            {postData.commentedOn
+              ? moment(postData.commentedOn).format("MMM Do YYYY, h:mm a")
+              : moment(postData.repliedOn).format("MMM Do YYYY, h:mm a")}
           </Typography>
         </Box>
 
