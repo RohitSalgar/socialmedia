@@ -30,7 +30,7 @@ import { updateHashtag } from "../../../../redux/slices/post";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 import Slider from "react-slick";
 import CloseIcon from "@mui/icons-material/Close";
-
+import {CancelOutlined} from "@mui/icons-material";
 const PostWidget = ({ postData }) => {
   const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
