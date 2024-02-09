@@ -9,7 +9,7 @@ import { CancelScheduleSend } from "@mui/icons-material";
 import {
   setSingleChatModeOff,
   setLiveUsers,
-  resetLiveChatUsers
+  resetLiveChatUsers,
 } from "../../../redux/slices/chat";
 import { useGetChatById } from "../../../hooks/chat";
 import Loader from "../../Loader/Loader";
@@ -38,7 +38,6 @@ const ChatPage = ({ data, socket, liveUser }) => {
       setChatMessage(chatData);
     }
   }, [chatData, socket]);
-
 
   // useEffect(() => {
   //   socket?.on("connect", () => {
@@ -132,6 +131,29 @@ const ChatPage = ({ data, socket, liveUser }) => {
     return userPresent;
   }
 
+  const formatDate = (date) => {
+    if (moment(date).isSame(moment(), "day")) {
+      return moment(date).fromNow().replace("seconds", "sec").replace("minutes","min").replace("hours","hr");
+    } else {
+      return moment(date).format(" h:mm A");
+    }
+  };
+
+  // const getMessageDate = (createdAt) => {
+  //   const today = moment().startOf("day");
+  //   const yesterday = moment().subtract(1, "day").startOf("day");
+  //   const messageDate = moment(createdAt).startOf("day");
+
+  //   if (messageDate.isSame(today, "day")) {
+  //     return "Today";
+  //   } else if (messageDate.isSame(yesterday, "day")) {
+  //     return "Yesterday";
+  //   } else {
+  //     return moment(createdAt).format("MMM DD, YYYY");
+  //   }
+  // };
+
+
   if (chatLoading) {
     return <Loader />;
   }
@@ -165,18 +187,19 @@ const ChatPage = ({ data, socket, liveUser }) => {
                       {message.message}
                     </Typography>
                     <p className={styles.senderTime}>
-                      {moment(message?.createdAt).format("DD MM YYYY, h:mm A")}
+                      {formatDate(message?.createdAt)}
                     </p>
                   </Box>
                 )}
                 {message.senderId === userId && (
                   <Box>
+                    {console.log(message.message)}
                     <Typography className={styles.receiver}>
                       {message.message}
                     </Typography>
 
                     <p className={`${styles.receiverTime}`}>
-                      {moment(message?.createdAt).format("DD MM YYYY, h:mm A")}
+                      {formatDate(message?.createdAt)}
                     </p>
                   </Box>
                 )}
