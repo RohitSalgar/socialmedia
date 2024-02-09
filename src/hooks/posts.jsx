@@ -230,6 +230,9 @@ const useInsertPost = (onSuccessFunctions) => {
       queryClient.invalidateQueries({ queryKey: ["pagePost"] });
       queryClient.invalidateQueries({ queryKey: ["friend"] });
       queryClient.invalidateQueries({ queryKey: ["news"] });
+      queryClient.invalidateQueries({ queryKey: ["notification"] });
+      queryClient.invalidateQueries({ queryKey: ["postTagnotification"] });
+
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
@@ -256,6 +259,8 @@ const useDeletePost = () => {
       queryClient.invalidateQueries({ queryKey: ["friend"] });
       queryClient.invalidateQueries({ queryKey: ["postList"] });
       queryClient.invalidateQueries({ queryKey: ["news"] });
+      queryClient.invalidateQueries({ queryKey: ["notification"] });
+      queryClient.invalidateQueries({ queryKey: ["postTagnotification"] });
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);

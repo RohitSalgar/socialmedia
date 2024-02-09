@@ -2,7 +2,6 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  CancelOutlined,
 } from "@mui/icons-material";
 import {
   Box,
@@ -30,9 +29,10 @@ import { useReportPost } from "../../../../hooks/posts";
 import { updateHashtag } from "../../../../redux/slices/post";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 import Slider from "react-slick";
+import CloseIcon from "@mui/icons-material/Close";
 
 const PostWidget = ({ postData }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
   const [report, setReport] = useState(false);
@@ -152,7 +152,7 @@ const PostWidget = ({ postData }) => {
   };
 
   const handleHashtagClick = (hashtag) => {
-    dispatch(updateHashtag(hashtag))
+    dispatch(updateHashtag(hashtag));
   };
 
   return (
@@ -181,22 +181,29 @@ const PostWidget = ({ postData }) => {
           src={postData.files[0]}
         />
       )}
-      {postData.files && postData.files.length > 1 &&
+      {postData.files && postData.files.length > 1 && (
         <Slider {...settings}>
-          {postData.files && postData.files.map(item => {
-            return <img
-              width="100%"
-              height="auto"
-              alt="post"
-              style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-              src={item}
-            />
-          })}
-        </Slider>}
+          {postData.files &&
+            postData.files.map((item) => {
+              return (
+                <img
+                  width="100%"
+                  height="auto"
+                  alt="post"
+                  style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
+                  src={item}
+                />
+              );
+            })}
+        </Slider>
+      )}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
-            <IconButton onClick={likeDislike} disabled={likeDislikeLoading || !postData}>
+            <IconButton
+              onClick={likeDislike}
+              disabled={likeDislikeLoading || !postData}
+            >
               {isLiked ? (
                 <FavoriteOutlined sx={{ color: primary }} />
               ) : (
@@ -289,7 +296,7 @@ const PostWidget = ({ postData }) => {
                 reportPost();
               }
             }}
-          // type={type}
+            // type={type}
           />
           {reportText && (
             <IconButton onClick={reportPost}>

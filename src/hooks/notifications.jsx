@@ -21,6 +21,24 @@ const useGetAllNotificationById = (id) => {
   });
 };
 
+const useGetAllPostTagNotificationById = (id) => {
+  return useQuery({
+    queryKey: ["postTagnotification", id],
+    queryFn: () =>
+      fetchData(
+        {
+          url: URL + "post/getPostTagNotification",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [{ userId: id }] }
+      ),
+    onError: (error) => {
+      toast.error(error.message.split(":")[1]);
+    },
+  });
+};
+
 const useUpdateNotificationStatus = () => {
   const queryclient = useQueryClient();
   return useMutation({
@@ -35,6 +53,7 @@ const useUpdateNotificationStatus = () => {
       ),
     onSuccess: () => {
       queryclient.invalidateQueries(["notification"]);
+      queryclient.invalidateQueries(["postTagnotification"]);
     },
   });
 };
@@ -62,4 +81,5 @@ export {
   useGetAllNotificationById,
   useUpdateNotificationStatus,
   useGetNotificationPostById,
+  useGetAllPostTagNotificationById
 };
