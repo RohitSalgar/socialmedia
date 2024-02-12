@@ -15,6 +15,7 @@ const useGetAllNotificationById = (id) => {
         },
         { data: [{ userId: id }] }
       ),
+    enabled: !!id,
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },
@@ -33,6 +34,7 @@ const useGetAllPostTagNotificationById = (id) => {
         },
         { data: [{ userId: id }] }
       ),
+    enabled: !!id,
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },
@@ -81,5 +83,5 @@ export {
   useGetAllNotificationById,
   useUpdateNotificationStatus,
   useGetNotificationPostById,
-  useGetAllPostTagNotificationById
+  useGetAllPostTagNotificationById,
 };
