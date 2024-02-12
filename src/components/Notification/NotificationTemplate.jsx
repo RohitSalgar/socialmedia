@@ -18,7 +18,7 @@ const NotificationTemplate = ({ data }) => {
     mutate(payload);
   };
 
-  console.log(data, "data");
+  
 
   return (
     <Box
