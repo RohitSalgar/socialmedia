@@ -36,7 +36,7 @@ const ChatPage = ({ data, socket, resetNotification }) => {
     if (messagesDivRef.current) {
       messagesDivRef.current.scrollTop = messagesDivRef.current.scrollHeight;
     }
-  }, [messagesDivRef.current, chatMessage]);
+  }, [dayMessages]);
 
   useEffect(() => {
     if (chatData) {
@@ -79,6 +79,8 @@ const ChatPage = ({ data, socket, resetNotification }) => {
       socket?.off("getMessage");
     };
   }, []);
+
+
 
   const sendChatMessage = (e) => {
     e.preventDefault();

@@ -48,7 +48,14 @@ function HighlightAndTag({ text }) {
     let userName = clickedWord.replace("@", "").trim();
     mutate({ userName });
     dispatch(setViewProfileId(data));
+    dispatch(updateHashtag(""));
     dispatch(setDashboardView("profile"));
+  };
+
+  const handleHashtagClick = (e) => {
+    const clickedWord = e.target.innerText;
+    let hashtags = clickedWord.replace("#", "$&").trim();
+    dispatch(updateHashtag(hashtags));
   };
 
   const highlightText = () => {
@@ -61,6 +68,17 @@ function HighlightAndTag({ text }) {
             className={styles.taggedWord}
             onClick={handleTagClick}
           >
+            {word}{" "}
+          </span>
+        );
+      } else if (word.startsWith("#")) {
+        return (
+          <span
+            key={index}
+            className={styles.hashtagWord}
+            onClick={handleHashtagClick}
+          >
+            {" "}
             {word}{" "}
           </span>
         );
@@ -193,26 +211,11 @@ const PostWidget = ({ postData }) => {
     }
   };
 
-  const handleHashtagClick = (hashtag) => {
-    dispatch(updateHashtag(hashtag));
-  };
-
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
         <HighlightAndTag text={postData?.description} />
-      </Typography>
-      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
-        {postData?.hashtags.map((hash) => (
-          <span
-            key={hash}
-            style={{ color: primary, cursor: "pointer" }}
-            onClick={() => handleHashtagClick(hash)}
-          >
-            #{hash}{" "}
-          </span>
-        ))}
       </Typography>
       {postData.files && postData.files.length === 1 && (
         <div>

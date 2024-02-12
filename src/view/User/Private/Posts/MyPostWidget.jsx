@@ -25,7 +25,6 @@ import Slider from "react-slick";
 import { useNavSearch } from "../../../../hooks/user";
 import { CircularProgress } from "@mui/material";
 
-
 const MyPostWidget = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
@@ -204,7 +203,7 @@ const MyPostWidget = () => {
   function handleClick(value) {
     const newDescription =
       description.slice(0, typingPosition) +
-      value.fullName +
+      value.userName +
       description.slice(typingPosition);
     setDescription(newDescription);
     setSearchDivToggle(false);
@@ -322,7 +321,16 @@ const MyPostWidget = () => {
                           />
                         </div>
                         <div>
-                          {value.fullName ? value.fullName : value.companyName}
+                          <p>
+                            {value.fullName
+                              ? value.fullName
+                              : value.companyName}
+                          </p>
+                          <p>
+                            {value.userName
+                              ? value.userName
+                              : value.companyName}
+                          </p>
                         </div>
                       </div>
                     );
@@ -401,11 +409,7 @@ const MyPostWidget = () => {
                 borderRadius: "1rem",
               }}
             >
-              {isLoading ? (
-               <CircularProgress size={15} />
-              ) : (
-                "Post"
-              )}
+              {isLoading ? <CircularProgress size={15} /> : "Post"}
             </Button>
           )}
         </Box>
