@@ -10,45 +10,74 @@ import { useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 import LookingEmpty from "../LookingEmpty/LookingEmpty";
 import moment from "moment";
+import { PAGE_SIZE } from "../../config";
+import { useInView } from "react-intersection-observer";
+import { setSideView } from "../../redux/slices/profileSlice";
+import { useGetProfile } from "../../hooks/profile";
+import { NotificationSkeleton } from "../Skeleton/NotificationSkeleton";
 
 const NotificationContent = () => {
-  const [selected, setSelected] = useState("all");
-  const notificationRef = useRef();
+  const [selected, setSelected] = useState("myposts");
+  const { ref, inView } = useInView();
+  // const notificationRef = useRef();
+  const { hashtag } = useSelector((state) => state.post);
   const { userId } = useSelector((state) => state.profile.profileData);
-  // const { data, isLoading } = useGetAllNotificationById(userId);
-  const { data: postTagData, isLoading: postTagLOading } =
-    useGetAllPostTagNotificationById(userId);
-
+  const { data:profiledata} = useGetProfile(userId);
+  const { data, isLoading, isFetchingNextPage, fetchNextPage } =
+    useGetAllNotificationById(userId);
+  const { data: postTagData, isLoading: postTagLOading,isFetchingNextPage:postTagisFetchingNextPage,fetchNextPage:postTagfetchNextPage } =
+    useGetAllPostTagNotificationById(profiledata?.userData?.userName);
   const handleClick = (props) => {
     setSelected(props);
   };
+  // useEffect(() => {
+  //   if (notificationRef.current) {
+  //     notificationRef.current.scrollTop = notificationRef.current.scrollHeight;
+  //   }
+  // }, [notificationRef.current]);
 
   useEffect(() => {
-    if (notificationRef.current) {
-      notificationRef.current.scrollTop = notificationRef.current.scrollHeight;
+    if (inView) {
+      if (
+        selected === "myposts" &&
+        !data?.pageParams.includes(
+          Math.ceil(data?.pages[0]?.totalCount / PAGE_SIZE)
+        )
+      ) {
+        fetchNextPage();
+      }
+      else if(
+        selected === "mention" &&
+        !postTagData?.pageParams.includes(
+          Math.ceil(postTagData?.pages[0]?.totalCount / PAGE_SIZE)
+        )
+      ){
+        postTagfetchNextPage()
+      }
     }
-  }, [notificationRef.current]);
+  }, [inView, hashtag, setSideView, data,postTagData]);
 
   if (isLoading || postTagLOading) {
     return <Loader />;
   }
 
-  const filterDataByTag = () => {
-    let array = [];
-    if (selected === "all") {
-      array = Array.from([...data, ...postTagData]);
-    }
-    if (selected === "myposts") {
-      array = Array.from([...data]);
-    }
-    if (selected === "mention") {
-      array = Array.from([...postTagData]);
-    }
 
-    return array.sort((a, b) => {
-      return moment(b.createdAt) - moment(a.createdAt);
-    });
-  };
+  // const filterDataByTag = () => {
+  //   let array = [];
+  //   if (selected === "all") {
+  //     array = Array.from([...data?.pages, ...postTagData?.pages]);
+  //   }
+  //   if (selected === "myposts") {
+  //     array = Array.from([...data?.pages]);
+  //   }
+  //   if (selected === "mention") {
+  //     array = Array.from([...postTagData?.pages]);
+  //   }
+
+  //   return array.sort((a, b) => {
+  //     return moment(b.createdAt) - moment(a.createdAt);
+  //   });
+  // };
 
   return (
     <Box sx={{ marginLeft: "-0.9rem", marginRight: "-0.9rem" }}>
@@ -79,14 +108,42 @@ const NotificationContent = () => {
         </Box>
       </Box>
       <Divider sx={{ marginTop: "0.2rem" }} />
-      <Box className={styles.notificationMainDiv} ref={notificationRef}>
-        {data && data?.length > 0 ? (
+      <Box className={styles.notificationMainDiv} >
+        {data && data?.pages?.length > 0 ? (
           <>
-            {filterDataByTag()
-              .filter((e) => e.status !== 0)
-              .map((e, i) => {
-                return <NotificationTemplate key={i} data={e} />;
-              })}
+            {selected === "myposts" &&
+              data.pages?.map(({ data }) =>
+                data
+                  .filter((e) => e.status !== 0)
+                  .map((e, i) => <NotificationTemplate key={i} data={e} />)
+              )
+              }
+            {selected === "myposts" && !data?.pageParams?.includes(
+              Math.ceil(data.pages[0]?.totalCount / 10)
+            ) &&<NotificationSkeleton/>}
+            { selected === "myposts" && <div
+              ref={ref}
+              style={{ height: "10px"}}
+              onClick={() => fetchNextPage()}
+            >
+              {isFetchingNextPage && <NotificationSkeleton />}
+            </div>}
+            {selected === "mention" &&
+              postTagData.pages?.map(({ data }) =>
+                data
+                  .filter((e) => e.status !== 0)
+                  .map((e, i) => <NotificationTemplate key={i} data={e} />)
+              )}
+            {selected === "mention" && !postTagData?.pageParams?.includes(
+              Math.ceil(postTagData.pages[0]?.totalCount / 10)
+            ) && <NotificationSkeleton />}
+            {selected === "mention" &&  <div
+              ref={ref}
+              style={{ height: "10px" }}
+              onClick={() => postTagfetchNextPage()}
+            >
+              {postTagisFetchingNextPage && <NotificationSkeleton />}
+            </div>}
           </>
         ) : (
           <LookingEmpty />
