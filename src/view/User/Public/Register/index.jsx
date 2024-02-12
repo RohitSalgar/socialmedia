@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import Loader from "../../../../components/Loader/Loader";
 import { URL } from "../../../../config";
-import { fetchData,openFileNewWindow } from "../../../../helper";
+import { fetchData, openFileNewWindow } from "../../../../helper";
 import moment from "moment";
 import { useTheme } from "@emotion/react";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -55,6 +55,7 @@ export default function RegisterPage() {
       dob: null,
       password: "",
       designation: "",
+      userName: "",
       files: [],
     },
   });
@@ -163,6 +164,7 @@ export default function RegisterPage() {
     formData.append("fullName", data.fullName);
     formData.append("email", data.email);
     formData.append("dob", data.dob);
+    formData.append("userName", data.userName);
     formData.append("password", data.password);
     formData.append("designation", data.designation);
     formData.append("state", location.state);
@@ -199,14 +201,13 @@ export default function RegisterPage() {
   const onImageClick = () => {
     if (files) {
       const reader = new FileReader();
-      reader.onload = function(event) {
+      reader.onload = function (event) {
         const imageData = event.target.result;
         openFileNewWindow(imageData);
       };
       reader.readAsDataURL(files);
     }
   };
-  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -275,49 +276,110 @@ export default function RegisterPage() {
                 sx={{ mt: 1 }}
                 className={styles.loginformdiv}
               >
-                <Box className={styles.labelDiv}>
-                  <label className={styles.forminputlabel} htmlFor="fullName">
-                    Full Name
-                    <span style={{ color: "red" }}>*</span>
-                  </label>
-                  {errors?.fullName && (
-                    <Tooltip
-                      style={{
-                        marginLeft: "0.5rem",
-                        fontSize: "14px",
-                        color: "red",
-                      }}
-                      title={errors?.fullName?.message}
-                    >
-                      <InfoIcon />
-                    </Tooltip>
-                  )}
-                </Box>
-                <Controller
-                  name="fullName"
-                  id="fullName"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      className={errors.fullName && styles.errormsg}
-                      placeholder="Enter Full Name"
-                      margin="normal"
-                      style={{
-                        marginBottom: "1px",
-                        fontSize: "10px",
-                        marginTop: "0px",
-                        width: "100%",
-                      }}
-                      required
-                      fullWidth
-                      id="fullName"
-                      name="fullName"
-                      autoComplete="given-name"
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    alignItems: "baseline",
+                    width: "100%",
+                  }}
+                >
+                  <Box>
+                    <Box className={styles.labelDiv}>
+                      <label
+                        className={styles.forminputlabel}
+                        htmlFor="fullName"
+                      >
+                        Username
+                        <span style={{ color: "red" }}>*</span>
+                      </label>
+                      {errors?.userName && (
+                        <Tooltip
+                          style={{
+                            marginLeft: "0.5rem",
+                            fontSize: "14px",
+                            color: "red",
+                          }}
+                          title={errors?.userName?.message}
+                        >
+                          <InfoIcon />
+                        </Tooltip>
+                      )}
+                    </Box>
+                    <Controller
+                      name="userName"
+                      id="userName"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          className={errors.fullName && styles.errormsg}
+                          placeholder="Enter Username"
+                          margin="normal"
+                          style={{
+                            marginBottom: "1px",
+                            fontSize: "10px",
+                            marginTop: "0px",
+                            width: "100%",
+                          }}
+                          required
+                          fullWidth
+                          id="userName"
+                          name="userName"
+                          autoComplete="given-name"
+                        />
+                      )}
                     />
-                  )}
-                />
-                <Box className={styles.loginforminputs} sx={{ pt: "10px" }}>
+                  </Box>
+                  <Box>
+                    <Box className={styles.labelDiv}>
+                      <label
+                        className={styles.forminputlabel}
+                        htmlFor="fullName"
+                      >
+                        Full Name
+                        <span style={{ color: "red" }}>*</span>
+                      </label>
+                      {errors?.fullName && (
+                        <Tooltip
+                          style={{
+                            marginLeft: "0.5rem",
+                            fontSize: "14px",
+                            color: "red",
+                          }}
+                          title={errors?.fullName?.message}
+                        >
+                          <InfoIcon />
+                        </Tooltip>
+                      )}
+                    </Box>
+                    <Controller
+                      name="fullName"
+                      id="fullName"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          className={errors.fullName && styles.errormsg}
+                          placeholder="Enter Full Name"
+                          margin="normal"
+                          style={{
+                            marginBottom: "1px",
+                            fontSize: "10px",
+                            marginTop: "0px",
+                            width: "100%",
+                          }}
+                          required
+                          fullWidth
+                          id="fullName"
+                          name="fullName"
+                          autoComplete="given-name"
+                        />
+                      )}
+                    />
+                  </Box>
+                </div>
+                <Box className={styles.loginforminputs}>
                   <Box className={styles.labelDiv}>
                     <label className={styles.forminputlabel} htmlFor="email">
                       Email Address

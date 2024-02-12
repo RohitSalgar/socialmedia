@@ -156,6 +156,8 @@ const PostWidget = ({ postData }) => {
     dispatch(updateHashtag(hashtag));
   };
 
+  console.log(postData, "postdatas");
+
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
