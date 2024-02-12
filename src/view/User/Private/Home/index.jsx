@@ -232,7 +232,6 @@ const HomePage = () => {
     dispatch(removeHastag());
     dispatch(setDashboardView(dashboardView));
   };
-console.log(trendingPost,"trendingpost")
   return (
     <Box>
       <Navbar />
@@ -253,7 +252,6 @@ console.log(trendingPost,"trendingpost")
                 <WidgetWrapper>
                   <FlexBetween>
                     <Typography sx={{ fontWeight: "500" }}>
-                      {"#"}
                       {hashtag}
                     </Typography>
                     <IconButton onClick={() => handleClose()}>
@@ -270,7 +268,9 @@ console.log(trendingPost,"trendingpost")
                         ))
                       )}
                       {!hashTagPostData.pageParams.includes(
-                        Math.ceil(hashTagPostData.pages[0]?.totalCount / PAGE_SIZE)
+                        Math.ceil(
+                          hashTagPostData.pages[0]?.totalCount / PAGE_SIZE
+                        )
                       ) && <PostSkeleton />}
                       <div
                         ref={ref}
@@ -362,7 +362,9 @@ console.log(trendingPost,"trendingpost")
                             });
                           })}
                           {!forYouData?.pageParams.includes(
-                            Math.ceil(forYouData?.pages[0]?.totalCount / PAGE_SIZE)
+                            Math.ceil(
+                              forYouData?.pages[0]?.totalCount / PAGE_SIZE
+                            )
                           ) && <PostSkeleton />}
                           <div
                             ref={ref}
@@ -401,7 +403,9 @@ console.log(trendingPost,"trendingpost")
                             });
                           })}
                           {!friendPostData?.pageParams.includes(
-                            Math.ceil(friendPostData?.pages[0]?.totalCount / PAGE_SIZE)
+                            Math.ceil(
+                              friendPostData?.pages[0]?.totalCount / PAGE_SIZE
+                            )
                           ) && <PostSkeleton />}
                           <div
                             ref={ref}
@@ -440,7 +444,9 @@ console.log(trendingPost,"trendingpost")
                             });
                           })}
                           {!newsPostData?.pageParams.includes(
-                            Math.ceil(newsPostData?.pages[0]?.totalCount / PAGE_SIZE)
+                            Math.ceil(
+                              newsPostData?.pages[0]?.totalCount / PAGE_SIZE
+                            )
                           ) && <PostSkeleton />}
                           <div
                             ref={ref}
