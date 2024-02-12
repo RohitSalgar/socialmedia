@@ -30,8 +30,49 @@ import { updateHashtag } from "../../../../redux/slices/post";
 import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 import Slider from "react-slick";
 import styles from "./index.module.css";
-import CloseIcon from "@mui/icons-material/Close";
-import {CancelOutlined} from "@mui/icons-material";
+import { CancelOutlined } from "@mui/icons-material";
+import {
+  setDashboardView,
+  setViewProfileId,
+} from "../../../../redux/slices/profileSlice";
+import { useGetMentionedProfile } from "../../../../hooks/profile";
+
+function HighlightAndTag({ text }) {
+  const dispatch = useDispatch();
+  const onSuccess = (data) => {
+    dispatch(setViewProfileId(data[0].userData._id));
+  };
+  const { mutate, data } = useGetMentionedProfile(onSuccess);
+  const handleTagClick = (e) => {
+    const clickedWord = e.target.innerText;
+    let userName = clickedWord.replace("@", "").trim();
+    mutate({ userName });
+    dispatch(setViewProfileId(data));
+    dispatch(setDashboardView("profile"));
+  };
+
+  const highlightText = () => {
+    const words = text?.split(" ");
+    return words.map((word, index) => {
+      if (word.startsWith("@")) {
+        return (
+          <span
+            key={index}
+            className={styles.taggedWord}
+            onClick={handleTagClick}
+          >
+            {word}{" "}
+          </span>
+        );
+      } else {
+        return <span key={index}>{word} </span>;
+      }
+    });
+  };
+
+  return <div>{highlightText()}</div>;
+}
+
 const PostWidget = ({ postData }) => {
   const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
@@ -156,13 +197,11 @@ const PostWidget = ({ postData }) => {
     dispatch(updateHashtag(hashtag));
   };
 
-  console.log(postData, "postdatas");
-
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
-        {postData?.description}
+        <HighlightAndTag text={postData?.description} />
       </Typography>
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
         {postData?.hashtags.map((hash) => (
@@ -191,7 +230,7 @@ const PostWidget = ({ postData }) => {
       {postData.files && postData.files.length > 1 && (
         <Slider {...settings}>
           {postData.files &&
-            postData.files.map((item,i) => {
+            postData.files.map((item, i) => {
               return (
                 <div key={i}>
                   {item?.fileType.includes("image") ? (
@@ -314,22 +353,22 @@ const PostWidget = ({ postData }) => {
               <BsFillSendExclamationFill size={25} />
             </IconButton>
           )}
-               <Box
-                onClick={() => {
-                  setReport(false);
-                  setIsComments(false);
-                }}
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <IconButton>
-                  <CancelOutlined />
-                </IconButton>
-                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
-              </Box>
+          <Box
+            onClick={() => {
+              setReport(false);
+              setIsComments(false);
+            }}
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <IconButton>
+              <CancelOutlined />
+            </IconButton>
+            <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+          </Box>
         </FlexBetween>
       )}
       {isComments === true && report === false && (
@@ -337,22 +376,22 @@ const PostWidget = ({ postData }) => {
           <Box>
             <Divider />
             <Box
-                onClick={() => {
-                  setReport(false);
-                  setIsComments(false);
-                }}
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent:"end"
-                }}
-              >
-                <IconButton>
-                  <CancelOutlined />
-                </IconButton>
-                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
-              </Box>
+              onClick={() => {
+                setReport(false);
+                setIsComments(false);
+              }}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "end",
+              }}
+            >
+              <IconButton>
+                <CancelOutlined />
+              </IconButton>
+              <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+            </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {
