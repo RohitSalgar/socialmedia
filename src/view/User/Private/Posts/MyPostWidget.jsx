@@ -13,7 +13,7 @@ import {
 import FlexBetween from "../../../../components/FlexBetween";
 import Dropzone from "react-dropzone";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { HiMiniHashtag } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,6 +35,7 @@ const MyPostWidget = () => {
   const dispatch = useDispatch();
   let [description, setDescription] = useState("");
   let [lastWordBeforeCursor, setLastWordBeforeCursor] = useState("");
+  let [typingPosition, setTypingPosition] = useState("");
   const [tags, setTags] = useState([]);
   const [location, setLocation] = useState({
     state: "TamilNadu",
@@ -43,7 +44,7 @@ const MyPostWidget = () => {
   const [searchDivToggle, setSearchDivToggle] = useState(false);
   const { palette } = useTheme();
   const { data } = useGetProfile(userId);
-
+  const textFieldRef = useRef(null);
   const onSearchSuccess = (data) => {
     setSearchData(data);
   };
@@ -201,11 +202,12 @@ const MyPostWidget = () => {
     setImageUrls(urls);
   };
 
+
   function handleClick(value) {
-    setDescription((prevState) => {
-      return `${prevState} ${value.fullName}`;
-    });
+    const newDescription = description.slice(0, typingPosition) + value.fullName + description.slice(typingPosition);
+    setDescription(newDescription);
     setSearchDivToggle(false);
+    textFieldRef.current.focus();
   }
 
   return (
@@ -215,27 +217,20 @@ const MyPostWidget = () => {
           className={styles.searchinput}
           id="outlined-multiline-static"
           multiline
+          inputRef={textFieldRef}
           placeholder="What's Happening..."
           onChange={(e) => {
             setDescription(e.target.value);
             const words = e.target.value.split(' ');
             const lastWord = words[words.length - 1];
             const cursorPosition = e.target.selectionStart;
-
-            // Extract the word at the cursor position
+            setTypingPosition(cursorPosition)
             const wordsBeforeCursor = e.target.value.substring(0, cursorPosition).split(' ');
             const lastWordBeforeCursor = wordsBeforeCursor[wordsBeforeCursor.length - 1];
             setLastWordBeforeCursor(lastWordBeforeCursor)
             console.log(lastWordBeforeCursor)
-            // if (lastWordBeforeCursor.startsWith("@")) {
-            //   setSearchDivToggle(true);
-            //   navesearchMutate({
-            //     term: lastWord.substring(1),
-            //   });
-            // }
             if ((lastWordBeforeCursor.startsWith('@') || lastWordBeforeCursor.endsWith('@')) && lastWordBeforeCursor.length >= 1) {
               setSearchDivToggle(true);
-              console.log(lastWordBeforeCursor)
               navesearchMutate({
                 term: lastWord.substring(1),
               });
@@ -243,6 +238,11 @@ const MyPostWidget = () => {
           }}
           value={description}
           onKeyDown={(e) => {
+            if (e.key === "Enter" && e.shiftKey) {
+              console.log("run")
+              setSearchDivToggle(false);
+              
+            }
             if (e.key === 'Enter' && !e.shiftKey && description) {
               e.preventDefault();
               if (dashboardView === 'news') {
@@ -253,7 +253,6 @@ const MyPostWidget = () => {
             }
           }}
         />
-
         {hashTag && (
           <div className={styles.tagsInputContainer}>
             {tags.map((tag, index) => (
@@ -303,8 +302,11 @@ const MyPostWidget = () => {
             })}
         </Slider>
       )}
+     {/* { console.log(searchDivToggle,
+        (lastWordBeforeCursor.startsWith('@') || lastWordBeforeCursor.endsWith('@')) , lastWordBeforeCursor.length >= 1,
+        searchData,
+        searchData?.length > 0)} */}
       {searchDivToggle &&
-        // lastWordBeforeCursor.startsWith("@") &&
         (lastWordBeforeCursor.startsWith('@') || lastWordBeforeCursor.endsWith('@')) && lastWordBeforeCursor.length >= 1 &&
         searchData &&
         searchData?.length > 0 && (
@@ -376,12 +378,12 @@ const MyPostWidget = () => {
                   sx={{ "&:hover": { cursor: "pointer" } }}
                 >
                   <input {...getInputProps()} />
-                    <IconButton>
-                      <MdAddPhotoAlternate
-                        size={25}
-                        style={{ color: mediumMain }}
-                      />
-                    </IconButton>
+                  <IconButton>
+                    <MdAddPhotoAlternate
+                      size={25}
+                      style={{ color: mediumMain }}
+                    />
+                  </IconButton>
                 </Box>
               </FlexBetween>
             )}

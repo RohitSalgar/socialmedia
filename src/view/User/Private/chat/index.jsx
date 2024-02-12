@@ -45,7 +45,7 @@ const ChatLayout = () => {
     }
     return correspondingId
   }
-  // console.log(liveUser,"live")
+  console.log(liveUser,"live")
   useEffect(() => {
     refetch()
     socket?.on("connect", () => {
@@ -74,6 +74,8 @@ const ChatLayout = () => {
             };
             setNotification([...notification,newNotification]);
           } else {
+            console.log(notification,"notification")
+            console.log(requiredId,"required Id")
             const index = notification.findIndex(item => item._id === requiredId);
             console.log(index)
             if (index !== -1) {
