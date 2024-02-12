@@ -471,8 +471,10 @@ const HomePage = () => {
                 <ScheduleList />
               </Box>
             )}
-            {dashboardView === "profile" && <Profile />}
-            {dashboardView === "postprofile" && <PostProfile />}
+            {dashboardView === "profile" && hashtag === "" && <Profile />}
+            {dashboardView === "postprofile" && hashtag === "" && (
+              <PostProfile />
+            )}
             {dashboardView === "notification" && (
               <>
                 {notificationPostData && notificationPostData.length > 0 ? (

@@ -48,6 +48,7 @@ function HighlightAndTag({ text }) {
     let userName = clickedWord.replace("@", "").trim();
     mutate({ userName });
     dispatch(setViewProfileId(data));
+    dispatch(updateHashtag(""));
     dispatch(setDashboardView("profile"));
   };
 
