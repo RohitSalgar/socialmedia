@@ -15,7 +15,7 @@ const NotificationContent = () => {
   const [selected, setSelected] = useState("all");
   const notificationRef = useRef();
   const { userId } = useSelector((state) => state.profile.profileData);
-  const { data, isLoading } = useGetAllNotificationById(userId);
+  // const { data, isLoading } = useGetAllNotificationById(userId);
   const { data: postTagData, isLoading: postTagLOading } =
     useGetAllPostTagNotificationById(userId);
 
