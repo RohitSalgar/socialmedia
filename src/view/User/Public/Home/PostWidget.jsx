@@ -46,7 +46,7 @@ const PostWidget = ({ postData }) => {
         color={main}
         sx={{ mt: "0.5rem", ml: 1, textTransform: "capitalize" }}
       >
-        {postData?.hashtags.map((hash) => `#${hash} `)}
+        {postData?.hashtags?.map((hash) => `#${hash} `)}
       </Typography>
       {postData?.files && postData?.files?.length > 0 && (
         <img

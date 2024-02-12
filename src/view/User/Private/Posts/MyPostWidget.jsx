@@ -23,6 +23,8 @@ import { toast } from "react-toastify";
 import { openFileNewWindow } from "../../../../helper";
 import Slider from "react-slick";
 import { useNavSearch } from "../../../../hooks/user";
+import { CircularProgress } from "@mui/material";
+
 
 const MyPostWidget = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -416,7 +418,11 @@ const MyPostWidget = () => {
                 borderRadius: "1rem",
               }}
             >
-              Post
+              {isLoading ? (
+               <CircularProgress size={15} />
+              ) : (
+                "Post"
+              )}
             </Button>
           )}
         </Box>
