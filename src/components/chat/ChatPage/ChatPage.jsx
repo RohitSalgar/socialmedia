@@ -16,7 +16,7 @@ import Loader from "../../Loader/Loader";
 
 const ChatPage = ({ data, socket, resetNotification }) => {
   const dispatch = useDispatch();
-  const { chatliveUsers } = useSelector((state) => state.chat)
+  const { chatliveUsers } = useSelector((state) => state.chat);
   const { mutate } = useUpdateChatStatus();
   const messagesDivRef = useRef(null);
   const { singleConnectionId } = useSelector((state) => state.chat);
@@ -26,9 +26,11 @@ const ChatPage = ({ data, socket, resetNotification }) => {
   const { userId } = useSelector((state) => state.profile.profileData);
   let filteredData = data?.filter((e) => e._id === singleConnectionId);
   const [messageEmitted, setMessageEmitted] = useState(false);
-  const { data: chatData, isLoading: chatLoading, refetch } = useGetChatById(
-    filteredData[0]._id
-  );
+  const {
+    data: chatData,
+    isLoading: chatLoading,
+    refetch,
+  } = useGetChatById(filteredData[0]._id);
 
   useEffect(() => {
     if (messagesDivRef.current) {
@@ -58,12 +60,11 @@ const ChatPage = ({ data, socket, resetNotification }) => {
 
   //   emitMessageOnce();
   // }, [socket]);
-  console.log("running")
   useEffect(() => {
-    refetch()
+    refetch();
     if (!messageEmitted) {
       socket?.on("getMessage", (data) => {
-        console.log(data)
+        console.log(data, "chat datas");
         const newChat = {
           message: data.message,
           createdAt: data.createdAt,
@@ -79,12 +80,12 @@ const ChatPage = ({ data, socket, resetNotification }) => {
     };
   }, []);
 
-
   const sendChatMessage = (e) => {
     e.preventDefault();
     const newChat = {
       message: sendMessage,
       senderId: userId,
+      createdAt: new Date().toISOString(),
       senderName: filteredData[0].senderName,
       receiverId:
         filteredData[0].recipientId === userId
@@ -111,7 +112,7 @@ const ChatPage = ({ data, socket, resetNotification }) => {
       connectionId: filteredData[0]._id,
       senderName: filteredData[0].senderName,
       message: sendMessage.trim(),
-      createdAt: moment().toISOString(),
+      createdAt: new Date().toDateString(),
     });
     setSendMessage("");
     setMessageEmitted(false);
@@ -160,7 +161,14 @@ const ChatPage = ({ data, socket, resetNotification }) => {
       } else if (msgDate === yesterday) {
         categorizedMessages.yesterday.push(msg);
       } else {
-        categorizedMessages.prevDays.push(msg);
+        const existingDateIndex = categorizedMessages.prevDays.findIndex(
+          (prevDay) => prevDay.date === msgDate
+        );
+        if (existingDateIndex !== -1) {
+          categorizedMessages.prevDays[existingDateIndex].messages.push(msg);
+        } else {
+          categorizedMessages.prevDays.push({ date: msgDate, messages: [msg] });
+        }
       }
     });
 
@@ -189,7 +197,10 @@ const ChatPage = ({ data, socket, resetNotification }) => {
     <Box className={styles.chatPage} sx={{ height: "65vh" }}>
       <KeyboardBackspaceIcon
         sx={{ cursor: "pointer" }}
-        onClick={() =>{ dispatch(setSingleChatModeOff()); resetNotification()}}
+        onClick={() => {
+          dispatch(setSingleChatModeOff());
+          resetNotification();
+        }}
       />
       <Box className={styles.chatHeader}>
         <p className={styles.contactName}>
@@ -204,41 +215,64 @@ const ChatPage = ({ data, socket, resetNotification }) => {
         </p>
       </Box>
       <Box className={styles.chatMessages} ref={messagesDivRef}>
-        {dayMessages.prevDays.length > 0 && (
-          <Box>
-            <Typography>{dayMessages.prevDays[0].createdAt}</Typography>
-            {dayMessages?.prevDays?.map((message) => (
-              <Box key={message.id} className={styles.messageContainer}>
-                {chatMessage && (
-                  <Box>
-                    {message.senderId !== userId && (
-                      <Box>
-                        <Typography className={styles.sender}>
-                          {message.message}
-                        </Typography>
-                        <p className={styles.senderTime}>
-                          {formatDate(message?.createdAt)}
-                        </p>
-                      </Box>
-                    )}
-                    {message.senderId === userId && (
-                      <Box>
-                        <Typography className={styles.receiver}>
-                          {message.message}
-                        </Typography>
+        {dayMessages?.prevDays?.length > 0 &&
+          dayMessages?.prevDays
+            ?.sort((a, b) => {
+              let dateA = new Date(a.date);
+              let dateB = new Date(b.date);
+              return dateB - dateA;
+            })
+            .map((e, i) => {
+              return (
+                <Box key={i}>
+                  <Typography
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "10px",
+                      fontWeight: "350",
+                    }}
+                  >
+                    {e.date}
+                  </Typography>
 
-                        <p className={`${styles.receiverTime}`}>
-                          {formatDate(message?.createdAt)}
-                        </p>
+                  {e?.messages.map((message, index) => {
+                    return (
+                      <Box key={index}>
+                        <Box
+                          key={message.id}
+                          className={styles.messageContainer}
+                        >
+                          <Box>
+                            {message.senderId !== userId && (
+                              <Box>
+                                <Typography className={styles.sender}>
+                                  {message.message}
+                                </Typography>
+                                <p className={styles.senderTime}>
+                                  {formatDate(message?.createdAt)}
+                                </p>
+                              </Box>
+                            )}
+                            {message.senderId === userId && (
+                              <Box>
+                                <Typography className={styles.receiver}>
+                                  {message.message}
+                                </Typography>
+
+                                <p className={`${styles.receiverTime}`}>
+                                  {formatDate(message?.createdAt)}
+                                </p>
+                              </Box>
+                            )}
+                          </Box>
+                        </Box>
                       </Box>
-                    )}
-                  </Box>
-                )}
-              </Box>
-            ))}
-          </Box>
-        )}
-        {dayMessages.yesterday.length > 0 && (
+                    );
+                  })}
+                </Box>
+              );
+            })}
+        {dayMessages?.yesterday?.length > 0 && (
           <Box>
             <Typography
               sx={{ textAlign: "center", fontSize: "12px", fontWeight: "500" }}
@@ -276,7 +310,7 @@ const ChatPage = ({ data, socket, resetNotification }) => {
             ))}
           </Box>
         )}
-        {dayMessages.today.length > 0 && (
+        {dayMessages?.today?.length > 0 && (
           <Box>
             <Typography
               sx={{ textAlign: "center", fontSize: "12px", fontWeight: "500" }}
@@ -285,31 +319,29 @@ const ChatPage = ({ data, socket, resetNotification }) => {
             </Typography>
             {dayMessages.today?.map((message) => (
               <Box key={message.id} className={styles.messageContainer}>
-                {chatMessage && (
-                  <Box>
-                    {message.senderId !== userId && (
-                      <Box>
-                        <Typography className={styles.sender}>
-                          {message.message}
-                        </Typography>
-                        <p className={styles.senderTime}>
-                          {formatDate(message?.createdAt)}
-                        </p>
-                      </Box>
-                    )}
-                    {message.senderId === userId && (
-                      <Box>
-                        <Typography className={styles.receiver}>
-                          {message.message}
-                        </Typography>
+                <Box>
+                  {message.senderId !== userId && (
+                    <Box>
+                      <Typography className={styles.sender}>
+                        {message.message}
+                      </Typography>
+                      <p className={styles.senderTime}>
+                        {formatDate(message?.createdAt)}
+                      </p>
+                    </Box>
+                  )}
+                  {message.senderId === userId && (
+                    <Box>
+                      <Typography className={styles.receiver}>
+                        {message.message}
+                      </Typography>
 
-                        <p className={`${styles.receiverTime}`}>
-                          {formatDate(message?.createdAt)}
-                        </p>
-                      </Box>
-                    )}
-                  </Box>
-                )}
+                      <p className={`${styles.receiverTime}`}>
+                        {formatDate(message?.createdAt)}
+                      </p>
+                    </Box>
+                  )}
+                </Box>
               </Box>
             ))}
           </Box>
