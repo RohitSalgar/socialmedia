@@ -52,17 +52,17 @@ const useGetTrendingPosts = (tabView) => {
   });
 };
 
-const useGetSkipTrendingPosts = () => {
-  return useQuery({
-    queryKey: ["publictrending"],
-    queryFn: () => {
-      return fetchData({
-        url: URL + "post/getTrendingPost",
-        isAuthRequired: true,
-      });
-    },
-  });
-};
+// const useGetSkipTrendingPosts = () => {
+//   return useQuery({
+//     queryKey: ["publictrending"],
+//     queryFn: () => {
+//       return fetchData({
+//         url: URL + "post/getTrendingPost",
+//         isAuthRequired: true,
+//       });
+//     },
+//   });
+// };
 
 const useGetPagePost = (tabView) => {
   return useInfiniteQuery({
@@ -352,6 +352,6 @@ export {
   useGetMyPagePostList,
   useGetMyPagePost,
   usePostUnfollow,
-  useGetSkipTrendingPosts,
+  // useGetSkipTrendingPosts,
   useGetHashTagPosts,
 };

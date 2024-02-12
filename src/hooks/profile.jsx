@@ -15,7 +15,7 @@ const useGetProfile = (id) => {
         },
         { data: [{ id }] }
       ),
-      enabled:id !== null,
+    enabled: id !== null,
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },
@@ -33,10 +33,9 @@ const editProfile = async (data) => {
 const useEditProfile = (onSuccessFunctions) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data) =>
-    editProfile(data),
+    mutationFn: (data) => editProfile(data),
     onSuccess: (data) => {
-      onSuccessFunctions(data)
+      onSuccessFunctions(data);
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (error) => {
@@ -175,6 +174,23 @@ const useChangeConnectionStatus = () => {
   });
 };
 
+const useGetMentionedProfile = (onSuccess) => {
+  return useMutation({
+    mutationFn: (data) =>
+      fetchData(
+        {
+          url: URL + "users/getProfileByName",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [data] }
+      ),
+    onSuccess: (data) => {
+      onSuccess(data);
+    },
+  });
+};
+
 export {
   useGetProfile,
   useEditProfile,
@@ -184,5 +200,6 @@ export {
   useChangeConnectionStatus,
   useGetMainUserFollowingList,
   useGetUserFollowList,
-  useGetMainUserConnectionList
+  useGetMainUserConnectionList,
+  useGetMentionedProfile,
 };
