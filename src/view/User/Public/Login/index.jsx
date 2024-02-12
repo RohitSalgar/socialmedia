@@ -325,7 +325,7 @@ export default function Register() {
                 >
                   Login
                 </Button>
-                <Button
+                {/* <Button
                   onClick={googleSignUpFn}
                   className={styles.submitbtn}
                   // type="submit"
@@ -339,7 +339,7 @@ export default function Register() {
                   }}
                 >
                   Signup with Google
-                </Button>
+                </Button> */}
                 <Grid
                   item
                   style={{

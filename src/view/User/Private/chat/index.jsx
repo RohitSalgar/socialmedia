@@ -13,9 +13,11 @@ import { useGetProfile } from "../../../../hooks/profile";
 import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
 import { setLiveUsers, setSingleChatModeOff } from "../../../../redux/slices/chat";
 import { useSocket } from "../../../../hooks/socket";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
+  const queryclient = useQueryClient();
   const { chatNotification } = useSelector((state) => state.chat)
   const dark = palette.neutral.dark;
   const [liveUser, setLiveUser] = useState(null);
@@ -64,41 +66,43 @@ const ChatLayout = () => {
   useEffect(() => {
     if (allChatInfo != null) {
       socket?.on("getNotification", (notify) => {
-        console.log("run")
-        const requiredId = allChatInfo && findId(notify.senderId, allChatInfo);
-        if (requiredId != null) {
-          if (notification.length === 0) {
-            const newNotification = {
-              _id: requiredId,
-              notifyCount: 1
-            };
-            setNotification([...notification,newNotification]);
-          } else {
-            console.log(notification,"notification")
-            console.log(requiredId,"required Id")
-            const index = notification.findIndex(item => item._id === requiredId);
-            console.log(index)
-            if (index !== -1) {
-              setNotification(prevState => {
-                const newState = [...prevState];
-                newState[index] = {
-                  ...newState[index],
-                  notifyCount: newState[index].notifyCount + 1
-                };
-                return newState;
-              });
-            } else {
-              console.log(notification)
-              setNotification( [
-                ...notification,
-                {
-                  _id: requiredId,
-                  notifyCount: 1
-                }
-              ]);
-            }
-          }
-        }
+        // console.log("run")
+        // const requiredId = allChatInfo && findId(notify.senderId, allChatInfo);
+        // if (requiredId != null) {
+        //   if (notification.length === 0) {
+        //     const newNotification = {
+        //       _id: requiredId,
+        //       notifyCount: 1
+        //     };
+        //     setNotification([...notification,newNotification]);
+        //   } else {
+        //     console.log(notification,"notification")
+        //     console.log(requiredId,"required Id")
+        //     const index = notification.findIndex(item => item._id === requiredId);
+        //     console.log(index)
+        //     if (index !== -1) {
+        //       setNotification(prevState => {
+        //         const newState = [...prevState];
+        //         newState[index] = {
+        //           ...newState[index],
+        //           notifyCount: newState[index].notifyCount + 1
+        //         };
+        //         return newState;
+        //       });
+        //     } else {
+        //       console.log(notification)
+        //       setNotification( [
+        //         ...notification,
+        //         {
+        //           _id: requiredId,
+        //           notifyCount: 1
+        //         }
+        //       ]);
+        //     }
+        //   }
+        // }
+        queryclient.invalidateQueries(["chat"]);
+
       });
     }
   }, [allChatInfo, notification]);

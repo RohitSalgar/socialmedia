@@ -220,7 +220,7 @@ const ChatPage = ({ data, socket, resetNotification }) => {
             ?.sort((a, b) => {
               let dateA = new Date(a.date);
               let dateB = new Date(b.date);
-              return dateB - dateA;
+              return dateA - dateB;
             })
             .map((e, i) => {
               return (
@@ -357,7 +357,7 @@ const ChatPage = ({ data, socket, resetNotification }) => {
             onChange={(e) => setSendMessage(e.target.value)}
           />
           <Box>
-            {sendMessage.length > 0 ? (
+            {sendMessage.trim().length > 0 ? (
               <IconButton
                 onClick={sendChatMessage}
                 className={styles.sendButton}
