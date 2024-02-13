@@ -42,7 +42,6 @@ const MyPostWidget = () => {
   const { data } = useGetProfile(userId);
   const textFieldRef = useRef(null);
   const onSearchSuccess = (data) => {
-    console.log(data,"data")
     setSearchData(data);
   };
 
@@ -196,6 +195,22 @@ const MyPostWidget = () => {
     setImageUrls(urls);
   };
 
+  function extractUsernamesFromString(string) {
+    const regex = /@(\w+)/g;
+    const matches = string.match(regex);
+    if (matches) {
+      return matches.map((match) => match.slice(1));
+    }
+    return [];
+  }
+
+  function filterSearchData(searchData, usernames) {
+    return searchData.filter((user) => !usernames.includes(user.userName));
+  }
+
+  const usernamesInString = extractUsernamesFromString(description);
+  const filteredSearchData = filterSearchData(searchData, usernamesInString);
+
   function handleClick(value) {
     var lastIndex = description.lastIndexOf("@");
     let newDesc = "";
@@ -231,8 +246,7 @@ const MyPostWidget = () => {
             setTypingPosition(cursorPosition);
             setLastWordBeforeCursor(lastWord);
             if (
-              (lastWord.startsWith("@") ||
-                lastWord.endsWith("@")) &&
+              (lastWord.startsWith("@") || lastWord.endsWith("@")) &&
               lastWord.length >= 1
             ) {
               setSearchDivToggle(true);
@@ -272,12 +286,17 @@ const MyPostWidget = () => {
                 <div className={styles.sliderContainer} key={i}>
                   <div className={styles.imageContainer} key={i}>
                     {file.imageUrl.startsWith("data:image") ? (
-                      <img className={styles.img}
+                      <img
+                        className={styles.img}
                         src={file.imageUrl}
                         alt={`Image ${i}`}
                       />
                     ) : (
-                      <video className={styles.img} src={file.imageUrl} controls />
+                      <video
+                        className={styles.img}
+                        src={file.imageUrl}
+                        controls
+                      />
                     )}
                   </div>
                   <div className={styles.imageFooter}>
@@ -298,13 +317,13 @@ const MyPostWidget = () => {
         searchData &&
         searchData?.length > 0 && (
           <Box sx={{ width: "220px", height: "350px" }}>
-            {searchData && searchData.length > 0 && (
+            {filteredSearchData && filteredSearchData.length > 0 ? (
               <div
                 className={styles.searchitemsContainer}
                 style={{ marginTop: "45px" }}
               >
-                {searchData &&
-                  searchData.map((value) => {
+                {filteredSearchData &&
+                  filteredSearchData.map((value) => {
                     return (
                       <div
                         onClick={() => handleClick(value)}
@@ -333,6 +352,13 @@ const MyPostWidget = () => {
                       </div>
                     );
                   })}
+              </div>
+            ) : (
+              <div
+                className={styles.searchitemsContainer}
+                style={{ marginTop : "20px" }}
+              >
+                <p style={{ margin: "15px" }}>No search found</p>
               </div>
             )}
           </Box>
