@@ -189,7 +189,7 @@ const Navbar = () => {
                 sx={{ fontSize: "25px", cursor: "pointer" }}
                 onClick={() => dispatch(setSideView("notification"))}
               />
-            </Badge> */}
+            </Badge> 
             <ImSwitch
               style={{ fontSize: "25px", cursor: "pointer" }}
               onClick={() => {

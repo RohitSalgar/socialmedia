@@ -56,6 +56,7 @@ import notfound from "../../../../assets/Images/notfound.jpg";
 import { AdvertisementWidget } from "../Posts/AdvertisementWidget";
 import { PAGE_SIZE } from "../../../../config";
 import styles from './index.module.css';
+import DashboardSkeleton from "../../../../components/Skeleton/DashboardSkeleton/DashboardSkeleton";
 
 const HomePage = () => {
   const { ref, inView } = useInView();
@@ -226,7 +227,7 @@ const HomePage = () => {
     topPagesLoading ||
     notificationPostLoading
   ) {
-    return <Loader />;
+    return <DashboardSkeleton />;
   }
 
   const handleClose = () => {

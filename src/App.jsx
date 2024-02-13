@@ -11,9 +11,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import RouterRender from "./routes/routerRender";
 import ErrorFallback from "./components/ErrorFallback/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
-import Loader from "./components/Loader/Loader";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import DashboardSkeleton from "./components/Skeleton/DashboardSkeleton/DashboardSkeleton";
 
 
 
@@ -36,7 +36,7 @@ function App() {
     <div className="app">
       <QueryClientProvider client={queryClient}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Suspense fallback={<Loader />}>
+          <Suspense fallback={<DashboardSkeleton />}>
             <LocalizationProvider dateAdapter={AdapterMoment}>
               <ThemeProvider theme={theme}>
                 <CssBaseline />
