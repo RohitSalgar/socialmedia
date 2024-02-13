@@ -5,7 +5,37 @@ import { setSingleChatModeOn } from "../../../redux/slices/chat";
 import { Avatar, Badge, Box, IconButton, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import { useUpdateChatStatus } from "../../../hooks/chat";
+import { styled } from '@mui/material/styles';
 import { useEffect } from "react";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: 'ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}));
 
 const ChatPerson = ({ data, notification }) => {
   const dispatch = useDispatch();
@@ -41,7 +71,7 @@ const ChatPerson = ({ data, notification }) => {
   return (
     <Box className={styles.ChatPersonDiv} onClick={() => handleSubmit()}>
       <Box className={styles.imgdiv}>
-        {isUserInArray ? <Badge color="success" overlap="circular" badgeContent=" " variant="dot">
+        {isUserInArray ? <StyledBadge color="success" overlap="circular" anchorOrigin={{ vertical: 'top', horizontal: 'right' }} variant="dot">
           <Avatar
             width={"40px"}
             height={"40px"}
@@ -52,7 +82,7 @@ const ChatPerson = ({ data, notification }) => {
             }
             alt="alt"
           />
-        </Badge> :
+        </StyledBadge> :
           <Avatar
             width={"40px"}
             height={"40px"}

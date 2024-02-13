@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./ChatPage.module.css";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
@@ -52,7 +52,6 @@ const ChatPage = ({ data, socket, resetNotification }) => {
     });
     socket?.on("getAckMessage", () => refetch());
   }, [chatData, socket]);
-
   useEffect(() => {
     let dayMsgs = categorizeMessagesByDay(chatMessage);
     setDaymessages(dayMsgs);
@@ -209,16 +208,36 @@ const ChatPage = ({ data, socket, resetNotification }) => {
         }}
       />
       <Box className={styles.chatHeader}>
-        <p className={styles.contactName}>
-          {filteredData[0].senderId === userId
-            ? filteredData[0].recipientName
-            : filteredData[0].senderName}
-        </p>
-        <p className={styles.activeLogo}>
-          {chatliveUsers && isUserIdPresent(chatliveUsers, filteredData[0])
-            ? <p style={{color:"green"}}>Online</p>
-            : <p style={{color:"red"}}>Offline</p>}
-        </p>
+        <Box sx={{ display: "flex", alignItems: "center", padding:"10px 5px" }}>
+          <Avatar
+            width={"40px"}
+            height={"40px"}
+            src={
+              filteredData[0].senderId === userId
+                ? filteredData[0].recipientProfile
+                : filteredData[0].senderProfile
+            }
+            alt="alt"
+          />
+          <Box style={{marginLeft:"5px"}}>
+            <Typography sx={{ fontSize: "15px", fontWeight: "bold"}}>
+              {filteredData[0].senderId === userId
+                ? filteredData[0].recipientName
+                : filteredData[0].senderName}
+            </Typography>
+            {chatliveUsers && isUserIdPresent(chatliveUsers, filteredData[0])
+              ? <Typography style={{
+                fontSize: "13px",
+                fontWeight: "350", color: "green"
+              }}>Online</Typography>
+              : <Typography sx={{
+                textAlign: "center",
+                fontSize: "10px",
+                fontWeight: "350",
+                color: "red"
+              }}>Offline</Typography>}
+          </Box>
+        </Box>
       </Box>
       <Box className={styles.chatMessages} ref={messagesDivRef}>
         {dayMessages?.prevDays?.length > 0 &&
@@ -374,7 +393,12 @@ const ChatPage = ({ data, socket, resetNotification }) => {
                 <SendIcon />
               </IconButton>
             ) : (
-              <CancelScheduleSend className={styles.sendButton} />
+              <IconButton
+                disabled={true}
+                className={styles.sendButton}
+              >
+              <CancelScheduleSend  />
+              </IconButton>
             )}
           </Box>
         </form>

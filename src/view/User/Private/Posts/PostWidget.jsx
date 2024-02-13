@@ -220,7 +220,7 @@ const PostWidget = ({ postData, checkCond }) => {
       {postData.files && postData.files.length === 1 && (
         <div>
           {postData.files[0]?.fileType?.includes("image") ? (
-            <img src={postData.files[0].filePath} alt="post_image" />
+            <img className={styles.video} src={postData.files[0].filePath} alt="post_image" />
           ) : (
             <video
               className={styles.video}
