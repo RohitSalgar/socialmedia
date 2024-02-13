@@ -193,9 +193,6 @@ const QaWidget = ({ postData }) => {
           <Box>
             <Divider />
             <Box
-                onClick={() => {
-                  setIsComments(false);
-                }}
                 sx={{
                   display: "flex",
                   flexDirection: "row",
@@ -204,9 +201,15 @@ const QaWidget = ({ postData }) => {
                 }}
               >
                 <IconButton>
-                  <CancelOutlined />
+                  <CancelOutlined 
+                onClick={() => {
+                  setIsComments(false);
+                }}/>
                 </IconButton>
-                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+                <Typography sx={{ cursor: "pointer" }} 
+                onClick={() => {
+                  setIsComments(false);
+                }}>{"close"}</Typography>
               </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />

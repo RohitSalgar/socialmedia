@@ -361,10 +361,6 @@ const PostWidget = ({ postData, checkCond }) => {
             </IconButton>
           )}
           <Box
-            onClick={() => {
-              setReport(false);
-              setIsComments(false);
-            }}
             sx={{
               display: "flex",
               flexDirection: "row",
@@ -372,9 +368,17 @@ const PostWidget = ({ postData, checkCond }) => {
             }}
           >
             <IconButton>
-              <CancelOutlined />
+              <CancelOutlined 
+            onClick={() => {
+              setReport(false);
+              setIsComments(false);
+            }} />
             </IconButton>
-            <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+            <Typography sx={{ cursor: "pointer" }} 
+            onClick={() => {
+              setReport(false);
+              setIsComments(false);
+            }}>{"close"}</Typography>
           </Box>
         </FlexBetween>
       )}
@@ -383,10 +387,6 @@ const PostWidget = ({ postData, checkCond }) => {
           <Box>
             <Divider />
             <Box
-              onClick={() => {
-                setReport(false);
-                setIsComments(false);
-              }}
               sx={{
                 display: "flex",
                 flexDirection: "row",
@@ -395,9 +395,15 @@ const PostWidget = ({ postData, checkCond }) => {
               }}
             >
               <IconButton>
-                <CancelOutlined />
+                <CancelOutlined  onClick={() => {
+                setReport(false);
+                setIsComments(false);
+              }} />
               </IconButton>
-              <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              <Typography sx={{ cursor: "pointer" }}  onClick={() => {
+                setReport(false);
+                setIsComments(false);
+              }}>{"close"}</Typography>
             </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
