@@ -46,6 +46,7 @@ const MyPostWidget = () => {
   const { data } = useGetProfile(userId);
   const textFieldRef = useRef(null);
   const onSearchSuccess = (data) => {
+    console.log(data,"data")
     setSearchData(data);
   };
 
@@ -228,16 +229,11 @@ const MyPostWidget = () => {
             const lastWord = words[words.length - 1];
             const cursorPosition = e.target.selectionStart;
             setTypingPosition(cursorPosition);
-            const wordsBeforeCursor = e.target.value
-              .substring(0, cursorPosition)
-              .split(" ");
-            const lastWordBeforeCursor =
-              wordsBeforeCursor[wordsBeforeCursor.length - 1];
-            setLastWordBeforeCursor(lastWordBeforeCursor);
+            setLastWordBeforeCursor(lastWord);
             if (
-              (lastWordBeforeCursor.startsWith("@") ||
-                lastWordBeforeCursor.endsWith("@")) &&
-              lastWordBeforeCursor.length >= 1
+              (lastWord.startsWith("@") ||
+                lastWord.endsWith("@")) &&
+              lastWord.length >= 1
             ) {
               setSearchDivToggle(true);
               navesearchMutate({
@@ -250,6 +246,8 @@ const MyPostWidget = () => {
             if (e.key === "Enter" && e.shiftKey) {
               setSearchDivToggle(false);
               if (e.key === "Enter" && e.shiftKey) {
+                const cursorPosition = e.target.selectionStart;
+                setTypingPosition(cursorPosition);
                 setDescription(description + " ");
               }
             }
@@ -274,13 +272,12 @@ const MyPostWidget = () => {
                 <div className={styles.sliderContainer} key={i}>
                   <div className={styles.imageContainer} key={i}>
                     {file.imageUrl.startsWith("data:image") ? (
-                      <img
+                      <img className={styles.img}
                         src={file.imageUrl}
-                        style={{ marginRight: "10px" }}
                         alt={`Image ${i}`}
                       />
                     ) : (
-                      <video src={file.imageUrl} controls />
+                      <video className={styles.img} src={file.imageUrl} controls />
                     )}
                   </div>
                   <div className={styles.imageFooter}>
