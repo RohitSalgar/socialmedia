@@ -30,21 +30,21 @@ import {
 } from "../../../../redux/slices/profileSlice";
 import classes from "./index.module.css";
 import { useNavSearch } from "../../../../hooks/user";
-import { resetLiveChatUsers, setRemoveChatState } from "../../../../redux/slices/chat";
+import {
+  resetLiveChatUsers,
+  setRemoveChatState,
+} from "../../../../redux/slices/chat";
 import { openAdvert } from "../../../../redux/slices/advert";
 import { removePostData } from "../../../../redux/slices/post";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
-// import { useGetAllNotificationById } from "../../../../hooks/notifications";
-// import Loader from "../../../../components/Loader/Loader";
+import { useGetAllNotificationById } from "../../../../hooks/notifications";
+import Loader from "../../../../components/Loader/Loader";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const signedIn = localStorage.getItem("amsSocialSignedIn");
-  const { sideView } = useSelector((state) => state.profile);
-  const { userId } = useSelector((state) => state.profile.profileData);
-  // const { data, isLoading } = useGetAllNotificationById(userId);
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
   const onSearchSuccess = (data) => {
@@ -53,6 +53,9 @@ const Navbar = () => {
   const { mutate: navesearchMutate } = useNavSearch(onSearchSuccess);
 
   const tokenId = localStorage.getItem("amsSocialToken");
+  const { userId } = useSelector((state) => state.profile.profileData);
+  const { data: notificationData, isLoading } =
+    useGetAllNotificationById(userId);
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -73,9 +76,9 @@ const Navbar = () => {
     }
   }
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <FlexBetween
@@ -167,18 +170,26 @@ const Navbar = () => {
           </IconButton> */}
             <Message
               sx={{ fontSize: "25px", cursor: "pointer" }}
-              onClick={() => {dispatch(setSideView("chat")); dispatch(resetLiveChatUsers())}}
+              onClick={() => {
+                dispatch(setSideView("chat"));
+                dispatch(resetLiveChatUsers());
+              }}
             />
 
-            {/* <Badge
-              badgeContent={data && data?.filter((e) => e.status === 1).length}
+            <Badge
+              badgeContent={
+                notificationData?.pages.length > 0 &&
+                notificationData?.pages[0].unseenCount > 0
+                  ? notificationData?.pages[0].unseenCount
+                  : 0
+              }
               color="primary"
-            > */}
+            >
               <NotificationImportantIcon
                 sx={{ fontSize: "25px", cursor: "pointer" }}
                 onClick={() => dispatch(setSideView("notification"))}
               />
-            {/* </Badge> */}
+            </Badge>
             <ImSwitch
               style={{ fontSize: "25px", cursor: "pointer" }}
               onClick={() => {
@@ -187,8 +198,8 @@ const Navbar = () => {
                   dispatch(setRemoveChatState());
                   dispatch(openAdvert());
                   dispatch(removePostData());
-                  dispatch(resetLiveChatUsers())
-                localStorage.removeItem("amsSocialToken");
+                  dispatch(resetLiveChatUsers());
+                  localStorage.removeItem("amsSocialToken");
                   localStorage.removeItem("amsSocialId");
                   localStorage.removeItem("amsSocialSignedIn");
                 } else {

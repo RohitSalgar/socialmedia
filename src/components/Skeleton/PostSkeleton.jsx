@@ -3,6 +3,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Skeleton from '@mui/material/Skeleton';
 import WidgetWrapper from '../WidgetWrapper';
+import { Avatar, Box } from "@mui/material";
 
 function Media() {
     return (

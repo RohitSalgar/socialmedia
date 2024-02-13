@@ -8,12 +8,10 @@ import moment from "moment";
 import { CancelScheduleSend } from "@mui/icons-material";
 import {
   setSingleChatModeOff,
-  setLiveUsers,
-  resetLiveChatUsers,
 } from "../../../redux/slices/chat";
 import { useGetChatById, useUpdateChatStatus } from "../../../hooks/chat";
 import Loader from "../../Loader/Loader";
-
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 const ChatPage = ({ data, socket, resetNotification }) => {
   const dispatch = useDispatch();
   const { chatliveUsers } = useSelector((state) => state.chat);
@@ -36,7 +34,7 @@ const ChatPage = ({ data, socket, resetNotification }) => {
     if (messagesDivRef.current) {
       messagesDivRef.current.scrollTop = messagesDivRef.current.scrollHeight;
     }
-  }, [messagesDivRef.current, chatMessage]);
+  }, [dayMessages]);
 
   useEffect(() => {
     if (chatData) {
@@ -46,6 +44,13 @@ const ChatPage = ({ data, socket, resetNotification }) => {
     payload.userId = userId;
     payload.connectionId = filteredData[0]._id;
     mutate(payload);
+    socket?.emit("messageAck", {
+      receiverId:
+        filteredData[0].recipientId === userId
+          ? filteredData[0].senderId
+          : filteredData[0].recipientId,
+    });
+    socket?.on("getAckMessage", () => refetch());
   }, [chatData, socket]);
 
   useEffect(() => {
@@ -64,7 +69,6 @@ const ChatPage = ({ data, socket, resetNotification }) => {
     refetch();
     if (!messageEmitted) {
       socket?.on("getMessage", (data) => {
-        console.log(data, "chat datas");
         const newChat = {
           message: data.message,
           createdAt: data.createdAt,
@@ -79,6 +83,8 @@ const ChatPage = ({ data, socket, resetNotification }) => {
       socket?.off("getMessage");
     };
   }, []);
+
+
 
   const sendChatMessage = (e) => {
     e.preventDefault();
@@ -210,8 +216,8 @@ const ChatPage = ({ data, socket, resetNotification }) => {
         </p>
         <p className={styles.activeLogo}>
           {chatliveUsers && isUserIdPresent(chatliveUsers, filteredData[0])
-            ? "Online"
-            : "Offline"}
+            ? <p style={{color:"green"}}>Online</p>
+            : <p style={{color:"red"}}>Offline</p>}
         </p>
       </Box>
       <Box className={styles.chatMessages} ref={messagesDivRef}>
@@ -220,7 +226,7 @@ const ChatPage = ({ data, socket, resetNotification }) => {
             ?.sort((a, b) => {
               let dateA = new Date(a.date);
               let dateB = new Date(b.date);
-              return dateB - dateA;
+              return dateA - dateB;
             })
             .map((e, i) => {
               return (
@@ -332,13 +338,16 @@ const ChatPage = ({ data, socket, resetNotification }) => {
                   )}
                   {message.senderId === userId && (
                     <Box>
-                      <Typography className={styles.receiver}>
-                        {message.message}
-                      </Typography>
-
+                      <Box className={styles.receiver}>
+                        <Typography className={styles.receiverText}>
+                          {message.message}
+                        </Typography>
+                        {message.status === 1 ? <DoneAllIcon fontSize="small" color="success" sx={{ pt: "2px" }} /> : <DoneAllIcon fontSize="small" sx={{ pt: "2px" }} />}
+                      </Box>
                       <p className={`${styles.receiverTime}`}>
                         {formatDate(message?.createdAt)}
                       </p>
+                      {console.log(message, "mess")}
                     </Box>
                   )}
                 </Box>
@@ -357,7 +366,7 @@ const ChatPage = ({ data, socket, resetNotification }) => {
             onChange={(e) => setSendMessage(e.target.value)}
           />
           <Box>
-            {sendMessage.length > 0 ? (
+            {sendMessage.trim().length > 0 ? (
               <IconButton
                 onClick={sendChatMessage}
                 className={styles.sendButton}

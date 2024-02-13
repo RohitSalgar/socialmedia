@@ -2,14 +2,14 @@ import { useState } from "react";
 import {
   Box,
   IconButton,
-//   InputBase,
+  //   InputBase,
   Typography,
   useTheme,
   useMediaQuery,
-//   Badge,
+  //   Badge,
 } from "@mui/material";
 import {
-//   Search,
+  //   Search,
   Message,
   Notifications,
   Help,
@@ -23,9 +23,9 @@ import {
   clearSkip,
   removeProfileData,
   setDashboardView,
-//   setSideView,
-//   setViewCompanyId,
-//   setViewProfileId,
+  //   setSideView,
+  //   setViewCompanyId,
+  //   setViewProfileId,
 } from "../../../../redux/slices/profileSlice";
 import classes from "./index.module.css";
 // import { useNavSearch } from "../../../../hooks/user";
@@ -42,15 +42,15 @@ const SkipNavbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const signedIn = localStorage.getItem("amsSocialSignedIn");
-//   const { sideView } = useSelector((state) => state.profile);
-//   const { userId } = useSelector((state) => state.profile.profileData);
-//   const { data, isLoading } = useGetAllNotificationById(userId);
-//   const [searchText, setSearchText] = useState("");
-//   const [searchData, setSearchData] = useState([]);
-//   const onSearchSuccess = (data) => {
-//     setSearchData(data);
-//   };
-//   const { mutate: navesearchMutate } = useNavSearch(onSearchSuccess);
+  //   const { sideView } = useSelector((state) => state.profile);
+  //   const { userId } = useSelector((state) => state.profile.profileData);
+  //   const { data, isLoading } = useGetAllNotificationById(userId);
+  //   const [searchText, setSearchText] = useState("");
+  //   const [searchData, setSearchData] = useState([]);
+  //   const onSearchSuccess = (data) => {
+  //     setSearchData(data);
+  //   };
+  //   const { mutate: navesearchMutate } = useNavSearch(onSearchSuccess);
 
   const tokenId = localStorage.getItem("amsSocialToken");
 
@@ -62,20 +62,20 @@ const SkipNavbar = () => {
   const background = theme.palette.background.default;
   const alt = theme.palette.background.alt;
 
-//   function handleClick(value) {
-//     setSearchText("");
-//     if (value.fullName) {
-//       dispatch(setViewProfileId(value?._id));
-//       dispatch(setDashboardView("profile"));
-//     } else {
-//       dispatch(setViewCompanyId(value?._id));
-//       dispatch(setDashboardView("postprofile"));
-//     }
-//   }
+  //   function handleClick(value) {
+  //     setSearchText("");
+  //     if (value.fullName) {
+  //       dispatch(setViewProfileId(value?._id));
+  //       dispatch(setDashboardView("profile"));
+  //     } else {
+  //       dispatch(setViewCompanyId(value?._id));
+  //       dispatch(setDashboardView("postprofile"));
+  //     }
+  //   }
 
-//   if (isLoading) {
-//     return <Loader />;
-//   }
+  //   if (isLoading) {
+  //     return <Loader />;
+  //   }
 
   return (
     <FlexBetween
@@ -94,65 +94,7 @@ const SkipNavbar = () => {
           AllMasters
         </Typography>
       </FlexBetween>
-      {/* <div>
-        <FlexBetween gap="1.75rem">
-          {isNonMobileScreens && tokenId && (
-            <FlexBetween
-              backgroundColor={neutralLight}
-              borderRadius="9px"
-              gap="1rem"
-              padding="0.3rem 2.5rem 0.3rem 1.5rem"
-            >
-              <Search />
-              <InputBase
-                value={searchText}
-                onChange={(e) => {
-                  setSearchText(e.target.value);
-                  navesearchMutate({
-                    term: e.target.value,
-                  });
-                }}
-                placeholder="Search..."
-                style={{ width: "250px" }}
-              />
-              {searchText && (
-                <ClearIcon
-                  sx={{ color: dark, cursor: "pointer" }}
-                  onClick={() => setSearchText("")}
-                />
-              )}
-            </FlexBetween>
-          )}
-        </FlexBetween>
-        {searchText != "" && searchData && searchData.length > 0 && (
-          <div
-            className={classes.searchitemsContainer}
-            style={{ marginTop: "45px" }}
-          >
-            {searchData &&
-              searchData.map((value) => {
-                return (
-                  <div
-                    onClick={() => handleClick(value)}
-                    key={value._id}
-                    className={classes.profileContainer}
-                  >
-                    <div>
-                      <img
-                        className={classes.profilePic}
-                        src={value.profile}
-                        alt=""
-                      />
-                    </div>
-                    <div>
-                      {value.fullName ? value.fullName : value.companyName}
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-        )}
-      </div> */}
+
 
       {/* DESKTOP NAV */}
       {
@@ -165,30 +107,30 @@ const SkipNavbar = () => {
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
           </IconButton> */}
-            
-            <ImSwitch
-              style={{ fontSize: "25px", cursor: "pointer" }}
+
+            <div
+
               onClick={() => {
-                if (signedIn === "true") {
-                  dispatch(removeProfileData());
-                  dispatch(setRemoveChatState());
-                  dispatch(openAdvert());
-                  dispatch(removePostData());
-                  dispatch(resetLiveChatUsers())
-                localStorage.removeItem("amsSocialToken");
-                  localStorage.removeItem("amsSocialId");
-                  localStorage.removeItem("amsSocialSignedIn");
-                } else {
+                if (signedIn === "false") {
                   localStorage.clear();
                   localStorage.removeItem("amsSocialSignedIn");
                   dispatch(clearSkip());
                 }
                 navigate("/login");
               }}
-            />
+            >
+              <Typography
+                fontWeight="normal"
+                fontSize="1.3rem"
+                color="primary"
+                sx={{ cursor: "pointer" }}
+                onClick={() => dispatch(setDashboardView("home"))}
+              >
+                SIGN-IN
+              </Typography>              </div>
           </FlexBetween>
         )
-        
+
         // : (
         //   <Button
         //     style={{ fontSize: "15px" }}

@@ -425,6 +425,7 @@ const Profile = () => {
             fontWeight="400"
             style={{
               paddingTop: "10px",
+              wordWrap: "break-word",
             }}
           >
             {data?.userData?.about}
@@ -440,7 +441,12 @@ const Profile = () => {
             </Box>
             <Box className={styles.postdiv}>
               {postList?.map((data) => (
-                <PostWidget key={data._id} postData={data} page={"profile"} />
+                <PostWidget
+                  key={data._id}
+                  postData={data}
+                  page={"profile"}
+                  checkCond={false}
+                />
               ))}
               {postList?.length === 0 && <LookingEmpty />}
             </Box>

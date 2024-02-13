@@ -8,14 +8,12 @@ import {
   useTheme,
   Button,
   IconButton,
-  // useMediaQuery,
 } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import Dropzone from "react-dropzone";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
 import { useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { HiMiniHashtag } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { useInsertPost } from "../../../../hooks/posts";
 import { useGetProfile } from "../../../../hooks/profile";
@@ -25,7 +23,6 @@ import Slider from "react-slick";
 import { useNavSearch } from "../../../../hooks/user";
 import { CircularProgress } from "@mui/material";
 
-
 const MyPostWidget = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
   const dashboardView = useSelector((state) => state.profile.dashboardView);
@@ -33,12 +30,9 @@ const MyPostWidget = () => {
   const [image, setImage] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [searchData, setSearchData] = useState([]);
-  const [hashTag, setHashTags] = useState(false);
-  const dispatch = useDispatch();
   let [description, setDescription] = useState("");
   let [lastWordBeforeCursor, setLastWordBeforeCursor] = useState("");
   let [typingPosition, setTypingPosition] = useState("");
-  const [tags, setTags] = useState([]);
   const [location, setLocation] = useState({
     state: "TamilNadu",
     country: "India",
@@ -48,6 +42,7 @@ const MyPostWidget = () => {
   const { data } = useGetProfile(userId);
   const textFieldRef = useRef(null);
   const onSearchSuccess = (data) => {
+    console.log(data,"data")
     setSearchData(data);
   };
 
@@ -58,9 +53,7 @@ const MyPostWidget = () => {
   // const medium = palette.neutral.medium;
 
   const onSuccess = () => {
-    setTags([]);
     setDescription("");
-    setHashTags(false);
     setIsImage(false);
     setImage([]);
   };
@@ -109,14 +102,6 @@ const MyPostWidget = () => {
     prevArrow: <SampleArrow />,
   };
 
-  function handleKeyDown(e) {
-    if (e.key !== "Enter") return;
-    const value = e.target.value;
-    if (!value.trim()) return;
-    setTags([...tags, value]);
-    e.target.value = "";
-  }
-
   function acceptOnlyImages(file) {
     const acceptedImageTypes = [
       "image/jpeg",
@@ -127,12 +112,17 @@ const MyPostWidget = () => {
     return acceptedImageTypes.includes(file.type);
   }
 
-  function removeTag(index) {
-    setTags(tags.filter((el, i) => i !== index));
-  }
-
   const onSubmit = (post) => {
-    let hashTagss = tags;
+    let hashTagss = [],
+      postMentions = [];
+    description.split(" ").forEach((item) => {
+      if (item.startsWith("#")) {
+        hashTagss.push(item);
+      }
+      if (item.startsWith("@")) {
+        postMentions.push(item.replace("@", ""));
+      }
+    });
     if (post === "news") {
       hashTagss = [...hashTagss, "news"];
     }
@@ -149,6 +139,7 @@ const MyPostWidget = () => {
     //     return toast.error("Invalid File Format");
     //   }
     // }
+
     const formData = new FormData();
     image &&
       image.forEach((item) => {
@@ -157,6 +148,7 @@ const MyPostWidget = () => {
     formData.append("createdBy", userId);
     formData.append("description", description);
     formData.append("hashTags", JSON.stringify(hashTagss));
+    formData.append("postMentions", JSON.stringify(postMentions));
     formData.append("state", location.state);
     formData.append("country", location.country);
     if (dashboardView === "pages") {
@@ -204,9 +196,17 @@ const MyPostWidget = () => {
     setImageUrls(urls);
   };
 
-
   function handleClick(value) {
-    const newDescription = description.slice(0, typingPosition) + value.fullName + description.slice(typingPosition);
+    var lastIndex = description.lastIndexOf("@");
+    let newDesc = "";
+    if (lastIndex !== -1) {
+      newDesc = description.substring(0, lastIndex + 1);
+    }
+    const newDescription =
+      newDesc.slice(0, typingPosition) +
+      value.userName +
+      newDesc.slice(typingPosition);
+
     setDescription(newDescription);
     setSearchDivToggle(false);
     textFieldRef.current.focus();
@@ -223,15 +223,18 @@ const MyPostWidget = () => {
           placeholder="What's Happening..."
           onChange={(e) => {
             setDescription(e.target.value);
-            const words = e.target.value.split(' ');
+            const words = e.target.value
+              .split(" ")
+              .map((item) => item.replace("\n", ""));
             const lastWord = words[words.length - 1];
             const cursorPosition = e.target.selectionStart;
-            setTypingPosition(cursorPosition)
-            const wordsBeforeCursor = e.target.value.substring(0, cursorPosition).split(' ');
-            const lastWordBeforeCursor = wordsBeforeCursor[wordsBeforeCursor.length - 1];
-            setLastWordBeforeCursor(lastWordBeforeCursor)
-            console.log(lastWordBeforeCursor)
-            if ((lastWordBeforeCursor.startsWith('@') || lastWordBeforeCursor.endsWith('@')) && lastWordBeforeCursor.length >= 1) {
+            setTypingPosition(cursorPosition);
+            setLastWordBeforeCursor(lastWord);
+            if (
+              (lastWord.startsWith("@") ||
+                lastWord.endsWith("@")) &&
+              lastWord.length >= 1
+            ) {
               setSearchDivToggle(true);
               navesearchMutate({
                 term: lastWord.substring(1),
@@ -241,38 +244,23 @@ const MyPostWidget = () => {
           value={description}
           onKeyDown={(e) => {
             if (e.key === "Enter" && e.shiftKey) {
-              console.log("run")
               setSearchDivToggle(false);
-              
+              if (e.key === "Enter" && e.shiftKey) {
+                const cursorPosition = e.target.selectionStart;
+                setTypingPosition(cursorPosition);
+                setDescription(description + " ");
+              }
             }
-            if (e.key === 'Enter' && !e.shiftKey && description) {
+            if (e.key === "Enter" && !e.shiftKey && description) {
               e.preventDefault();
-              if (dashboardView === 'news') {
-                onSubmit('news');
+              if (dashboardView === "news") {
+                onSubmit("news");
               } else {
                 onSubmit();
               }
             }
           }}
         />
-        {hashTag && (
-          <div className={styles.tagsInputContainer}>
-            {tags.map((tag, index) => (
-              <div className={styles.tagItem} key={index}>
-                <span className={styles.text}>{tag}</span>
-                <span className={styles.close} onClick={() => removeTag(index)}>
-                  &times;
-                </span>
-              </div>
-            ))}
-            <input
-              onKeyDown={handleKeyDown}
-              type="text"
-              className={styles.tagsInput}
-              placeholder="Type Something and Press Enter..."
-            />
-          </div>
-        )}
       </FlexBetween>
       <Divider sx={{ margin: "0.7rem 0" }} />
       {imageUrls && imageUrls.length > 1 && (
@@ -284,13 +272,12 @@ const MyPostWidget = () => {
                 <div className={styles.sliderContainer} key={i}>
                   <div className={styles.imageContainer} key={i}>
                     {file.imageUrl.startsWith("data:image") ? (
-                      <img
+                      <img className={styles.img}
                         src={file.imageUrl}
-                        style={{ marginRight: "10px" }}
                         alt={`Image ${i}`}
                       />
                     ) : (
-                      <video src={file.imageUrl} controls />
+                      <video className={styles.img} src={file.imageUrl} controls />
                     )}
                   </div>
                   <div className={styles.imageFooter}>
@@ -304,12 +291,10 @@ const MyPostWidget = () => {
             })}
         </Slider>
       )}
-     {/* { console.log(searchDivToggle,
-        (lastWordBeforeCursor.startsWith('@') || lastWordBeforeCursor.endsWith('@')) , lastWordBeforeCursor.length >= 1,
-        searchData,
-        searchData?.length > 0)} */}
       {searchDivToggle &&
-        (lastWordBeforeCursor.startsWith('@') || lastWordBeforeCursor.endsWith('@')) && lastWordBeforeCursor.length >= 1 &&
+        (lastWordBeforeCursor.startsWith("@") ||
+          lastWordBeforeCursor.endsWith("@")) &&
+        lastWordBeforeCursor.length >= 1 &&
         searchData &&
         searchData?.length > 0 && (
           <Box sx={{ width: "220px", height: "350px" }}>
@@ -334,7 +319,16 @@ const MyPostWidget = () => {
                           />
                         </div>
                         <div>
-                          {value.fullName ? value.fullName : value.companyName}
+                          <p>
+                            {value.fullName
+                              ? value.fullName
+                              : value.companyName}
+                          </p>
+                          <p>
+                            {value.userName
+                              ? value.userName
+                              : value.companyName}
+                          </p>
                         </div>
                       </div>
                     );
@@ -365,13 +359,13 @@ const MyPostWidget = () => {
           </div>
         </div>
       )}
-
-
-
-
       <FlexBetween>
         <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>
-          <Dropzone accept="image/*" multiple={true} onDrop={(files) => fileChangeFn(files)}>
+          <Dropzone
+            accept="image/*"
+            multiple={true}
+            onDrop={(files) => fileChangeFn(files)}
+          >
             {({ getRootProps, getInputProps }) => (
               <FlexBetween>
                 <Box
@@ -390,11 +384,6 @@ const MyPostWidget = () => {
               </FlexBetween>
             )}
           </Dropzone>
-          <HiMiniHashtag
-            size={25}
-            style={{ color: mediumMain }}
-            onClick={() => setHashTags(!hashTag)}
-          />
         </FlexBetween>
         <Box>
           {dashboardView === "news" && (
@@ -418,11 +407,7 @@ const MyPostWidget = () => {
                 borderRadius: "1rem",
               }}
             >
-              {isLoading ? (
-               <CircularProgress size={15} />
-              ) : (
-                "Post"
-              )}
+              {isLoading ? <CircularProgress size={15} /> : "Post"}
             </Button>
           )}
         </Box>

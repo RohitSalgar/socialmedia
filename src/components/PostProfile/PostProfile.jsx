@@ -249,6 +249,7 @@ const PostProfile = () => {
             style={{
               paddingTop: "10px",
               textTransform: "capitalize",
+              wordWrap:"break-word"
             }}
           >
             {companyData?.companyPageData?.about}
