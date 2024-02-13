@@ -18,7 +18,7 @@ import {
 } from "../redux/slices/profileSlice";
 import styles from "./index.module.css";
 
-const PostTitle = ({ data }) => {
+const PostTitle = ({ data, checkCond }) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
@@ -79,8 +79,11 @@ const PostTitle = ({ data }) => {
             {formatDate(data?.createdAt)}
           </Typography>
         </Box>
+        <Typography color={medium} fontSize="0.75rem">
+          {formatDate(data?.createdAt)}
+        </Typography>
       </FlexBetween>
-      {viewProfileId === userId && (
+      {checkCond || viewProfileId === userId && (
         <>
           {data?.createdBy != userId ? (
             <IconButton

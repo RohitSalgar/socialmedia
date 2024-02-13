@@ -13,17 +13,15 @@ import { useGetProfile } from "../../../../hooks/profile";
 import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
 import { setLiveUsers, setSingleChatModeOff } from "../../../../redux/slices/chat";
 import { useSocket } from "../../../../hooks/socket";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
-  const { chatNotification } = useSelector((state) => state.chat)
+  const queryclient = useQueryClient();
   const dark = palette.neutral.dark;
   const [liveUser, setLiveUser] = useState(null);
-
   const socket = useSocket();
   const [notification, setNotification] = useState([])
-  const [notificationSent, setNotificationSent] = useState(false);
-
   const [text, setText] = useState("");
   const { userId } = useSelector((state) => state.profile.profileData);
   const { isSingleChatOn } = useSelector((state) => state.chat);
@@ -34,18 +32,7 @@ const ChatLayout = () => {
   const resetNotification = () => {
     setNotification([])
   }
-  const findId = (id, array) => {
-    let correspondingId = null;
-
-    for (let i = 0; i < array.length; i++) {
-      if (array[i].senderId === id || array[i].recipientId === id) {
-        correspondingId = array[i]._id;
-        break;
-      }
-    }
-    return correspondingId
-  }
-  // console.log(liveUser,"live")
+ 
   useEffect(() => {
     refetch()
     socket?.on("connect", () => {
@@ -59,44 +46,11 @@ const ChatLayout = () => {
     });
   }, [socket]);
 
-  console.log(notification,"out")
-
   useEffect(() => {
     if (allChatInfo != null) {
-      socket?.on("getNotification", (notify) => {
-        console.log("run")
-        const requiredId = allChatInfo && findId(notify.senderId, allChatInfo);
-        if (requiredId != null) {
-          if (notification.length === 0) {
-            const newNotification = {
-              _id: requiredId,
-              notifyCount: 1
-            };
-            setNotification([...notification,newNotification]);
-          } else {
-            const index = notification.findIndex(item => item._id === requiredId);
-            console.log(index)
-            if (index !== -1) {
-              setNotification(prevState => {
-                const newState = [...prevState];
-                newState[index] = {
-                  ...newState[index],
-                  notifyCount: newState[index].notifyCount + 1
-                };
-                return newState;
-              });
-            } else {
-              console.log(notification)
-              setNotification( [
-                ...notification,
-                {
-                  _id: requiredId,
-                  notifyCount: 1
-                }
-              ]);
-            }
-          }
-        }
+      socket?.on("getNotification", () => {
+        queryclient.invalidateQueries(["chat"]);
+
       });
     }
   }, [allChatInfo, notification]);

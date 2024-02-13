@@ -26,10 +26,68 @@ import { useReportPost } from "../../../../hooks/posts";
 import { updateHashtag } from "../../../../redux/slices/post";
 import Slider from "react-slick";
 import styles from "./index.module.css";
-import CloseIcon from "@mui/icons-material/Close";
 import { CancelOutlined } from "@mui/icons-material";
+import {
+  setDashboardView,
+  setViewProfileId,
+} from "../../../../redux/slices/profileSlice";
+import { useGetMentionedProfile } from "../../../../hooks/profile";
 
-const PostWidget = ({ postData }) => {
+function HighlightAndTag({ text }) {
+  const dispatch = useDispatch();
+  const onSuccess = (data) => {
+    dispatch(setViewProfileId(data[0].userData._id));
+  };
+  const { mutate, data } = useGetMentionedProfile(onSuccess);
+  const handleTagClick = (e) => {
+    const clickedWord = e.target.innerText;
+    let userName = clickedWord.replace("@", "").trim();
+    mutate({ userName });
+    dispatch(setViewProfileId(data));
+    dispatch(updateHashtag(""));
+    dispatch(setDashboardView("profile"));
+  };
+
+  const handleHashtagClick = (e) => {
+    const clickedWord = e.target.innerText;
+    let hashtags = clickedWord.replace("#", "$&").trim();
+    dispatch(updateHashtag(hashtags));
+  };
+
+  const highlightText = () => {
+    const words = text?.split(" ");
+    return words.map((word, index) => {
+      if (word.startsWith("@")) {
+        return (
+          <span
+            key={index}
+            className={styles.taggedWord}
+            onClick={handleTagClick}
+          >
+            {word}{" "}
+          </span>
+        );
+      } else if (word.startsWith("#")) {
+        return (
+          <span
+            key={index}
+            className={styles.hashtagWord}
+            onClick={handleHashtagClick}
+          >
+            {" "}
+            {word}{" "}
+          </span>
+        );
+      } else {
+        return <span key={index}>{word} </span>;
+      }
+    });
+  };
+
+  return <div>{highlightText()}</div>;
+}
+
+const PostWidget = ({ postData, checkCond }) => {
   const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
@@ -149,26 +207,11 @@ const PostWidget = ({ postData }) => {
     }
   };
 
-  const handleHashtagClick = (hashtag) => {
-    dispatch(updateHashtag(hashtag));
-  };
-
   return (
     <WidgetWrapper m="0.3rem 0">
-      <PostTitle data={postData} />
-      <Typography color={main} className={styles.postdescription}>
-        {postData?.description}
-      </Typography>
-      <Typography color={main} sx={{ mt: "0.5rem" }}>
-        {postData?.hashtags.map((hash) => (
-          <span
-            key={hash}
-            style={{ color: primary, cursor: "pointer" }}
-            onClick={() => handleHashtagClick(hash)}
-          >
-            #{hash}{" "}
-          </span>
-        ))}
+      <PostTitle data={postData} checkCond={checkCond} />{" "}
+      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
+        <HighlightAndTag text={postData?.description} />
       </Typography>
       {postData.files && postData.files.length === 1 && (
         <div>

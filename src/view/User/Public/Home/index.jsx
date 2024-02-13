@@ -19,18 +19,36 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { setDashboardView } from "../../../../redux/slices/profileSlice";
 import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
-import { useGetSkipTrendingPosts } from "../../../../hooks/posts";
+import { useGetTrendingPosts } from "../../../../hooks/posts";
 import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
+import SkipNavbar from "./publicNavbar";
+import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
+import { useInView } from "react-intersection-observer";
+import { PAGE_SIZE } from "../../../../config";
+import { postSlice } from "../../../../redux/slices/post";
+import { AdvertisementWidget } from "../../Private/Posts/AdvertisementWidget";
+
 const HomePage = () => {
+  const { ref, inView } = useInView();
   const { tabView } = useSelector((state) => state.profile);
   const [widgetname, setWidgetname] = useState(false);
+  const { hashtag } = useSelector((state) => state.post);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
   const dispatch = useDispatch();
-  const { data: trendingPost } = useGetSkipTrendingPosts();
+  const {
+    data: trendingPost,
+    refetch: trendingPostPostRefetch,
+    isPending: trendingPostPending,
+    isFetchingNextPage,
+    error,
+    isFetching,
+    fetchNextPage,
+    hasNextPage,
+  } = useGetTrendingPosts(tabView);
 
   function handleClassname() {
     setWidgetname(true);
@@ -39,9 +57,23 @@ const HomePage = () => {
     }, 200);
   }
 
+  useEffect(() => {
+    if (inView && tabView === "trending") {
+      if (
+        hashtag === "" &&
+        !trendingPost?.pageParams.includes(
+          Math.ceil(trendingPost?.pages[0]?.totalCount / PAGE_SIZE)
+        )
+      ) {
+        fetchNextPage();
+      }
+    }
+  }, [inView, tabView, hashtag, trendingPost]);
+  
+
   return (
     <Box>
-      <Navbar />
+      <SkipNavbar />
       <Box
         width="100%"
         padding="1rem 6%"
@@ -164,13 +196,42 @@ const HomePage = () => {
             <OptionalTab />
           </Box> */}
           {trendingPost != null &&
-            trendingPost.length > 0 ?
-            trendingPost.map((data) => (
-              <PostWidget key={data._id} postData={data} />
-            )):
+          trendingPost?.pages?.length > 0 ? (
+            <Box>
+              {trendingPost.pages.map(({ data }) => {
+                return data.map((postData) => {
+                  if (postData.title) {
+                    return (
+                      <AdvertisementWidget
+                        key={`ad-${postData._id}`}
+                        postData={postData}
+                      />
+                    );
+                  }
+                  return (
+                    <PostWidget
+                      key={postData._id}
+                      postData={postData}
+                    />
+                  );
+                });
+              })}
+              {!trendingPost?.pageParams.includes(
+                Math.ceil(trendingPost?.pages[0]?.totalCount / 10)
+              ) && <PostSkeleton />}
+              <div
+                ref={ref}
+                style={{ height: "10px" }}
+                onClick={() => fetchNextPage()}
+              >
+                {isFetchingNextPage && <PostSkeleton />}
+              </div>
+            </Box>
+          ):(
             <div style={{marginTop:"10px"}}>
             <LookingEmpty />
             </div>
+          )
             }
         </Box>
       </Box>

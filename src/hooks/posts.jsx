@@ -52,17 +52,17 @@ const useGetTrendingPosts = (tabView) => {
   });
 };
 
-const useGetSkipTrendingPosts = () => {
-  return useQuery({
-    queryKey: ["publictrending"],
-    queryFn: () => {
-      return fetchData({
-        url: URL + "post/getTrendingPost",
-        isAuthRequired: true,
-      });
-    },
-  });
-};
+// const useGetSkipTrendingPosts = () => {
+//   return useQuery({
+//     queryKey: ["publictrending"],
+//     queryFn: () => {
+//       return fetchData({
+//         url: URL + "post/getTrendingPost",
+//         isAuthRequired: true,
+//       });
+//     },
+//   });
+// };
 
 const useGetPagePost = (tabView) => {
   return useInfiniteQuery({
@@ -232,7 +232,6 @@ const useInsertPost = (onSuccessFunctions) => {
       queryClient.invalidateQueries({ queryKey: ["news"] });
       queryClient.invalidateQueries({ queryKey: ["notification"] });
       queryClient.invalidateQueries({ queryKey: ["postTagnotification"] });
-
     },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
@@ -352,6 +351,6 @@ export {
   useGetMyPagePostList,
   useGetMyPagePost,
   usePostUnfollow,
-  useGetSkipTrendingPosts,
+  // useGetSkipTrendingPosts,
   useGetHashTagPosts,
 };

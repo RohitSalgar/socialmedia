@@ -12,6 +12,7 @@ const initialState = {
   sideView: "",
   skip: false,
   companyId: null,
+  mentionedUserName: null
 };
 
 export const profileSlice = createSlice({
@@ -43,6 +44,9 @@ export const profileSlice = createSlice({
     },
     setDashboardView: (state, action) => {
       state.dashboardView = action.payload;
+    },
+    setMentionedUserName: (state, action) => {
+      state.mentionedUserName = action.payload;
     },
     setViewProfileId: (state, action) => {
       state.viewProfileId = action.payload;
@@ -81,5 +85,6 @@ export const {
   setSideView,
   setSkip,
   clearSkip,
+  setMentionedUserName
 } = profileSlice.actions;
 export default profileSlice.reducer;

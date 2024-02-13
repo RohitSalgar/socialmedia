@@ -112,7 +112,7 @@
   text-transform: capitalize;
 }
 
-.video{
+.video {
   width: 100%;
 }
 .likestxt{
@@ -120,4 +120,16 @@
 }
 .likeicon{
   padding: 0 !important;
+}
+.taggedWord {
+  color: blue;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 0.1rem;
+}
+
+.hashtagWord {
+  color: #f3cf00;
+  font-weight: 400;
+  cursor: pointer;
 }

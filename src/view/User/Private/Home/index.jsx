@@ -233,7 +233,6 @@ const HomePage = () => {
     dispatch(removeHastag());
     dispatch(setDashboardView(dashboardView));
   };
-console.log(trendingPost,"trendingpost")
   return (
     <Box>
       <Navbar />

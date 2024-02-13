@@ -18,8 +18,6 @@ const NotificationTemplate = ({ data }) => {
     mutate(payload);
   };
 
-  console.log(data, "data");
-
   return (
     <Box
       className={`${data?.status === 1 && styles.unReadmsg} ${
