@@ -68,7 +68,7 @@ const ChatPerson = ({ data, notification }) => {
       return data.unSeenCount
     }
   }
-  console.log(data, "daaa")
+
   return (
     <Box className={styles.ChatPersonDiv} onClick={() => handleSubmit()}>
       <Box className={styles.imgdiv}>
