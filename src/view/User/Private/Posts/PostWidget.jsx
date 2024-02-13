@@ -91,7 +91,7 @@ function HighlightAndTag({ text }) {
   return <div>{highlightText()}</div>;
 }
 
-const PostWidget = ({ postData }) => {
+const PostWidget = ({ postData, checkCond }) => {
   const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
@@ -213,7 +213,7 @@ const PostWidget = ({ postData }) => {
 
   return (
     <WidgetWrapper m="0.3rem 0">
-      <PostTitle data={postData} />
+      <PostTitle data={postData} checkCond={checkCond} />{" "}
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
         <HighlightAndTag text={postData?.description} />
       </Typography>
