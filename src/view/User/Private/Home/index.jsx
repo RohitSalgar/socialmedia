@@ -1,6 +1,5 @@
 import {
   Alert,
-  Avatar,
   Box,
   Button,
   IconButton,
@@ -56,6 +55,8 @@ import { useGetNotificationPostById } from "../../../../hooks/notifications";
 import notfound from "../../../../assets/Images/notfound.jpg";
 import { AdvertisementWidget } from "../Posts/AdvertisementWidget";
 import { PAGE_SIZE } from "../../../../config";
+import styles from './index.module.css';
+
 const HomePage = () => {
   const { ref, inView } = useInView();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -236,377 +237,386 @@ console.log(trendingPost,"trendingpost")
   return (
     <Box>
       <Navbar />
-      <Box style={{ paddingTop: "100px" }}>
+      <Box>
         <Box
-          width="90%"
+          width="100%"
           margin="auto"
           display={isNonMobileScreens ? "flex" : "block"}
-          gap="20px"
           justifyContent="space-between"
         >
-          <Box width="25%">
+          <Box width="22%">
             <UserWidget />
           </Box>
-          <Box width="50%">
-            {hashtag !== "" && hashTagPostData?.pages ? (
-              <>
-                <WidgetWrapper>
-                  <FlexBetween>
-                    <Typography sx={{ fontWeight: "500" }}>
-                      {"#"}
-                      {hashtag}
-                    </Typography>
-                    <IconButton onClick={() => handleClose()}>
-                      <CloseIcon />
-                    </IconButton>
-                  </FlexBetween>
-                </WidgetWrapper>
-                <Box>
-                  {hashTagPostData?.pages.length > 0 ? (
-                    <>
-                      {hashTagPostData.pages.map(({ data }) =>
-                        data.map((postData) => (
-                          <PostWidget key={postData._id} postData={postData} />
-                        ))
-                      )}
-                      {!hashTagPostData.pageParams.includes(
-                        Math.ceil(hashTagPostData.pages[0]?.totalCount / PAGE_SIZE)
-                      ) && <PostSkeleton />}
-                      <div
-                        ref={ref}
-                        style={{ height: "10px" }}
-                        onClick={() => hashTagDataFetchNextPage()}
-                      >
-                        {hashTagDataFetchingNextPage && <PostSkeleton />}
-                      </div>
-                    </>
-                  ) : (
-                    <div style={{ marginTop: "10px" }}>
-                      <LookingEmpty />
-                    </div>
-                  )}
-                </Box>
-              </>
-            ) : null}
-            {(dashboardView === "home" || dashboardView === "news") &&
-              hashtag === "" && (
+          <Box width="78%" className={styles.contantmain}>
+            <Box className={styles.maincontant}>
+              {hashtag !== "" && hashTagPostData?.pages ? (
                 <>
-                  <MyPostWidget />
-                  {dashboardView === "home" && (
-                    <Box fullWidth width="100%">
-                      <OptionalTab />
-                    </Box>
-                  )}
+                  <WidgetWrapper>
+                    <FlexBetween>
+                      <Typography sx={{ fontWeight: "500" }}>
+                        {"#"}
+                        {hashtag}
+                      </Typography>
+                      <IconButton onClick={() => handleClose()}>
+                        <CloseIcon />
+                      </IconButton>
+                    </FlexBetween>
+                  </WidgetWrapper>
                   <Box>
-                    {tabView === "trending" && trendingPost?.pages ? (
-                      trendingPost?.pages?.length > 0 ? (
-                        <Box>
-                          {trendingPost.pages.map(({ data }) => {
-                            return data.map((postData) => {
-                              if (postData.title) {
-                                return (
-                                  <AdvertisementWidget
-                                    key={`ad-${postData._id}`}
-                                    postData={postData}
-                                  />
-                                );
-                              }
-                              return (
-                                <PostWidget
-                                  key={postData._id}
-                                  postData={postData}
-                                />
-                              );
-                            });
-                          })}
-                          {!trendingPost?.pageParams.includes(
-                            Math.ceil(trendingPost?.pages[0]?.totalCount / 10)
-                          ) && <PostSkeleton />}
-                          <div
-                            ref={ref}
-                            style={{ height: "10px" }}
-                            onClick={() => fetchNextPage()}
-                          >
-                            {isFetchingNextPage && <PostSkeleton />}
-                          </div>
-                        </Box>
-                      ) : (
-                        <div style={{ marginTop: "10px" }}>
-                          <LookingEmpty
-                            description={
-                              "Seems No Post. Be The First Person To POST..!"
-                            }
-                          />
-                        </div>
-                      )
-                    ) : null}
-                    {tabView === "forYou" && forYouData?.pages ? (
-                      forYouData?.pages?.length > 0 ? (
-                        <Box>
-                          {forYouData.pages.map(({ data }) => {
-                            return data.map((postData) => {
-                              if (postData.title) {
-                                return (
-                                  <AdvertisementWidget
-                                    key={`ad-${postData._id}`}
-                                    postData={postData}
-                                  />
-                                );
-                              }
-                              return (
-                                <PostWidget
-                                  key={postData._id}
-                                  postData={postData}
-                                />
-                              );
-                            });
-                          })}
-                          {!forYouData?.pageParams.includes(
-                            Math.ceil(forYouData?.pages[0]?.totalCount / PAGE_SIZE)
-                          ) && <PostSkeleton />}
-                          <div
-                            ref={ref}
-                            style={{ height: "10px" }}
-                            onClick={() => forYouFetchNextPage()}
-                          >
-                            {forYouFetchingNextPage && <PostSkeleton />}
-                          </div>
-                        </Box>
-                      ) : (
-                        <div style={{ marginTop: "10px" }}>
-                          <LookingEmpty />
-                        </div>
-                      )
-                    ) : null}
-
-                    {tabView === "friend" && friendPostData?.pages ? (
-                      friendPostData?.pages?.length > 0 ? (
-                        <Box>
-                          {friendPostData.pages.map(({ data }) => {
-                            return data.map((postData) => {
-                              if (postData.title) {
-                                return (
-                                  <AdvertisementWidget
-                                    key={`ad-${postData._id}`}
-                                    postData={postData}
-                                  />
-                                );
-                              }
-                              return (
-                                <PostWidget
-                                  key={postData._id}
-                                  postData={postData}
-                                />
-                              );
-                            });
-                          })}
-                          {!friendPostData?.pageParams.includes(
-                            Math.ceil(friendPostData?.pages[0]?.totalCount / PAGE_SIZE)
-                          ) && <PostSkeleton />}
-                          <div
-                            ref={ref}
-                            style={{ height: "10px" }}
-                            onClick={() => friendFetchNextPage()}
-                          >
-                            {friendFetchingNextPage && <PostSkeleton />}
-                          </div>
-                        </Box>
-                      ) : (
-                        <div style={{ marginTop: "10px" }}>
-                          <LookingEmpty />
-                        </div>
-                      )
-                    ) : null}
-
-                    {tabView === "news" && newsPostData?.pages ? (
-                      newsPostData?.pages?.length > 0 ? (
-                        <Box>
-                          {newsPostData.pages.map(({ data }) => {
-                            return data.map((postData) => {
-                              if (postData.title) {
-                                return (
-                                  <AdvertisementWidget
-                                    key={`ad-${postData._id}`}
-                                    postData={postData}
-                                  />
-                                );
-                              }
-                              return (
-                                <PostWidget
-                                  key={postData._id}
-                                  postData={postData}
-                                />
-                              );
-                            });
-                          })}
-                          {!newsPostData?.pageParams.includes(
-                            Math.ceil(newsPostData?.pages[0]?.totalCount / PAGE_SIZE)
-                          ) && <PostSkeleton />}
-                          <div
-                            ref={ref}
-                            style={{ height: "10px" }}
-                            onClick={() => newsFetchNextPage()}
-                          >
-                            {newsFetchingNextPage && <PostSkeleton />}
-                          </div>
-                        </Box>
-                      ) : (
-                        <div style={{ marginTop: "10px" }}>
-                          <LookingEmpty />
-                        </div>
-                      )
-                    ) : null}
-                  </Box>
-                </>
-              )}
-            {dashboardView === "schedule" && (
-              <Box>
-                {data?.pageData?.status === 1 && <AddSchedule />}
-                <ScheduleList />
-              </Box>
-            )}
-            {dashboardView === "profile" && <Profile />}
-            {dashboardView === "postprofile" && <PostProfile />}
-            {dashboardView === "notification" && (
-              <>
-                {notificationPostData && notificationPostData.length > 0 ? (
-                  <>
-                    {notificationPostData.map((e, i) => {
-                      return <PostWidget key={i} postData={e} />;
-                    })}
-                  </>
-                ) : (
-                  <>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "0.4rem",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        margin: "1rem",
-                      }}
-                    >
-                      <img src={notfound} alt="notfound" width={"80%"} />
-                      <p style={{ fontSize: "22px" }}>
-                        The Post isn't available
-                      </p>
-                    </Box>
-                  </>
-                )}
-              </>
-            )}
-
-            {dashboardView === "pages" &&
-            hashtag === "" &&
-            pagePostData?.pages ? (
-              <>
-                {data?.pageData?.status === 1 && (
-                  <>
-                    <MyPostWidget />{" "}
-                    <div style={{ marginBottom: "10px" }}></div>{" "}
-                  </>
-                )}
-
-                <Box>
-                  {pagePostData.pages.length > 0 ? (
-                    <>
-                      {pagePostData.pages.map(({ data }) => {
-                        return data.map((postData) => {
-                          if (postData.title) {
-                            return (
-                              <AdvertisementWidget
-                                key={`ad-${postData._id}`}
-                                postData={postData}
-                              />
-                            );
-                          }
-                          return (
+                    {hashTagPostData?.pages.length > 0 ? (
+                      <>
+                        {hashTagPostData.pages.map(({ data }) =>
+                          data.map((postData) => (
                             <PostWidget
                               key={postData._id}
                               postData={postData}
                             />
-                          );
-                        });
-                      })}
-                      {!pagePostData.pageParams.includes(
-                        Math.ceil(pagePostData.pages[0]?.totalCount / PAGE_SIZE)
-                      ) && <PostSkeleton />}
-                      <div
-                        ref={ref}
-                        style={{ height: "10px" }}
-                        onClick={() => pagePostFetchNextPage()}
-                      >
-                        {pagePostFetchingNextPage && <PostSkeleton />}
+                          ))
+                        )}
+                        {!hashTagPostData.pageParams.includes(
+                          Math.ceil(hashTagPostData.pages[0]?.totalCount / PAGE_SIZE)
+                        ) && <PostSkeleton />}
+                        <div
+                          ref={ref}
+                          style={{ height: "10px" }}
+                          onClick={() => hashTagDataFetchNextPage()}
+                        >
+                          {hashTagDataFetchingNextPage && <PostSkeleton />}
+                        </div>
+                      </>
+                    ) : (
+                      <div style={{ marginTop: "10px" }}>
+                        <LookingEmpty />
                       </div>
+                    )}
+                  </Box>
+                </>
+              ) : null}
+              {(dashboardView === "home" || dashboardView === "news") &&
+                hashtag === "" && (
+                  <>
+                    <MyPostWidget />
+                    {dashboardView === "home" && (
+                      <Box fullWidth width="100%">
+                        <OptionalTab />
+                      </Box>
+                    )}
+                    <Box>
+                      {tabView === "trending" && trendingPost?.pages ? (
+                        trendingPost?.pages?.length > 0 ? (
+                          <Box>
+                            {trendingPost.pages.map(({ data }) => {
+                              return data.map((postData) => {
+                                if (postData.title) {
+                                  return (
+                                    <AdvertisementWidget
+                                      key={`ad-${postData._id}`}
+                                      postData={postData}
+                                    />
+                                  );
+                                }
+                                return (
+                                  <PostWidget
+                                    key={postData._id}
+                                    postData={postData}
+                                  />
+                                );
+                              });
+                            })}
+                            {!trendingPost?.pageParams.includes(
+                              Math.ceil(trendingPost?.pages[0]?.totalCount / 10)
+                            ) && <PostSkeleton />}
+                            <div
+                              ref={ref}
+                              style={{ height: "10px" }}
+                              onClick={() => fetchNextPage()}
+                            >
+                              {isFetchingNextPage && <PostSkeleton />}
+                            </div>
+                          </Box>
+                        ) : (
+                          <div style={{ marginTop: "10px" }}>
+                            <LookingEmpty
+                              description={
+                                "Seems No Post. Be The First Person To POST..!"
+                              }
+                            />
+                          </div>
+                        )
+                      ) : null}
+                      {tabView === "forYou" && forYouData?.pages ? (
+                        forYouData?.pages?.length > 0 ? (
+                          <Box>
+                            {forYouData.pages.map(({ data }) => {
+                              return data.map((postData) => {
+                                if (postData.title) {
+                                  return (
+                                    <AdvertisementWidget
+                                      key={`ad-${postData._id}`}
+                                      postData={postData}
+                                    />
+                                  );
+                                }
+                                return (
+                                  <PostWidget
+                                    key={postData._id}
+                                    postData={postData}
+                                  />
+                                );
+                              });
+                            })}
+                            {!forYouData?.pageParams.includes(
+                              Math.ceil(forYouData?.pages[0]?.totalCount / PAGE_SIZE)
+                            ) && <PostSkeleton />}
+                            <div
+                              ref={ref}
+                              style={{ height: "10px" }}
+                              onClick={() => forYouFetchNextPage()}
+                            >
+                              {forYouFetchingNextPage && <PostSkeleton />}
+                            </div>
+                          </Box>
+                        ) : (
+                          <div style={{ marginTop: "10px" }}>
+                            <LookingEmpty />
+                          </div>
+                        )
+                      ) : null}
+
+                      {tabView === "friend" && friendPostData?.pages ? (
+                        friendPostData?.pages?.length > 0 ? (
+                          <Box>
+                            {friendPostData.pages.map(({ data }) => {
+                              return data.map((postData) => {
+                                if (postData.title) {
+                                  return (
+                                    <AdvertisementWidget
+                                      key={`ad-${postData._id}`}
+                                      postData={postData}
+                                    />
+                                  );
+                                }
+                                return (
+                                  <PostWidget
+                                    key={postData._id}
+                                    postData={postData}
+                                  />
+                                );
+                              });
+                            })}
+                            {!friendPostData?.pageParams.includes(
+                              Math.ceil(
+                                friendPostData?.pages[0]?.totalCount / PAGE_SIZE
+                              )
+                            ) && <PostSkeleton />}
+                            <div
+                              ref={ref}
+                              style={{ height: "10px" }}
+                              onClick={() => friendFetchNextPage()}
+                            >
+                              {friendFetchingNextPage && <PostSkeleton />}
+                            </div>
+                          </Box>
+                        ) : (
+                          <div style={{ marginTop: "10px" }}>
+                            <LookingEmpty />
+                          </div>
+                        )
+                      ) : null}
+
+                      {tabView === "news" && newsPostData?.pages ? (
+                        newsPostData?.pages?.length > 0 ? (
+                          <Box>
+                            {newsPostData.pages.map(({ data }) => {
+                              return data.map((postData) => {
+                                if (postData.title) {
+                                  return (
+                                    <AdvertisementWidget
+                                      key={`ad-${postData._id}`}
+                                      postData={postData}
+                                    />
+                                  );
+                                }
+                                return (
+                                  <PostWidget
+                                    key={postData._id}
+                                    postData={postData}
+                                  />
+                                );
+                              });
+                            })}
+                            {!newsPostData?.pageParams.includes(
+                              Math.ceil(newsPostData?.pages[0]?.totalCount / PAGE_SIZE)
+                            ) && <PostSkeleton />}
+                            <div
+                              ref={ref}
+                              style={{ height: "10px" }}
+                              onClick={() => newsFetchNextPage()}
+                            >
+                              {newsFetchingNextPage && <PostSkeleton />}
+                            </div>
+                          </Box>
+                        ) : (
+                          <div style={{ marginTop: "10px" }}>
+                            <LookingEmpty />
+                          </div>
+                        )
+                      ) : null}
+                    </Box>
+                  </>
+                )}
+              {dashboardView === "schedule" && (
+                <Box>
+                  {data?.pageData?.status === 1 && <AddSchedule />}
+                  <ScheduleList />
+                </Box>
+              )}
+              {dashboardView === "profile" && <Profile />}
+              {dashboardView === "postprofile" && <PostProfile />}
+              {dashboardView === "notification" && (
+                <>
+                  {notificationPostData && notificationPostData.length > 0 ? (
+                    <>
+                      {notificationPostData.map((e, i) => {
+                        return <PostWidget key={i} postData={e} />;
+                      })}
                     </>
                   ) : (
-                    <LookingEmpty />
-                  )}
-                </Box>
-              </>
-            ) : null}
-            {dashboardView === "qa" && allQaData?.pages ? (
-              <>
-                <Myqa />
-                <Box>
-                  {allQaData.pages.length > 0 ? (
                     <>
-                      {allQaData.pages.map(({ data }) => {
-                        return data.map((postData) => {
-                          if (postData.title) {
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "0.4rem",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          margin: "1rem",
+                        }}
+                      >
+                        <img src={notfound} alt="notfound" width={"80%"} />
+                        <p style={{ fontSize: "22px" }}>
+                          The Post isn't available
+                        </p>
+                      </Box>
+                    </>
+                  )}
+                </>
+              )}
+
+              {dashboardView === "pages" &&
+              hashtag === "" &&
+              pagePostData?.pages ? (
+                <>
+                  {data?.pageData?.status === 1 && (
+                    <>
+                      <MyPostWidget />{" "}
+                      <div style={{ marginBottom: "10px" }}></div>{" "}
+                    </>
+                  )}
+
+                  <Box>
+                    {pagePostData.pages.length > 0 ? (
+                      <>
+                        {pagePostData.pages.map(({ data }) => {
+                          return data.map((postData) => {
+                            if (postData.title) {
+                              return (
+                                <AdvertisementWidget
+                                  key={`ad-${postData._id}`}
+                                  postData={postData}
+                                />
+                              );
+                            }
                             return (
-                              <AdvertisementWidget
-                                key={`ad-${postData._id}`}
+                              <PostWidget
+                                key={postData._id}
                                 postData={postData}
                               />
                             );
-                          }
-                          return (
-                            <QaWidget key={postData._id} postData={postData} />
-                          );
-                        });
-                      })}
-                      {!allQaData.pageParams.includes(
-                        Math.ceil(allQaData.pages[0]?.totalCount / PAGE_SIZE)
-                      ) && <PostSkeleton />}
-                      <div
-                        ref={ref}
-                        style={{ height: "10px" }}
-                        onClick={() => qaDataFetchNextPage()}
-                      >
-                        {qaDataFetchingNextPage && <PostSkeleton />}
-                      </div>
-                    </>
-                  ) : (
-                    <div style={{ marginTop: "10px" }}>
+                          });
+                        })}
+                        {!pagePostData.pageParams.includes(
+                          Math.ceil(pagePostData.pages[0]?.totalCount / PAGE_SIZE)
+                        ) && <PostSkeleton />}
+                        <div
+                          ref={ref}
+                          style={{ height: "10px" }}
+                          onClick={() => pagePostFetchNextPage()}
+                        >
+                          {pagePostFetchingNextPage && <PostSkeleton />}
+                        </div>
+                      </>
+                    ) : (
                       <LookingEmpty />
-                    </div>
-                  )}
-                </Box>
-              </>
-            ) : null}
-          </Box>
-          {isNonMobileScreens && (
-            <Box width="25%">
-              {sideView === "companyPage" && (
-                <>
-                  {adStatus && <Advertisement companyData={companyData} />}
-                  <Box m="0" />
-                  {companyData && companyData.length > 0 && (
-                    <AdvertWidget companyData={companyData} />
-                  )}{" "}
-                  <Box m="0" />
-                  <FriendListWidget data={frdRequestData} />
+                    )}
+                  </Box>
                 </>
-              )}
-              {sideView === "chat" && <ChatLayout />}
-              {sideView === "notification" && <NotificationLayout />}
-              {sideView === "editprofile" && <EditProfile />}
-              {sideView === "createcompany" && <CreateCompany />}
-              {sideView === "pagesotp" && <PagesOTP />}
+              ) : null}
+              {dashboardView === "qa" && allQaData?.pages ? (
+                <>
+                  <Myqa />
+                  <Box>
+                    {allQaData.pages.length > 0 ? (
+                      <>
+                        {allQaData.pages.map(({ data }) => {
+                          return data.map((postData) => {
+                            if (postData.title) {
+                              return (
+                                <AdvertisementWidget
+                                  key={`ad-${postData._id}`}
+                                  postData={postData}
+                                />
+                              );
+                            }
+                            return (
+                              <QaWidget
+                                key={postData._id}
+                                postData={postData}
+                              />
+                            );
+                          });
+                        })}
+                        {!allQaData.pageParams.includes(
+                          Math.ceil(allQaData.pages[0]?.totalCount / PAGE_SIZE)
+                        ) && <PostSkeleton />}
+                        <div
+                          ref={ref}
+                          style={{ height: "10px" }}
+                          onClick={() => qaDataFetchNextPage()}
+                        >
+                          {qaDataFetchingNextPage && <PostSkeleton />}
+                        </div>
+                      </>
+                    ) : (
+                      <div style={{ marginTop: "10px" }}>
+                        <LookingEmpty />
+                      </div>
+                    )}
+                  </Box>
+                </>
+              ) : null}
             </Box>
-          )}
+            {isNonMobileScreens && (
+              <Box className={styles.sidecontant}>
+                {sideView === "companyPage" && (
+                  <>
+                    {adStatus && <Advertisement companyData={companyData} />}
+                    <Box m="0" />
+                    {companyData && companyData.length > 0 && (
+                      <AdvertWidget companyData={companyData} />
+                    )}{" "}
+                    <Box m="0" />
+                    <FriendListWidget data={frdRequestData} />
+                  </>
+                )}
+                {sideView === "chat" && <ChatLayout />}
+                {sideView === "notification" && <NotificationLayout />}
+                {sideView === "editprofile" && <EditProfile />}
+                {sideView === "createcompany" && <CreateCompany />}
+                {sideView === "pagesotp" && <PagesOTP />}
+              </Box>
+            )}
+          </Box>
         </Box>
       </Box>
     </Box>

@@ -114,7 +114,7 @@ const Followers = ({ data, type }) => {
             <Avatar
               alt="B"
               src={getProfilePic()}
-              sx={{ width: 40, height: 40 }}
+              sx={{ width: 50, height: 50 , border:'1px solid #9e9e9e'}}
             />
             <Typography className={styles.avatarname}>
               {getProfileName()}

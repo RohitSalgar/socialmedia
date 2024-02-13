@@ -41,7 +41,7 @@
   color: #a3a3a3; /* Change to your desired color */
 }
 .btns {
-  background-color: #f3cf00 !important;
+  background-color: #2F65B9 !important;
   color: #fff !important;
 }
 
@@ -105,7 +105,19 @@
   padding: 5px;
   justify-content: space-between;
 }
+.postdescription{
+  font-size: 17px !important;
+  padding-top: 15px;
+  margin: 0;
+  text-transform: capitalize;
+}
 
 .video{
   width: 100%;
+}
+.likestxt{
+  color: #7a7a7a;
+}
+.likeicon{
+  padding: 0 !important;
 }

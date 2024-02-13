@@ -101,7 +101,7 @@
 }
 
 button:hover {
-  color: #f3cf00;
+  color: #2f65b9;
 }
 .likediv {
   display: flex;
@@ -113,6 +113,16 @@ button:hover {
 }
 .descriptiontxt {
   text-transform: capitalize !important;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #848484;
+}
+.liketxt {
+  color: #6a6a6a;
+}
+.companyname{
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  text-transform: capitalize;
+  color: #848484;
 }

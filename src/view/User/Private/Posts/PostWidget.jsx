@@ -1,8 +1,5 @@
-import {
-  ChatBubbleOutlineOutlined,
-  FavoriteBorderOutlined,
-  FavoriteOutlined,
-} from "@mui/icons-material";
+import { FavoriteBorderOutlined, FavoriteOutlined } from "@mui/icons-material";
+import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
 import {
   Box,
   Divider,
@@ -27,11 +24,11 @@ import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
 import { updateHashtag } from "../../../../redux/slices/post";
-import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 import Slider from "react-slick";
 import styles from "./index.module.css";
 import CloseIcon from "@mui/icons-material/Close";
-import {CancelOutlined} from "@mui/icons-material";
+import { CancelOutlined } from "@mui/icons-material";
+
 const PostWidget = ({ postData }) => {
   const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
@@ -65,7 +62,7 @@ const PostWidget = ({ postData }) => {
         style={{
           ...style,
           display: "block",
-          background: "#f3cf00",
+          background: "#2F65B9",
           borderRadius: "3rem",
         }}
         onClick={onClick}
@@ -159,10 +156,10 @@ const PostWidget = ({ postData }) => {
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
-      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
+      <Typography color={main} className={styles.postdescription}>
         {postData?.description}
       </Typography>
-      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
+      <Typography color={main} sx={{ mt: "0.5rem" }}>
         {postData?.hashtags.map((hash) => (
           <span
             key={hash}
@@ -176,7 +173,11 @@ const PostWidget = ({ postData }) => {
       {postData.files && postData.files.length === 1 && (
         <div>
           {postData.files[0]?.fileType?.includes("image") ? (
-            <img src={postData.files[0].filePath} alt="post_image" />
+            <img
+              src={postData.files[0].filePath}
+              style={{ borderRadius: "0.75rem" }}
+              alt="post_image"
+            />
           ) : (
             <video
               className={styles.video}
@@ -189,7 +190,7 @@ const PostWidget = ({ postData }) => {
       {postData.files && postData.files.length > 1 && (
         <Slider {...settings}>
           {postData.files &&
-            postData.files.map((item,i) => {
+            postData.files.map((item, i) => {
               return (
                 <div key={i}>
                   {item?.fileType.includes("image") ? (
@@ -210,6 +211,7 @@ const PostWidget = ({ postData }) => {
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
             <IconButton
+              className={styles.likeicon}
               onClick={likeDislike}
               disabled={likeDislikeLoading || !postData}
             >
@@ -219,7 +221,7 @@ const PostWidget = ({ postData }) => {
                 <FavoriteBorderOutlined />
               )}
             </IconButton>
-            <Typography>
+            <Typography className={styles.likestxt}>
               {postData?.likes <= 1
                 ? `${postData?.likes} like`
                 : `${postData?.likes} likes`}
@@ -239,9 +241,14 @@ const PostWidget = ({ postData }) => {
               }}
             >
               <IconButton>
-                <ChatBubbleOutlineOutlined />
+                <SmsOutlinedIcon />
               </IconButton>
-              <Typography sx={{ cursor: "pointer" }}>{"comments"}</Typography>
+              <Typography
+                className={styles.likestxt}
+                sx={{ cursor: "pointer" }}
+              >
+                {"comments"}
+              </Typography>
             </Box>
           </FlexBetween>
           <FlexBetween gap="0.3rem">
@@ -259,7 +266,12 @@ const PostWidget = ({ postData }) => {
               <IconButton>
                 <ReportProblemIcon />
               </IconButton>
-              <Typography sx={{ cursor: "pointer" }}>{"report"}</Typography>
+              <Typography
+                className={styles.likestxt}
+                sx={{ cursor: "pointer" }}
+              >
+                {"report"}
+              </Typography>
             </Box>
           </FlexBetween>
           {(report === true || isComments === true) && (
@@ -312,22 +324,22 @@ const PostWidget = ({ postData }) => {
               <BsFillSendExclamationFill size={25} />
             </IconButton>
           )}
-               <Box
-                onClick={() => {
-                  setReport(false);
-                  setIsComments(false);
-                }}
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <IconButton>
-                  <CancelOutlined />
-                </IconButton>
-                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
-              </Box>
+          <Box
+            onClick={() => {
+              setReport(false);
+              setIsComments(false);
+            }}
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <IconButton>
+              <CancelOutlined />
+            </IconButton>
+            <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+          </Box>
         </FlexBetween>
       )}
       {isComments === true && report === false && (
@@ -335,22 +347,22 @@ const PostWidget = ({ postData }) => {
           <Box>
             <Divider />
             <Box
-                onClick={() => {
-                  setReport(false);
-                  setIsComments(false);
-                }}
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent:"end"
-                }}
-              >
-                <IconButton>
-                  <CancelOutlined />
-                </IconButton>
-                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
-              </Box>
+              onClick={() => {
+                setReport(false);
+                setIsComments(false);
+              }}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "end",
+              }}
+            >
+              <IconButton>
+                <CancelOutlined />
+              </IconButton>
+              <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+            </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
               {addIdsToComments(postComment)?.map((c) => {

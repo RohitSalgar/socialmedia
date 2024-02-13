@@ -108,7 +108,7 @@ const EditProfile = () => {
           <Avatar
             alt="B"
             src={profilePicUrl ? profilePicUrl : profiledate?.userData?.profile}
-            sx={{ width: 100, height: 100 }}
+            sx={{ width: 100, height: 100, border: "1px solid #9e9e9e" }}
             className={styles.avathar}
           />
           <label htmlFor="file" className={styles.filelabel}>
@@ -118,7 +118,7 @@ const EditProfile = () => {
             onChange={handleFileChange}
             type="file"
             id="file"
-            inputProps={{ accept:".png, .jpg, .jpeg"}}
+            inputProps={{ accept: ".png, .jpg, .jpeg" }}
             className={styles.file}
           ></Input>
         </Box>
@@ -163,28 +163,28 @@ const EditProfile = () => {
                   <InfoIcon />
                 </Tooltip>
               )}
-              </Box>
-              <input
-                className={errors.designation && styles.error}
-                id="designation"
-                {...register("designation")}
-              />
+            </Box>
+            <input
+              className={errors.designation && styles.error}
+              id="designation"
+              {...register("designation")}
+            />
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Box>
-            <label htmlFor="about">About</label>
-            <span style={{ color: "red" }}>*</span>
-            </Box>
-            {errors?.about && (
-              <Tooltip
-                style={{
-                  fontSize: "14px",
-                  color: "red",
-                }}
-                title={errors?.about?.message}
-              >
-                <InfoIcon />
-              </Tooltip>
-            )}
+                <label htmlFor="about">About</label>
+                <span style={{ color: "red" }}>*</span>
+              </Box>
+              {errors?.about && (
+                <Tooltip
+                  style={{
+                    fontSize: "14px",
+                    color: "red",
+                  }}
+                  title={errors?.about?.message}
+                >
+                  <InfoIcon />
+                </Tooltip>
+              )}
             </Box>
             <textarea
               className={errors.about && styles.error}

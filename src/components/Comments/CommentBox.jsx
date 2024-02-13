@@ -93,16 +93,7 @@ function CommentBox({
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          mb: 1,
-          borderRadius: "10px",
-          background: "#e0ce8854",
-          p: 1,
-        }}
-      >
+      <Box className={styles.commentbox}>
         <Box sx={{ flexGrow: 1, ml: { laptop: 3, mobile: 0 } }}>
           <CommentHeader
             onDelete={handleDelete}

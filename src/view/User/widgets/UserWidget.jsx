@@ -1,6 +1,5 @@
 import { Box, Typography, Divider, useTheme, List } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import WidgetWrapper from "../../../components/WidgetWrapper";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
@@ -20,9 +19,8 @@ import {
 } from "../../../redux/slices/profileSlice";
 import { useGetProfile } from "../../../hooks/profile";
 import Loader from "../../../components/Loader/Loader";
-import styles from './index.module.css';
+import styles from "./index.module.css";
 import { removeHastag } from "../../../redux/slices/post";
-
 
 const UserWidget = () => {
   const dispatch = useDispatch();
@@ -50,113 +48,45 @@ const UserWidget = () => {
   }
 
   return (
-    <WidgetWrapper className={styles.profilediv}>
+    <Box className={styles.profilediv}>
       {signedIn === "true" && (
         <>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
+          <Box className={styles.avatardiv}>
             <Avatar
-              sx={{ width: 100, height: 100 }}
-              alt="Remy Sharp"
+              sx={{ width: 65, height: 65 , border:'1px solid #9e9e9e'}}
+              alt={data?.userData?.fullName}
               src={data?.userData?.profile}
             />
-          </Box>
-          <div>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-                alignItems: "center",
-                mt: "10px",
-              }}
-            >
-              <Typography
-                color={dark}
-                variant="h5"
-                sx={{ textTransform: "capitalize" }}
-                fontWeight="500"
-              >
+            <Box>
+              <Typography className={styles.fullname} color={dark} variant="h5" fontWeight="500">
                 {data?.userData?.fullName}
               </Typography>
               <Typography
-                sx={{ mt: 1, }}
-                color={dark}
-                variant="h6"
+                className={styles.designation}
                 fontWeight="400"
               >
                 {data?.userData?.designation}
               </Typography>
             </Box>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                margin: "auto",
-                justifyContent: "center",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  mt: "10px",
-                  width: "80%",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    mt: "3px",
-                  }}
-                >
-                  <Typography color={dark} variant="h5" fontWeight="500">
-                    {checkIsNumber(data?.detailsCounts?.followersCount)}
-                  </Typography>
-                  <Typography color={dark} variant="h6" fontWeight="400">
-                    Followers
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    mt: "3px",
-                  }}
-                >
-                  <Typography color={dark} variant="h5" fontWeight="500">
-                    {checkIsNumber(data?.detailsCounts?.followingCount)}
-                  </Typography>
-                  <Typography color={dark} variant="h6" fontWeight="400">
-                    Following
-                  </Typography>
-                </Box>
-              </Box>
-            </div>
-          </div>
+          </Box>
           <Divider style={{ marginTop: "10px" }} />
         </>
       )}
       <Box></Box>
 
       <Box p="0">
-        <List component="nav" aria-label="main mailbox folders">
+        <List
+          className={`sidebarddiv ${styles.sidebartitle}`}
+          component="nav"
+          aria-label="main mailbox folders"
+        >
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={dashboardView === "home"}
             onClick={(event) => {
               handleListItemClick(event, 0);
               dispatch(setDashboardView("home"));
-              dispatch(setSideView("companyPage"))
+              dispatch(setSideView("companyPage"));
               dispatch(setTabView("trending"));
               dispatch(removeHastag());
             }}
@@ -171,7 +101,7 @@ const UserWidget = () => {
             selected={dashboardView === "news"}
             onClick={() => {
               dispatch(setDashboardView("news"));
-              dispatch(setSideView("companyPage"))
+              dispatch(setSideView("companyPage"));
               dispatch(setTabView("news"));
               dispatch(removeHastag());
             }}
@@ -185,7 +115,7 @@ const UserWidget = () => {
             sx={{ padding: "1px 20px" }}
             selected={dashboardView === "schedule"}
             onClick={() => {
-              dispatch(setSideView("companyPage"))
+              dispatch(setSideView("companyPage"));
               dispatch(setDashboardView("schedule"));
               dispatch(removeHastag());
             }}
@@ -214,7 +144,7 @@ const UserWidget = () => {
             onClick={() => {
               dispatch(setDashboardView("pages"));
               dispatch(setTabView("pages"));
-              dispatch(setSideView("companyPage"))
+              dispatch(setSideView("companyPage"));
               dispatch(removeHastag());
             }}
           >
@@ -229,7 +159,7 @@ const UserWidget = () => {
             onClick={() => {
               dispatch(setDashboardView("qa"));
               dispatch(setTabView("qa"));
-              dispatch(setSideView("companyPage"))
+              dispatch(setSideView("companyPage"));
               dispatch(removeHastag());
             }}
           >
@@ -245,7 +175,6 @@ const UserWidget = () => {
               dispatch(setDashboardView("profile"));
               dispatch(setViewProfileId(userId));
               dispatch(removeHastag());
-              
             }}
           >
             <ListItemIcon>
@@ -257,7 +186,7 @@ const UserWidget = () => {
       </Box>
 
       <Divider />
-    </WidgetWrapper>
+    </Box>
   );
 };
 

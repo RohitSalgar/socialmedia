@@ -1,5 +1,48 @@
-.profilediv{
-    position: fixed;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
-    width: 21%;
+.profilediv {
+  position: fixed;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
+  width: 22%;
+  height: 100vh;
+  background-color: #fff;
+  border-top: 1px solid #e8e8e8;
+  padding-top: 100px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.avatardiv {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+}
+.designation {
+  color: #9e9e9e;
+  text-align: left;
+  font-size: 14px !important;
+}
+.logodiv {
+  padding: 10px 20px;
+  border-bottom: 1px solid rgb(238, 238, 238);
+}
+.sidebartitle > div > div > span {
+  color: #787878 !important;
+  font-weight: 400;
+  font-size: 16px !important;
+}
+.sidebartitle > div > div {
+  min-width: 40px !important;
+}
+.sidebartitle > div > div > svg path {
+  fill: #787878;
+}
+.sidebartitle > div {
+  border-radius: 5px;
+}
+.fullname {
+  font-size: 18px !important;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }

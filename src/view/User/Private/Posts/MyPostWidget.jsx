@@ -71,7 +71,7 @@ const MyPostWidget = () => {
         style={{
           ...style,
           display: "block",
-          background: "#f3cf00",
+          background: "#2F65B9",
           borderRadius: "3rem",
         }}
         onClick={onClick}

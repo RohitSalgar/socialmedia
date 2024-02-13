@@ -45,6 +45,7 @@ const ChatPerson = ({ data, notification }) => {
           <Avatar
             width={"40px"}
             height={"40px"}
+            sx={{border:'1px solid #9e9e9e'}}
             src={
               data.senderId === userId
                 ? data.recipientProfile

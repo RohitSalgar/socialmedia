@@ -101,14 +101,14 @@ const LikeComment = (props) => {
       <Box className={styles.likeandcommentdiv}>
         <Box className={styles.likediv}>
           {isUserLiked().length > 0 ? (
-            <IconButton>
+            <IconButton className={styles.likeicons}>
               <FavoriteOutlined
                 sx={{ color: primary }}
                 onClick={() => disLikemutate()}
               />
             </IconButton>
           ) : (
-            <IconButton>
+            <IconButton className={styles.likeicons}>
               <FavoriteBorderOutlined onClick={() => likemutate()} />
             </IconButton>
           )}

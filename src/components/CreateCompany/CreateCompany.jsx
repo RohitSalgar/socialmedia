@@ -93,7 +93,7 @@ const CreateCompany = () => {
           <Avatar
             alt="B"
             src={profilePicUrl }
-            sx={{ width: 80, height: 80 }}
+            sx={{ width: 80, height: 80, border:'1px solid #9e9e9e' }}
             className={styles.avathar}
           />
           <label htmlFor="file" className={styles.filelabel}>

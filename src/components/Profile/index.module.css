@@ -11,13 +11,7 @@
   font-weight: 500 !important;
   text-transform: capitalize;
 }
-.profilemain {
-  padding: 0px 40px;
-}
-.postdiv {
-  height: 240px;
-  overflow-y: scroll;
-}
+
 .nameandeditdiv {
   display: flex;
   justify-content: space-between;
@@ -26,7 +20,7 @@
 .editbtn {
   text-transform: capitalize !important;
   color: #fff !important;
-  background-color: #f3cf00 !important;
+  background-color: #2F65B9 !important;
 }
 .closediv {
   display: flex;
@@ -39,14 +33,14 @@
 }
 .createbtn {
   background-color: transparent;
-  color: #f3cf00;
-  border: 1px solid #f3cf00 !important;
+  color: #2F65B9;
+  border: 1px solid #2F65B9 !important;
   display: flex;
   gap: 5px;
   align-items: center;
 }
 .createbtn svg path {
-  fill: #f3cf00 !important;
+  fill: #2F65B9 !important;
 }
 
 .pendingdiv {
@@ -62,4 +56,29 @@
   border: 1.5px solid #ea8400 !important;
   padding: 5px 10px;
   border-radius: 5px;
+}
+.btndiv{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.abouttxt{
+  text-transform: capitalize;
+}
+.profiletitle{
+  font-weight: 500 !important;
+  font-size: 20px !important;
+  color: #4f4f4f !important;
+  background-color: #fff;
+  padding: 8px 0px 8px 25px !important;
+  border-top: 1px solid rgb(223, 223, 223);
+}
+.profilecontant{
+  background-color: #f7f7f7;
+}
+.maindiv{
+  background-color: #fff;
+}
+.profiledetailsdiv{
+  padding: 20px 30px;
 }

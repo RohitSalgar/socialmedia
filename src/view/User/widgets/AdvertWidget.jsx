@@ -1,19 +1,20 @@
-import React from 'react';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Slider from 'react-slick';
-import { Avatar, Box, useTheme } from '@mui/material';
-import FlexBetween from '../../../components/FlexBetween';
-import WidgetWrapper from '../../../components/WidgetWrapper';
-import { Button } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { useFollowTopPage } from '../../../hooks/user';
-import Loader from '../../../components/Loader/Loader';
+import React from "react";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Slider from "react-slick";
+import { Avatar, Box, useTheme } from "@mui/material";
+import FlexBetween from "../../../components/FlexBetween";
+import WidgetWrapper from "../../../components/WidgetWrapper";
+import { Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { useFollowTopPage } from "../../../hooks/user";
+import Loader from "../../../components/Loader/Loader";
 import {
   setDashboardView,
   setViewCompanyId,
-} from '../../../redux/slices/profileSlice';
-import { removeHastag } from '../../../redux/slices/post';
+} from "../../../redux/slices/profileSlice";
+import { removeHastag } from "../../../redux/slices/post";
+import styles from "./index.module.css";
 
 const AdvertWidget = ({ companyData }) => {
   const { palette } = useTheme();
@@ -32,35 +33,32 @@ const AdvertWidget = ({ companyData }) => {
     followPage(payload);
   };
 
-  const companyName = (name) => {
-    if (name.length > 10) {
-      return `${name.slice(0, 10)}...`;
-    } else {
-      return name;
-    }
-  };
   function SampleArrow(props) {
     const { className, style, onClick } = props;
     return (
       <div
         className={className}
-        style={{ ...style, display: "block", background: "#f3cf00", borderRadius:"3rem" }}
+        style={{
+          ...style,
+          display: "block",
+          background: "#2F65B9",
+          borderRadius: "3rem",
+        }}
         onClick={onClick}
       />
     );
   }
-  
-  
+
   const settings = {
     speed: 500,
     // dots: true,
-    slidesToShow: 2,
-    slidesToScroll: 2,
+    slidesToShow: 1,
+    slidesToScroll: 1,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1,
           infinite: true,
           dots: true,
@@ -76,7 +74,7 @@ const AdvertWidget = ({ companyData }) => {
       },
     ],
     nextArrow: <SampleArrow />,
-    prevArrow: <SampleArrow />
+    prevArrow: <SampleArrow />,
   };
 
   if (isPending) {
@@ -84,7 +82,9 @@ const AdvertWidget = ({ companyData }) => {
   }
 
   return (
-    <WidgetWrapper sx={{ minWidth: '100%', maxWidth: '300px', marginBottom: '10px' }}>
+    <WidgetWrapper
+      sx={{ minWidth: "100%", maxWidth: "300px", marginBottom: "10px" }}
+    >
       <FlexBetween>
         <Typography color={dark} variant="h5" fontWeight="500">
           Top Company Pages
@@ -95,64 +95,73 @@ const AdvertWidget = ({ companyData }) => {
         <Slider {...settings}>
           {companyData &&
             companyData.map((company) => (
-              <Box key={company._id} m={2}>
-              <Paper key={company._id} elevation={2} sx={{ mr: 2, }}>
-                <div
-                  onClick={() => {
-                    dispatch(removeHastag())
-                    dispatch(setViewCompanyId(company._id));
-                    dispatch(setDashboardView('postprofile'));
-                  }}
-                >
-                  <FlexBetween
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      mt: '10px',
+              <Box key={company._id} m={1}>
+                <Paper key={company._id} elevation={2} sx={{ mr: 2 }}>
+                  <div
+                    onClick={() => {
+                      dispatch(removeHastag());
+                      dispatch(setViewCompanyId(company._id));
+                      dispatch(setDashboardView("postprofile"));
                     }}
                   >
-                    <div
-                      style={{
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'column',
+                    <FlexBetween
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        mt: "10px",
+                        height: "200px",
                       }}
                     >
-                      <Avatar
-                        src={company?.companyData?.profile ?? company?.profile}
-                        alt={
-                          company?.companyData?.companyName ??
-                          company?.companyName
-                        }
-                        sx={{ width: 35, height: 35, mt:1}}
-                      />
-                      <Typography color={main}>
-                        <b>
-                          {company?.companyData?.companyName ??
-                            companyName(company?.companyName)}
-                        </b>
-                      </Typography>
-                    </div>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        width: '100%',
-                        flexDirection: 'column',
-                      }}
-                    >
-                      <Typography color={medium}>
-                        
-                      </Typography>
-                      <Typography color={medium}>Followers: <b> {company?.followersCount ?? 0}</b></Typography>
-                    </div>
-                  </FlexBetween>
-                </div>
-              </Paper>
+                      <div
+                        style={{
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          flexDirection: "column",
+                          gap: "10px",
+                        }}
+                      >
+                        <Avatar
+                          src={
+                            company?.companyData?.profile ?? company?.profile
+                          }
+                          alt={
+                            company?.companyData?.companyName ??
+                            company?.companyName
+                          }
+                          sx={{
+                            width: 60,
+                            height: 60,
+                            mt: 1,
+                            border: "1px solid #9e9e9e",
+                          }}
+                        />
+                        <Typography color={main} className={styles.companyname}>
+                          <b>
+                            {company?.companyData?.companyName ??
+                              company?.companyName}
+                          </b>
+                        </Typography>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Typography color={medium}></Typography>
+                        <Typography color={medium}>
+                          Followers: <b> {company?.followersCount ?? 0}</b>
+                        </Typography>
+                      </div>
+                    </FlexBetween>
+                  </div>
+                </Paper>
               </Box>
             ))}
         </Slider>

@@ -88,7 +88,7 @@
 .activesidebarstep {
     background: rgba(243, 207, 0, 0.08) !important;}
 .activeicon path {
-  fill: #f3cf00;
+  fill: #2F65B9;
 }
 .activeicon {
   min-width: 35px;
@@ -98,7 +98,7 @@
   color: #858585 !important;
 }
 .passactiveicon {
-  color: #f3cf00;
+  color: #2F65B9;
 }
 .passinActvieIcon {
   color: #858585;
@@ -113,7 +113,7 @@
   font-weight: 500;
   font-size: 35px;
   letter-spacing: -0.05em;
-  color: #f3cf00;
+  color: #2F65B9;
   margin-bottom: 0;
   margin-top: 7px !important;
 }
@@ -341,7 +341,7 @@
   font-weight: bold;
 }
 .activestep svg > path {
-  fill: #f3cf00 !important;
+  fill: #2F65B9 !important;
 }
 .inActviestep {
   background-color: transparent;
@@ -359,7 +359,7 @@
   
 }
 .activestepsub > div > div > div > svg > path {
-  fill: #f3cf00 !important;
+  fill: #2F65B9 !important;
 }
 .styledtreeitem > li > div > div > div {
   padding-left: 45px !important;
