@@ -8,14 +8,12 @@ import {
   useTheme,
   Button,
   IconButton,
-  // useMediaQuery,
 } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import Dropzone from "react-dropzone";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
 import { useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { HiMiniHashtag } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { useInsertPost } from "../../../../hooks/posts";
 import { useGetProfile } from "../../../../hooks/profile";
@@ -32,11 +30,9 @@ const MyPostWidget = () => {
   const [image, setImage] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [searchData, setSearchData] = useState([]);
-  const dispatch = useDispatch();
   let [description, setDescription] = useState("");
   let [lastWordBeforeCursor, setLastWordBeforeCursor] = useState("");
   let [typingPosition, setTypingPosition] = useState("");
-  const [tags, setTags] = useState([]);
   const [location, setLocation] = useState({
     state: "TamilNadu",
     country: "India",
@@ -57,9 +53,7 @@ const MyPostWidget = () => {
   // const medium = palette.neutral.medium;
 
   const onSuccess = () => {
-    setTags([]);
     setDescription("");
-    setHashTags(false);
     setIsImage(false);
     setImage([]);
   };
@@ -203,10 +197,16 @@ const MyPostWidget = () => {
   };
 
   function handleClick(value) {
+    var lastIndex = description.lastIndexOf("@");
+    let newDesc = "";
+    if (lastIndex !== -1) {
+      newDesc = description.substring(0, lastIndex + 1);
+    }
     const newDescription =
-      description.slice(0, typingPosition) +
+      newDesc.slice(0, typingPosition) +
       value.userName +
-      description.slice(typingPosition);
+      newDesc.slice(typingPosition);
+
     setDescription(newDescription);
     setSearchDivToggle(false);
     textFieldRef.current.focus();

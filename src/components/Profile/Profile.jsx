@@ -425,6 +425,7 @@ const Profile = () => {
             fontWeight="400"
             style={{
               paddingTop: "10px",
+              wordWrap: "break-word",
             }}
           >
             {data?.userData?.about}
