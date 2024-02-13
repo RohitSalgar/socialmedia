@@ -11,7 +11,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { editProfile } from "../../validation/editProfile";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { setSideView } from "../../redux/slices/profileSlice";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import { Tooltip } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
@@ -24,7 +24,7 @@ const EditProfile = () => {
   const { data: profiledate, isLoading } = useGetProfile(userId);
   const editProfileSucess = (data) => {
     dispatch(setSideView("companyPage"));
-    toast.success(data);
+    // toast.success(data);
   };
   const { mutate, isPending: mutateLoading } =
     useEditProfile(editProfileSucess);
