@@ -1,40 +1,48 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient,useInfiniteQuery } from "@tanstack/react-query";
 import { fetchData } from "../helper";
 import { toast } from "react-toastify";
-import { URL } from "../config";
+import { PAGE_SIZE, URL } from "../config";
 
 const useGetAllNotificationById = (id) => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["notification", id],
-    queryFn: () =>
-      fetchData(
+    queryFn: ({ pageParam }) =>{
+      return fetchData(
         {
           url: URL + "users/getMyNotifications",
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [{ userId: id }] }
-      ),
-    enabled: !!id,
+        { data: [{page: pageParam, pageSize:PAGE_SIZE, userId: id }] }
+      );
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? null : allPages.length + 1;
+    },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },
   });
 };
 
-const useGetAllPostTagNotificationById = (id) => {
-  return useQuery({
-    queryKey: ["postTagnotification", id],
-    queryFn: () =>
-      fetchData(
+const useGetAllPostTagNotificationById = (userName) => {
+  return useInfiniteQuery({
+    queryKey: ["postTagnotification", userName],
+    queryFn: ({ pageParam }) =>{
+      return fetchData(
         {
-          url: URL + "post/getPostTagNotification",
+          url: URL + "post/getPostMentionNotification",
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [{ userId: id }] }
-      ),
-    enabled: !!id,
+        { data: [{page: pageParam, pageSize:PAGE_SIZE, userName: userName }] }
+      );
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? null : allPages.length + 1;
+    },
     onError: (error) => {
       toast.error(error.message.split(":")[1]);
     },

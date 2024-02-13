@@ -6,7 +6,6 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  Badge,
 } from "@mui/material";
 import {
   Search,
@@ -18,7 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "../../../../components/FlexBetween";
 import { ImSwitch } from "react-icons/im";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ClearIcon from "@mui/icons-material/Clear";
 import {
   clearSkip,
@@ -34,17 +33,14 @@ import { resetLiveChatUsers, setRemoveChatState } from "../../../../redux/slices
 import { openAdvert } from "../../../../redux/slices/advert";
 import { removePostData } from "../../../../redux/slices/post";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
-// import { useGetAllNotificationById } from "../../../../hooks/notifications";
-// import Loader from "../../../../components/Loader/Loader";
+import { useGetAllNotificationById } from "../../../../hooks/notifications";
+import Loader from "../../../../components/Loader/Loader";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const signedIn = localStorage.getItem("amsSocialSignedIn");
-  const { sideView } = useSelector((state) => state.profile);
-  const { userId } = useSelector((state) => state.profile.profileData);
-  // const { data, isLoading } = useGetAllNotificationById(userId);
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
   const onSearchSuccess = (data) => {
@@ -73,9 +69,9 @@ const Navbar = () => {
     }
   }
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <FlexBetween
@@ -170,15 +166,17 @@ const Navbar = () => {
               onClick={() => {dispatch(setSideView("chat")); dispatch(resetLiveChatUsers())}}
             />
 
-            {/* <Badge
-              badgeContent={data && data?.filter((e) => e.status === 1).length}
+            <Badge
+              // badgeContent={data && data?.filter((e) => e.status === 1).length}
+              badgeContent={data && Array.isArray(data) ? data.filter(e => e.status === 1).length : 0}
+
               color="primary"
-            > */}
+            >
               <NotificationImportantIcon
                 sx={{ fontSize: "25px", cursor: "pointer" }}
                 onClick={() => dispatch(setSideView("notification"))}
               />
-            {/* </Badge> */}
+            </Badge>
             <ImSwitch
               style={{ fontSize: "25px", cursor: "pointer" }}
               onClick={() => {
