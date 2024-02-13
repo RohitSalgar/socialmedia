@@ -6,7 +6,6 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  Badge,
 } from "@mui/material";
 import {
   Search,
@@ -18,7 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "../../../../components/FlexBetween";
 import { ImSwitch } from "react-icons/im";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ClearIcon from "@mui/icons-material/Clear";
 import {
   clearSkip,
@@ -42,9 +41,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const signedIn = localStorage.getItem("amsSocialSignedIn");
-  const { sideView } = useSelector((state) => state.profile);
-  const { userId } = useSelector((state) => state.profile.profileData);
-  // const { data, isLoading } = useGetAllNotificationById(userId);
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
   const onSearchSuccess = (data) => {
