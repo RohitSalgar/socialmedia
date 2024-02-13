@@ -125,7 +125,7 @@ const MyPostWidget = () => {
         hashTagss.push(item);
       }
       if (item.startsWith("@")) {
-        postMentions.push(item);
+        postMentions.push(item.replace("@", ""));
       }
     });
     if (post === "news") {
@@ -144,6 +144,7 @@ const MyPostWidget = () => {
     //     return toast.error("Invalid File Format");
     //   }
     // }
+
     const formData = new FormData();
     image &&
       image.forEach((item) => {
