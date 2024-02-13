@@ -54,8 +54,8 @@ function HighlightAndTag({ text }) {
 
   const handleHashtagClick = (e) => {
     const clickedWord = e.target.innerText;
-    let hashtags = clickedWord.replace("#", "$&").trim();
-    dispatch(updateHashtag(hashtags));
+    let hashtags = clickedWord.split("#");
+    dispatch(updateHashtag(hashtags[1].trim()));
   };
 
   const highlightText = () => {
@@ -237,7 +237,11 @@ const PostWidget = ({ postData, checkCond }) => {
               return (
                 <div key={i}>
                   {item?.fileType.includes("image") ? (
-                    <img className={styles.video} src={item.filePath} alt="post_image" />
+                    <img
+                      className={styles.video}
+                      src={item.filePath}
+                      alt="post_image"
+                    />
                   ) : (
                     <video
                       className={styles.video}
