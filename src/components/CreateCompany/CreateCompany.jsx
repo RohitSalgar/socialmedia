@@ -201,7 +201,7 @@ const CreateCompany = () => {
             <button
               className={styles.submitbtn}
               type="submit"
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "20px", cursor:"pointer" }}
             >
               Submit
             </button>
