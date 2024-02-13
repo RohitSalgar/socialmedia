@@ -202,10 +202,16 @@ const MyPostWidget = () => {
   };
 
   function handleClick(value) {
+    var lastIndex = description.lastIndexOf("@");
+    let newDesc = "";
+    if (lastIndex !== -1) {
+      newDesc = description.substring(0, lastIndex + 1);
+    }
     const newDescription =
-      description.slice(0, typingPosition) +
+      newDesc.slice(0, typingPosition) +
       value.userName +
-      description.slice(typingPosition);
+      newDesc.slice(typingPosition);
+
     setDescription(newDescription);
     setSearchDivToggle(false);
     textFieldRef.current.focus();
@@ -265,35 +271,7 @@ const MyPostWidget = () => {
         />
       </FlexBetween>
       <Divider sx={{ margin: "0.7rem 0" }} />
-      {imageUrls && imageUrls.length > 1 && (
-        <Slider {...settings}>
-          {imageUrls &&
-            imageUrls.length > 0 &&
-            imageUrls.map((file, i) => {
-              return (
-                <div className={styles.sliderContainer} key={i}>
-                  <div className={styles.imageContainer} key={i}>
-                    {file.imageUrl.startsWith("data:image") ? (
-                      <img
-                        src={file.imageUrl}
-                        style={{ marginRight: "10px" }}
-                        alt={`Image ${i}`}
-                      />
-                    ) : (
-                      <video src={file.imageUrl} controls />
-                    )}
-                  </div>
-                  <div className={styles.imageFooter}>
-                    <Typography onClick={onImageClick}>{file.path}</Typography>
-                    <IconButton onClick={() => deleteImageFn(i)}>
-                      <DeleteOutlined />
-                    </IconButton>
-                  </div>
-                </div>
-              );
-            })}
-        </Slider>
-      )}
+
       {searchDivToggle &&
         (lastWordBeforeCursor.startsWith("@") ||
           lastWordBeforeCursor.endsWith("@")) &&
@@ -340,6 +318,36 @@ const MyPostWidget = () => {
             )}
           </Box>
         )}
+
+      {imageUrls && imageUrls.length > 1 && (
+        <Slider {...settings}>
+          {imageUrls &&
+            imageUrls.length > 0 &&
+            imageUrls.map((file, i) => {
+              return (
+                <div className={styles.sliderContainer} key={i}>
+                  <div className={styles.imageContainer} key={i}>
+                    {file.imageUrl.startsWith("data:image") ? (
+                      <img
+                        src={file.imageUrl}
+                        style={{ marginRight: "10px" }}
+                        alt={`Image ${i}`}
+                      />
+                    ) : (
+                      <video src={file.imageUrl} controls />
+                    )}
+                  </div>
+                  <div className={styles.imageFooter}>
+                    <Typography onClick={onImageClick}>{file.path}</Typography>
+                    <IconButton onClick={() => deleteImageFn(i)}>
+                      <DeleteOutlined />
+                    </IconButton>
+                  </div>
+                </div>
+              );
+            })}
+        </Slider>
+      )}
       {imageUrls && imageUrls.length === 1 && (
         <div className={styles.sliderContainer}>
           <div className={styles.imageContainer}>
