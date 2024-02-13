@@ -367,9 +367,9 @@ const MyPostWidget = () => {
         <div className={styles.sliderContainer}>
           <div className={styles.imageContainer}>
             {imageUrls[0].imageUrl.startsWith("data:image") ? (
-              <img src={imageUrls[0].imageUrl} alt="post_image" />
+              <img className={styles.video} src={imageUrls[0].imageUrl} alt="post_image" />
             ) : (
-              <video src={imageUrls[0].imageUrl} controls />
+              <video className={styles.video} src={imageUrls[0].imageUrl} controls />
             )}
           </div>
           <div className={styles.imageFooter}>
@@ -433,7 +433,7 @@ const MyPostWidget = () => {
                 borderRadius: "1rem",
               }}
             >
-              {isPending ? <CircularProgress size={15} /> : "Post"}
+              {isPending ? <CircularProgress color="secondary" size={20} /> : "Post"}
             </Button>
           )}
         </Box>
