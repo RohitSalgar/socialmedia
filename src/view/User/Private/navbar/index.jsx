@@ -69,9 +69,9 @@ const Navbar = () => {
     }
   }
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
   return (
     <FlexBetween
@@ -166,7 +166,7 @@ const Navbar = () => {
               onClick={() => {dispatch(setSideView("chat")); dispatch(resetLiveChatUsers())}}
             />
 
-            <Badge
+            {/* <Badge
               // badgeContent={data && data?.filter((e) => e.status === 1).length}
               badgeContent={data && Array.isArray(data) ? data.filter(e => e.status === 1).length : 0}
 
@@ -176,7 +176,7 @@ const Navbar = () => {
                 sx={{ fontSize: "25px", cursor: "pointer" }}
                 onClick={() => dispatch(setSideView("notification"))}
               />
-            </Badge>
+            </Badge> */}
             <ImSwitch
               style={{ fontSize: "25px", cursor: "pointer" }}
               onClick={() => {
