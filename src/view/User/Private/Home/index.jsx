@@ -252,6 +252,7 @@ const HomePage = () => {
                 <WidgetWrapper>
                   <FlexBetween>
                     <Typography sx={{ fontWeight: "500" }}>
+                      {"#"}
                       {hashtag}
                     </Typography>
                     <IconButton onClick={() => handleClose()}>
@@ -517,7 +518,7 @@ const HomePage = () => {
                 )}
 
                 <Box>
-                  {pagePostData.pages[0]?.totalCount != 0? (
+                  {pagePostData.pages[0]?.totalCount != 0 ? (
                     <>
                       {pagePostData.pages.map(({ data }) => {
                         return data.map((postData) => {

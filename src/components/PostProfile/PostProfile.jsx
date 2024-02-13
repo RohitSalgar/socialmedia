@@ -25,7 +25,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useGetCompanyProfile, useGetPageFollowList } from "../../hooks/pages";
 import ProfileScheduleList from "../ProfileScheduleList/ProfileScheduleList";
 import { useFollowTopPage } from "../../hooks/user";
-import blockedimg from "../../assets/Images/blocked.jpg"
+import blockedimg from "../../assets/Images/blocked.jpg";
 const PostProfile = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const PostProfile = () => {
     userId,
     viewList
   );
-  
+
   if (isLoading || followLoading || postLoading || companyLoading) {
     <Loader />;
   }
@@ -188,35 +188,35 @@ const PostProfile = () => {
               {companyData?.companyPageData?.companyName}
             </Typography>
             {/* {companyId == profileCompanyId && ( */}
-            {companyData?.companyPageData?.status===1 &&
-            <>
-              {followList &&
-              followList.some((item) => item.followerId === userId) ? (
-                <Button
-                  variant="outlined"
-                  disabled={pagetUnfollowPending}
-                  className={styles.createbtn}
-                  onClick={pageUnFollowFn}
-                >
-                  {pagetUnfollowPending ? <CircularProgress /> : "UnFollow"}
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  disabled={isPending}
-                  className={styles.createbtn}
-                  onClick={() =>
-                    pageFollowMutate({
-                      companyId: profileCompanyId,
-                      followerId: userId,
-                    })
-                  }
-                >
-                  {isPending ? <CircularProgress /> : "Follow"}
-                </Button>
-              )}
-            </>
-}
+            {companyData?.companyPageData?.status === 1 && (
+              <>
+                {followList &&
+                followList.some((item) => item.followerId === userId) ? (
+                  <Button
+                    variant="outlined"
+                    disabled={pagetUnfollowPending}
+                    className={styles.createbtn}
+                    onClick={pageUnFollowFn}
+                  >
+                    {pagetUnfollowPending ? <CircularProgress /> : "UnFollow"}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    disabled={isPending}
+                    className={styles.createbtn}
+                    onClick={() =>
+                      pageFollowMutate({
+                        companyId: profileCompanyId,
+                        followerId: userId,
+                      })
+                    }
+                  >
+                    {isPending ? <CircularProgress /> : "Follow"}
+                  </Button>
+                )}
+              </>
+            )}
             {/* )} */}
             {profileId === userId &&
               data?.pageData?.status === 1 &&
@@ -249,30 +249,36 @@ const PostProfile = () => {
             style={{
               paddingTop: "10px",
               textTransform: "capitalize",
-              wordWrap:"break-word"
+              wordWrap: "break-word",
             }}
           >
             {companyData?.companyPageData?.about}
           </Typography>
         </Typography>
         <hr />
-        {companyData?.companyPageData?.status === 1 && viewList === "schedule" ?(
-            <Box>
+        {companyData && companyData?.companyPageData && (
+          <>
+            {companyData?.companyPageData?.status === 1 &&
+            viewList === "schedule" ? (
               <Box>
-                <Typography color={dark} sx={{ fontWeight: "bold" }}>
-                  Schedules
-                </Typography>
+                <Box>
+                  <Typography color={dark} sx={{ fontWeight: "bold" }}>
+                    Schedules
+                  </Typography>
+                </Box>
+                <Box className={styles.postdiv}>
+                  <ProfileScheduleList />
+                  {companyData?.countData?.scheduleCount === 0 && (
+                    <LookingEmpty />
+                  )}
+                </Box>
               </Box>
-              <Box className={styles.postdiv}>
-                <ProfileScheduleList />
-                {companyData?.countData?.scheduleCount === 0 && (
-                  <LookingEmpty />
-                )}
-              </Box>
-            </Box>
-          ):(
-            <img style={{width:"100%", height:"100%"}} src={blockedimg}/>
-          )}
+            ) : (
+              <img style={{ width: "100%", height: "100%" }} src={blockedimg} />
+            )}
+          </>
+        )}
+
         {companyData?.companyPageData?.status === 1 && viewList === "post" && (
           <Box>
             <Box>
