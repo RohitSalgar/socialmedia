@@ -45,7 +45,7 @@ const openFileNewWindow = async (fileData) => {
 			'<div style="display: flex; justify-content: center; align-items: center; height: 100vh;"><img src="' +
 			blobUrl +
 			'" style="max-width: 100%; max-height: 100%;"></div>'
-				);
+		);
 	} else {
 		window.open(
 			blobUrl,
@@ -265,7 +265,7 @@ const fetchData = async (
 					responseData,
 					"totalCount"
 				)) {
-					return { data: JSON.parse(responseData.data), totalCount: responseData.totalCount }
+					return { data: JSON.parse(responseData.data), totalCount: responseData.totalCount, unseenCount: responseData.unseenCount }
 				} else if (Object.prototype.hasOwnProperty.call(
 					responseData,
 					"data"
