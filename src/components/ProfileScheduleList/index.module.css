@@ -100,9 +100,9 @@
   font-size: 14px;
 }
 
-button:hover {
+/* button:hover {
   color: #f3cf00;
-}
+} */
 .likediv {
   display: flex;
 }
