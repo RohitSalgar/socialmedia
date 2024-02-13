@@ -423,7 +423,7 @@ const HomePage = () => {
                     ) : null}
 
                     {tabView === "news" && newsPostData?.pages ? (
-                      newsPostData?.pages?.length > 0 ? (
+                      newsPostData?.pages[0]?.totalCount != 0 ? (
                         <Box>
                           {newsPostData.pages.map(({ data }) => {
                             return data.map((postData) => {
@@ -517,7 +517,7 @@ const HomePage = () => {
                 )}
 
                 <Box>
-                  {pagePostData.pages.length > 0 ? (
+                  {pagePostData.pages[0]?.totalCount != 0? (
                     <>
                       {pagePostData.pages.map(({ data }) => {
                         return data.map((postData) => {
@@ -558,7 +558,7 @@ const HomePage = () => {
               <>
                 <Myqa />
                 <Box>
-                  {allQaData.pages.length > 0 ? (
+                  {allQaData.pages[0]?.totalCount != 0 ? (
                     <>
                       {allQaData.pages.map(({ data }) => {
                         return data.map((postData) => {

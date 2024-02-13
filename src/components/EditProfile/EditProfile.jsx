@@ -26,7 +26,7 @@ const EditProfile = () => {
     dispatch(setSideView("companyPage"));
     toast.success(data);
   };
-  const { mutate, isLoading: mutateLoading } =
+  const { mutate, isPending: mutateLoading } =
     useEditProfile(editProfileSucess);
   const [profilePic, setProfilePic] = useState("");
   const [profilePicUrl, setProfilePicUrl] = useState("");
@@ -192,10 +192,9 @@ const EditProfile = () => {
               id="about"
               {...register("about")}
             />
-
-            <button className={styles.submitbtn} type="submit">
-              {mutateLoading ? <CircularProgress /> : "Submit"}
-            </button>
+            <Button variant="dark" className={styles.editbtn} type="submit">
+              {mutateLoading ? <CircularProgress color="secondary" size={30} /> : "Submit"}
+            </Button>
           </form>
         </Box>
       </Typography>

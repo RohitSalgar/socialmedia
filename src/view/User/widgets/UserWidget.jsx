@@ -4,7 +4,7 @@ import WidgetWrapper from "../../../components/WidgetWrapper";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import BusinessIcon from '@mui/icons-material/Business';
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
@@ -191,7 +191,8 @@ const UserWidget = () => {
             }}
           >
             <ListItemIcon>
-              <MailIcon />
+            <CalendarMonthIcon />
+              
             </ListItemIcon>
             <ListItemText primary="Schedule" />
           </ListItemButton>
@@ -219,7 +220,7 @@ const UserWidget = () => {
             }}
           >
             <ListItemIcon>
-              <CalendarMonthIcon />
+            <BusinessIcon />
             </ListItemIcon>
             <ListItemText primary=" Company Page" />
           </ListItemButton>
