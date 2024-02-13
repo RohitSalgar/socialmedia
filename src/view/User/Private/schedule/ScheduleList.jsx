@@ -45,7 +45,7 @@ const ScheduleList = () => {
 
   return (
     <>
-      {data && data?.pages && data.pages.length > 0 ? (
+      {data && data?.pages && data.pages[0]?.totalCount !=0 ? (
         data.pages.map(({ data }) => {
           return data.map((e, i) => (
             <>
@@ -107,7 +107,7 @@ const ScheduleList = () => {
 
       {!data?.pageParams.includes(
         Math.ceil(data?.pages[0]?.totalCount / 5)
-      ) && <PostSkeleton />}
+      ) && data.pages[0]?.totalCount !=0 && <PostSkeleton />}
       <div
         ref={ref}
         style={{ height: "10px" }}

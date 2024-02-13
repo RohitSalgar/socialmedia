@@ -57,7 +57,7 @@ const MyPostWidget = () => {
     setIsImage(false);
     setImage([]);
   };
-  const { mutate, isLoading } = useInsertPost(onSuccess);
+  const { mutate, isPending } = useInsertPost(onSuccess);
 
   function SampleArrow(props) {
     const { className, style, onClick } = props;
@@ -407,7 +407,7 @@ const MyPostWidget = () => {
                 borderRadius: "1rem",
               }}
             >
-              {isLoading ? <CircularProgress size={15} /> : "Post"}
+              {isPending ? <CircularProgress size={15} /> : "Post"}
             </Button>
           )}
         </Box>

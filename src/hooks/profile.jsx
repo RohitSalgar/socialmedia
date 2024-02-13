@@ -30,6 +30,7 @@ const editProfile = async (data) => {
   let responseData = await response.json();
   return responseData.response;
 };
+
 const useEditProfile = (onSuccessFunctions) => {
   const queryClient = useQueryClient();
   return useMutation({
