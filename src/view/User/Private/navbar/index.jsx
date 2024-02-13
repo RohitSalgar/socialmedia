@@ -76,9 +76,9 @@ const Navbar = () => {
     }
   }
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <FlexBetween
@@ -176,11 +176,12 @@ const Navbar = () => {
               }}
             />
 
-            {/* <Badge
-              // badgeContent={data && data?.filter((e) => e.status === 1).length}
+            <Badge
               badgeContent={
-                notificationData.pages.length > 0 &&
-                notificationData.pages[0].unseenCount
+                notificationData?.pages.length > 0 &&
+                notificationData?.pages[0].unseenCount > 0
+                  ? notificationData?.pages[0].unseenCount
+                  : 0
               }
               color="primary"
             >
@@ -188,7 +189,7 @@ const Navbar = () => {
                 sx={{ fontSize: "25px", cursor: "pointer" }}
                 onClick={() => dispatch(setSideView("notification"))}
               />
-            </Badge> */}
+            </Badge>
             <ImSwitch
               style={{ fontSize: "25px", cursor: "pointer" }}
               onClick={() => {
