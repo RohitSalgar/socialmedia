@@ -237,7 +237,7 @@ const PostWidget = ({ postData, checkCond }) => {
               return (
                 <div key={i}>
                   {item?.fileType.includes("image") ? (
-                    <img src={item.filePath} alt="post_image" />
+                    <img className={styles.video} src={item.filePath} alt="post_image" />
                   ) : (
                     <video
                       className={styles.video}

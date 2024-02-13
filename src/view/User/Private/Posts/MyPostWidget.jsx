@@ -8,14 +8,12 @@ import {
   useTheme,
   Button,
   IconButton,
-  // useMediaQuery,
 } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import Dropzone from "react-dropzone";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
 import { useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { HiMiniHashtag } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { useInsertPost } from "../../../../hooks/posts";
 import { useGetProfile } from "../../../../hooks/profile";
@@ -32,11 +30,9 @@ const MyPostWidget = () => {
   const [image, setImage] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [searchData, setSearchData] = useState([]);
-  const dispatch = useDispatch();
   let [description, setDescription] = useState("");
   let [lastWordBeforeCursor, setLastWordBeforeCursor] = useState("");
   let [typingPosition, setTypingPosition] = useState("");
-  const [tags, setTags] = useState([]);
   const [location, setLocation] = useState({
     state: "TamilNadu",
     country: "India",
@@ -46,6 +42,7 @@ const MyPostWidget = () => {
   const { data } = useGetProfile(userId);
   const textFieldRef = useRef(null);
   const onSearchSuccess = (data) => {
+    console.log(data,"data")
     setSearchData(data);
   };
 
@@ -56,9 +53,7 @@ const MyPostWidget = () => {
   // const medium = palette.neutral.medium;
 
   const onSuccess = () => {
-    setTags([]);
     setDescription("");
-    setHashTags(false);
     setIsImage(false);
     setImage([]);
   };
@@ -202,10 +197,16 @@ const MyPostWidget = () => {
   };
 
   function handleClick(value) {
+    var lastIndex = description.lastIndexOf("@");
+    let newDesc = "";
+    if (lastIndex !== -1) {
+      newDesc = description.substring(0, lastIndex + 1);
+    }
     const newDescription =
-      description.slice(0, typingPosition) +
+      newDesc.slice(0, typingPosition) +
       value.userName +
-      description.slice(typingPosition);
+      newDesc.slice(typingPosition);
+
     setDescription(newDescription);
     setSearchDivToggle(false);
     textFieldRef.current.focus();
@@ -228,16 +229,11 @@ const MyPostWidget = () => {
             const lastWord = words[words.length - 1];
             const cursorPosition = e.target.selectionStart;
             setTypingPosition(cursorPosition);
-            const wordsBeforeCursor = e.target.value
-              .substring(0, cursorPosition)
-              .split(" ");
-            const lastWordBeforeCursor =
-              wordsBeforeCursor[wordsBeforeCursor.length - 1];
-            setLastWordBeforeCursor(lastWordBeforeCursor);
+            setLastWordBeforeCursor(lastWord);
             if (
-              (lastWordBeforeCursor.startsWith("@") ||
-                lastWordBeforeCursor.endsWith("@")) &&
-              lastWordBeforeCursor.length >= 1
+              (lastWord.startsWith("@") ||
+                lastWord.endsWith("@")) &&
+              lastWord.length >= 1
             ) {
               setSearchDivToggle(true);
               navesearchMutate({
@@ -250,6 +246,8 @@ const MyPostWidget = () => {
             if (e.key === "Enter" && e.shiftKey) {
               setSearchDivToggle(false);
               if (e.key === "Enter" && e.shiftKey) {
+                const cursorPosition = e.target.selectionStart;
+                setTypingPosition(cursorPosition);
                 setDescription(description + " ");
               }
             }
@@ -274,13 +272,12 @@ const MyPostWidget = () => {
                 <div className={styles.sliderContainer} key={i}>
                   <div className={styles.imageContainer} key={i}>
                     {file.imageUrl.startsWith("data:image") ? (
-                      <img
+                      <img className={styles.img}
                         src={file.imageUrl}
-                        style={{ marginRight: "10px" }}
                         alt={`Image ${i}`}
                       />
                     ) : (
-                      <video src={file.imageUrl} controls />
+                      <video className={styles.img} src={file.imageUrl} controls />
                     )}
                   </div>
                   <div className={styles.imageFooter}>
