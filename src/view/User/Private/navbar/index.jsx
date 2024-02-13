@@ -6,6 +6,7 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
+  Badge,
 } from "@mui/material";
 import {
   Search,
@@ -17,7 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "../../../../components/FlexBetween";
 import { ImSwitch } from "react-icons/im";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ClearIcon from "@mui/icons-material/Clear";
 import {
   clearSkip,
@@ -29,7 +30,10 @@ import {
 } from "../../../../redux/slices/profileSlice";
 import classes from "./index.module.css";
 import { useNavSearch } from "../../../../hooks/user";
-import { resetLiveChatUsers, setRemoveChatState } from "../../../../redux/slices/chat";
+import {
+  resetLiveChatUsers,
+  setRemoveChatState,
+} from "../../../../redux/slices/chat";
 import { openAdvert } from "../../../../redux/slices/advert";
 import { removePostData } from "../../../../redux/slices/post";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
@@ -49,6 +53,9 @@ const Navbar = () => {
   const { mutate: navesearchMutate } = useNavSearch(onSearchSuccess);
 
   const tokenId = localStorage.getItem("amsSocialToken");
+  const { userId } = useSelector((state) => state.profile.profileData);
+  const { data: notificationData, isLoading } =
+    useGetAllNotificationById(userId);
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -163,13 +170,18 @@ const Navbar = () => {
           </IconButton> */}
             <Message
               sx={{ fontSize: "25px", cursor: "pointer" }}
-              onClick={() => {dispatch(setSideView("chat")); dispatch(resetLiveChatUsers())}}
+              onClick={() => {
+                dispatch(setSideView("chat"));
+                dispatch(resetLiveChatUsers());
+              }}
             />
 
             {/* <Badge
               // badgeContent={data && data?.filter((e) => e.status === 1).length}
-              badgeContent={data && Array.isArray(data) ? data.filter(e => e.status === 1).length : 0}
-
+              badgeContent={
+                notificationData.pages.length > 0 &&
+                notificationData.pages[0].unseenCount
+              }
               color="primary"
             >
               <NotificationImportantIcon
@@ -185,8 +197,8 @@ const Navbar = () => {
                   dispatch(setRemoveChatState());
                   dispatch(openAdvert());
                   dispatch(removePostData());
-                  dispatch(resetLiveChatUsers())
-                localStorage.removeItem("amsSocialToken");
+                  dispatch(resetLiveChatUsers());
+                  localStorage.removeItem("amsSocialToken");
                   localStorage.removeItem("amsSocialId");
                   localStorage.removeItem("amsSocialSignedIn");
                 } else {
