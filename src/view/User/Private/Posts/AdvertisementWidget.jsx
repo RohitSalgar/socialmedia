@@ -12,15 +12,14 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { useGetTrendingPosts } from "../../../../hooks/posts";
 import { useState } from "react";
 
-export function AdvertisementWidget({postData}) {
+export function AdvertisementWidget({ postData }) {
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
   const { isPending } = useFollowTopPage();
-  const { data, isLoading } = useGetTrendingPosts();
-  const [posts, setPosts] = useState([]); 
-  if (isPending || isLoading) {
+  const [posts, setPosts] = useState([]);
+  if (isPending ) {
     return;
   }
   const handleCardClick = () => {
@@ -30,10 +29,10 @@ export function AdvertisementWidget({postData}) {
     }
   };
   const handleClose = () => {
-    const updatedPosts = posts.filter(post => post._id !== postData._id);
+    const updatedPosts = posts.filter((post) => post._id !== postData._id);
     setPosts(updatedPosts);
   };
-  
+
   return (
     <Card
       sx={{
@@ -42,38 +41,38 @@ export function AdvertisementWidget({postData}) {
         position: "relative",
       }}
     >
-      {data !== undefined && (
+      {postData != null && (
         <CardActionArea>
           <CardMedia
             component="img"
             height="140"
-            image={data.pages[0]?.data[0]?.files}
+            image={postData.files[0]?.filePath}
             // alt="green iguana"
           />
 
           <CardContent onClick={handleCardClick}>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              
-                    <Typography
-                      key={postData?._id}
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                    >
-                      {postData?.title}
-                    </Typography>
+
+              <Typography
+                key={postData?._id}
+                gutterBottom
+                variant="h5"
+                component="div"
+              >
+                {postData?.title}
+              </Typography>
 
               <IconButton>
                 <FaExternalLinkAlt />
               </IconButton>
             </Box>
-                  <Typography
-                    key={postData?._id}
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    {postData?.description}
-                  </Typography>
+            <Typography
+              key={postData?._id}
+              variant="body2"
+              color="text.secondary"
+            >
+              {postData?.description}
+            </Typography>
           </CardContent>
           <IconButton
             sx={{
