@@ -115,14 +115,22 @@ const MyPostWidget = () => {
     let hashTagss = [],
       postMentions = [];
     let valid = true;
-    description.split(" ").forEach((item) => {
-      if (item.startsWith("#")) {
-        hashTagss.push(item);
+
+    const requiredArray = description.replaceAll("\n", " ").split(" ");
+    const noEmptyStringArray = requiredArray.filter((str) => str !== "");
+
+    for (let index = 0; index < noEmptyStringArray.length; index++) {
+      if (noEmptyStringArray[index].startsWith("#")) {
+        hashTagss.push(noEmptyStringArray[index].replace("#", ""));
       }
-      if (item.startsWith("@")) {
-        postMentions.push(item.replace("@", ""));
+      if (noEmptyStringArray[index].startsWith("@")) {
+        postMentions.push({
+          userName: noEmptyStringArray[index].replace("@", ""),
+          status: 1,
+        });
       }
-    });
+    }
+
     if (post === "news") {
       hashTagss = [...hashTagss, "news"];
     }

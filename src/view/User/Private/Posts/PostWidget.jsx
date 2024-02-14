@@ -55,7 +55,7 @@ function HighlightAndTag({ text }) {
   };
 
   const highlightText = () => {
-    const words = text?.split(" ");
+    const words = text?.replaceAll("\n", " ").split(" ");
     return words.map((word, index) => {
       if (word.startsWith("@")) {
         return (
@@ -207,6 +207,7 @@ const PostWidget = ({ postData, checkCond }) => {
     }
   };
 
+
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} checkCond={checkCond} />{" "}
@@ -217,7 +218,8 @@ const PostWidget = ({ postData, checkCond }) => {
         <div>
           {postData.files[0]?.fileType?.includes("image") ? (
             <img
-              className={styles.video} src={postData.files[0].filePath}
+              className={styles.video}
+              src={postData.files[0].filePath}
               style={{ borderRadius: "0.75rem" }}
               alt="post_image"
             />
@@ -379,17 +381,22 @@ const PostWidget = ({ postData, checkCond }) => {
             }}
           >
             <IconButton>
-              <CancelOutlined 
-            onClick={() => {
-              setReport(false);
-              setIsComments(false);
-            }} />
+              <CancelOutlined
+                onClick={() => {
+                  setReport(false);
+                  setIsComments(false);
+                }}
+              />
             </IconButton>
-            <Typography sx={{ cursor: "pointer" }} 
-            onClick={() => {
-              setReport(false);
-              setIsComments(false);
-            }}>{"close"}</Typography>
+            <Typography
+              sx={{ cursor: "pointer" }}
+              onClick={() => {
+                setReport(false);
+                setIsComments(false);
+              }}
+            >
+              {"close"}
+            </Typography>
           </Box>
         </FlexBetween>
       )}
@@ -406,15 +413,22 @@ const PostWidget = ({ postData, checkCond }) => {
               }}
             >
               <IconButton>
-                <CancelOutlined  onClick={() => {
-                setReport(false);
-                setIsComments(false);
-              }} />
+                <CancelOutlined
+                  onClick={() => {
+                    setReport(false);
+                    setIsComments(false);
+                  }}
+                />
               </IconButton>
-              <Typography sx={{ cursor: "pointer" }}  onClick={() => {
-                setReport(false);
-                setIsComments(false);
-              }}>{"close"}</Typography>
+              <Typography
+                sx={{ cursor: "pointer" }}
+                onClick={() => {
+                  setReport(false);
+                  setIsComments(false);
+                }}
+              >
+                {"close"}
+              </Typography>
             </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />

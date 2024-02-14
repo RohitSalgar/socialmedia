@@ -22,11 +22,15 @@ const NotificationContent = () => {
   // const notificationRef = useRef();
   const { hashtag } = useSelector((state) => state.post);
   const { userId } = useSelector((state) => state.profile.profileData);
-  const { data:profiledata} = useGetProfile(userId);
+  const { data: profiledata } = useGetProfile(userId);
   const { data, isLoading, isFetchingNextPage, fetchNextPage } =
     useGetAllNotificationById(userId);
-  const { data: postTagData, isLoading: postTagLOading,isFetchingNextPage:postTagisFetchingNextPage,fetchNextPage:postTagfetchNextPage } =
-    useGetAllPostTagNotificationById(profiledata?.userData?.userName);
+  const {
+    data: postTagData,
+    isLoading: postTagLOading,
+    isFetchingNextPage: postTagisFetchingNextPage,
+    fetchNextPage: postTagfetchNextPage,
+  } = useGetAllPostTagNotificationById(profiledata?.userData?.userName);
   const handleClick = (props) => {
     setSelected(props);
   };
@@ -45,22 +49,20 @@ const NotificationContent = () => {
         )
       ) {
         fetchNextPage();
-      }
-      else if(
+      } else if (
         selected === "mention" &&
         !postTagData?.pageParams.includes(
           Math.ceil(postTagData?.pages[0]?.totalCount / PAGE_SIZE)
         )
-      ){
-        postTagfetchNextPage()
+      ) {
+        postTagfetchNextPage();
       }
     }
-  }, [inView, hashtag, setSideView, data,postTagData]);
+  }, [inView, hashtag, setSideView, data, postTagData]);
 
   if (isLoading || postTagLOading) {
     return <Loader />;
   }
-
 
   // const filterDataByTag = () => {
   //   let array = [];
@@ -83,14 +85,6 @@ const NotificationContent = () => {
     <Box sx={{ marginLeft: "-0.9rem", marginRight: "-0.9rem" }}>
       <Box className={styles.optionDiv}>
         <Box
-          className={`${selected === "all" && styles.selectedButton} ${
-            styles.buttonDiv
-          }`}
-          onClick={() => handleClick("all")}
-        >
-          <Typography>All</Typography>
-        </Box>
-        <Box
           className={`${selected === "myposts" && styles.selectedButton} ${
             styles.buttonDiv
           }`}
@@ -108,7 +102,7 @@ const NotificationContent = () => {
         </Box>
       </Box>
       <Divider sx={{ marginTop: "0.2rem" }} />
-      <Box className={styles.notificationMainDiv} >
+      <Box className={styles.notificationMainDiv}>
         {data && data?.pages?.length > 0 ? (
           <>
             {selected === "myposts" &&
@@ -116,34 +110,39 @@ const NotificationContent = () => {
                 data
                   .filter((e) => e.status !== 0)
                   .map((e, i) => <NotificationTemplate key={i} data={e} />)
-              )
-              }
-            {selected === "myposts" && !data?.pageParams?.includes(
-              Math.ceil(data.pages[0]?.totalCount / 10)
-            ) &&<NotificationSkeleton/>}
-            { selected === "myposts" && <div
-              ref={ref}
-              style={{ height: "10px"}}
-              onClick={() => fetchNextPage()}
-            >
-              {isFetchingNextPage && <NotificationSkeleton />}
-            </div>}
+              )}
+            {selected === "myposts" &&
+              !data?.pageParams?.includes(
+                Math.ceil(data.pages[0]?.totalCount / 10)
+              ) && <NotificationSkeleton />}
+            {selected === "myposts" && (
+              <div
+                ref={ref}
+                style={{ height: "10px" }}
+                onClick={() => fetchNextPage()}
+              >
+                {isFetchingNextPage && <NotificationSkeleton />}
+              </div>
+            )}
             {selected === "mention" &&
               postTagData.pages?.map(({ data }) =>
                 data
                   .filter((e) => e.status !== 0)
                   .map((e, i) => <NotificationTemplate key={i} data={e} />)
               )}
-            {selected === "mention" && !postTagData?.pageParams?.includes(
-              Math.ceil(postTagData.pages[0]?.totalCount / 10)
-            ) && <NotificationSkeleton />}
-            {selected === "mention" &&  <div
-              ref={ref}
-              style={{ height: "10px" }}
-              onClick={() => postTagfetchNextPage()}
-            >
-              {postTagisFetchingNextPage && <NotificationSkeleton />}
-            </div>}
+            {selected === "mention" &&
+              !postTagData?.pageParams?.includes(
+                Math.ceil(postTagData.pages[0]?.totalCount / 10)
+              ) && <NotificationSkeleton />}
+            {selected === "mention" && (
+              <div
+                ref={ref}
+                style={{ height: "10px" }}
+                onClick={() => postTagfetchNextPage()}
+              >
+                {postTagisFetchingNextPage && <NotificationSkeleton />}
+              </div>
+            )}
           </>
         ) : (
           <LookingEmpty />

@@ -519,7 +519,7 @@ const HomePage = () => {
                   )}
 
                   <Box>
-                    {pagePostData.pages[0]?.totalCount != 0? (
+                    {pagePostData.pages[0]?.totalCount != 0 ? (
                       <>
                         {pagePostData.pages.map(({ data }) => {
                           return data.map((postData) => {
