@@ -56,6 +56,7 @@ import notfound from "../../../../assets/Images/notfound.jpg";
 import { AdvertisementWidget } from "../Posts/AdvertisementWidget";
 import { PAGE_SIZE } from "../../../../config";
 import styles from './index.module.css';
+import DashboardSkeleton from "../../../../components/Skeleton/DashboardSkeleton/DashboardSkeleton";
 
 const HomePage = () => {
   const { ref, inView } = useInView();
@@ -226,7 +227,7 @@ const HomePage = () => {
     topPagesLoading ||
     notificationPostLoading
   ) {
-    return <Loader />;
+    return <DashboardSkeleton />;
   }
 
   const handleClose = () => {
@@ -423,84 +424,88 @@ const HomePage = () => {
                         )
                       ) : null}
 
-                      {tabView === "news" && newsPostData?.pages ? (
-                        newsPostData?.pages?.length > 0 ? (
-                          <Box>
-                            {newsPostData.pages.map(({ data }) => {
-                              return data.map((postData) => {
-                                if (postData.title) {
-                                  return (
-                                    <AdvertisementWidget
-                                      key={`ad-${postData._id}`}
-                                      postData={postData}
-                                    />
-                                  );
-                                }
+                    {tabView === "news" && newsPostData?.pages ? (
+                      newsPostData?.pages[0]?.totalCount != 0 ? (
+                        <Box>
+                          {newsPostData.pages.map(({ data }) => {
+                            return data.map((postData) => {
+                              if (postData.title) {
                                 return (
-                                  <PostWidget
-                                    key={postData._id}
+                                  <AdvertisementWidget
+                                    key={`ad-${postData._id}`}
                                     postData={postData}
                                   />
                                 );
-                              });
-                            })}
-                            {!newsPostData?.pageParams.includes(
-                              Math.ceil(newsPostData?.pages[0]?.totalCount / PAGE_SIZE)
-                            ) && <PostSkeleton />}
-                            <div
-                              ref={ref}
-                              style={{ height: "10px" }}
-                              onClick={() => newsFetchNextPage()}
-                            >
-                              {newsFetchingNextPage && <PostSkeleton />}
-                            </div>
-                          </Box>
-                        ) : (
-                          <div style={{ marginTop: "10px" }}>
-                            <LookingEmpty />
+                              }
+                              return (
+                                <PostWidget
+                                  key={postData._id}
+                                  postData={postData}
+                                />
+                              );
+                            });
+                          })}
+                          {!newsPostData?.pageParams.includes(
+                            Math.ceil(
+                              newsPostData?.pages[0]?.totalCount / PAGE_SIZE
+                            )
+                          ) && <PostSkeleton />}
+                          <div
+                            ref={ref}
+                            style={{ height: "10px" }}
+                            onClick={() => newsFetchNextPage()}
+                          >
+                            {newsFetchingNextPage && <PostSkeleton />}
                           </div>
-                        )
-                      ) : null}
+                        </Box>
+                      ) : (
+                        <div style={{ marginTop: "10px" }}>
+                          <LookingEmpty />
+                        </div>
+                      )
+                    ) : null}
+                  </Box>
+                </>
+              )}
+            {dashboardView === "schedule" && (
+              <Box>
+                {data?.pageData?.status === 1 && <AddSchedule />}
+                <ScheduleList />
+              </Box>
+            )}
+            {dashboardView === "profile" && hashtag === "" && <Profile />}
+            {dashboardView === "postprofile" && hashtag === "" && (
+              <PostProfile />
+            )}
+            {dashboardView === "notification" && (
+              <>
+                {notificationPostData && notificationPostData.length > 0 ? (
+                  <>
+                    {notificationPostData.map((e, i) => {
+                      return <PostWidget key={i} postData={e} />;
+                    })}
+                  </>
+                ) : (
+                  <>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.4rem",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        margin: "1rem",
+                      }}
+                    >
+                      <img src={notfound} alt="notfound" width={"80%"} />
+                      <p style={{ fontSize: "22px" }}>
+                        The Post isn't available
+                      </p>
                     </Box>
                   </>
                 )}
-              {dashboardView === "schedule" && (
-                <Box>
-                  {data?.pageData?.status === 1 && <AddSchedule />}
-                  <ScheduleList />
-                </Box>
-              )}
-              {dashboardView === "profile" && <Profile />}
-              {dashboardView === "postprofile" && <PostProfile />}
-              {dashboardView === "notification" && (
-                <>
-                  {notificationPostData && notificationPostData.length > 0 ? (
-                    <>
-                      {notificationPostData.map((e, i) => {
-                        return <PostWidget key={i} postData={e} />;
-                      })}
-                    </>
-                  ) : (
-                    <>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "0.4rem",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          margin: "1rem",
-                        }}
-                      >
-                        <img src={notfound} alt="notfound" width={"80%"} />
-                        <p style={{ fontSize: "22px" }}>
-                          The Post isn't available
-                        </p>
-                      </Box>
-                    </>
-                  )}
-                </>
-              )}
+              </>
+            )}
 
               {dashboardView === "pages" &&
               hashtag === "" &&
@@ -514,7 +519,7 @@ const HomePage = () => {
                   )}
 
                   <Box>
-                    {pagePostData.pages.length > 0 ? (
+                    {pagePostData.pages[0]?.totalCount != 0? (
                       <>
                         {pagePostData.pages.map(({ data }) => {
                           return data.map((postData) => {
@@ -555,7 +560,7 @@ const HomePage = () => {
                 <>
                   <Myqa />
                   <Box>
-                    {allQaData.pages.length > 0 ? (
+                    {allQaData.pages[0]?.totalCount != 0 ? (
                       <>
                         {allQaData.pages.map(({ data }) => {
                           return data.map((postData) => {

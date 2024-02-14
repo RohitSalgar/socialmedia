@@ -11,7 +11,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { editProfile } from "../../validation/editProfile";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { setSideView } from "../../redux/slices/profileSlice";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import { Tooltip } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
@@ -24,9 +24,9 @@ const EditProfile = () => {
   const { data: profiledate, isLoading } = useGetProfile(userId);
   const editProfileSucess = (data) => {
     dispatch(setSideView("companyPage"));
-    toast.success(data);
+    // toast.success(data);
   };
-  const { mutate, isLoading: mutateLoading } =
+  const { mutate, isPending: mutateLoading } =
     useEditProfile(editProfileSucess);
   const [profilePic, setProfilePic] = useState("");
   const [profilePicUrl, setProfilePicUrl] = useState("");
@@ -192,10 +192,9 @@ const EditProfile = () => {
               id="about"
               {...register("about")}
             />
-
-            <button className={styles.submitbtn} type="submit">
-              {mutateLoading ? <CircularProgress /> : "Submit"}
-            </button>
+            <Button variant="dark" className={styles.editbtn} type="submit">
+              {mutateLoading ? <CircularProgress color="secondary" size={30} /> : "Submit"}
+            </Button>
           </form>
         </Box>
       </Typography>

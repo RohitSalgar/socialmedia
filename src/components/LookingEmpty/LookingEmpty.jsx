@@ -5,7 +5,7 @@ import SentimentDissatisfiedRoundedIcon from "@mui/icons-material/SentimentDissa
 
 const LookingEmpty = ({ description = "Looking Empty" }) => {
   return (
-    <WidgetWrapper>
+    <WidgetWrapper sx={{margin : '0.5rem 0rem'}}>
       <Box className={styles.mainbox}>
         <SentimentDissatisfiedRoundedIcon sx={{ fontSize: "100px" }} />
         <p>{description}</p>

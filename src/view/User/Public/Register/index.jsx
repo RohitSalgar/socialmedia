@@ -34,6 +34,7 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const [location, setLocation] = useState({ state: "", country: "" });
   const [files, setFiles] = useState(null);
+  const [uploadedImage, setUploadedImage] = useState(true);
 
   const {
     handleSubmit,
@@ -143,15 +144,16 @@ export default function RegisterPage() {
         }
       ),
     onSuccess: (data) => {
+      setFiles(data.profile);
       reset({
         fullName: data.fullName,
         email: data.email,
         designation: data.designation,
         dob: (data.dob = moment(data.dob)),
+        userName: data.userName,
       });
     },
   });
-
   const onSubmit = (data) => {
     const formData = new FormData();
     formData.append("file", files);
@@ -190,9 +192,13 @@ export default function RegisterPage() {
 
   const onImageChange = (e) => {
     setFiles(e.target.files[0]);
+    setUploadedImage(false);
   };
 
-  const onImageClick = () => {
+  const onImageClick = (data) => {
+    if(data === "url"){
+      return window.open(files)
+        }
     if (files) {
       const reader = new FileReader();
       reader.onload = function (event) {
@@ -228,7 +234,7 @@ export default function RegisterPage() {
                   Username
                   <span style={{ color: "red" }}>*</span>
                 </label>
-                {errors?.userName && (
+                {errors?.userName ? (
                   <Tooltip
                     style={{
                       marginLeft: "0.5rem",
@@ -239,6 +245,16 @@ export default function RegisterPage() {
                   >
                     <InfoIcon />
                   </Tooltip>
+                      ) : (
+                        <Tooltip
+                          style={{
+                            marginLeft: "0.5rem",
+                            fontSize: "14px",
+                          }}
+                          title="no special characters allowed"
+                        >
+                          <InfoIcon />
+                        </Tooltip>
                 )}
               </Box>
               <Controller
@@ -261,7 +277,7 @@ export default function RegisterPage() {
                     fullWidth
                     id="userName"
                     name="userName"
-                    autoComplete="given-name"
+                    autoComplete="new-userName"
                   />
                 )}
               />
@@ -451,6 +467,7 @@ export default function RegisterPage() {
                     id="dob"
                     views={["year", "month", "day"]}
                     format="DD-MM-YYYY"
+                          disableFuture
                   />
                 )}
               />
@@ -576,7 +593,11 @@ export default function RegisterPage() {
           </div>
           {files ? (
             <div className={styles.imageContainer}>
-              <p onClick={onImageClick}>{files.name}</p>
+                    {uploadedImage ? (
+                      <p onClick={()=>onImageClick("url")}>uploadedImage</p>
+                      ) : (
+                <p onClick={()=>onImageClick()} style={{cursor:"pointer"}}>{files.name}</p>
+                    )}
               <DeleteIcon
                 onClick={() => setFiles(null)}
                 className={styles.deleteIcon}

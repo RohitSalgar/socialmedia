@@ -82,7 +82,12 @@ const pages = () => {
         } else if (row.status === 4) {
           return (
             <Box sx={{ display: "flex", gap: "3px" }}>
-              <Typography sx={{ color: "red" }}>Rejected</Typography>
+              <Button
+                sx={{ color: "#f3cf00", border: "1px solid #f3cf00" }}
+                onClick={() => mutate({ id: row._id, status: 1 })}
+              >
+                Approve
+              </Button>
             </Box>
           );
         } else if (row.status === 5) {

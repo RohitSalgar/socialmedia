@@ -217,6 +217,7 @@ export default function Register() {
               textAlign: "center",
               padding: "6px",
               borderRadius: "5px",
+                    cursor:"pointer"
             }}
             onClick={() => {
               dispatch(setSkip());

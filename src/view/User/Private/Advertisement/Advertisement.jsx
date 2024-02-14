@@ -37,12 +37,12 @@ const Advertisement = ({ companyData }) => {
     <Card
       sx={{ borderRadius: "0.75rem", marginBottom: "0.7rem", position: 'relative' }}
       
-    >{data !== undefined &&
+    >{data !== undefined && data.length > 0 &&
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
-          image={data[0]?.files}
+          image={data[0]?.files[0]?.filePath}
           // alt="green iguana"
         />
         <CardContent onClick={handleCardClick}>
