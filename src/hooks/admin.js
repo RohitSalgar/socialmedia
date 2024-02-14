@@ -40,7 +40,7 @@ const useGetAllSchedules = () => {
         queryKey: ["allSchedules"],
         queryFn: () =>
         fetchData({
-                url: URL + "schedule/getAllSchedule",
+                url: URL + "schedule/getAdminSchedule",
                 isAuthRequired: true,
             }),
         onError: (error) => {

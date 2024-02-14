@@ -114,6 +114,7 @@ const MyPostWidget = () => {
   const onSubmit = (post) => {
     let hashTagss = [],
       postMentions = [];
+    let valid = true;
     description.split(" ").forEach((item) => {
       if (item.startsWith("#")) {
         hashTagss.push(item);
@@ -125,13 +126,19 @@ const MyPostWidget = () => {
     if (post === "news") {
       hashTagss = [...hashTagss, "news"];
     }
-    image &&
-      image.forEach((file) => {
+    if (image) {
+      image.map((file) => {
         const acceptFile = acceptOnlyImages(file);
+        console.log(acceptFile);
         if (!acceptFile) {
-          return toast.error("Invalid File Format");
+          valid = false;
         }
       });
+    }
+    if (!valid) {
+      return;
+    }
+
     // if (image) {
     //   const acceptFile = acceptOnlyImages(image);
     //   if (!acceptFile) {
@@ -356,7 +363,7 @@ const MyPostWidget = () => {
             ) : (
               <div
                 className={styles.searchitemsContainer}
-                style={{ marginTop : "20px" }}
+                style={{ marginTop: "20px" }}
               >
                 <p style={{ margin: "15px" }}>No search found</p>
               </div>
@@ -367,9 +374,17 @@ const MyPostWidget = () => {
         <div className={styles.sliderContainer}>
           <div className={styles.imageContainer}>
             {imageUrls[0].imageUrl.startsWith("data:image") ? (
-              <img className={styles.video} src={imageUrls[0].imageUrl} alt="post_image" />
+              <img
+                className={styles.video}
+                src={imageUrls[0].imageUrl}
+                alt="post_image"
+              />
             ) : (
-              <video className={styles.video} src={imageUrls[0].imageUrl} controls />
+              <video
+                className={styles.video}
+                src={imageUrls[0].imageUrl}
+                controls
+              />
             )}
           </div>
           <div className={styles.imageFooter}>
@@ -421,7 +436,11 @@ const MyPostWidget = () => {
                 borderRadius: "1rem",
               }}
             >
-              Feed News
+              {isPending ? (
+                <CircularProgress style={{'color': 'white'}} size={20} />
+              ) : (
+                "Feed News"
+              )}
             </Button>
           )}
           {dashboardView != "news" && (
@@ -433,7 +452,11 @@ const MyPostWidget = () => {
                 borderRadius: "1rem",
               }}
             >
-              {isPending ? <CircularProgress color="secondary" size={20} /> : "Post"}
+              {isPending ? (
+                <CircularProgress style={{'color': 'white'}} size={20} />
+              ) : (
+                "Post"
+              )}
             </Button>
           )}
         </Box>

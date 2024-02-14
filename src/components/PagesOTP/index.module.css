@@ -174,3 +174,6 @@
     background-color: #2F65B9 !important;
     margin-top: 40px !important;
   }
+  .submitbtn:hover{
+    color: white;
+  }

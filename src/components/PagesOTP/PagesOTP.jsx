@@ -15,6 +15,7 @@ import { setSideView } from "../../redux/slices/profileSlice";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchData } from "../../helper";
 import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
 
 const PagesOTP = () => {
   const queryClient = useQueryClient();
@@ -309,7 +310,11 @@ const PagesOTP = () => {
               }}
               className={styles.submitbtn}
             >
-              Submit
+              {isLoading ? (
+                <CircularProgress style={{'color': 'white'}} size={20} />
+              ) : (
+                "Submit"
+              )}
             </Button>
           </Box>
           <div className={styles.receiveotp}>
