@@ -43,7 +43,7 @@ const NotificationTemplate = ({ data }) => {
   function returnClassNames() {
     let className;
     if (data?.category === 3) {
-      if (data?.postMentions[0].status === 1) {
+      if (data?.seenStatus[0]?.status === 1) {
         return (className = styles.unReadmsg);
       }
     }
