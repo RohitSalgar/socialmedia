@@ -21,6 +21,8 @@ import { useGetProfile } from "../../hooks/profile";
 import Loader from "../Loader/Loader";
 import { setReplyInput } from "../../redux/slices/post";
 import { AVATAR_COLORS } from "../../assets/avatarBgColors";
+import styles from "./index.module.css";
+
 function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
   const { palette } = useTheme();
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -139,7 +141,8 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                       borderRadius: "50%",
                       width: 25,
                       height: 25,
-                      fontSize:"12px"
+                      fontSize: "12px",
+                      border: "1px solid #9e9e9e",
                     }}
                   >
                     {profiledate?.userData?.fullName?.includes("")
@@ -190,7 +193,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                       borderRadius: "50%",
                       width: 25,
                       height: 25,
-                      fontSize:"12px"
+                      fontSize: "12px",
                     }}
                   >
                     {profiledate?.userData?.fullName?.includes("")
@@ -204,15 +207,9 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                   </Avatar>
                   <TextField
                     id="outlined-multiline-static"
-                    multiline
                     rows={1}
-                    variant="standard"
+                    className={styles.commentinput}
                     placeholder={"Comment your Thought"}
-                    sx={{
-                      width: "100%",
-                      mt: 1,
-                      borderRadius: "1rem",
-                    }}
                     onChange={(e) => setText(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
@@ -227,6 +224,7 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                     type="submit"
                     onClick={handleSubmit}
                     disabled={!text.trim()}
+                    className={styles.commentbtn}
                   >
                     <IoIosSend size={25} />
                   </IconButton>

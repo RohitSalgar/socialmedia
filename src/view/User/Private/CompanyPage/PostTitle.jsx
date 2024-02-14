@@ -40,7 +40,7 @@ const PostTitle = ({ data }) => {
     <FlexBetween>
       <FlexBetween gap="1rem">
         <Avatar
-          sx={{ width: 35, height: 35 }}
+          sx={{ width: 45, height: 45, border:'1px solid #9e9e9e' }}
           alt="Remy Sharp"
           src={data.companyProfile}
           onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}} 

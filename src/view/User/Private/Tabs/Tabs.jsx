@@ -24,14 +24,13 @@ export default function OptionalTab() {
         sx={{ background: "#fff" }}
         onChange={handleChange}
         indicatorColor="primary"
-        textColor="inherit"
+        textColor="primary"
         variant="fullWidth"
         aria-label="full width tabs example"
       >
         {signedIn === "true" && (
           <Tab
             icon={<AllInboxIcon />}
-            color="red"
             iconPosition="start"
             label="For You"
             onClick={() => dispatch(setTabView("forYou"))}

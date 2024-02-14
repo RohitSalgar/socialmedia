@@ -38,9 +38,22 @@
     outline: none;
 }
 .tagsInput::placeholder {
-    color: #A3A3A3; /* Change to your desired color */
+    color: #A3A3A3;
   }
   .btns{
-    background-color: #f3cf00 !important;
+    background-color: #2F65B9 !important;
     color: #fff !important;
+  }
+  .questiondiv{
+    padding: 20px 0px;
+    text-transform: capitalize;
+    font-size: 16px !important;
+  }
+  .fullname{
+    font-size: 16px !important;
+    color: #696969 !important;
+    text-transform: capitalize;
+  }
+  .likeicons{
+    padding: 0 !important;
   }

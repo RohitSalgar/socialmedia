@@ -7,9 +7,9 @@
 .avatarname {
   font-size: 15px !important;
   margin: 0;
-}
-.profilemain {
-  padding: 0px 70px;
+  text-transform: capitalize;
+  color: #646464;
+  font-weight: 500 !important;
 }
 .postdiv {
   height: 230px;
@@ -19,15 +19,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #eaeaea;
-  padding: 5px;
+  padding: 10px;
 }
 .followmain {
-  padding: 0px 10px 0px 0px !important;
+  padding: 0px !important;
   cursor: pointer !important;
 }
 .unfollowbtn {
   text-transform: capitalize !important;
   background-color: transparent !important;
-  color: #f3cf00 !important;
+  color: #2F65B9 !important;
 }

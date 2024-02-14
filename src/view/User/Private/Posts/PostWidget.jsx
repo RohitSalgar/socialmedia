@@ -1,8 +1,5 @@
-import {
-  ChatBubbleOutlineOutlined,
-  FavoriteBorderOutlined,
-  FavoriteOutlined,
-} from "@mui/icons-material";
+import { FavoriteBorderOutlined, FavoriteOutlined } from "@mui/icons-material";
+import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
 import {
   Box,
   Divider,
@@ -27,7 +24,6 @@ import { BsFillSendExclamationFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
 import { updateHashtag } from "../../../../redux/slices/post";
-import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 import Slider from "react-slick";
 import styles from "./index.module.css";
 import { CancelOutlined } from "@mui/icons-material";
@@ -124,7 +120,7 @@ const PostWidget = ({ postData, checkCond }) => {
         style={{
           ...style,
           display: "block",
-          background: "#f3cf00",
+          background: "#2F65B9",
           borderRadius: "3rem",
         }}
         onClick={onClick}
@@ -220,7 +216,11 @@ const PostWidget = ({ postData, checkCond }) => {
       {postData.files && postData.files.length === 1 && (
         <div>
           {postData.files[0]?.fileType?.includes("image") ? (
-            <img className={styles.video} src={postData.files[0].filePath} alt="post_image" />
+            <img
+              className={styles.video} src={postData.files[0].filePath}
+              style={{ borderRadius: "0.75rem" }}
+              alt="post_image"
+            />
           ) : (
             <video
               className={styles.video}
@@ -258,6 +258,7 @@ const PostWidget = ({ postData, checkCond }) => {
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
             <IconButton
+              className={styles.likeicon}
               onClick={likeDislike}
               disabled={likeDislikeLoading || !postData}
             >
@@ -267,7 +268,7 @@ const PostWidget = ({ postData, checkCond }) => {
                 <FavoriteBorderOutlined />
               )}
             </IconButton>
-            <Typography>
+            <Typography className={styles.likestxt}>
               {postData?.likes <= 1
                 ? `${postData?.likes} like`
                 : `${postData?.likes} likes`}
@@ -287,9 +288,14 @@ const PostWidget = ({ postData, checkCond }) => {
               }}
             >
               <IconButton>
-                <ChatBubbleOutlineOutlined />
+                <SmsOutlinedIcon />
               </IconButton>
-              <Typography sx={{ cursor: "pointer" }}>{"comments"}</Typography>
+              <Typography
+                className={styles.likestxt}
+                sx={{ cursor: "pointer" }}
+              >
+                {"comments"}
+              </Typography>
             </Box>
           </FlexBetween>
           <FlexBetween gap="0.3rem">
@@ -307,7 +313,12 @@ const PostWidget = ({ postData, checkCond }) => {
               <IconButton>
                 <ReportProblemIcon />
               </IconButton>
-              <Typography sx={{ cursor: "pointer" }}>{"report"}</Typography>
+              <Typography
+                className={styles.likestxt}
+                sx={{ cursor: "pointer" }}
+              >
+                {"report"}
+              </Typography>
             </Box>
           </FlexBetween>
           {(report === true || isComments === true) && (

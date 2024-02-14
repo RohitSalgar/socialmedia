@@ -16,6 +16,7 @@ import {
   setDashboardView,
   setViewProfileId,
 } from "../redux/slices/profileSlice";
+import styles from "./index.module.css";
 
 const PostTitle = ({ data, checkCond }) => {
   const { palette } = useTheme();
@@ -49,7 +50,7 @@ const PostTitle = ({ data, checkCond }) => {
     <FlexBetween>
       <FlexBetween gap="1rem">
         <Avatar
-          sx={{ width: 35, height: 35 }}
+          sx={{ width: 45, height: 45 , border:'1px solid #9e9e9e'}}
           onClick={() => {
             dispatch(setViewProfileId(data.createdBy));
             dispatch(setDashboardView("profile"));
@@ -59,7 +60,7 @@ const PostTitle = ({ data, checkCond }) => {
         />
         <Box onClick={() => {}}>
           <Typography
-            color={main}
+            className={styles.posttitlename}
             onClick={() => {
               dispatch(setViewProfileId(data.createdBy));
               dispatch(setDashboardView("profile"));
@@ -74,15 +75,15 @@ const PostTitle = ({ data, checkCond }) => {
           >
             {data?.fullName}
           </Typography>
-          <Typography color={medium} fontSize="0.75rem">
-            {data?.designation}
+          <Typography className={styles.posttitledate} fontSize="0.75rem">
+            {formatDate(data?.createdAt)}
           </Typography>
         </Box>
         <Typography color={medium} fontSize="0.75rem">
           {formatDate(data?.createdAt)}
         </Typography>
       </FlexBetween>
-      {(checkCond || viewProfileId === userId) && (
+      {checkCond || viewProfileId === userId && (
         <>
           {data?.createdBy != userId ? (
             <IconButton
@@ -92,7 +93,7 @@ const PostTitle = ({ data, checkCond }) => {
               }}
               sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
             >
-              <PersonAddOutlined sx={{ color: primaryDark }} />
+              <PersonAddOutlined className={styles.invateicon} />
             </IconButton>
           ) : (
             <IconButton
@@ -103,7 +104,9 @@ const PostTitle = ({ data, checkCond }) => {
               {isLoading ? (
                 <CircularProgress />
               ) : (
-                <DeleteOutlined className="deleteIcon" />
+                <Box className={styles.deletebtndiv}>
+                  <DeleteOutlined className={styles.deleteIcon} />
+                </Box>
               )}
             </IconButton>
           )}

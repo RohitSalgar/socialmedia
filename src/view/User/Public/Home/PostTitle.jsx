@@ -20,7 +20,7 @@ const PostTitle = ({ data }) => {
       >
         <FlexBetween gap={"5px"}>
           <Avatar
-            sx={{ width: 40, height: 40 }}
+            sx={{ width: 45, height: 45 , border:'1px solid #9e9e9e' }}
             alt="Remy Sharp"
             src={data?.profile}
           />

@@ -60,12 +60,12 @@ function CommentHeader({
           {/* <Avatar alt="avatar" sx={{ width: 25, height: 25 }} /> */}
           <Avatar
             onClick={() => {
-              if(postData.userId){
-              dispatch(setViewProfileId(postData.userId));
-              dispatch(setDashboardView("profile"));
-              }else{
+              if (postData.userId) {
+                dispatch(setViewProfileId(postData.userId));
+                dispatch(setDashboardView("profile"));
+              } else {
                 dispatch(setViewProfileId(postData.userReplied));
-              dispatch(setDashboardView("profile"));
+                dispatch(setDashboardView("profile"));
               }
             }}
             style={{
@@ -73,7 +73,8 @@ function CommentHeader({
               borderRadius: "50%",
               width: 25,
               height: 25,
-              fontSize:"12px"
+              fontSize: "12px",
+              border: "1px solid #9e9e9e",
             }}
           >
             {postData.userInfo.fullName.includes(" ")

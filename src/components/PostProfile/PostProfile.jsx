@@ -25,7 +25,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useGetCompanyProfile, useGetPageFollowList } from "../../hooks/pages";
 import ProfileScheduleList from "../ProfileScheduleList/ProfileScheduleList";
 import { useFollowTopPage } from "../../hooks/user";
-import blockedimg from "../../assets/Images/blocked.jpg"
+import blockedimg from "../../assets/Images/blocked.jpg";
 const PostProfile = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const PostProfile = () => {
     userId,
     viewList
   );
-  
+
   if (isLoading || followLoading || postLoading || companyLoading) {
     <Loader />;
   }
@@ -75,191 +75,198 @@ const PostProfile = () => {
   };
 
   return (
-    <WidgetWrapper>
-      {(profileId !== userId || companyId !== profileCompanyId) && (
-        <Box className={styles.closediv}>
-          <Button className={styles.closebtn} onClick={() => handleClick()}>
-            <CloseRoundedIcon />
-          </Button>
-        </Box>
-      )}
+    <Box>
       <Box className={styles.profilemain}>
-        <Typography color={medium} m="0.5rem 0">
-          <Box className={styles.avatardiv}>
-            <Avatar
-              alt="B"
-              src={companyData?.companyPageData?.profile}
-              sx={{ width: 80, height: 80 }}
-            />
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                mt: "10px",
-                width: "100%",
-                marginLeft: "20px",
-              }}
-            >
+        <Box className={styles.profiledetailsdiv}>
+          {(profileId !== userId || companyId !== profileCompanyId) && (
+            <Box className={styles.closediv}>
+              <Button className={styles.closebtn} onClick={() => handleClick()}>
+                <CloseRoundedIcon />
+              </Button>
+            </Box>
+          )}
+          <Typography color={medium}>
+            <Box className={styles.avatardiv}>
+              <Avatar
+                alt="B"
+                src={companyData?.companyPageData?.profile}
+                sx={{ width: 80, height: 80, border: "1px solid #9e9e9e" }}
+              />
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  mt: "3px",
+                  justifyContent: "space-between",
+                  mt: "10px",
+                  width: "100%",
+                  marginLeft: "20px",
                 }}
               >
                 <Box
-                  sx={{ textAlign: "center", cursor: "pointer" }}
-                  onClick={() => setViewList("schedule")}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    mt: "3px",
+                  }}
                 >
-                  {companyData?.companyPageData?.status === 1 ? (
-                    <Typography color={dark} variant="h5" fontWeight="500">
-                      {checkIsNumber(companyData?.countData?.scheduleCount)}
+                  <Box
+                    sx={{ textAlign: "center", cursor: "pointer" }}
+                    onClick={() => setViewList("schedule")}
+                  >
+                    {companyData?.companyPageData?.status === 1 ? (
+                      <Typography color={dark} variant="h5" fontWeight="500">
+                        {checkIsNumber(companyData?.countData?.scheduleCount)}
+                      </Typography>
+                    ) : (
+                      <Typography color={dark} variant="h5" fontWeight="500">
+                        0
+                      </Typography>
+                    )}
+                    <Typography color={dark} variant="h6" fontWeight="400">
+                      Schedules
                     </Typography>
-                  ) : (
-                    <Typography color={dark} variant="h5" fontWeight="500">
-                      0
-                    </Typography>
-                  )}
-                  <Typography color={dark} variant="h6" fontWeight="400">
-                    Schedules
-                  </Typography>
+                  </Box>
                 </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  mt: "3px",
-                }}
-              >
                 <Box
-                  sx={{ textAlign: "center", cursor: "pointer" }}
-                  onClick={() => setViewList("post")}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    mt: "3px",
+                  }}
                 >
-                  {companyData?.companyPageData?.status === 1 ? (
-                    <Typography color={dark} variant="h5" fontWeight="500">
-                      {checkIsNumber(companyData?.countData?.postCount)}
+                  <Box
+                    sx={{ textAlign: "center", cursor: "pointer" }}
+                    onClick={() => setViewList("post")}
+                  >
+                    {companyData?.companyPageData?.status === 1 ? (
+                      <Typography color={dark} variant="h5" fontWeight="500">
+                        {checkIsNumber(companyData?.countData?.postCount)}
+                      </Typography>
+                    ) : (
+                      <Typography color={dark} variant="h5" fontWeight="500">
+                        0
+                      </Typography>
+                    )}
+                    <Typography color={dark} variant="h6" fontWeight="400">
+                      Posts
                     </Typography>
-                  ) : (
-                    <Typography color={dark} variant="h5" fontWeight="500">
-                      0
-                    </Typography>
-                  )}
-                  <Typography color={dark} variant="h6" fontWeight="400">
-                    Posts
-                  </Typography>
+                  </Box>
                 </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  mt: "3px",
-                }}
-              >
                 <Box
-                  sx={{ textAlign: "center", cursor: "pointer" }}
-                  onClick={() => setViewList("followers")}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    mt: "3px",
+                  }}
                 >
-                  {companyData?.companyPageData?.status === 1 ? (
-                    <Typography color={dark} variant="h5" fontWeight="500">
-                      {checkIsNumber(companyData?.countData?.followCount)}
+                  <Box
+                    sx={{ textAlign: "center", cursor: "pointer" }}
+                    onClick={() => setViewList("followers")}
+                  >
+                    {companyData?.companyPageData?.status === 1 ? (
+                      <Typography color={dark} variant="h5" fontWeight="500">
+                        {checkIsNumber(companyData?.countData?.followCount)}
+                      </Typography>
+                    ) : (
+                      <Typography color={dark} variant="h5" fontWeight="500">
+                        0
+                      </Typography>
+                    )}
+                    <Typography color={dark} variant="h6" fontWeight="400">
+                      Followers
                     </Typography>
-                  ) : (
-                    <Typography color={dark} variant="h5" fontWeight="500">
-                      0
-                    </Typography>
-                  )}
-                  <Typography color={dark} variant="h6" fontWeight="400">
-                    Followers
-                  </Typography>
+                  </Box>
                 </Box>
               </Box>
             </Box>
-          </Box>
-          <Box className={styles.nameandeditdiv}>
-            <Typography color={dark} className={styles.avatarname}>
-              {companyData?.companyPageData?.companyName}
+            <Box className={styles.nameandeditdiv}>
+              <Typography color={dark} className={styles.avatarname}>
+                {companyData?.companyPageData?.companyName}
+              </Typography>
+              {/* {companyId == profileCompanyId && ( */}
+              <Box className={styles.btnsdiv}>
+                {companyData?.companyPageData?.status === 1 && (
+                  <>
+                    {followList &&
+                    followList.some((item) => item.followerId === userId) ? (
+                      <Button
+                        disabled={pagetUnfollowPending}
+                        className={styles.editbtn}
+                        onClick={pageUnFollowFn}
+                      >
+                        {pagetUnfollowPending ? (
+                          <CircularProgress size={20} />
+                        ) : (
+                          "UnFollow"
+                        )}
+                      </Button>
+                    ) : (
+                      <Button
+                        disabled={isPending}
+                        className={styles.editbtn}
+                        onClick={() =>
+                          pageFollowMutate({
+                            companyId: profileCompanyId,
+                            followerId: userId,
+                          })
+                        }
+                      >
+                        {isPending ? <CircularProgress size={20} /> : "Follow"}
+                      </Button>
+                    )}
+                  </>
+                )}
+                {/* )} */}
+                {profileId === userId &&
+                  data?.pageData?.status === 1 &&
+                  companyId === profileCompanyId && (
+                    <Box className={styles.closediv}>
+                      <Button
+                        className={styles.createbtn}
+                        onClick={() => dispatch(setDashboardView("profile"))}
+                      >
+                        Personal Account
+                      </Button>
+                    </Box>
+                  )}
+                {profileId === userId &&
+                  data?.pageData?.status === 5 &&
+                  companyId === profileCompanyId && (
+                    <Box className={styles.closediv}>
+                      <Button
+                        className={styles.createbtn}
+                        onClick={() => dispatch(setDashboardView("profile"))}
+                      >
+                        Personal Account
+                      </Button>
+                    </Box>
+                  )}
+              </Box>
+            </Box>
+            <Typography
+              variant="h6"
+              fontWeight="400"
+              style={{
+                paddingTop: "10px",
+                textTransform: "capitalize",
+                wordWrap:"break-word"
+              }}
+            >
+              {companyData?.companyPageData?.about}
             </Typography>
-            {/* {companyId == profileCompanyId && ( */}
-            {companyData?.companyPageData?.status===1 &&
-            <>
-              {followList &&
-              followList.some((item) => item.followerId === userId) ? (
-                <Button
-                  variant="outlined"
-                  disabled={pagetUnfollowPending}
-                  className={styles.createbtn}
-                  onClick={pageUnFollowFn}
-                >
-                  {pagetUnfollowPending ? <CircularProgress /> : "UnFollow"}
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  disabled={isPending}
-                  className={styles.createbtn}
-                  onClick={() =>
-                    pageFollowMutate({
-                      companyId: profileCompanyId,
-                      followerId: userId,
-                    })
-                  }
-                >
-                  {isPending ? <CircularProgress /> : "Follow"}
-                </Button>
-              )}
-            </>
-}
-            {/* )} */}
-            {profileId === userId &&
-              data?.pageData?.status === 1 &&
-              companyId === profileCompanyId && (
-                <Box className={styles.closediv}>
-                  <Button
-                    className={styles.createbtn}
-                    onClick={() => dispatch(setDashboardView("profile"))}
-                  >
-                    Personal Account
-                  </Button>
-                </Box>
-              )}
-            {profileId === userId &&
-              data?.pageData?.status === 5 &&
-              companyId === profileCompanyId && (
-                <Box className={styles.closediv}>
-                  <Button
-                    className={styles.createbtn}
-                    onClick={() => dispatch(setDashboardView("profile"))}
-                  >
-                    Personal Account
-                  </Button>
-                </Box>
-              )}
-          </Box>
-          <Typography
-            variant="h6"
-            fontWeight="400"
-            style={{
-              paddingTop: "10px",
-              textTransform: "capitalize",
-              wordWrap:"break-word"
-            }}
-          >
-            {companyData?.companyPageData?.about}
           </Typography>
-        </Typography>
-        <hr />
-        {companyData?.companyPageData?.status === 1 && viewList === "schedule" ?(
+        </Box>
+        <Box className={styles.companydetailsdiv}>
+          {companyData?.companyPageData?.status === 1 &&
+          viewList === "schedule" ? (
             <Box>
               <Box>
-                <Typography color={dark} sx={{ fontWeight: "bold" }}>
+                <Typography className={styles.profiletitle}>
                   Schedules
                 </Typography>
               </Box>
@@ -270,50 +277,50 @@ const PostProfile = () => {
                 )}
               </Box>
             </Box>
-          ):(
-            <img style={{width:"100%", height:"100%"}} src={blockedimg}/>
+          ) : (
+            <img style={{ width: "100%", height: "100%" }} src={blockedimg} />
           )}
-        {companyData?.companyPageData?.status === 1 && viewList === "post" && (
-          <Box>
-            <Box>
-              <Typography color={dark} sx={{ fontWeight: "bold" }}>
-                Posts
-              </Typography>
-            </Box>
-            <Box className={styles.postdiv}>
-              {postList?.map((data) => (
-                <PostWidget key={data._id} postData={data} />
-              ))}
-              {postList?.length === 0 && <LookingEmpty />}
-            </Box>
-          </Box>
-        )}
-        {companyData?.companyPageData?.status === 1 &&
-          viewList === "followers" && (
-            <Box>
+          {companyData?.companyPageData?.status === 1 &&
+            viewList === "post" && (
               <Box>
-                <Typography color={dark} sx={{ fontWeight: "bold" }}>
-                  Followers
-                </Typography>
+                <Box>
+                  <Typography className={styles.profiletitle}>Posts</Typography>
+                </Box>
+                <Box className={styles.postdiv}>
+                  {postList?.map((data) => (
+                    <PostWidget key={data._id} postData={data} />
+                  ))}
+                  {postList?.length === 0 && <LookingEmpty />}
+                </Box>
               </Box>
-              <Box className={styles.postdiv}>
-                {followList?.map((e, i) => {
-                  return (
-                    <Followers
-                      key={i}
-                      id={e?.senderId}
-                      fullName={e?.senderName}
-                      data={e}
-                      type="companyfollowers"
-                    />
-                  );
-                })}
-                {followList?.length === 0 && <LookingEmpty />}
+            )}
+          {companyData?.companyPageData?.status === 1 &&
+            viewList === "followers" && (
+              <Box>
+                <Box>
+                  <Typography className={styles.profiletitle}>
+                    Followers
+                  </Typography>
+                </Box>
+                <Box className={styles.postdiv}>
+                  {followList?.map((e, i) => {
+                    return (
+                      <Followers
+                        key={i}
+                        id={e?.senderId}
+                        fullName={e?.senderName}
+                        data={e}
+                        type="companyfollowers"
+                      />
+                    );
+                  })}
+                  {followList?.length === 0 && <LookingEmpty />}
+                </Box>
               </Box>
-            </Box>
-          )}
+            )}
+        </Box>
       </Box>
-    </WidgetWrapper>
+    </Box>
   );
 };
 
