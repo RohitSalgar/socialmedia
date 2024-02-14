@@ -5,7 +5,38 @@ import { setSingleChatModeOn } from "../../../redux/slices/chat";
 import { Avatar, Badge, Box, IconButton, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import { useUpdateChatStatus } from "../../../hooks/chat";
+import { styled } from '@mui/material/styles';
 import { useEffect } from "react";
+import moment from "moment";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: 'ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}));
 
 const ChatPerson = ({ data, notification }) => {
   const dispatch = useDispatch();
@@ -41,7 +72,7 @@ const ChatPerson = ({ data, notification }) => {
   return (
     <Box className={styles.ChatPersonDiv} onClick={() => handleSubmit()}>
       <Box className={styles.imgdiv}>
-        {isUserInArray ? <Badge color="success" overlap="circular" badgeContent=" " variant="dot">
+        {isUserInArray ? <StyledBadge color="success" overlap="circular" anchorOrigin={{ vertical: 'top', horizontal: 'right' }} variant="dot">
           <Avatar
             width={"40px"}
             height={"40px"}
@@ -53,7 +84,7 @@ const ChatPerson = ({ data, notification }) => {
             }
             alt="alt"
           />
-        </Badge> :
+        </StyledBadge> :
           <Avatar
             width={"40px"}
             height={"40px"}
@@ -65,17 +96,33 @@ const ChatPerson = ({ data, notification }) => {
             alt="alt"
           />
         }
-        <Typography className={styles.ChatPersonName}>
-          {data.senderId === userId ? data.recipientName : data.senderName}
-        </Typography>
+        <Box>
+          <Typography className={styles.ChatPersonName}>
+            {data.senderId === userId ? data.recipientName : data.senderName}
+          </Typography>
+          <Typography sx={{ fontSize: "12px", fontWeight: "350" }}>
+            {data.recentChat}
+          </Typography>
+        </Box>
         <Box></Box>
       </Box>
-      <IconButton>
-        {data && <Badge badgeContent={notificationCountings(data, notifyCount)} color="primary">
-          {/* <Badge badgeContent={data?.unSeenCount} color="primary"> */}
-          <ChatIcon className={styles.svgimg} />
-        </Badge>}
-      </IconButton>
+      <Box sx={{display:"flex", alignItems:"center", flexDirection:"column"}}>
+        <Typography
+          sx={{
+            fontSize: "10px",
+            fontWeight: "350",
+            marginBottom:"7px"
+          }}
+        >
+          {moment(data?.recentTime).format('L')}
+        </Typography>
+        <IconButton>
+          {data && <Badge badgeContent={notificationCountings(data, notifyCount)} color="primary">
+            {/* <Badge badgeContent={data?.unSeenCount} color="primary"> */}
+            {/* <ChatIcon className={styles.svgimg} /> */}
+          </Badge>}
+        </IconButton>
+      </Box>
     </Box>
   );
 };

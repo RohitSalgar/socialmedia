@@ -40,6 +40,7 @@ const Profile = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const [viewList, setViewList] = useState("post");
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const userId = useSelector((state) => state.profile.profileData.userId);
@@ -66,15 +67,23 @@ const Profile = () => {
 
   const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
     useGetMainUserConnectionList(userId);
-
+console.log(showSuccessAnimation,"ani")
   const frdRequestSentSuccess = (data) => {
-    toast.success(data);
+    // toast.success(data);
+    setShowSuccessAnimation(true); 
+    setTimeout(() => {
+      setShowSuccessAnimation(false);
+    }, 2000);
   };
   const { mutate: frdRequestMutate, isPending } = useSendFrdRequest(
     frdRequestSentSuccess
   );
   const unFollowSuccess = (data) => {
-    toast.success(data);
+    // toast.success(data);
+    setShowSuccessAnimation(true); 
+    setTimeout(() => {
+      setShowSuccessAnimation(false);
+    }, 2000);
   };
   const { mutate: unfollowMutate, isPending: isUnfollowPending } =
     useChangeConnectionStatus(unFollowSuccess);
@@ -154,14 +163,22 @@ const Profile = () => {
       mainUserfollowingList.some((item) => item?.recipientId === profileId)
     ) {
       return (
+        <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+
         <Button
           disabled={isUnfollowPending}
           onClick={unFollowFn}
           variant="dark"
           className={styles.editbtn}
         >
-          {isUnfollowPending ? <CircularProgress /> : "Unfollow"}
+          {isUnfollowPending ? <CircularProgress color="secondary" size={20} /> : "Unfollow"}
         </Button>
+        {showSuccessAnimation &&
+            <div className={styles.successAnimation}>
+              <svg className={styles.checkmark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle className={styles.checkmarkCircle} cx="26" cy="26" r="25" fill="none" /><path className={styles.checkmarkCheck} fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+            </div>
+          }
+        </Box>
       );
     } else if (
       mainUserFollowList &&
@@ -179,19 +196,26 @@ const Profile = () => {
       );
     } else {
       return (
-        <Button
-          disabled={isPending}
-          onClick={() =>
-            frdRequestMutate({
-              senderId: userId,
-              recipientId: profileId,
-            })
+        <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <Button
+            disabled={isPending}
+            onClick={() =>
+              frdRequestMutate({
+                senderId: userId,
+                recipientId: profileId,
+              })
+            }
+            variant="dark"
+            className={styles.editbtn}
+          >
+            {isPending ? <CircularProgress color="secondary" size={20}/> : "Connect"}
+          </Button>
+          {showSuccessAnimation &&
+            <div className={styles.successAnimation}>
+              <svg className={styles.checkmark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle className={styles.checkmarkCircle} cx="26" cy="26" r="25" fill="none" /><path className={styles.checkmarkCheck} fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+            </div>
           }
-          variant="dark"
-          className={styles.editbtn}
-        >
-          {isPending ? <CircularProgress /> : "Connect"}
-        </Button>
+        </Box>
       );
     }
   };

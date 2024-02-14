@@ -92,7 +92,7 @@ const ChatLayout = () => {
           }}
         >
           <ClearIcon
-            sx={{ fontSize: "24px", marginTop: "5px", cursor: "pointer" }}
+            sx={{ fontSize: "24px", cursor: "pointer" }}
           />
         </IconButton>
       </Box>

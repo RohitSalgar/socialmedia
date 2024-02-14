@@ -142,9 +142,6 @@ const LikeComment = (props) => {
                 <Box>
                   <Divider />
                   <Box
-                onClick={() => {
-                  setIsComments(false);
-                }}
                 sx={{
                   display: "flex",
                   flexDirection: "row",
@@ -153,9 +150,13 @@ const LikeComment = (props) => {
                 }}
               >
                 <IconButton>
-                  <CancelOutlined />
+                  <CancelOutlined  onClick={() => {
+                  setIsComments(false);
+                }} />
                 </IconButton>
-                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+                <Typography sx={{ cursor: "pointer" }}  onClick={() => {
+                  setIsComments(false);
+                }}>{"close"}</Typography>
               </Box>
                   <Stack>
                     <CommentInputBox

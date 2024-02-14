@@ -58,7 +58,10 @@
   margin-top: 10px !important;
   color: #fff !important;
 }
-.submitbtn {
+.editbtn {
+  text-transform: capitalize !important;
+  color: #fff !important;
+  background-color: #f3cf00 !important;
   width: 100%;
   padding: 10px;
   border: none;
