@@ -32,6 +32,7 @@ import {
   setViewProfileId,
 } from "../../../../redux/slices/profileSlice";
 import { useGetMentionedProfile } from "../../../../hooks/profile";
+import Close from "@mui/icons-material/Close";
 
 function HighlightAndTag({ text }) {
   const dispatch = useDispatch();
@@ -106,6 +107,7 @@ const PostWidget = ({ postData, checkCond }) => {
   const { mutate: likeMutate, isLoading: likeDislikeLoading } =
     useLikeDisLike(onSuccess);
   const { userId } = useSelector((state) => state.profile.profileData);
+  const { dashboardView } = useSelector((state) => state.profile);
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
@@ -208,9 +210,20 @@ const PostWidget = ({ postData, checkCond }) => {
     }
   };
 
-
   return (
     <WidgetWrapper m="0.3rem 0">
+      {dashboardView === "notification" && (
+        <Box
+          display="flex"
+          justifyContent={"end"}
+          alignContent={"space-between"}
+          marginTop="-0.7rem"
+        >
+          <IconButton onClick={() => dispatch(setDashboardView("home"))}>
+            <Close />
+          </IconButton>
+        </Box>
+      )}
       <PostTitle data={postData} checkCond={checkCond} />{" "}
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
         <HighlightAndTag text={postData?.description} />
