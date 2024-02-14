@@ -71,10 +71,9 @@ function CommentHeader({
             style={{
               backgroundColor: coloredAvatars,
               borderRadius: "50%",
-              width: 25,
-              height: 25,
+              width: 30,
+              height: 30,
               fontSize: "12px",
-              border: "1px solid #9e9e9e",
             }}
           >
             {postData.userInfo.fullName.includes(" ")
@@ -101,16 +100,9 @@ function CommentHeader({
             {userId === postData?.userId || userId === postData?.userReplied ? (
               <Typography
                 variant="you"
-                sx={{
-                  ml: 1,
-                  height: 18,
-                  py: "2px",
-                  px: "6px",
-                  lineHeight: 1,
-                  borderRadius: "3px",
-                }}
+                sx={{ ml: 0.5, mr: 1, textTransform: "capitalize" }}
               >
-                you
+                You
               </Typography>
             ) : (
               <Box className={styles.textdiv}>
@@ -118,7 +110,7 @@ function CommentHeader({
                   color={dark}
                   variant="fullName"
                   fontWeight="400"
-                  sx={{ ml: 1, padding: "5px" }}
+                  sx={{ ml: 0.5, mr: 1, textTransform: "capitalize" }}
                 >
                   {postData?.userInfo?.fullName}
                 </Typography>
@@ -127,8 +119,8 @@ function CommentHeader({
           </Box>
           <Typography color={medium} fontSize="0.70rem">
             {postData.commentedOn
-              ? moment(postData.commentedOn).format("MMM Do YYYY, h:mm a")
-              : moment(postData.repliedOn).format("MMM Do YYYY, h:mm a")}
+              ? moment(postData.commentedOn).format("MMM Do YYYY")
+              : moment(postData.repliedOn).format("MMM Do YYYY")}
           </Typography>
         </Box>
 

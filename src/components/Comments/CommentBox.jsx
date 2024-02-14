@@ -121,8 +121,7 @@ function CommentBox({
               >
                 {message.split("\n").map((line, i) => (
                   <React.Fragment key={i}>
-                    {line}
-                    <br />
+                    <span className={styles.commenttxt}>{line}</span>
                   </React.Fragment>
                 ))}
               </Typography>
@@ -144,7 +143,7 @@ function CommentBox({
         />
       )}
       {replies && replies.length > 0 && (
-        <Box sx={{ display: "flex", width: "94%", ml: 4 }}>
+        <Box sx={{ display: "flex", width: "94%", ml: 5 }}>
           <Box sx={{ width: "100%" }} className={styles.repliesdiv}>
             {replies.map((reply) => {
               return (

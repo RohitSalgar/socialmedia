@@ -244,7 +244,7 @@ const MyPostWidget = () => {
 
   return (
     <WidgetWrapper>
-      <FlexBetween flexDirection={"column"}>
+      <Box>
         <TextField
           className={styles.searchinput}
           id="outlined-multiline-static"
@@ -290,7 +290,7 @@ const MyPostWidget = () => {
             }
           }}
         />
-      </FlexBetween>
+      </Box>
       <Divider sx={{ margin: "0.7rem 0" }} />
       {imageUrls && imageUrls.length > 1 && (
         <Slider {...settings}>
@@ -425,8 +425,8 @@ const MyPostWidget = () => {
                   <input {...getInputProps()} />
                   <IconButton>
                     <MdAddPhotoAlternate
+                      className={styles.uploadbtn}
                       size={25}
-                      style={{ color: mediumMain }}
                     />
                   </IconButton>
                 </Box>

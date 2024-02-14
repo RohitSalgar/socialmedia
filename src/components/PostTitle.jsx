@@ -50,7 +50,7 @@ const PostTitle = ({ data, checkCond }) => {
     <FlexBetween>
       <FlexBetween gap="1rem">
         <Avatar
-          sx={{ width: 45, height: 45 , border:'1px solid #9e9e9e'}}
+          sx={{ width: 45, height: 45, border: "1px solid #9e9e9e" }}
           onClick={() => {
             dispatch(setViewProfileId(data.createdBy));
             dispatch(setDashboardView("profile"));
@@ -79,39 +79,37 @@ const PostTitle = ({ data, checkCond }) => {
             {formatDate(data?.createdAt)}
           </Typography>
         </Box>
-        <Typography color={medium} fontSize="0.75rem">
-          {formatDate(data?.createdAt)}
-        </Typography>
       </FlexBetween>
-      {checkCond || viewProfileId === userId && (
-        <>
-          {data?.createdBy != userId ? (
-            <IconButton
-              onClick={() => {
-                dispatch(setViewProfileId(data.createdBy));
-                dispatch(setDashboardView("profile"));
-              }}
-              sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
-            >
-              <PersonAddOutlined className={styles.invateicon} />
-            </IconButton>
-          ) : (
-            <IconButton
-              disabled={isLoading}
-              sx={{ p: "0.6rem" }}
-              onClick={() => deletePost(data?._id)}
-            >
-              {isLoading ? (
-                <CircularProgress style={{'color': 'white'}} size={20} />
-              ) : (
-                <Box className={styles.deletebtndiv}>
-                  <DeleteOutlined className={styles.deleteIcon} />
-                </Box>
-              )}
-            </IconButton>
-          )}
-        </>
-      )}
+      {checkCond ||
+        (viewProfileId === userId && (
+          <>
+            {data?.createdBy != userId ? (
+              <IconButton
+                onClick={() => {
+                  dispatch(setViewProfileId(data.createdBy));
+                  dispatch(setDashboardView("profile"));
+                }}
+                sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+              >
+                <PersonAddOutlined className={styles.invateicon} />
+              </IconButton>
+            ) : (
+              <IconButton
+                disabled={isLoading}
+                sx={{ p: "0.6rem" }}
+                onClick={() => deletePost(data?._id)}
+              >
+                {isLoading ? (
+                  <CircularProgress style={{'color': 'white'}} size={20} />
+                ) : (
+                  <Box className={styles.deletebtndiv}>
+                    <DeleteOutlined className={styles.deleteIcon} />
+                  </Box>
+                )}
+              </IconButton>
+            )}
+          </>
+        ))}
     </FlexBetween>
   );
 };

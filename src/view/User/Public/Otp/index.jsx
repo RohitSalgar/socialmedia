@@ -2,19 +2,14 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import CssBaseline from "@mui/material/CssBaseline";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 // import { toast } from "react-toastify";
 import {
   CircularProgress,
-  Grid,
-  Paper,
   Typography,
   TextField,
   Button,
 } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import searchlogo from "../../../../assets/Images/background.jpeg";
 import Box from "@mui/material/Box";
 import { getEmail } from "../../../../hooks/otp";
 import Loader from "../../../../components/Loader/Loader";
@@ -28,7 +23,6 @@ import { useDispatch } from "react-redux";
 import { setProfileData } from "../../../../redux/slices/profileSlice";
 import { useTheme } from "@emotion/react";
 
-const defaultTheme = createTheme();
 const OTPPage = () => {
   const [emailId, setEmailId] = useState("");
   const navigate = useNavigate();
@@ -87,7 +81,7 @@ const OTPPage = () => {
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [{ email :emailId }] }
+        { data: [{ email: emailId }] }
       ),
     onSuccess: (data) => {
       toast.success(data);
@@ -157,271 +151,208 @@ const OTPPage = () => {
   }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "99vh" }}>
-        <CssBaseline />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
+    <Box className={styles.otpmain}>
+      <Box>
+        <Typography className={styles.otptitle}>Enter OTP</Typography>
+        <Typography paragraph className={styles.otpsendid}>
+          OTP sent to <span>{emailId}</span>
+        </Typography>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={handleSubmit(saveData)}
+          sx={{ mt: 1 }}
+          className={styles.loginformdiv}
         >
-          <Grid
-            className={styles.slideLleft}
-            item
-            xs={10}
-            sm={8}
-            md={6}
-            style={{
-              width: "1250px",
-              position: "relative",
-              zIndex: 2,
-            }}
-            component={Paper}
-            elevation={6}
-            square
-            sx={{
-              my: 0,
-              mx: 0,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              borderRadius: "0 150px 150px 0",
-            }}
-          >
-            <Box
-              sx={{
-                mt: 5,
-                mx: 3,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                borderRadius: "50%",
-              }}
+          <div className={styles.otplabel}>
+            <Typography className={styles.otptxt} color={dark}>
+              OTP <span style={{ color: "red" }}>*</span>
+            </Typography>
+            <Link
+              to={`/register/${id}`}
+              className={styles.changeEmail}
+              color={primary}
+              sx={{ color: "red" }}
             >
-              <Typography
-                component="h1"
-                variant="h4"
-                color={primary}
-                sx={{
-                  fontWeight: "bold",
-                  pb: "10px",
-                  pt:'50px'
-                }}
-              >
-                Enter OTP
-              </Typography>
-              <Typography paragraph color={dark}>
-                OTP sent to {emailId}
-              </Typography>
-              <Box
-                component="form"
-                noValidate
-                onSubmit={handleSubmit(saveData)}
-                sx={{ mt: 1 }}
-                className={styles.loginformdiv}
-              >
-                <div className={styles.otplabel}>
-                  <Typography className={styles.otptxt} color={dark}>
-                    OTP <span style={{ color: "red" }}>*</span>
-                  </Typography>
-                  <Link
-                    to={`/register/${id}`}
-                    className={styles.changeEmail}
-                    color={primary}
-                    sx={{ color: "red" }}
-                  >
-                    Change Email
-                  </Link>
-                </div>
-                <div className={styles.otpdiv}>
-                  <Controller
-                    name={`otp1`}
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        type="text"
-                        onChange={(event) => {
-                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); // Replace non-numeric characters and retain only the last character
-                          field.onChange(newValue);
-                        }}
-                        maxLength={1}
-                        id="1"
-                        className={styles.otp}
-                        placeholder="*"
-                        onKeyUp={(event) => {
-                          codeChangeHandler(event);
-                        }}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name={`otp2`}
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        type="text"
-                        onChange={(event) => {
-                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
-                          field.onChange(newValue);
-                        }}
-                        maxLength={1}
-                        id="2"
-                        className={styles.otp}
-                        placeholder="*"
-                        onKeyUp={(event) => {
-                          codeChangeHandler(event);
-                        }}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name={`otp3`}
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        type="text"
-                        onChange={(event) => {
-                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1);
-                          field.onChange(newValue);
-                        }}
-                        maxLength={1}
-                        id="3"
-                        className={styles.otp}
-                        placeholder="*"
-                        onKeyUp={(event) => {
-                          codeChangeHandler(event);
-                        }}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name={`otp4`}
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        type="text"
-                        onChange={(event) => {
-                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
-                          field.onChange(newValue);
-                        }}
-                        maxLength={1}
-                        id="4"
-                        className={styles.otp}
-                        placeholder="*"
-                        onKeyUp={(event) => {
-                          codeChangeHandler(event);
-                        }}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name={`otp5`}
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        type="text"
-                        onChange={(event) => {
-                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
-                          field.onChange(newValue);
-                        }}
-                        maxLength={1}
-                        id="5"
-                        className={styles.otp}
-                        placeholder="*"
-                        onKeyUp={(event) => {
-                          codeChangeHandler(event);
-                        }}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name={`otp6`}
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        type="text"
-                        onChange={(event) => {
-                          const newValue = event.target.value.replace(/[^\d]+/g, "").slice(-1); 
-                          field.onChange(newValue);
-                        }}
-                        maxLength={1}
-                        id="6"
-                        className={styles.otp}
-                        placeholder="*"
-                        onKeyUp={(event) => {
-                          codeChangeHandler(event);
-                        }}
-                      />
-                    )}
-                  />
-                  {/* <img src={Line} className={styles.otpline} alt="" /> */}
-                </div>
-                {Object.keys(errors).length > 0 && (
-                  <p className={styles.errormsg}>Enter Valid OTP</p>
-                )}
-                <Button
-                  type="submit"
-                  className={styles.submitbtn}
-                  fullWidth
-                  disabled={otpPost.isLoading || resendOtpData.isLoading}
-                  sx={{
-                    mt: 3,
-                    mb: 2,
-                    background: `${primary}`,
-                    color: "#fff",
-                    fontWeight: "bold",
+              Change Email
+            </Link>
+          </div>
+          <div className={styles.otpdiv}>
+            <Controller
+              name={`otp1`}
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type="text"
+                  onChange={(event) => {
+                    const newValue = event.target.value
+                      .replace(/[^\d]+/g, "")
+                      .slice(-1); // Replace non-numeric characters and retain only the last character
+                    field.onChange(newValue);
                   }}
-                >
-                  {otpPost.isLoading || resendOtpData.isLoading ? (
-                    <CircularProgress style={{'color': 'white'}} size={20} />
-                  ) : (
-                    "Submit"
-                  )}
-                </Button>
-              </Box>
-              <div className={styles.receiveotp}>
-                <p>Didn't Receive OTP? </p>
-                <p
-                  onClick={() => resendOtpData.mutate()}
-                  className={styles.forgot}
-                  color={primary}
-                >
-                  Resend
-                </p>
-              </div>
-            </Box>
-          </Grid>
-          <Grid
-            className={styles.slideRight}
-            style={{
-              position: "relative",
-              marginLeft: "-300px",
-              height: "100vh",
-            }}
-            item
-            xs={12}
-            sm={6}
-            md={8}
-            component={Paper}
-            elevation={6}
-          >
-            <img
-              src={searchlogo}
-              style={{ width: "100%", height: "100%" }}
-              alt="Image"
+                  maxLength={1}
+                  id="1"
+                  className={styles.otp}
+                  placeholder="*"
+                  onKeyUp={(event) => {
+                    codeChangeHandler(event);
+                  }}
+                />
+              )}
             />
-          </Grid>
+            <Controller
+              name={`otp2`}
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type="text"
+                  onChange={(event) => {
+                    const newValue = event.target.value
+                      .replace(/[^\d]+/g, "")
+                      .slice(-1);
+                    field.onChange(newValue);
+                  }}
+                  maxLength={1}
+                  id="2"
+                  className={styles.otp}
+                  placeholder="*"
+                  onKeyUp={(event) => {
+                    codeChangeHandler(event);
+                  }}
+                />
+              )}
+            />
+            <Controller
+              name={`otp3`}
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type="text"
+                  onChange={(event) => {
+                    const newValue = event.target.value
+                      .replace(/[^\d]+/g, "")
+                      .slice(-1);
+                    field.onChange(newValue);
+                  }}
+                  maxLength={1}
+                  id="3"
+                  className={styles.otp}
+                  placeholder="*"
+                  onKeyUp={(event) => {
+                    codeChangeHandler(event);
+                  }}
+                />
+              )}
+            />
+            <Controller
+              name={`otp4`}
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type="text"
+                  onChange={(event) => {
+                    const newValue = event.target.value
+                      .replace(/[^\d]+/g, "")
+                      .slice(-1);
+                    field.onChange(newValue);
+                  }}
+                  maxLength={1}
+                  id="4"
+                  className={styles.otp}
+                  placeholder="*"
+                  onKeyUp={(event) => {
+                    codeChangeHandler(event);
+                  }}
+                />
+              )}
+            />
+            <Controller
+              name={`otp5`}
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type="text"
+                  onChange={(event) => {
+                    const newValue = event.target.value
+                      .replace(/[^\d]+/g, "")
+                      .slice(-1);
+                    field.onChange(newValue);
+                  }}
+                  maxLength={1}
+                  id="5"
+                  className={styles.otp}
+                  placeholder="*"
+                  onKeyUp={(event) => {
+                    codeChangeHandler(event);
+                  }}
+                />
+              )}
+            />
+            <Controller
+              name={`otp6`}
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type="text"
+                  onChange={(event) => {
+                    const newValue = event.target.value
+                      .replace(/[^\d]+/g, "")
+                      .slice(-1);
+                    field.onChange(newValue);
+                  }}
+                  maxLength={1}
+                  id="6"
+                  className={styles.otp}
+                  placeholder="*"
+                  onKeyUp={(event) => {
+                    codeChangeHandler(event);
+                  }}
+                />
+              )}
+            />
+            {/* <img src={Line} className={styles.otpline} alt="" /> */}
+          </div>
+          {Object.keys(errors).length > 0 && (
+            <p className={styles.errormsg}>Enter Valid OTP</p>
+          )}
+          <Button
+            type="submit"
+            className={styles.submitbtn}
+            fullWidth
+            disabled={otpPost.isLoading || resendOtpData.isLoading}
+            sx={{
+              mt: 3,
+              mb: 2,
+              background: `${primary}`,
+              color: "#fff",
+              fontWeight: "bold",
+            }}
+          >
+            {otpPost.isLoading || resendOtpData.isLoading ? (
+              <CircularProgress style={{'color': 'white'}} size={20} />
+            ) : (
+              "Submit"
+            )}
+          </Button>
+        </Box>
+        <div className={styles.receiveotp}>
+          <p>Didn't Receive OTP? </p>
+          <p
+            onClick={() => resendOtpData.mutate()}
+            className={styles.forgot}
+            color={primary}
+          >
+            Resend
+          </p>
         </div>
-      </Grid>
-    </ThemeProvider>
+      </Box>
+    </Box>
   );
 };
 
