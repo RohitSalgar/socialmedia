@@ -67,7 +67,7 @@ const EditProfile = () => {
   };
 
   if (isLoading || mutateLoading) {
-    <Loader />;
+   return <Loader />;
   }
 
   const handleFileChange = (event) => {

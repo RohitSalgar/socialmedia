@@ -47,7 +47,7 @@ const PostTitle = ({ data }) => {
   };
 
   if (isLoading) {
-    <Loader />;
+    return <Loader />;
   }
 
   return (

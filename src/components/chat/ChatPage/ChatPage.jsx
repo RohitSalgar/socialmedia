@@ -10,9 +10,10 @@ import {
   setSingleChatModeOff,
 } from "../../../redux/slices/chat";
 import { useGetChatById, useUpdateChatStatus } from "../../../hooks/chat";
-import Loader from "../../Loader/Loader";
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { useQueryClient } from "@tanstack/react-query";
+import ChatPageSkeleton from "../../Skeleton/ChatSkeleton/ChatPageSkeleton";
+
 const ChatPage = ({ data, socket, resetNotification }) => {
   const queryclient = useQueryClient();
 
@@ -60,13 +61,6 @@ const ChatPage = ({ data, socket, resetNotification }) => {
     setDaymessages(dayMsgs);
   }, [chatMessage]);
 
-  // useEffect(() => {
-  //   socket?.on("connect", () => {
-  //     console.warn("connected");
-  //   });
-
-  //   emitMessageOnce();
-  // }, [socket]);
   useEffect(() => {
     refetch();
     if (!messageEmitted) {
@@ -198,7 +192,7 @@ const ChatPage = ({ data, socket, resetNotification }) => {
   // };
 
   if (chatLoading) {
-    return <Loader />;
+    return <ChatPageSkeleton />;
   }
 
   return (

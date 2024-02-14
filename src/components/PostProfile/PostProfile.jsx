@@ -53,7 +53,7 @@ const PostProfile = () => {
   );
 
   if (isLoading || followLoading || postLoading || companyLoading) {
-    <Loader />;
+   return <Loader />;
   }
 
   function checkIsNumber(number) {

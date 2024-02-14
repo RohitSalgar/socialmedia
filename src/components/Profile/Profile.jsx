@@ -35,6 +35,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BusinessIcon from "@mui/icons-material/Business";
 import { useChangeConnectionStatus, useSendFrdRequest } from "../../hooks/user";
 import { toast } from "react-toastify";
+import ProfileSkeleton from "../Skeleton/ProfileSkeleton/ProfileSkeleton";
 
 const Profile = () => {
   const { palette } = useTheme();
@@ -99,9 +100,8 @@ console.log(showSuccessAnimation,"ani")
     mainUserConnectionLoading ||
     mainUserFollowListLoading
   ) {
-    <Loader />;
+    return <ProfileSkeleton />;
   }
-
   function checkIsNumber(number) {
     if (number != null) {
       return number;

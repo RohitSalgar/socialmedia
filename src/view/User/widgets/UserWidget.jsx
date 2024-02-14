@@ -8,7 +8,6 @@ import NewspaperIcon from "@mui/icons-material/Newspaper";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import ListItemButton from "@mui/material/ListItemButton";
-import { useState } from "react";
 import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,33 +17,21 @@ import {
   setViewProfileId,
 } from "../../../redux/slices/profileSlice";
 import { useGetProfile } from "../../../hooks/profile";
-import Loader from "../../../components/Loader/Loader";
 import styles from "./index.module.css";
 import { removeHastag } from "../../../redux/slices/post";
+import UserWidgetSkeleton from "../../../components/Skeleton/UserWidgetSkeleton/UserWidgetSkeleton";
 
 const UserWidget = () => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
   const signedIn = localStorage.getItem("amsSocialSignedIn");
   const dark = palette.neutral.dark;
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const userId = useSelector((state) => state.profile.profileData.userId);
   const { dashboardView } = useSelector((state) => state.profile);
   const { data, isLoading } = useGetProfile(userId);
 
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
-  };
-
-  function checkIsNumber(number) {
-    if (number != null) {
-      return number;
-    }
-    return 0;
-  }
-
   if (isLoading) {
-    <Loader />;
+    return <UserWidgetSkeleton />;
   }
 
   return (
@@ -83,8 +70,7 @@ const UserWidget = () => {
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={dashboardView === "home"}
-            onClick={(event) => {
-              handleListItemClick(event, 0);
+            onClick={() => {
               dispatch(setDashboardView("home"));
               dispatch(setSideView("companyPage"));
               dispatch(setTabView("trending"));
@@ -126,19 +112,6 @@ const UserWidget = () => {
             </ListItemIcon>
             <ListItemText primary="Schedule" />
           </ListItemButton>
-          {/* <ListItemButton
-            sx={{ padding: "1px 20px" }}
-            selected={selectedIndex === 3}
-            onClick={(event) => {
-              handleListItemClick(event, 3);
-              dispatch(setDashboardView("shipment"));
-            }}
-          > */}
-          {/* <ListItemIcon>
-              <CalendarMonthIcon />
-            </ListItemIcon>
-            <ListItemText primary="Shipments News" /> */}
-          {/* </ListItemButton> */}
           <ListItemButton
             sx={{ padding: "1px 20px" }}
             selected={dashboardView === "pages"}
