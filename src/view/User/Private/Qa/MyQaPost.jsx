@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { useInsertquestion } from "../../../../hooks/qa";
 import { toast } from "react-toastify";
 import { openFileNewWindow } from "../../../../helper";
+import { CircularProgress } from "@mui/material";
 
 const Myqa = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
@@ -35,7 +36,7 @@ const Myqa = () => {
     setfiles(null);
     setIsfiles(false);
   };
-  const { mutate } = useInsertquestion(onSuccess);
+  const { mutate, isPending } = useInsertquestion(onSuccess);
 
   // useEffect(() => {
   //   const fetchIPAddress = async () => {
@@ -167,7 +168,12 @@ const Myqa = () => {
               borderRadius: "1rem",
             }}
           >
-            Ask
+             {isPending ? (
+                <CircularProgress style={{'color': 'white'}} size={20} />
+              ) : (
+                "Ask"
+              )}
+            
           </Button>
         </Box>
       </FlexBetween>

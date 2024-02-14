@@ -114,6 +114,7 @@ const MyPostWidget = () => {
   const onSubmit = (post) => {
     let hashTagss = [],
       postMentions = [];
+    let valid = true;
 
     const requiredArray = description.replaceAll("\n", " ").split(" ");
     const noEmptyStringArray = requiredArray.filter((str) => str !== "");
@@ -133,13 +134,19 @@ const MyPostWidget = () => {
     if (post === "news") {
       hashTagss = [...hashTagss, "news"];
     }
-    image &&
-      image.forEach((file) => {
+    if (image) {
+      image.map((file) => {
         const acceptFile = acceptOnlyImages(file);
+        console.log(acceptFile);
         if (!acceptFile) {
-          return toast.error("Invalid File Format");
+          valid = false;
         }
       });
+    }
+    if (!valid) {
+      return;
+    }
+
     // if (image) {
     //   const acceptFile = acceptOnlyImages(image);
     //   if (!acceptFile) {
@@ -437,7 +444,11 @@ const MyPostWidget = () => {
                 borderRadius: "1rem",
               }}
             >
-              Feed News
+              {isPending ? (
+                <CircularProgress style={{'color': 'white'}} size={20} />
+              ) : (
+                "Feed News"
+              )}
             </Button>
           )}
           {dashboardView != "news" && (
@@ -450,7 +461,7 @@ const MyPostWidget = () => {
               }}
             >
               {isPending ? (
-                <CircularProgress color="secondary" size={20} />
+                <CircularProgress style={{'color': 'white'}} size={20} />
               ) : (
                 "Post"
               )}
