@@ -154,6 +154,7 @@ console.log(showSuccessAnimation,"ani")
           disabled={isUnfollowPending}
           variant="outlined"
           className={styles.editbtn}
+          style={{cursor:"context-menu"}}
         >
           {isUnfollowPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Connected"}
         </Button>
@@ -336,9 +337,14 @@ console.log(showSuccessAnimation,"ani")
             </Box>
           </Box>
           <Box className={styles.nameandeditdiv}>
+            <Box sx={{display:"flex",flexDirection:"column"}}>
             <Typography color={dark} className={styles.avatarname}>
               {data?.userData?.fullName}
             </Typography>
+            <Typography color={dark} >
+              ({data?.userData?.userName})
+            </Typography>
+            </Box>
             <Box className={styles.btndiv}>
               {profileId === userId && (
                 <Button onClick={() => handleEdit()} className={styles.editbtn}>
