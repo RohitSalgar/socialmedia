@@ -91,7 +91,7 @@ const posts = () => {
               dispatch(openPopup());
             }}
           >
-            {isPending ? <CircularProgress /> : "Delete"}
+            {isPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Delete"}
           </Button>
         </Box>
       ),

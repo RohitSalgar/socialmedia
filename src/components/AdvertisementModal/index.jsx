@@ -370,7 +370,7 @@ export default function AdvertisementModal({ handleClose, data, open }) {
                 width: "99%",
               }}
             >
-              {addAdLoading ? <CircularProgress /> : "Publish"}
+              {addAdLoading ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Publish"}
             </Button>
           </DialogActions>
         </Box>

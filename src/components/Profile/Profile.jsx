@@ -155,7 +155,7 @@ console.log(showSuccessAnimation,"ani")
           variant="outlined"
           className={styles.editbtn}
         >
-          {isUnfollowPending ? <CircularProgress /> : "Connected"}
+          {isUnfollowPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Connected"}
         </Button>
       );
     } else if (
@@ -171,7 +171,7 @@ console.log(showSuccessAnimation,"ani")
           variant="dark"
           className={styles.editbtn}
         >
-          {isUnfollowPending ? <CircularProgress color="secondary" size={20} /> : "Unfollow"}
+          {isUnfollowPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Unfollow"}
         </Button>
         {showSuccessAnimation &&
             <div className={styles.successAnimation}>
@@ -191,7 +191,7 @@ console.log(showSuccessAnimation,"ani")
           variant="dark"
           className={styles.editbtn}
         >
-          {isUnfollowPending ? <CircularProgress /> : "Accept"}
+          {isUnfollowPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Accept"}
         </Button>
       );
     } else {
@@ -208,7 +208,7 @@ console.log(showSuccessAnimation,"ani")
             variant="dark"
             className={styles.editbtn}
           >
-            {isPending ? <CircularProgress color="secondary" size={20}/> : "Connect"}
+            {isPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Connect"}
           </Button>
           {showSuccessAnimation &&
             <div className={styles.successAnimation}>

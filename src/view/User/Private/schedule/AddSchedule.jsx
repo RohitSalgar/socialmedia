@@ -9,9 +9,10 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AddScheduleValidation } from "../../../../validation/addSchedule";
 import { useSelector } from "react-redux";
+import { CircularProgress } from "@mui/material";
 
 const AddSchedule = () => {
-  const { mutate } = useAddSchedule();
+  const { mutate , isPending } = useAddSchedule();
   const profileData = useSelector((state) => state.profile.profileData);
   const companyId = useSelector((state) => state.profile.companyId);
   const {
@@ -149,7 +150,11 @@ const AddSchedule = () => {
                 borderRadius: "1rem",
               }}
             >
-              Post Schedule
+              {isPending ? (
+                <CircularProgress style={{'color': 'white'}} size={20} />
+              ) : (
+                "Post Schedule"
+              )}
             </Button>
           </Box>
         </form>
