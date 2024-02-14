@@ -198,23 +198,23 @@ const Profile = () => {
 
   return (
     <Box className={styles.maindiv}>
-      {profileId !== userId && (
-        <Box className={styles.closediv}>
-          <Button
-            className={styles.closebtn}
-            onClick={() => dispatch(setViewProfileId(userId))}
-          >
-            <CloseRoundedIcon />
-          </Button>
-        </Box>
-      )}
       <Box className={styles.profilemain}>
         <Typography color={medium} className={styles.profiledetailsdiv}>
+          {profileId !== userId && (
+            <Box className={styles.closediv}>
+              <Button
+                className={styles.closebtn}
+                onClick={() => dispatch(setViewProfileId(userId))}
+              >
+                <CloseRoundedIcon />
+              </Button>
+            </Box>
+          )}
           <Box className={styles.avatardiv}>
             <Avatar
               alt="B"
               src={data?.userData?.profile}
-              sx={{ width: 80, height: 80, border:'1px solid #9e9e9e' }}
+              sx={{ width: 80, height: 80, border: "1px solid #9e9e9e" }}
             />
             <Box
               sx={{

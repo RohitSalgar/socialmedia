@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  IconButton,
-  TextField,
-  useTheme,
-} from "@mui/material";
+import { Avatar, Box, IconButton, TextField, useTheme } from "@mui/material";
 import React, { useEffect, useState, useRef } from "react";
 import { IoIosSend } from "react-icons/io";
 
@@ -134,15 +127,14 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
               /> */}
 
               {type === "reply" && replyInput === "true" && (
-                <>
+                <Box className={styles.commentinputdiv}>
                   <Avatar
                     style={{
                       backgroundColor: coloredAvatars,
                       borderRadius: "50%",
-                      width: 25,
-                      height: 25,
+                      width: 30,
+                      height: 30,
                       fontSize: "12px",
-                      border: "1px solid #9e9e9e",
                     }}
                   >
                     {profiledate?.userData?.fullName?.includes("")
@@ -157,59 +149,16 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                   <TextField
                     id="outlined-multiline-static"
                     multiline
-                    rows={1}
-                    variant="standard"
                     placeholder={"Reply your Thought"}
                     sx={{
                       width: "100%",
-                      mt: 1,
-                      // backgroundColor: palette.neutral.light,
-                      borderRadius: "1rem",
+
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          border: "none",
+                        },
+                      },
                     }}
-                    onChange={(e) => setText(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && !e.shiftKey) {
-                        e.preventDefault();
-                        handleSubmit();
-                      }
-                    }}
-                    type={type}
-                    value={text}
-                  />
-                  <IconButton
-                    type="submit"
-                    onClick={handleSubmit}
-                    disabled={!text.trim()}
-                  >
-                    <IoIosSend size={25} />
-                  </IconButton>
-                </>
-              )}
-              {type !== "reply" && (
-                <>
-                  <Avatar
-                    style={{
-                      backgroundColor: coloredAvatars,
-                      borderRadius: "50%",
-                      width: 25,
-                      height: 25,
-                      fontSize: "12px",
-                    }}
-                  >
-                    {profiledate?.userData?.fullName?.includes("")
-                      ? profiledate?.userData?.fullName
-                          ?.split(" ")
-                          .map((name) => name.charAt(0).toUpperCase())
-                          .join("")
-                      : profiledate?.userData?.fullName
-                          ?.charAt(0)
-                          .toUpperCase()}
-                  </Avatar>
-                  <TextField
-                    id="outlined-multiline-static"
-                    rows={1}
-                    className={styles.commentinput}
-                    placeholder={"Comment your Thought"}
                     onChange={(e) => setText(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
@@ -228,7 +177,58 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
                   >
                     <IoIosSend size={25} />
                   </IconButton>
-                </>
+                </Box>
+              )}
+              {type !== "reply" && (
+                <Box className={styles.commentinputdiv}>
+                  <Avatar
+                    style={{
+                      backgroundColor: coloredAvatars,
+                      borderRadius: "50%",
+                      width: 30,
+                      height: 30,
+                      fontSize: "12px",
+                    }}
+                  >
+                    {profiledate?.userData?.fullName?.includes("")
+                      ? profiledate?.userData?.fullName
+                          ?.split(" ")
+                          .map((name) => name.charAt(0).toUpperCase())
+                          .join("")
+                      : profiledate?.userData?.fullName
+                          ?.charAt(0)
+                          .toUpperCase()}
+                  </Avatar>
+                  <TextField
+                    // id="outlined-multiline-static"
+                    className={styles.commentinput}
+                    placeholder={"Comment your Thought"}
+                    onChange={(e) => setText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSubmit();
+                      }
+                    }}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          border: "none",
+                        },
+                      },
+                    }}
+                    type={type}
+                    value={text}
+                  />
+                  <IconButton
+                    type="submit"
+                    onClick={handleSubmit}
+                    disabled={!text.trim()}
+                    className={styles.commentbtn}
+                  >
+                    <IoIosSend size={25} />
+                  </IconButton>
+                </Box>
               )}
             </Box>
           </>

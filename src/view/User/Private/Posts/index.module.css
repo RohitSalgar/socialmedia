@@ -41,15 +41,14 @@
   color: #a3a3a3; /* Change to your desired color */
 }
 .btns {
-  background-color: #2F65B9 !important;
+  background-color: #2f65b9 !important;
   color: #fff !important;
 }
 
 .searchinput {
   width: 100%;
   border: none !important;
-  background-color: #f5f5f5;
-  border-radius: 5px;
+  background-color: #ffffff;
 }
 
 .searchitemsContainer {
@@ -105,7 +104,7 @@
   padding: 5px;
   justify-content: space-between;
 }
-.postdescription{
+.postdescription {
   font-size: 17px !important;
   padding-top: 15px;
   margin: 0;
@@ -115,21 +114,34 @@
 .video {
   width: 100%;
 }
-.likestxt{
+.likestxt {
   color: #7a7a7a;
 }
-.likeicon{
+.likeicon {
   padding: 0 !important;
 }
 .taggedWord {
-  color: blue;
-  font-weight: bold;
+  color: #2f65b9;
+  font-weight: 400 !important;
   cursor: pointer;
   margin-right: 0.1rem;
+  font-size: 17px !important;
 }
 
 .hashtagWord {
   color: #f3cf00;
   font-weight: 400;
   cursor: pointer;
+  font-size: 17px !important;
+}
+.descriptiontxt {
+  text-transform: capitalize;
+  font-size: 17px !important;
+  padding-top: 20px !important;
+}
+.descriptionmaindiv {
+  padding: 20px 0px !important;
+}
+.uploadbtn {
+  fill: #2f65b9 !important;
 }

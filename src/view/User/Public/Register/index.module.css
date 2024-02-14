@@ -1,67 +1,27 @@
-/* fullname
-email
-designation
-password
-conf
-location
-dob */
-
-/* Animation for sliding in from the left */
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-/* Animation for sliding in from the right */
-@keyframes slideInRight {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-@keyframes registerSlideInRight {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-/* Apply the animations to the respective divs */
-.slideleft {
-  animation: slideInRight 1s ease-out;
-}
-
-.slideRight {
-  animation: slideInLeft 1s ease-out;
-}
-
-.registerSlideRight {
-  animation: registerSlideInRight 1s ease-out;
-}
 .errormsg {
   /* border: 1px solid red !important; */
   font-size: 12px;
   border-radius: 5px !important;
 }
 
-.labelDiv{
+.labelDiv {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.loginformdiv {
-  width: 390px;
+.formdiv {
+  width: 400px;
+  margin: auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
-.loginformdiv > div > div > input {
+.formdiv form > div > div > div > div > input {
+  padding: 10px !important;
+}
+.loginforminputs > div > input {
   padding: 10px !important;
 }
 .loginforminputs > div > div > input {
@@ -83,6 +43,11 @@ dob */
 
 .imageContainer p {
   color: blue;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
 }
 .deleteIcon {
   color: red;
@@ -120,16 +85,35 @@ dob */
 .uploadimage {
   width: 100%;
   background-color: transparent !important;
-  border: 1px solid #2F65B9 !important;
-  color: #2F65B9 !important;
+  border: 1px solid #2f65b9 !important;
+  color: #2f65b9 !important;
   margin-top: 10px !important;
 }
 .imageContainer p {
-  color: #2F65B9 !important;
+  color: #2f65b9 !important;
 }
 .imageContainer svg path {
   fill: rgb(151, 151, 151);
 }
 .submitbtn:hover {
-  background-color: #2F65B9 !important;
+  background-color: #2f65b9 !important;
+}
+
+.registerdiv {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+.registertitle {
+  font-size: 22px !important;
+  font-weight: 500 !important;
+  color: #2f65b9;
+  text-align: center;
+  padding-bottom: 20px;
+}
+.formdiv form label {
+  color: rgb(92, 92, 92);
+  font-weight: 500;
 }

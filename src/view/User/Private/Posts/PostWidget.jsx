@@ -79,12 +79,12 @@ function HighlightAndTag({ text }) {
           </span>
         );
       } else {
-        return <span key={index}>{word} </span>;
+        return <span className={styles.descriptiontxt} key={index}>{word} </span>;
       }
     });
   };
 
-  return <div>{highlightText()}</div>;
+  return <div className={styles.descriptionmaindiv}>{highlightText()}</div>;
 }
 
 const PostWidget = ({ postData, checkCond }) => {
