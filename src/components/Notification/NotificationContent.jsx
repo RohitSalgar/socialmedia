@@ -60,10 +60,6 @@ const NotificationContent = () => {
     }
   }, [inView, hashtag, setSideView, data, postTagData]);
 
-  if (isLoading || postTagLOading) {
-    return <Loader />;
-  }
-
   // const filterDataByTag = () => {
   //   let array = [];
   //   if (selected === "all") {
@@ -125,7 +121,7 @@ const NotificationContent = () => {
               </div>
             )}
             {selected === "mention" &&
-              postTagData.pages?.map(({ data }) =>
+              postTagData?.pages?.map(({ data }) =>
                 data
                   .filter((e) => e.status !== 0)
                   .map((e, i) => <NotificationTemplate key={i} data={e} />)

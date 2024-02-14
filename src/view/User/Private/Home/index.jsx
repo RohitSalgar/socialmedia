@@ -234,6 +234,7 @@ const HomePage = () => {
     dispatch(removeHastag());
     dispatch(setDashboardView(dashboardView));
   };
+  
   return (
     <Box>
       <Navbar />

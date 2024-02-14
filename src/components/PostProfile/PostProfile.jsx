@@ -254,7 +254,7 @@ const PostProfile = () => {
               style={{
                 paddingTop: "10px",
                 textTransform: "capitalize",
-                wordWrap:"break-word"
+                wordWrap: "break-word",
               }}
             >
               {companyData?.companyPageData?.about}
@@ -263,23 +263,26 @@ const PostProfile = () => {
         </Box>
         <Box className={styles.companydetailsdiv}>
           {companyData?.companyPageData?.status === 1 &&
-          viewList === "schedule" ? (
-            <Box>
+            viewList === "schedule" && (
               <Box>
-                <Typography className={styles.profiletitle}>
-                  Schedules
-                </Typography>
-              </Box>
-              <Box className={styles.postdiv}>
-                <ProfileScheduleList />
-                {companyData?.countData?.scheduleCount === 0 && (
+                <Box>
+                  <Typography className={styles.profiletitle}>
+                    Schedules
+                  </Typography>
+                </Box>
+                <Box className={styles.postdiv}>
+                  <ProfileScheduleList />
+                  {/* {companyData?.countData?.scheduleCount === 0 && (
                   <LookingEmpty />
-                )}
+                )} */}
+                </Box>
               </Box>
-            </Box>
-          ) : (
-            <img style={{ width: "100%", height: "100%" }} src={blockedimg} />
-          )}
+            )}
+
+          {companyData?.companyPageData?.status === 5 &&
+            viewList === "schedule" && (
+              <img style={{ width: "100%", height: "100%" }} src={blockedimg} />
+            )}
           {companyData?.companyPageData?.status === 1 &&
             viewList === "post" && (
               <Box>

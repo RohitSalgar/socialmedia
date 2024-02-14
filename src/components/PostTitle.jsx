@@ -79,9 +79,6 @@ const PostTitle = ({ data, checkCond }) => {
             {formatDate(data?.createdAt)}
           </Typography>
         </Box>
-        <Typography color={medium} fontSize="0.75rem">
-          {formatDate(data?.createdAt)}
-        </Typography>
       </FlexBetween>
       {checkCond || viewProfileId === userId && (
         <>
