@@ -6,7 +6,6 @@ import { Box, IconButton, InputBase, Typography } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useTheme } from "@emotion/react";
 import { usegetAllChatInfo } from "../../../../hooks/chat";
-import Loader from "../../../../components/Loader/Loader";
 import { setSideView } from "../../../../redux/slices/profileSlice";
 import { useEffect, useState } from "react";
 import { useGetProfile } from "../../../../hooks/profile";
@@ -14,6 +13,7 @@ import LookingEmpty from "../../../../components/LookingEmpty/LookingEmpty";
 import { setLiveUsers, setSingleChatModeOff } from "../../../../redux/slices/chat";
 import { useSocket } from "../../../../hooks/socket";
 import { useQueryClient } from "@tanstack/react-query";
+import ChatSkeleton from "../../../../components/Skeleton/ChatSkeleton/ChatSkeleton";
 
 const ChatLayout = () => {
   const { palette } = useTheme();
@@ -57,7 +57,7 @@ const ChatLayout = () => {
   
 
   if (isLoading) {
-    return <Loader />;
+    return <ChatSkeleton />;
   }
 
   function updateNamesToEmptyString(messages) {

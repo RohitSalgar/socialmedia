@@ -80,15 +80,16 @@ function HighlightAndTag({ text }) {
           </span>
         );
       } else {
-        return <span key={index}>{word} </span>;
+        return <span className={styles.descriptiontxt} key={index}>{word} </span>;
       }
     });
   };
 
-  return <div>{highlightText()}</div>;
+  return <div className={styles.descriptionmaindiv}>{highlightText()}</div>;
 }
 
 const PostWidget = ({ postData, checkCond }) => {
+  console.log(postData.reporterIds)
   const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
@@ -313,7 +314,7 @@ const PostWidget = ({ postData, checkCond }) => {
               </Typography>
             </Box>
           </FlexBetween>
-          <FlexBetween gap="0.3rem">
+          {!(postData?.reporterIds?.includes(userId)) && <FlexBetween gap="0.3rem">
             <Box
               onClick={() => {
                 setReport(true);
@@ -335,7 +336,7 @@ const PostWidget = ({ postData, checkCond }) => {
                 {"report"}
               </Typography>
             </Box>
-          </FlexBetween>
+          </FlexBetween>}
           {(report === true || isComments === true) && (
             <FlexBetween gap="0.3rem">
               {/* <Box

@@ -1,0 +1,57 @@
+.container {
+    width: 100%;
+    height: 100vh; /* Adjust the height as necessary */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1.5rem;
+  }
+  
+  .navRight {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+  }
+  
+  .home {
+    height: 90%; 
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+    margin-bottom: 20px;
+  }
+  .profile{
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    gap: 5px;
+    margin-left: 10px;
+  }
+  .myPost{
+    height: 100px;
+    margin-bottom: 20px;
+  }
+  .myPostAction{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 0 20px;
+  }
+  .chatLeft{
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .chatRight{
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: end;
+  }

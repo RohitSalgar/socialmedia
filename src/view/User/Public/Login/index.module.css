@@ -1,59 +1,15 @@
-/* fullname
-email
-designation
-password
-conf
-location
-dob */
-
-/* Animation for sliding in from the left */
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-/* Animation for sliding in from the right */
-@keyframes slideInRight {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-@keyframes registerSlideInRight {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-/* Apply the animations to the respective divs */
-.slideleft {
-  animation: slideInRight 1s ease-out;
-}
-
-.slideRight {
-  animation: slideInLeft 1s ease-out;
-}
-
-.registerSlideRight {
-  animation: registerSlideInRight 1s ease-out;
-}
-
 .errormsg {
   color: red;
   margin: 0;
 }
 
-.loginformdiv {
+.formdiv {
   width: 350px;
+  margin: auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .loginformdiv > div > div > input {
   padding: 10px !important;
@@ -91,6 +47,29 @@ dob */
   margin: 0;
   text-align: left;
 }
-.submitbtn:hover{
-  background-color: #2F65B9 !important;
+.submitbtn {
+  background-color: #2f65b9 !important;
+  color: #fff !important;
+  margin: 20px 0px !important;
+}
+.submitbtn:hover {
+  color: #fff !important;
+}
+.logindiv {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+.formtitle {
+  font-size: 22px !important;
+  font-weight: 500 !important;
+  color: #2f65b9;
+  text-align: center;
+  padding-bottom: 20px;
+}
+.formdiv form label{
+  color: rgb(92, 92, 92);
+  font-weight: 500;
 }

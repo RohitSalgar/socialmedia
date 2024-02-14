@@ -1,5 +1,5 @@
 .repliesdiv > div {
-  background-color: rgb(243 243 243) !important;
+  background-color: #f7f7f7a1 !important;
   border-radius: 10px !important;
 }
 .textdiv {
@@ -23,13 +23,13 @@
   font-size: 18px;
   color: #6c6c6c;
 }
-.commentbtn{
+.commentbtn {
   background-color: #eeeeee !important;
   width: 40px;
   height: 40px;
   border-radius: 5px !important;
 }
-.avatarnamediv{
+.avatarnamediv {
   background-color: rgb(198, 198, 198);
   height: 30px;
   width: 35px;
@@ -39,9 +39,29 @@
   justify-content: center;
   color: #fff;
 }
-.commentbox{
-  background-color: #f7f7f7;
+.commentbox {
+  background-color: #f7f7f7a1;
   margin: 10px 0px;
   border-radius: 5px;
   padding: 10px;
+}
+.commentinputdiv {
+  display: flex;
+  gap: 10;
+  align-items: center;
+  border: 1px solid #dadada !important;
+  border-radius: 5px;
+  padding: 0px 10px;
+  width: 100%;
+}
+.commentinputdiv {
+  background-color: rgb(255, 255, 255) !important;
+}
+.commentinput {
+  border: none !important;
+}
+.commenttxt {
+  text-transform: capitalize;
+  font-weight: 400;
+  color: #595959;
 }

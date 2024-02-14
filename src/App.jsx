@@ -14,7 +14,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import DashboardSkeleton from "./components/Skeleton/DashboardSkeleton/DashboardSkeleton";
-
+import Loader from "./components/Loader/Loader";
 
 
 const queryClient = new QueryClient({
@@ -30,13 +30,21 @@ const queryClient = new QueryClient({
 function App() {
   const mode = useSelector((state) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+  const fullURL = window.location.href;
 
-
+  const loader = (url) => {
+    if (url.includes("home")) {
+      return <DashboardSkeleton />
+    } else {
+      return <Loader />
+    }
+  }
+  
   return (
     <div className="app">
       <QueryClientProvider client={queryClient}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Suspense fallback={<DashboardSkeleton />}>
+          <Suspense fallback={loader(fullURL)}>
             <LocalizationProvider dateAdapter={AdapterMoment}>
               <ThemeProvider theme={theme}>
                 <CssBaseline />
@@ -45,7 +53,7 @@ function App() {
             </LocalizationProvider>
           </Suspense>
         </ErrorBoundary>
-        <ToastContainer  position="bottom-right" />
+        <ToastContainer position="bottom-right" />
       </QueryClientProvider>
 
     </div>
