@@ -26,6 +26,7 @@ import { useGetCompanyProfile, useGetPageFollowList } from "../../hooks/pages";
 import ProfileScheduleList from "../ProfileScheduleList/ProfileScheduleList";
 import { useFollowTopPage } from "../../hooks/user";
 import blockedimg from "../../assets/Images/blocked.jpg";
+import blockedimg from "../../assets/Images/blocked.jpg";
 const PostProfile = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();

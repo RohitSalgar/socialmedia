@@ -116,10 +116,10 @@ const MyPostWidget = () => {
       postMentions = [];
     description.split(" ").forEach((item) => {
       if (item.startsWith("#")) {
-        hashTagss.push(item);
+        hashTagss.push(item.replace("#", ""));
       }
       if (item.startsWith("@")) {
-        postMentions.push(item.replace("@", ""));
+        postMentions.push({ userName: item.replace("@", ""), status: 1 });
       }
     });
     if (post === "news") {
@@ -356,7 +356,7 @@ const MyPostWidget = () => {
             ) : (
               <div
                 className={styles.searchitemsContainer}
-                style={{ marginTop : "20px" }}
+                style={{ marginTop: "20px" }}
               >
                 <p style={{ margin: "15px" }}>No search found</p>
               </div>
