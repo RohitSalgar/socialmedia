@@ -254,7 +254,6 @@ const HomePage = () => {
                   <WidgetWrapper>
                     <FlexBetween>
                       <Typography sx={{ fontWeight: "500" }}>
-                      {"#"}
                         {"#"}
                         {hashtag}
                       </Typography>

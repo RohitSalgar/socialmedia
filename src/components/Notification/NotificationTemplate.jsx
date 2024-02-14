@@ -40,23 +40,12 @@ const NotificationTemplate = ({ data }) => {
     mutateMentionNotifications(payload);
   };
 
-  function returnClassNames() {
-    let className;
-    if (data?.category === 3) {
-      if (data?.seenStatus[0]?.status === 1) {
-        return (className = styles.unReadmsg);
-      }
-    }
-    if (data?.category === 1 || data?.category === 2) {
-      if (data?.status === 1) {
-        return (className = styles.unReadmsg);
-      }
-    }
-    return className;
-  }
-
   return (
-    <Box className={`${returnClassNames()} ${styles.NotificationTemplateDiv}`}>
+    <Box
+      className={`${data?.status === 1 && styles.unReadmsg} ${
+        styles.NotificationTemplateDiv
+      }`}
+    >
       <Box
         className={`${styles.notificationDiv}`}
         onClick={() =>
@@ -66,7 +55,7 @@ const NotificationTemplate = ({ data }) => {
         }
       >
         <Avatar
-          sx={{ width: "25px", height: "25px", border:'1px solid #9e9e9e' }}
+          sx={{ width: "25px", height: "25px" }}
           src={data?.userProfile}
         />
         <Box sx={{ fontSize: "12px" }}>
