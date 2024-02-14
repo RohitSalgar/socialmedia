@@ -67,9 +67,9 @@ const PagesOTP = () => {
       if (responseJson.status === 1) {
         dispatch(setSideView("companyPage"));
         queryClient.invalidateQueries({ queryKey: ["profile"] });
-        toast.success(responseJson.response)
+        // toast.success(responseJson.response)
       } else {
-        toast.error(responseJson.response)
+        // toast.error(responseJson.response)
       }
       reset()
     } catch (error) {
@@ -87,12 +87,12 @@ const PagesOTP = () => {
         },
         { data: [{ email: pagesEmail }] }
       ),
-    onSuccess: (data) => {
-      toast.success(data);
-    },
-    onError: (error) => {
-      toast.error(error.message.split(":")[1]);
-    },
+    // onSuccess: (data) => {
+    //   toast.success(data);
+    // },
+    // onError: (error) => {
+    //   toast.error(error.message.split(":")[1]);
+    // },
   });
 
   const onSubmit = (data) => {

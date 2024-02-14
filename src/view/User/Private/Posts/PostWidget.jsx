@@ -54,8 +54,8 @@ function HighlightAndTag({ text }) {
 
   const handleHashtagClick = (e) => {
     const clickedWord = e.target.innerText;
-    let hashtags = clickedWord.replace("#", "$&").trim();
-    dispatch(updateHashtag(hashtags));
+    let hashtags = clickedWord.split("#");
+    dispatch(updateHashtag(hashtags[1].trim()));
   };
 
   const highlightText = () => {
@@ -220,7 +220,7 @@ const PostWidget = ({ postData, checkCond }) => {
       {postData.files && postData.files.length === 1 && (
         <div>
           {postData.files[0]?.fileType?.includes("image") ? (
-            <img src={postData.files[0].filePath} alt="post_image" />
+            <img className={styles.video} src={postData.files[0].filePath} alt="post_image" />
           ) : (
             <video
               className={styles.video}
@@ -237,7 +237,11 @@ const PostWidget = ({ postData, checkCond }) => {
               return (
                 <div key={i}>
                   {item?.fileType.includes("image") ? (
-                    <img className={styles.video} src={item.filePath} alt="post_image" />
+                    <img
+                      className={styles.video}
+                      src={item.filePath}
+                      alt="post_image"
+                    />
                   ) : (
                     <video
                       className={styles.video}
@@ -357,10 +361,6 @@ const PostWidget = ({ postData, checkCond }) => {
             </IconButton>
           )}
           <Box
-            onClick={() => {
-              setReport(false);
-              setIsComments(false);
-            }}
             sx={{
               display: "flex",
               flexDirection: "row",
@@ -368,9 +368,17 @@ const PostWidget = ({ postData, checkCond }) => {
             }}
           >
             <IconButton>
-              <CancelOutlined />
+              <CancelOutlined 
+            onClick={() => {
+              setReport(false);
+              setIsComments(false);
+            }} />
             </IconButton>
-            <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+            <Typography sx={{ cursor: "pointer" }} 
+            onClick={() => {
+              setReport(false);
+              setIsComments(false);
+            }}>{"close"}</Typography>
           </Box>
         </FlexBetween>
       )}
@@ -379,10 +387,6 @@ const PostWidget = ({ postData, checkCond }) => {
           <Box>
             <Divider />
             <Box
-              onClick={() => {
-                setReport(false);
-                setIsComments(false);
-              }}
               sx={{
                 display: "flex",
                 flexDirection: "row",
@@ -391,9 +395,15 @@ const PostWidget = ({ postData, checkCond }) => {
               }}
             >
               <IconButton>
-                <CancelOutlined />
+                <CancelOutlined  onClick={() => {
+                setReport(false);
+                setIsComments(false);
+              }} />
               </IconButton>
-              <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              <Typography sx={{ cursor: "pointer" }}  onClick={() => {
+                setReport(false);
+                setIsComments(false);
+              }}>{"close"}</Typography>
             </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
