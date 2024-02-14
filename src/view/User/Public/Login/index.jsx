@@ -344,7 +344,7 @@ export default function Register() {
                   item
                   style={{
                     width: "100%",
-                    background: "#f3cf0030",
+                    background: "#2F65B930",
                     textAlign: "center",
                     padding: "6px",
                     borderRadius: "5px",
@@ -359,7 +359,7 @@ export default function Register() {
                     sx={{
                       mt: 1,
                       mb: 2,
-                      color: "#f3cf00",
+                      color: "#2F65B9",
                       fontWeight: "bold",
                       textDecoration: "unset",
                     }}

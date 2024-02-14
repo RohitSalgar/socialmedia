@@ -1,0 +1,12 @@
+.contantmain{
+    padding: 10px;
+    margin-top: 80px;
+    display: flex;
+    gap: 10px;
+}
+.maincontant{
+    width: 70%;
+}
+.sidecontant{
+    width: 30%;
+}

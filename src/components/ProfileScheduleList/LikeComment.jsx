@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import FlexBetween from "../FlexBetween";
+import FlexBetween from "../../components/FlexBetween";
 import {
   Box,
   Divider,
@@ -18,10 +18,11 @@ import {
   useUpdateScheduleLikes,
 } from "../../hooks/schedule";
 import { useSelector } from "react-redux";
-import Loader from "../Loader/Loader";
-import CommentInputBox from "../Comments/CommentInputBox";
-import CommentBox from "../Comments/CommentBox";
+import Loader from "../../components/Loader/Loader";
+import CommentInputBox from "../../components/Comments/CommentInputBox";
+import CommentBox from "../../components/Comments/CommentBox";
 import styles from "./index.module.css";
+import {CancelOutlined} from "@mui/icons-material";
 
 const LikeComment = (props) => {
   const { palette } = useTheme();
@@ -97,24 +98,27 @@ const LikeComment = (props) => {
 
   return (
     <Box gap="1rem">
-      <Box className={styles.likemaindiv}>
+      <Box className={styles.likeandcommentdiv}>
         <Box className={styles.likediv}>
-          {isLiked ? (
-            <IconButton onClick={disLikemutate}>
-              <FavoriteOutlined sx={{ color: primary }} />
+          {isUserLiked().length > 0 ? (
+            <IconButton>
+              <FavoriteOutlined
+                sx={{ color: primary }}
+                onClick={() => disLikemutate()}
+              />
             </IconButton>
           ) : (
-            <IconButton onClick={likemutate}>
-              <FavoriteBorderOutlined />
+            <IconButton>
+              <FavoriteBorderOutlined onClick={() => likemutate()} />
             </IconButton>
           )}
+
           <Typography>
             {props?.postData?.likes <= 1
               ? `${props?.postData?.likes} like`
               : `${props?.postData?.likes} likes`}
           </Typography>
         </Box>
-
         <FlexBetween gap="0.3rem">
           <Box
             onClick={() => {
@@ -129,7 +133,6 @@ const LikeComment = (props) => {
           </Box>
         </FlexBetween>
       </Box>
-
       {isComments && (
         <Box mt="0.5rem">
           <Divider />
@@ -138,6 +141,22 @@ const LikeComment = (props) => {
               <Box mt="0.5rem">
                 <Box>
                   <Divider />
+                  <Box
+                onClick={() => {
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent:"end"
+                }}
+              >
+                <IconButton>
+                  <CancelOutlined />
+                </IconButton>
+                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+              </Box>
                   <Stack>
                     <CommentInputBox
                       type="comment"

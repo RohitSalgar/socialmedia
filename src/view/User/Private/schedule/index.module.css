@@ -86,7 +86,8 @@
   color: rgb(125, 125, 125) !important;
 }
 .scheduleListSubDiv p {
-  font-weight: 500 !important;
+  font-weight: 400 !important;
+  font-size: 15px !important;
   text-transform: capitalize !important;
 }
 .likediv {
@@ -100,15 +101,18 @@
   align-items: center;
 }
 .descriptiondiv p {
-  /* text-transform: capitalize !important; */
-  font-weight: 500;
-  font-size: 14px;
+  text-transform: capitalize !important;
+  font-weight: 400;
+  font-size: 16px;
+  color: #5f5f5f;
 }
-
-/* button:hover {
-  color: #f3cf00;
-} */
 .btns {
-  background-color: #f3cf00 !important;
+  background-color: #2f65b9 !important;
   color: #fff !important;
+}
+.likeicons{
+  padding: 0 !important;
+}
+.companyName{
+  text-transform: capitalize;
 }

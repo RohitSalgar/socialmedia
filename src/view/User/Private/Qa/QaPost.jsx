@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 import { useReportPost } from "../../../../hooks/posts";
 import { useGetQaComment, useQaLikeDisLike } from "../../../../hooks/qa";
 import {CancelOutlined} from "@mui/icons-material";
+import styles from './index.module.css';
 
 const QaWidget = ({ postData }) => {
   const [isComments, setIsComments] = useState(false);
@@ -104,7 +105,7 @@ const QaWidget = ({ postData }) => {
   return (
     <WidgetWrapper m="0.3rem 0">
       <PostTitle data={postData} />
-      <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
+      <Typography color={main} className={styles.questiondiv}>
         Question : {postData?.question}
       </Typography>
       {postData.files != "null" &&
@@ -119,7 +120,7 @@ const QaWidget = ({ postData }) => {
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
-            <IconButton onClick={likeDislike}>
+            <IconButton onClick={likeDislike} className={styles.likeicons}>
               {isLiked ? (
                 <FavoriteOutlined sx={{ color: primary }} />
               ) : (
@@ -193,9 +194,6 @@ const QaWidget = ({ postData }) => {
           <Box>
             <Divider />
             <Box
-                onClick={() => {
-                  setIsComments(false);
-                }}
                 sx={{
                   display: "flex",
                   flexDirection: "row",
@@ -204,9 +202,15 @@ const QaWidget = ({ postData }) => {
                 }}
               >
                 <IconButton>
-                  <CancelOutlined />
+                  <CancelOutlined 
+                onClick={() => {
+                  setIsComments(false);
+                }}/>
                 </IconButton>
-                <Typography sx={{ cursor: "pointer" }}>{"close"}</Typography>
+                <Typography sx={{ cursor: "pointer" }} 
+                onClick={() => {
+                  setIsComments(false);
+                }}>{"close"}</Typography>
               </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />

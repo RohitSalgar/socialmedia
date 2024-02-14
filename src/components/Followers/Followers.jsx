@@ -109,12 +109,12 @@ const Followers = ({ data, type }) => {
   return (
     <WidgetWrapper className={styles.followmain}>
       <Typography color={medium} m="0.5rem 0">
-        <Box className={styles.followersdiv}>
-          <Box className={styles.avatardiv} onClick={() => handleClick()}>
+        <Box className={styles.followersdiv} onClick={() => handleClick()}>
+          <Box className={styles.avatardiv}>
             <Avatar
               alt="B"
               src={getProfilePic()}
-              sx={{ width: 40, height: 40 }}
+              sx={{ width: 50, height: 50 , border:'1px solid #9e9e9e'}}
             />
             <Typography className={styles.avatarname}>
               {getProfileName()}

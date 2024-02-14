@@ -40,6 +40,7 @@ const Profile = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const [viewList, setViewList] = useState("post");
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const userId = useSelector((state) => state.profile.profileData.userId);
@@ -66,15 +67,23 @@ const Profile = () => {
 
   const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
     useGetMainUserConnectionList(userId);
-
+console.log(showSuccessAnimation,"ani")
   const frdRequestSentSuccess = (data) => {
-    toast.success(data);
+    // toast.success(data);
+    setShowSuccessAnimation(true); 
+    setTimeout(() => {
+      setShowSuccessAnimation(false);
+    }, 2000);
   };
   const { mutate: frdRequestMutate, isPending } = useSendFrdRequest(
     frdRequestSentSuccess
   );
   const unFollowSuccess = (data) => {
-    toast.success(data);
+    // toast.success(data);
+    setShowSuccessAnimation(true); 
+    setTimeout(() => {
+      setShowSuccessAnimation(false);
+    }, 2000);
   };
   const { mutate: unfollowMutate, isPending: isUnfollowPending } =
     useChangeConnectionStatus(unFollowSuccess);
@@ -154,14 +163,22 @@ const Profile = () => {
       mainUserfollowingList.some((item) => item?.recipientId === profileId)
     ) {
       return (
+        <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+
         <Button
           disabled={isUnfollowPending}
           onClick={unFollowFn}
           variant="dark"
           className={styles.editbtn}
         >
-          {isUnfollowPending ? <CircularProgress /> : "Unfollow"}
+          {isUnfollowPending ? <CircularProgress color="secondary" size={20} /> : "Unfollow"}
         </Button>
+        {showSuccessAnimation &&
+            <div className={styles.successAnimation}>
+              <svg className={styles.checkmark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle className={styles.checkmarkCircle} cx="26" cy="26" r="25" fill="none" /><path className={styles.checkmarkCheck} fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+            </div>
+          }
+        </Box>
       );
     } else if (
       mainUserFollowList &&
@@ -179,25 +196,32 @@ const Profile = () => {
       );
     } else {
       return (
-        <Button
-          disabled={isPending}
-          onClick={() =>
-            frdRequestMutate({
-              senderId: userId,
-              recipientId: profileId,
-            })
+        <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <Button
+            disabled={isPending}
+            onClick={() =>
+              frdRequestMutate({
+                senderId: userId,
+                recipientId: profileId,
+              })
+            }
+            variant="dark"
+            className={styles.editbtn}
+          >
+            {isPending ? <CircularProgress color="secondary" size={20}/> : "Connect"}
+          </Button>
+          {showSuccessAnimation &&
+            <div className={styles.successAnimation}>
+              <svg className={styles.checkmark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle className={styles.checkmarkCircle} cx="26" cy="26" r="25" fill="none" /><path className={styles.checkmarkCheck} fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+            </div>
           }
-          variant="dark"
-          className={styles.editbtn}
-        >
-          {isPending ? <CircularProgress /> : "Connect"}
-        </Button>
+        </Box>
       );
     }
   };
 
   return (
-    <WidgetWrapper>
+    <Box className={styles.maindiv}>
       {profileId !== userId && (
         <Box className={styles.closediv}>
           <Button
@@ -209,12 +233,12 @@ const Profile = () => {
         </Box>
       )}
       <Box className={styles.profilemain}>
-        <Typography color={medium} m="0.5rem 0">
+        <Typography color={medium} className={styles.profiledetailsdiv}>
           <Box className={styles.avatardiv}>
             <Avatar
               alt="B"
               src={data?.userData?.profile}
-              sx={{ width: 80, height: 80 }}
+              sx={{ width: 80, height: 80, border:'1px solid #9e9e9e' }}
             />
             <Box
               sx={{
@@ -241,7 +265,7 @@ const Profile = () => {
                   <Typography color={dark} variant="h5" fontWeight="500">
                     {checkIsNumber(data?.detailsCounts?.postCount)}
                   </Typography>
-                  <Typography color={dark} variant="h6" fontWeight="400">
+                  <Typography color={dark} variant="h5" fontWeight="400">
                     Posts
                   </Typography>
                 </Box>
@@ -262,7 +286,7 @@ const Profile = () => {
                   <Typography color={dark} variant="h5" fontWeight="500">
                     {checkIsNumber(data?.detailsCounts?.followersCount)}
                   </Typography>
-                  <Typography color={dark} variant="h6" fontWeight="400">
+                  <Typography color={dark} variant="h5" fontWeight="400">
                     Followers
                   </Typography>
                 </Box>
@@ -283,7 +307,7 @@ const Profile = () => {
                   <Typography color={dark} variant="h5" fontWeight="500">
                     {checkIsNumber(data?.detailsCounts?.followingCount)}
                   </Typography>
-                  <Typography color={dark} variant="h6" fontWeight="400">
+                  <Typography color={dark} variant="h5" fontWeight="400">
                     Following
                   </Typography>
                 </Box>
@@ -304,7 +328,7 @@ const Profile = () => {
                   <Typography color={dark} variant="h5" fontWeight="500">
                     {checkIsNumber(data?.detailsCounts?.connectionCount)}
                   </Typography>
-                  <Typography color={dark} variant="h6" fontWeight="400">
+                  <Typography color={dark} variant="h5" fontWeight="400">
                     Connections
                   </Typography>
                 </Box>
@@ -315,17 +339,14 @@ const Profile = () => {
             <Typography color={dark} className={styles.avatarname}>
               {data?.userData?.fullName}
             </Typography>
-            {profileId === userId && (
-              <Button
-                variant="dark"
-                onClick={() => handleEdit()}
-                className={styles.editbtn}
-              >
-                Edit Profile
-              </Button>
-            )}
-            {profileId !== userId && getRequestBtn()}
-            {/* {profileId !== userId &&
+            <Box className={styles.btndiv}>
+              {profileId === userId && (
+                <Button onClick={() => handleEdit()} className={styles.editbtn}>
+                  Edit Profile
+                </Button>
+              )}
+              {profileId !== userId && getRequestBtn()}
+              {/* {profileId !== userId &&
               (mainUserfollowingList &&
               mainUserfollowingList.some(
                 (item) => item?.recipientId === profileId
@@ -353,7 +374,7 @@ const Profile = () => {
                   {isPending ? <CircularProgress /> : "Connect"}
                 </Button>
               ))} */}
-            {/* {profileId === userId && data?.pageData === null && (
+              {/* {profileId === userId && data?.pageData === null && (
               <Box className={styles.closediv}>
                 <Button
                   variant="dark"
@@ -363,170 +384,158 @@ const Profile = () => {
                   Edit Profile
                 </Button>
               )} */}
-            {profileId === userId && data?.pageData === null && (
-              <Box className={styles.closediv}>
-                <Button
-                  className={styles.createbtn}
-                  onClick={() => dispatch(setSideView("createcompany"))}
-                >
-                  Create Company Page
-                  <BusinessIcon />
-                </Button>
-              </Box>
-            )}
-            {profileId === userId && data?.pageData?.status === 2 && (
-              <Box className={styles.closediv}>
-                <Button
-                  className={styles.createbtn}
-                  onClick={() => dispatch(setSideView("pagesotp"))}
-                >
-                  OTP Pending
-                </Button>
-              </Box>
-            )}
-            {profileId === userId && data?.pageData?.status === 3 && (
-              <Box className={styles.pendingdivs}>
-                <p className={styles.pendingdiv}>Pending</p>
-              </Box>
-            )}
-            {profileId === userId && data?.pageData?.status === 1 && (
-              <Box className={styles.closediv}>
-                <Button
-                  className={styles.createbtn}
-                  onClick={() => {
-                    dispatch(setDashboardView("postprofile"));
-                    dispatch(setSideView("companyPage"));
-                    dispatch(setCompanyId(companyId));
-                    dispatch(setViewCompanyId(companyId));
-                  }}
-                >
-                  Company Account
-                </Button>
-              </Box>
-            )}
-            {profileId === userId && data?.pageData?.status === 5 && (
-              <Box className={styles.closediv}>
-                <Button
-                  className={styles.createbtn}
-                  onClick={() => {
-                    dispatch(setDashboardView("postprofile"));
-                    dispatch(setSideView("companyPage"));
-                    dispatch(setCompanyId(companyId));
-                    dispatch(setViewCompanyId(companyId));
-                  }}
-                >
-                  Company Account
-                </Button>
-              </Box>
-            )}
+              {profileId === userId && data?.pageData === null && (
+                <Box className={styles.closediv}>
+                  <Button
+                    className={styles.createbtn}
+                    onClick={() => dispatch(setSideView("createcompany"))}
+                  >
+                    Create Company Page
+                    <BusinessIcon />
+                  </Button>
+                </Box>
+              )}
+              {profileId === userId && data?.pageData?.status === 2 && (
+                <Box className={styles.closediv}>
+                  <Button
+                    className={styles.createbtn}
+                    onClick={() => dispatch(setSideView("pagesotp"))}
+                  >
+                    OTP Pending
+                  </Button>
+                </Box>
+              )}
+              {profileId === userId && data?.pageData?.status === 3 && (
+                <Box className={styles.pendingdivs}>
+                  <p className={styles.pendingdiv}>Pending</p>
+                </Box>
+              )}
+              {profileId === userId && data?.pageData?.status === 1 && (
+                <Box className={styles.closediv}>
+                  <Button
+                    className={styles.createbtn}
+                    onClick={() => {
+                      dispatch(setDashboardView("postprofile"));
+                      dispatch(setSideView("companyPage"));
+                      dispatch(setCompanyId(companyId));
+                      dispatch(setViewCompanyId(companyId));
+                    }}
+                  >
+                    Company Account
+                  </Button>
+                </Box>
+              )}
+              {profileId === userId && data?.pageData?.status === 5 && (
+                <Box className={styles.closediv}>
+                  <Button
+                    className={styles.createbtn}
+                    onClick={() => {
+                      dispatch(setDashboardView("postprofile"));
+                      dispatch(setSideView("companyPage"));
+                      dispatch(setCompanyId(companyId));
+                      dispatch(setViewCompanyId(companyId));
+                    }}
+                  >
+                    Company Account
+                  </Button>
+                </Box>
+              )}
+            </Box>
           </Box>
-          <Typography
-            variant="h6"
-            fontWeight="400"
-            style={{
-              paddingTop: "10px",
-              wordWrap: "break-word",
-            }}
-          >
+          <Typography variant="h6" fontWeight="400" className={styles.abouttxt}>
             {data?.userData?.about}
           </Typography>
         </Typography>
-        <hr />
-        {viewList === "post" && (
-          <Box>
+        <Box className={styles.profilecontant}>
+          {viewList === "post" && (
+            <Box className={styles.contantdiv}>
+              <Box>
+                <Typography className={styles.profiletitle}>Posts</Typography>
+              </Box>
+              <Box className={styles.postdiv}>
+                {postList?.map((data) => (
+                  <PostWidget key={data._id} postData={data} page={"profile"} />
+                ))}
+                {postList?.length === 0 && <LookingEmpty />}
+              </Box>
+            </Box>
+          )}
+          {viewList === "followers" && (
             <Box>
-              <Typography color={dark} sx={{ fontWeight: "bold" }}>
-                Posts
-              </Typography>
+              <Box>
+                <Typography className={styles.profiletitle}>
+                  Followers
+                </Typography>
+              </Box>
+              <Box className={styles.postdiv}>
+                {followList?.map((e, i) => {
+                  return (
+                    <Followers
+                      key={i}
+                      id={e?.senderId}
+                      fullName={e?.senderName}
+                      data={e}
+                      type="followers"
+                    />
+                  );
+                })}
+                {followList?.length === 0 && <LookingEmpty />}
+              </Box>
             </Box>
-            <Box className={styles.postdiv}>
-              {postList?.map((data) => (
-                <PostWidget
-                  key={data._id}
-                  postData={data}
-                  page={"profile"}
-                  checkCond={false}
-                />
-              ))}
-              {postList?.length === 0 && <LookingEmpty />}
-            </Box>
-          </Box>
-        )}
-        {viewList === "followers" && (
-          <Box>
+          )}
+          {viewList === "following" && (
             <Box>
-              <Typography color={dark} sx={{ fontWeight: "bold" }}>
-                Followers
-              </Typography>
+              <Box>
+                <Typography className={styles.profiletitle}>
+                  Following
+                </Typography>
+              </Box>
+              <Box className={styles.postdiv}>
+                {followingList?.map((e, i) => {
+                  return (
+                    <Followers
+                      key={i}
+                      id={e?.recipientId}
+                      imgLink={""}
+                      companyName={e.followerName}
+                      fullName={e?.recipientName}
+                      data={e}
+                      type="following"
+                      unFollow={profileId === userId ? true : false}
+                    />
+                  );
+                })}
+                {followingList?.length === 0 && <LookingEmpty />}
+              </Box>
             </Box>
-            <Box className={styles.postdiv}>
-              {followList?.map((e, i) => {
-                return (
-                  <Followers
-                    key={i}
-                    id={e?.senderId}
-                    fullName={e?.senderName}
-                    data={e}
-                    type="followers"
-                  />
-                );
-              })}
-              {followList?.length === 0 && <LookingEmpty />}
-            </Box>
-          </Box>
-        )}
-        {viewList === "following" && (
-          <Box>
+          )}
+          {viewList === "connection" && (
             <Box>
-              <Typography color={dark} sx={{ fontWeight: "bold" }}>
-                Following
-              </Typography>
+              <Box>
+                <Typography className={styles.profiletitle}>
+                  Connections
+                </Typography>
+              </Box>
+              <Box className={styles.postdiv}>
+                {connectionList?.map((e, i) => {
+                  return (
+                    <Followers
+                      key={i}
+                      id={e?.senderId}
+                      fullName={e?.senderName}
+                      imgLink={e?.senderProfile}
+                      data={e}
+                      type="connection"
+                    />
+                  );
+                })}
+                {connectionList?.length === 0 && <LookingEmpty />}
+              </Box>
             </Box>
-            <Box className={styles.postdiv}>
-              {followingList?.map((e, i) => {
-                return (
-                  <Followers
-                    key={i}
-                    id={e?.recipientId}
-                    imgLink={""}
-                    companyName={e.followerName}
-                    fullName={e?.recipientName}
-                    data={e}
-                    type="following"
-                    unFollow={profileId === userId ? true : false}
-                  />
-                );
-              })}
-              {followingList?.length === 0 && <LookingEmpty />}
-            </Box>
-          </Box>
-        )}
-        {viewList === "connection" && (
-          <Box>
-            <Box>
-              <Typography color={dark} sx={{ fontWeight: "bold" }}>
-                Connections
-              </Typography>
-            </Box>
-            <Box className={styles.postdiv}>
-              {connectionList?.map((e, i) => {
-                return (
-                  <Followers
-                    key={i}
-                    id={e?.senderId}
-                    fullName={e?.senderName}
-                    imgLink={e?.senderProfile}
-                    data={e}
-                    type="connection"
-                  />
-                );
-              })}
-              {connectionList?.length === 0 && <LookingEmpty />}
-            </Box>
-          </Box>
-        )}
+          )}
+        </Box>
       </Box>
-    </WidgetWrapper>
+    </Box>
   );
 };
 

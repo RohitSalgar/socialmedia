@@ -8,7 +8,11 @@ import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { useGetProfile } from "../../../../hooks/profile";
 import Loader from "../../../../components/Loader/Loader";
 import { useDeleteSchedule } from "../../../../hooks/schedule";
-import { setDashboardView, setViewCompanyId } from "../../../../redux/slices/profileSlice";
+import {
+  setDashboardView,
+  setViewCompanyId,
+} from "../../../../redux/slices/profileSlice";
+import styles from './index.module.css';
 
 const PostTitle = ({ data }) => {
   const { palette } = useTheme();
@@ -19,7 +23,7 @@ const PostTitle = ({ data }) => {
   const { userId } = useSelector((state) => state.profile.profileData);
   const { profileData } = useGetProfile(userId);
   const companyId = useSelector((state) => state.profile.companyId);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const { mutate, isLoading } = useDeleteSchedule();
   const deletePost = (id) => {
@@ -33,15 +37,15 @@ const PostTitle = ({ data }) => {
   const formatDate = (createdAt) => {
     const now = moment();
     const createdAtMoment = moment(createdAt);
-    if (now.isSame(createdAtMoment, 'day')) {
+    if (now.isSame(createdAtMoment, "day")) {
       return createdAtMoment.fromNow();
-    } else if (now.subtract(1, 'day').isSame(createdAtMoment, 'day')) {
-      return 'Yesterday';
+    } else if (now.subtract(1, "day").isSame(createdAtMoment, "day")) {
+      return "Yesterday";
     } else {
       return createdAtMoment.format("MMM Do YYYY");
     }
   };
-  
+
   if (isLoading) {
     <Loader />;
   }
@@ -50,17 +54,24 @@ const PostTitle = ({ data }) => {
     <FlexBetween>
       <FlexBetween gap="10px">
         <Avatar
-          sx={{ width: 35, height: 35 }}
+          sx={{ width: 45, height: 45, border:'1px solid #9e9e9e' }}
           alt="Remy Sharp"
-          onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}}
+          onClick={() => {
+            dispatch(setViewCompanyId(data?.companyId)),
+              dispatch(setDashboardView("postprofile"));
+          }}
           src={data.companyProfile ?? "/static/images/avatar/1.jpg"}
         />
-        <Box onClick={() => {}}>
+        <Box>
           <Typography
             color={main}
             variant="h5"
             fontWeight="400"
-            onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}}
+            className={styles.companyName}
+            onClick={() => {
+              dispatch(setViewCompanyId(data?.companyId)),
+                dispatch(setDashboardView("postprofile"));
+            }}
             sx={{
               "&:hover": {
                 cursor: "pointer",
@@ -69,13 +80,19 @@ const PostTitle = ({ data }) => {
           >
             {data?.companyName}
           </Typography>
+          <Typography color={medium} fontSize="0.75rem">
+            {formatDate(data?.createdAt)}
+          </Typography>
         </Box>
-        <Typography color={medium} fontSize="0.75rem">
-          {formatDate(data?.createdAt)}
-        </Typography>
       </FlexBetween>
       {data?.companyId !== companyId ? (
-        <IconButton onClick={() => {dispatch(setViewCompanyId(data?.companyId)) , dispatch(setDashboardView('postprofile'))}} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
+        <IconButton
+          onClick={() => {
+            dispatch(setViewCompanyId(data?.companyId)),
+              dispatch(setDashboardView("postprofile"));
+          }}
+          sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+        >
           <AiOutlineUsergroupAdd sx={{ color: primaryDark }} />
         </IconButton>
       ) : (

@@ -66,7 +66,7 @@ const NotificationTemplate = ({ data }) => {
         }
       >
         <Avatar
-          sx={{ width: "25px", height: "25px" }}
+          sx={{ width: "25px", height: "25px", border:'1px solid #9e9e9e' }}
           src={data?.userProfile}
         />
         <Box sx={{ fontSize: "12px" }}>

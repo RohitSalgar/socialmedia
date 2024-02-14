@@ -12,7 +12,10 @@ import {
 import { useGetChatById, useUpdateChatStatus } from "../../../hooks/chat";
 import Loader from "../../Loader/Loader";
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import { useQueryClient } from "@tanstack/react-query";
 const ChatPage = ({ data, socket, resetNotification }) => {
+  const queryclient = useQueryClient();
+
   const dispatch = useDispatch();
   const { chatliveUsers } = useSelector((state) => state.chat);
   const { mutate } = useUpdateChatStatus();
@@ -205,10 +208,11 @@ const ChatPage = ({ data, socket, resetNotification }) => {
         onClick={() => {
           dispatch(setSingleChatModeOff());
           resetNotification();
+          queryclient.invalidateQueries(["chat"]);
         }}
       />
       <Box className={styles.chatHeader}>
-        <Box sx={{ display: "flex", alignItems: "center", padding:"10px 5px" }}>
+        <Box sx={{ display: "flex", alignItems: "center", padding: "10px 5px" }}>
           <Avatar
             width={"40px"}
             height={"40px"}
@@ -219,8 +223,8 @@ const ChatPage = ({ data, socket, resetNotification }) => {
             }
             alt="alt"
           />
-          <Box style={{marginLeft:"5px"}}>
-            <Typography sx={{ fontSize: "15px", fontWeight: "bold"}}>
+          <Box style={{ marginLeft: "5px" }}>
+            <Typography sx={{ fontSize: "15px", fontWeight: "bold" }}>
               {filteredData[0].senderId === userId
                 ? filteredData[0].recipientName
                 : filteredData[0].senderName}
@@ -228,11 +232,11 @@ const ChatPage = ({ data, socket, resetNotification }) => {
             {chatliveUsers && isUserIdPresent(chatliveUsers, filteredData[0])
               ? <Typography style={{
                 fontSize: "13px",
-                fontWeight: "350", color: "green"
+                fontWeight: "350", 
+              color: "green"
               }}>Online</Typography>
               : <Typography sx={{
-                textAlign: "center",
-                fontSize: "10px",
+                fontSize: "13px",
                 fontWeight: "350",
                 color: "red"
               }}>Offline</Typography>}
@@ -366,7 +370,6 @@ const ChatPage = ({ data, socket, resetNotification }) => {
                       <p className={`${styles.receiverTime}`}>
                         {formatDate(message?.createdAt)}
                       </p>
-                      {console.log(message, "mess")}
                     </Box>
                   )}
                 </Box>
@@ -397,7 +400,7 @@ const ChatPage = ({ data, socket, resetNotification }) => {
                 disabled={true}
                 className={styles.sendButton}
               >
-              <CancelScheduleSend  />
+                <CancelScheduleSend />
               </IconButton>
             )}
           </Box>
@@ -408,3 +411,4 @@ const ChatPage = ({ data, socket, resetNotification }) => {
 };
 
 export default ChatPage;
+

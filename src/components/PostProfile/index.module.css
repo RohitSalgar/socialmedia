@@ -14,13 +14,7 @@
   text-overflow: ellipsis;
   max-width: 160px;
 }
-.profilemain {
-  padding: 0px 40px;
-}
-.postdiv {
-  height: 240px;
-  overflow-y: scroll;
-}
+
 .nameandeditdiv {
   display: flex;
   justify-content: space-between;
@@ -29,7 +23,7 @@
 .editbtn {
   text-transform: capitalize !important;
   color: #fff !important;
-  background-color: #f3cf00 !important;
+  background-color: #2F65B9 !important;
 }
 .closediv {
   display: flex;
@@ -42,17 +36,38 @@
 }
 .createbtn {
   background-color: transparent;
-  color: #f3cf00;
-  border: 1px solid #f3cf00 !important;
+  color: #2F65B9;
+  border: 1px solid #2F65B9 !important;
   display: flex;
   gap: 5px;
   align-items: center;
 }
 .createbtn svg path {
-  fill: #f3cf00 !important;
+  fill: #2F65B9 !important;
 }
 
 .pendingdiv {
   color: #ea8400 !important;
   margin: 0;
+}
+
+.btnsdiv{
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  gap: 10px;
+}
+.profiledetailsdiv{
+  padding: 20px;
+  background-color: #fff;
+  border-bottom: 1px solid rgb(205, 205, 205);
+}
+.profiletitle{
+  font-weight: 500 !important;
+  font-size: 20px !important;
+  color: #4f4f4f !important;
+  background-color: #fff;
+  padding: 8px 0px 8px 25px !important;
+  border-top: 1px solid rgb(223, 223, 223);
+  margin-bottom: 10px !important;
 }
