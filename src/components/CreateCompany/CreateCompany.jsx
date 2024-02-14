@@ -15,6 +15,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { setSideView } from "../../redux/slices/profileSlice";
 import { Tooltip } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
+import { CircularProgress } from "@mui/material";
 const CreateCompany = () => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
@@ -203,7 +204,7 @@ const CreateCompany = () => {
               type="submit"
               style={{ marginTop: "20px", cursor:"pointer" }}
             >
-              Submit
+             {mutateLoading ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Submit"}
             </button>
           </form>
         </Box>

@@ -35,6 +35,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BusinessIcon from "@mui/icons-material/Business";
 import { useChangeConnectionStatus, useSendFrdRequest } from "../../hooks/user";
 import { toast } from "react-toastify";
+import ProfileSkeleton from "../Skeleton/ProfileSkeleton/ProfileSkeleton";
 
 const Profile = () => {
   const { palette } = useTheme();
@@ -99,9 +100,8 @@ console.log(showSuccessAnimation,"ani")
     mainUserConnectionLoading ||
     mainUserFollowListLoading
   ) {
-    <Loader />;
+    return <ProfileSkeleton />;
   }
-
   function checkIsNumber(number) {
     if (number != null) {
       return number;
@@ -155,7 +155,7 @@ console.log(showSuccessAnimation,"ani")
           variant="outlined"
           className={styles.editbtn}
         >
-          {isUnfollowPending ? <CircularProgress /> : "Connected"}
+          {isUnfollowPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Connected"}
         </Button>
       );
     } else if (
@@ -171,7 +171,7 @@ console.log(showSuccessAnimation,"ani")
           variant="dark"
           className={styles.editbtn}
         >
-          {isUnfollowPending ? <CircularProgress color="secondary" size={20} /> : "Unfollow"}
+          {isUnfollowPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Unfollow"}
         </Button>
         {showSuccessAnimation &&
             <div className={styles.successAnimation}>
@@ -191,7 +191,7 @@ console.log(showSuccessAnimation,"ani")
           variant="dark"
           className={styles.editbtn}
         >
-          {isUnfollowPending ? <CircularProgress /> : "Accept"}
+          {isUnfollowPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Accept"}
         </Button>
       );
     } else {
@@ -208,7 +208,7 @@ console.log(showSuccessAnimation,"ani")
             variant="dark"
             className={styles.editbtn}
           >
-            {isPending ? <CircularProgress color="secondary" size={20}/> : "Connect"}
+            {isPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Connect"}
           </Button>
           {showSuccessAnimation &&
             <div className={styles.successAnimation}>

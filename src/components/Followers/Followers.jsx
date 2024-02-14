@@ -65,7 +65,7 @@ const Followers = ({ data, type }) => {
   }
 
   if (isLoading || postUnfollowLoading) {
-    <Loader />;
+    return <Loader />;
   }
 
   const getProfileName = () => {

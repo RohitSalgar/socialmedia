@@ -31,7 +31,7 @@ const FrdRequest = ({ data, changeConnectionStatusFn, isPending }) => {
             onClick={() => changeConnectionStatusFn(data._id, 1)}
             variant="contained"
           >
-            {isPending ? <CircularProgress /> : <OfflinePinIcon />}
+            {isPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : <OfflinePinIcon />}
           </Button>
           <Button
            className={classes.closebtn}
@@ -39,7 +39,7 @@ const FrdRequest = ({ data, changeConnectionStatusFn, isPending }) => {
             onClick={() => changeConnectionStatusFn(data._id, 0)}
             variant="outlined"
           >
-            {isPending ? <CircularProgress /> : <CancelIcon />}
+            {isPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : <CancelIcon />}
           </Button>
         </div>
       </div>

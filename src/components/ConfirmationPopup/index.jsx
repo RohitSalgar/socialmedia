@@ -57,7 +57,7 @@ function Popup({
 						}}
 						autoFocus
 						className="yesbtn">
-						{mutateLoading ? <CircularProgress /> : "Yes"}
+						{mutateLoading ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Yes"}
 					</Button>
 					<Button
 						onClick={() => {

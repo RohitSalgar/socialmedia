@@ -100,7 +100,7 @@ const PostTitle = ({ data, checkCond }) => {
                 onClick={() => deletePost(data?._id)}
               >
                 {isLoading ? (
-                  <CircularProgress />
+                  <CircularProgress style={{'color': 'white'}} size={20} />
                 ) : (
                   <Box className={styles.deletebtndiv}>
                     <DeleteOutlined className={styles.deleteIcon} />

@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient,useInfiniteQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import { fetchData } from "../helper";
 import { toast } from "react-toastify";
 import { PAGE_SIZE, URL } from "../config";
@@ -6,14 +11,14 @@ import { PAGE_SIZE, URL } from "../config";
 const useGetAllNotificationById = (id) => {
   return useInfiniteQuery({
     queryKey: ["notification", id],
-    queryFn: ({ pageParam }) =>{
+    queryFn: ({ pageParam }) => {
       return fetchData(
         {
           url: URL + "users/getMyNotifications",
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [{page: pageParam, pageSize:PAGE_SIZE, userId: id }] }
+        { data: [{ page: pageParam, pageSize: PAGE_SIZE, userId: id }] }
       );
     },
     initialPageParam: 1,
@@ -29,14 +34,14 @@ const useGetAllNotificationById = (id) => {
 const useGetAllPostTagNotificationById = (userName) => {
   return useInfiniteQuery({
     queryKey: ["postTagnotification", userName],
-    queryFn: ({ pageParam }) =>{
+    queryFn: ({ pageParam }) => {
       return fetchData(
         {
           url: URL + "post/getPostMentionNotification",
           method: "POST",
           isAuthRequired: true,
         },
-        { data: [{page: pageParam, pageSize:PAGE_SIZE, userName: userName }] }
+        { data: [{ page: pageParam, pageSize: PAGE_SIZE, userName: userName }] }
       );
     },
     initialPageParam: 1,
@@ -56,6 +61,24 @@ const useUpdateNotificationStatus = () => {
       fetchData(
         {
           url: URL + "users/updateNotification",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [data] }
+      ),
+    onSuccess: () => {
+      queryclient.invalidateQueries(["notification"]);
+      queryclient.invalidateQueries(["postTagnotification"]);
+    },
+  });
+};
+const useUpdateMentionedNotifications = () => {
+  const queryclient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) =>
+      fetchData(
+        {
+          url: URL + "post/updatePostMentionNotification",
           method: "POST",
           isAuthRequired: true,
         },
@@ -92,4 +115,5 @@ export {
   useUpdateNotificationStatus,
   useGetNotificationPostById,
   useGetAllPostTagNotificationById,
+  useUpdateMentionedNotifications,
 };

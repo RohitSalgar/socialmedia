@@ -335,7 +335,7 @@ const OTPPage = () => {
             }}
           >
             {otpPost.isLoading || resendOtpData.isLoading ? (
-              <CircularProgress size={15} />
+              <CircularProgress style={{'color': 'white'}} size={20} />
             ) : (
               "Submit"
             )}

@@ -26,7 +26,7 @@ const PostTitle = ({ data, removeFrdRequestIcon }) => {
     mutate(postData);
   };
   if (isLoading) {
-    <Loader />;
+   return <Loader />;
   }
 
   return (

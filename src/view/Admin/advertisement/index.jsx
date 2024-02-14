@@ -96,7 +96,7 @@ const Advertisement = () => {
             }}
             disabled={row.status !== 1}
           >
-            {isPending ? <CircularProgress /> : "Delete"}
+            {isPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Delete"}
           </Button>
         </Box>
       ),

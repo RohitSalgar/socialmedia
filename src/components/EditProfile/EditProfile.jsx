@@ -67,7 +67,7 @@ const EditProfile = () => {
   };
 
   if (isLoading || mutateLoading) {
-    <Loader />;
+   return <Loader />;
   }
 
   const handleFileChange = (event) => {
@@ -193,7 +193,7 @@ const EditProfile = () => {
               {...register("about")}
             />
             <Button variant="dark" className={styles.editbtn} type="submit">
-              {mutateLoading ? <CircularProgress color="secondary" size={30} /> : "Submit"}
+              {mutateLoading ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Submit"}
             </Button>
           </form>
         </Box>

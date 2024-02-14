@@ -53,7 +53,7 @@ const PostProfile = () => {
   );
 
   if (isLoading || followLoading || postLoading || companyLoading) {
-    <Loader />;
+   return <Loader />;
   }
 
   function checkIsNumber(number) {
@@ -200,7 +200,7 @@ const PostProfile = () => {
                         onClick={pageUnFollowFn}
                       >
                         {pagetUnfollowPending ? (
-                          <CircularProgress size={20} />
+                         <CircularProgress style={{'color': 'white'}} size={20} />
                         ) : (
                           "UnFollow"
                         )}
@@ -216,7 +216,7 @@ const PostProfile = () => {
                           })
                         }
                       >
-                        {isPending ? <CircularProgress size={20} /> : "Follow"}
+                        {isPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Follow"}
                       </Button>
                     )}
                   </>
