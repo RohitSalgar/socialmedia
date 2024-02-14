@@ -52,14 +52,6 @@ const Advertisement = () => {
       headerClassName: "tabel-header",
     },
     {
-      field: "files",
-      headerName: "Images",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-      headerClassName: "tabel-header",
-    },
-    {
       field: "openingOn",
       headerName: "Bookings Open",
       flex: 1,
