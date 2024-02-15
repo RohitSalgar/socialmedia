@@ -4,6 +4,7 @@ import {
   Button,
   useTheme,
   CircularProgress,
+  IconButton,
 } from "@mui/material";
 import WidgetWrapper from "../WidgetWrapper";
 import Avatar from "@mui/material/Avatar";
@@ -36,6 +37,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import { useChangeConnectionStatus, useSendFrdRequest } from "../../hooks/user";
 import { toast } from "react-toastify";
 import ProfileSkeleton from "../Skeleton/ProfileSkeleton/ProfileSkeleton";
+import Close from "@mui/icons-material/Close";
 
 const Profile = () => {
   const { palette } = useTheme();
@@ -68,10 +70,9 @@ const Profile = () => {
 
   const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
     useGetMainUserConnectionList(userId);
-console.log(showSuccessAnimation,"ani")
   const frdRequestSentSuccess = (data) => {
     // toast.success(data);
-    setShowSuccessAnimation(true); 
+    setShowSuccessAnimation(true);
     setTimeout(() => {
       setShowSuccessAnimation(false);
     }, 2000);
@@ -81,7 +82,7 @@ console.log(showSuccessAnimation,"ani")
   );
   const unFollowSuccess = (data) => {
     // toast.success(data);
-    setShowSuccessAnimation(true); 
+    setShowSuccessAnimation(true);
     setTimeout(() => {
       setShowSuccessAnimation(false);
     }, 2000);
@@ -154,9 +155,13 @@ console.log(showSuccessAnimation,"ani")
           disabled={isUnfollowPending}
           variant="outlined"
           className={styles.editbtn}
-          style={{cursor:"context-menu"}}
+          style={{ cursor: "context-menu" }}
         >
-          {isUnfollowPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Connected"}
+          {isUnfollowPending ? (
+            <CircularProgress style={{ color: "white" }} size={20} />
+          ) : (
+            "Connected"
+          )}
         </Button>
       );
     } else if (
@@ -165,20 +170,40 @@ console.log(showSuccessAnimation,"ani")
     ) {
       return (
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-
-        <Button
-          disabled={isUnfollowPending}
-          onClick={unFollowFn}
-          variant="dark"
-          className={styles.editbtn}
-        >
-          {isUnfollowPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Unfollow"}
-        </Button>
-        {showSuccessAnimation &&
+          <Button
+            disabled={isUnfollowPending}
+            onClick={unFollowFn}
+            variant="dark"
+            className={styles.editbtn}
+          >
+            {isUnfollowPending ? (
+              <CircularProgress style={{ color: "white" }} size={20} />
+            ) : (
+              "Unfollow"
+            )}
+          </Button>
+          {showSuccessAnimation && (
             <div className={styles.successAnimation}>
-              <svg className={styles.checkmark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle className={styles.checkmarkCircle} cx="26" cy="26" r="25" fill="none" /><path className={styles.checkmarkCheck} fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+              <svg
+                className={styles.checkmark}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 52 52"
+              >
+                <circle
+                  className={styles.checkmarkCircle}
+                  cx="26"
+                  cy="26"
+                  r="25"
+                  fill="none"
+                />
+                <path
+                  className={styles.checkmarkCheck}
+                  fill="none"
+                  d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                />
+              </svg>
             </div>
-          }
+          )}
         </Box>
       );
     } else if (
@@ -192,7 +217,11 @@ console.log(showSuccessAnimation,"ani")
           variant="dark"
           className={styles.editbtn}
         >
-          {isUnfollowPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Accept"}
+          {isUnfollowPending ? (
+            <CircularProgress style={{ color: "white" }} size={20} />
+          ) : (
+            "Accept"
+          )}
         </Button>
       );
     } else {
@@ -209,19 +238,41 @@ console.log(showSuccessAnimation,"ani")
             variant="dark"
             className={styles.editbtn}
           >
-            {isPending ? <CircularProgress style={{'color': 'white'}} size={20} /> : "Connect"}
+            {isPending ? (
+              <CircularProgress style={{ color: "white" }} size={20} />
+            ) : (
+              "Connect"
+            )}
           </Button>
-          {showSuccessAnimation &&
+          {showSuccessAnimation && (
             <div className={styles.successAnimation}>
-              <svg className={styles.checkmark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle className={styles.checkmarkCircle} cx="26" cy="26" r="25" fill="none" /><path className={styles.checkmarkCheck} fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+              <svg
+                className={styles.checkmark}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 52 52"
+              >
+                <circle
+                  className={styles.checkmarkCircle}
+                  cx="26"
+                  cy="26"
+                  r="25"
+                  fill="none"
+                />
+                <path
+                  className={styles.checkmarkCheck}
+                  fill="none"
+                  d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                />
+              </svg>
             </div>
-          }
+          )}
         </Box>
       );
     }
   };
 
-  return (
+
+  return data?.userData ? (
     <Box className={styles.maindiv}>
       <Box className={styles.profilemain}>
         <Typography color={medium} className={styles.profiledetailsdiv}>
@@ -337,13 +388,11 @@ console.log(showSuccessAnimation,"ani")
             </Box>
           </Box>
           <Box className={styles.nameandeditdiv}>
-            <Box sx={{display:"flex",flexDirection:"column"}}>
-            <Typography color={dark} className={styles.avatarname}>
-              {data?.userData?.fullName}
-            </Typography>
-            <Typography color={dark} >
-              ({data?.userData?.userName})
-            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Typography color={dark} className={styles.avatarname}>
+                {data?.userData?.fullName}
+              </Typography>
+              <Typography color={dark}>({data?.userData?.userName})</Typography>
             </Box>
             <Box className={styles.btndiv}>
               {profileId === userId && (
@@ -353,43 +402,43 @@ console.log(showSuccessAnimation,"ani")
               )}
               {profileId !== userId && getRequestBtn()}
               {/* {profileId !== userId &&
-              (mainUserfollowingList &&
-              mainUserfollowingList.some(
-                (item) => item?.recipientId === profileId
-              ) ? (
-                <Button
-                  disabled={isUnfollowPending}
-                  onClick={unFollowFn}
-                  variant="dark"
-                  className={styles.editbtn}
-                >
-                  {isUnfollowPending ? <CircularProgress /> : "Unfollow"}
-                </Button>
-              ) : (
-                <Button
-                  disabled={isPending}
-                  onClick={() =>
-                    frdRequestMutate({
-                      senderId: userId,
-                      recipientId: profileId,
-                    })
-                  }
-                  variant="dark"
-                  className={styles.editbtn}
-                >
-                  {isPending ? <CircularProgress /> : "Connect"}
-                </Button>
-              ))} */}
+                (mainUserfollowingList &&
+                mainUserfollowingList.some(
+                  (item) => item?.recipientId === profileId
+                ) ? (
+                  <Button
+                    disabled={isUnfollowPending}
+                    onClick={unFollowFn}
+                    variant="dark"
+                    className={styles.editbtn}
+                  >
+                    {isUnfollowPending ? <CircularProgress /> : "Unfollow"}
+                  </Button>
+                ) : (
+                  <Button
+                    disabled={isPending}
+                    onClick={() =>
+                      frdRequestMutate({
+                        senderId: userId,
+                        recipientId: profileId,
+                      })
+                    }
+                    variant="dark"
+                    className={styles.editbtn}
+                  >
+                    {isPending ? <CircularProgress /> : "Connect"}
+                  </Button>
+                ))} */}
               {/* {profileId === userId && data?.pageData === null && (
-              <Box className={styles.closediv}>
-                <Button
-                  variant="dark"
-                  onClick={() => handleEdit()}
-                  className={styles.editbtn}
-                >
-                  Edit Profile
-                </Button>
-              )} */}
+                <Box className={styles.closediv}>
+                  <Button
+                    variant="dark"
+                    onClick={() => handleEdit()}
+                    className={styles.editbtn}
+                  >
+                    Edit Profile
+                  </Button>
+                )} */}
               {profileId === userId && data?.pageData === null && (
                 <Box className={styles.closediv}>
                   <Button
@@ -542,6 +591,17 @@ console.log(showSuccessAnimation,"ani")
         </Box>
       </Box>
     </Box>
+  ) : (
+    <>
+      <Box>
+        <Box className={styles.closeIcons}>
+          <IconButton onClick={() => dispatch(setDashboardView("home"))}>
+            <Close />
+          </IconButton>
+        </Box>
+        <LookingEmpty description="User Not Found" />
+      </Box>
+    </>
   );
 };
 

@@ -7,12 +7,12 @@ import { setSideView } from "../../redux/slices/profileSlice";
 const NotificationHeader = () => {
   const dispatch = useDispatch();
   return (
-    <FlexBetween marginTop={"-1.4rem"}>
-      <Typography sx={{ fontSize: "20px", fontWeight: "300" }}>
+    <FlexBetween>
+      <Typography sx={{ fontSize: "23px", fontWeight: "600" }}>
         Notifications
       </Typography>
       <IconButton onClick={() => dispatch(setSideView("companyPage"))}>
-        <CloseIcon sx={{ fontSize: "20px" }} />
+        <CloseIcon sx={{ fontSize: "23px" }} />
       </IconButton>
     </FlexBetween>
   );

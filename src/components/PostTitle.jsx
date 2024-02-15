@@ -22,6 +22,7 @@ import {
 import styles from "./index.module.css";
 import { styled } from "@mui/material/styles";
 import { removeHastag } from "../redux/slices/post";
+import { useState } from "react";
 
 const SmallAvatar = styled(Avatar)(({ theme }) => ({
   width: 22,
@@ -31,6 +32,7 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
 
 const PostTitle = ({ data, checkCond }) => {
   const { palette } = useTheme();
+  const [isClicked, setIsClicked] = useState(false);
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
   const main = palette.neutral.main;
@@ -41,11 +43,17 @@ const PostTitle = ({ data, checkCond }) => {
   const { mutate, isLoading } = useDeletePost();
   const dispatch = useDispatch();
   const deletePost = (id) => {
-    const postData = {
-      postId: id,
-      userId,
-    };
-    mutate(postData);
+    if (!isClicked) {
+      setIsClicked(true);
+      const postData = {
+        postId: id,
+        userId,
+      };
+      mutate(postData);
+      setTimeout(() => {
+        setIsClicked(false);
+      }, 2000);
+    }
   };
   const formatDate = (createdAt) => {
     const now = moment();
@@ -141,36 +149,36 @@ const PostTitle = ({ data, checkCond }) => {
           </Typography>
         </Box>
       </FlexBetween>
-      {checkCond ||
-        (viewProfileId === userId && (
-          <>
-            {data?.createdBy != userId ? (
-              <IconButton
-                onClick={() => {
-                  dispatch(setViewProfileId(data.createdBy));
-                  dispatch(setDashboardView("profile"));
-                }}
-                sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
-              >
-                <PersonAddOutlined className={styles.invateicon} />
-              </IconButton>
-            ) : (
-              <IconButton
-                disabled={isLoading}
-                sx={{ p: "0.6rem" }}
-                onClick={() => deletePost(data?._id)}
-              >
-                {isLoading ? (
-                  <CircularProgress style={{ color: "white" }} size={20} />
-                ) : (
-                  <Box className={styles.deletebtndiv}>
-                    <DeleteOutlined className={styles.deleteIcon} />
-                  </Box>
-                )}
-              </IconButton>
-            )}
-          </>
-        ))}
+
+      {(checkCond || viewProfileId === userId) && (
+        <>
+          {data?.createdBy != userId ? (
+            <IconButton
+              onClick={() => {
+                dispatch(setViewProfileId(data.createdBy));
+                dispatch(setDashboardView("profile"));
+              }}
+              sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+            >
+              <PersonAddOutlined className={styles.invateicon} />
+            </IconButton>
+          ) : (
+            <IconButton
+              disabled={isLoading}
+              sx={{ p: "0.6rem" }}
+              onClick={() => deletePost(data?._id)}
+            >
+              {isLoading ? (
+                <CircularProgress style={{ color: "white" }} size={20} />
+              ) : (
+                <Box className={styles.deletebtndiv}>
+                  <DeleteOutlined className={styles.deleteIcon} />
+                </Box>
+              )}
+            </IconButton>
+          )}
+        </>
+      )}
     </FlexBetween>
   );
 };
