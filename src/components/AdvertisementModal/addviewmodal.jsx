@@ -18,6 +18,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 export default function AdvertisementViewModal({handleClose, data , open}) {
+  if (!data){
+    return
+  }
   return (
     <React.Fragment>
       <BootstrapDialog
@@ -53,7 +56,7 @@ export default function AdvertisementViewModal({handleClose, data , open}) {
           </Typography>
           <div>
             <Typography gutterBottom>
-              <b>Images: </b><img  style={{width:"100%"}}src={data?.files}/>
+              <b>Images: </b><img  style={{width:"100%"}} src={data?.files[0]?.filePath}/>
             </Typography>
           </div>
           <Typography gutterBottom>

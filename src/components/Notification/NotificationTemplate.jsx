@@ -40,6 +40,8 @@ const NotificationTemplate = ({ data }) => {
     mutateMentionNotifications(payload);
   };
 
+
+
   return (
     <Box
       className={`${data?.status === 1 && styles.unReadmsg} ${

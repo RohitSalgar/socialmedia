@@ -26,15 +26,18 @@ import {
 } from "../../../../redux/slices/profileSlice";
 import { useNavigate } from "react-router";
 import { useTheme } from "@emotion/react";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import { URL } from "../../../../config";
+import InfoIcon from "@mui/icons-material/Info";
+
 const loginValidation = yup.object({
   email: yup
     .string()
     .trim()
     .lowercase()
     .required("Email is required")
-    .email("Enter valid email"),
+    .email("Enter valid email")
+    .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Enter valid email"),
   password: yup.string().trim().required("Password is required"),
 });
 
@@ -132,8 +135,23 @@ export default function Register() {
           sx={{ mt: 1, mb: 0 }}
           className={styles.loginformdiv}
         >
+          <Box sx={{display:"flex",  justifyContent:"space-between"}}>
+            <Box>
           <label htmlFor="email">Email Address</label>
           <span style={{ color: "red" }}>*</span>
+          </Box>
+          {errors?.email && (
+                  <Tooltip
+                    style={{
+                      fontSize: "14px",
+                      color: "red",
+                    }}
+                    title={errors?.email?.message}
+                  >
+                    <InfoIcon />
+                  </Tooltip>
+                )}
+          </Box>
           <Controller
             name="email"
             id="email"
@@ -152,12 +170,25 @@ export default function Register() {
               />
             )}
           />
-          {errors.email && (
-            <span className={styles.errormsg}>{errors.email.message}</span>
-          )}
           <Box sx={{ pt: "10px" }}>
+            <Box sx={{display:"flex",justifyContent:"space-between"}}>
+            <Box>
             <label htmlFor="password">Password</label>
             <span style={{ color: "red" }}>*</span>
+            </Box>
+            {errors?.password && (
+                  <Tooltip
+                    style={{
+                      marginLeft: "0.5rem",
+                      fontSize: "14px",
+                      color: "red",
+                    }}
+                    title={errors?.password?.message}
+                  >
+                    <InfoIcon />
+                  </Tooltip>
+                )}
+              </Box>
             <FormControl variant="outlined" fullWidth>
               <Controller
                 id="password"
@@ -187,9 +218,6 @@ export default function Register() {
                 )}
               />
             </FormControl>
-            {errors.password && (
-              <p className={styles.errormsg}>{errors.password.message}</p>
-            )}
           </Box>
           <Button className={styles.submitbtn} type="submit" fullWidth>
             Login

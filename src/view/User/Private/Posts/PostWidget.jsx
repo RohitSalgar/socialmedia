@@ -32,6 +32,7 @@ import {
   setViewProfileId,
 } from "../../../../redux/slices/profileSlice";
 import { useGetMentionedProfile } from "../../../../hooks/profile";
+import Close from "@mui/icons-material/Close";
 
 function HighlightAndTag({ text }) {
   const dispatch = useDispatch();
@@ -79,7 +80,11 @@ function HighlightAndTag({ text }) {
           </span>
         );
       } else {
-        return <span className={styles.descriptiontxt} key={index}>{word} </span>;
+        return (
+          <span className={styles.descriptiontxt} key={index}>
+            {word}{" "}
+          </span>
+        );
       }
     });
   };
@@ -88,7 +93,6 @@ function HighlightAndTag({ text }) {
 }
 
 const PostWidget = ({ postData, checkCond }) => {
-  console.log(postData.reporterIds)
   const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
@@ -106,11 +110,12 @@ const PostWidget = ({ postData, checkCond }) => {
   const { mutate: likeMutate, isLoading: likeDislikeLoading } =
     useLikeDisLike(onSuccess);
   const { userId } = useSelector((state) => state.profile.profileData);
+  const { dashboardView } = useSelector((state) => state.profile);
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
   useEffect(() => {
-    setIsLiked(postData?.likedBy.includes(userId));
+    setIsLiked(postData?.likedBy?.includes(userId));
   }, [userId]);
 
   function SampleArrow(props) {
@@ -208,9 +213,20 @@ const PostWidget = ({ postData, checkCond }) => {
     }
   };
 
-
   return (
     <WidgetWrapper m="0.3rem 0">
+      {dashboardView === "notification" && (
+        <Box
+          display="flex"
+          justifyContent={"end"}
+          alignContent={"space-between"}
+          marginTop="-0.7rem"
+        >
+          <IconButton onClick={() => dispatch(setDashboardView("home"))}>
+            <Close />
+          </IconButton>
+        </Box>
+      )}
       <PostTitle data={postData} checkCond={checkCond} />{" "}
       <Typography color={main} sx={{ mt: "0.5rem", ml: 1 }}>
         <HighlightAndTag text={postData?.description} />
@@ -301,29 +317,31 @@ const PostWidget = ({ postData, checkCond }) => {
               </Typography>
             </Box>
           </FlexBetween>
-          {!(postData?.reporterIds?.includes(userId)) && <FlexBetween gap="0.3rem">
-            <Box
-              onClick={() => {
-                setReport(true);
-                setIsComments(false);
-              }}
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <IconButton>
-                <ReportProblemIcon />
-              </IconButton>
-              <Typography
-                className={styles.likestxt}
-                sx={{ cursor: "pointer" }}
+          {!postData?.reporterIds?.includes(userId) && (
+            <FlexBetween gap="0.3rem">
+              <Box
+                onClick={() => {
+                  setReport(true);
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
               >
-                {"report"}
-              </Typography>
-            </Box>
-          </FlexBetween>}
+                <IconButton>
+                  <ReportProblemIcon />
+                </IconButton>
+                <Typography
+                  className={styles.likestxt}
+                  sx={{ cursor: "pointer" }}
+                >
+                  {"report"}
+                </Typography>
+              </Box>
+            </FlexBetween>
+          )}
           {(report === true || isComments === true) && (
             <FlexBetween gap="0.3rem">
               {/* <Box

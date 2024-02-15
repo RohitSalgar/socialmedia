@@ -60,10 +60,6 @@ const NotificationContent = () => {
     }
   }, [inView, hashtag, setSideView, data, postTagData]);
 
-  if (isLoading || postTagLOading) {
-    return <Loader />;
-  }
-
   // const filterDataByTag = () => {
   //   let array = [];
   //   if (selected === "all") {
