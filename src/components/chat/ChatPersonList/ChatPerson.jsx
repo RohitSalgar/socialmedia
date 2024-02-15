@@ -128,7 +128,7 @@ const ChatPerson = ({ data, notification }) => {
           ):(
             <DoneAllIcon fontSize="small" sx={{ pt: "2px" }} />
           )}
-              <Typography sx={{ fontSize: "12px", fontWeight: "350" }}>
+              <Typography sx={{ fontSize: "12px", fontWeight: "350"}} className={styles.recentChat}>
                 {data.recentChat}
               </Typography>
             </div>

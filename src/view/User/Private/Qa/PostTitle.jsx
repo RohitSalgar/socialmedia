@@ -13,6 +13,7 @@ import {
   setViewProfileId,
 } from "../../../../redux/slices/profileSlice";
 import styles from './index.module.css';
+import PostSkeleton from "../../../../components/Skeleton/PostSkeleton";
 
 const PostTitle = ({ data }) => {
   const { palette } = useTheme();
@@ -44,7 +45,7 @@ const PostTitle = ({ data }) => {
   };
 
   if (isPending) {
-    return <Loader />;
+    return <PostSkeleton />;
   }
   return (
     <FlexBetween>

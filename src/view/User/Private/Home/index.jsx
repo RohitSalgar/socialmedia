@@ -57,7 +57,8 @@ import { AdvertisementWidget } from "../Posts/AdvertisementWidget";
 import { PAGE_SIZE } from "../../../../config";
 import styles from './index.module.css';
 import DashboardSkeleton from "../../../../components/Skeleton/DashboardSkeleton/DashboardSkeleton";
-
+import Lottie from 'lottie-react';
+import animationData from '../../../../assets/emptyAnimation.json';
 const HomePage = () => {
   const { ref, inView } = useInView();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -304,7 +305,7 @@ const HomePage = () => {
                     )}
                     <Box>
                       {tabView === "trending" && trendingPost?.pages ? (
-                        trendingPost?.pages?.length > 0 ? (
+                        trendingPost?.pages[0]?.totalCount != 0  ? (
                           <Box>
                             {trendingPost.pages.map(({ data }) => {
                               return data.map((postData) => {
@@ -320,6 +321,7 @@ const HomePage = () => {
                                   <PostWidget
                                     key={postData._id}
                                     postData={postData}
+                                    checkCond={true}
                                   />
                                 );
                               });
@@ -346,7 +348,7 @@ const HomePage = () => {
                         )
                       ) : null}
                       {tabView === "forYou" && forYouData?.pages ? (
-                        forYouData?.pages?.length > 0 ? (
+                        forYouData?.pages[0]?.totalCount != 0  ? (
                           <Box>
                             {forYouData.pages.map(({ data }) => {
                               return data.map((postData) => {
@@ -362,6 +364,7 @@ const HomePage = () => {
                                   <PostWidget
                                     key={postData._id}
                                     postData={postData}
+                                    checkCond={true}
                                   />
                                 );
                               });
@@ -385,7 +388,7 @@ const HomePage = () => {
                       ) : null}
 
                       {tabView === "friend" && friendPostData?.pages ? (
-                        friendPostData?.pages?.length > 0 ? (
+                        friendPostData?.pages[0]?.totalCount != 0  ? (
                           <Box>
                             {friendPostData.pages.map(({ data }) => {
                               return data.map((postData) => {
@@ -401,6 +404,7 @@ const HomePage = () => {
                                   <PostWidget
                                     key={postData._id}
                                     postData={postData}
+                                    checkCond={true}
                                   />
                                 );
                               });
@@ -421,6 +425,7 @@ const HomePage = () => {
                         ) : (
                           <div style={{ marginTop: "10px" }}>
                             <LookingEmpty />
+                            {/* <Lottie animationData={animationData} /> */}
                           </div>
                         )
                       ) : null}

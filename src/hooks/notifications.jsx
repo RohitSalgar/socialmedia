@@ -110,10 +110,30 @@ const useGetNotificationPostById = (id) => {
   });
 };
 
+const useGetNotificationCountById = (payload) => {
+  return useQuery({
+    queryKey: ["notificationCount", payload],
+    queryFn: () =>
+      fetchData(
+        {
+          url: URL + "users/getAllNotificationCount",
+          method: "POST",
+          isAuthRequired: true,
+        },
+        { data: [payload] }
+      ),
+    onError: (error) => {
+      toast.error(error.message.split(":")[1]);
+    },
+    enabled: payload !== "",
+  });
+};
+
 export {
   useGetAllNotificationById,
   useUpdateNotificationStatus,
   useGetNotificationPostById,
   useGetAllPostTagNotificationById,
   useUpdateMentionedNotifications,
+  useGetNotificationCountById,
 };

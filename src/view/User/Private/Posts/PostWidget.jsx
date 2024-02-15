@@ -39,7 +39,10 @@ function HighlightAndTag({ text }) {
   const onSuccess = (data) => {
     dispatch(setViewProfileId(data[0].userData._id));
   };
-  const { mutate, data } = useGetMentionedProfile(onSuccess);
+
+
+
+  const { mutate , data } = useGetMentionedProfile(onSuccess);
   const handleTagClick = (e) => {
     const clickedWord = e.target.innerText;
     let userName = clickedWord.replace("@", "").trim();
@@ -407,7 +410,7 @@ const PostWidget = ({ postData, checkCond }) => {
                 }}
               />
             </IconButton>
-            <Typography
+            {/* <Typography
               sx={{ cursor: "pointer" }}
               onClick={() => {
                 setReport(false);
@@ -415,7 +418,7 @@ const PostWidget = ({ postData, checkCond }) => {
               }}
             >
               {"close"}
-            </Typography>
+            </Typography> */}
           </Box>
         </FlexBetween>
       )}
@@ -439,7 +442,7 @@ const PostWidget = ({ postData, checkCond }) => {
                   }}
                 />
               </IconButton>
-              <Typography
+              {/* <Typography
                 sx={{ cursor: "pointer" }}
                 onClick={() => {
                   setReport(false);
@@ -447,7 +450,7 @@ const PostWidget = ({ postData, checkCond }) => {
                 }}
               >
                 {"close"}
-              </Typography>
+              </Typography> */}
             </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />

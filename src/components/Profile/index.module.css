@@ -44,7 +44,11 @@
 }
 
 .pendingdiv {
-  color: #ea8400 !important;
+  color: #2F65B9 !important;
+  margin: 0;
+}
+.rejecteddiv {
+  color: red !important;
   margin: 0;
 }
 .btnsdiv{
@@ -53,7 +57,12 @@
   align-items: center;
 }
 .pendingdivs{
-  border: 1.5px solid #ea8400 !important;
+  border: 1.5px solid #2F65B9 !important;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.rejecteddivs{
+  border: 1.5px solid red !important;
   padding: 5px 10px;
   border-radius: 5px;
 }
@@ -111,6 +120,11 @@
     stroke-dasharray: 48;
     stroke-dashoffset: 48;
     animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+.closeIcons{
+  display: flex;
+  justify-content: end;
 }
 
 @keyframes stroke {

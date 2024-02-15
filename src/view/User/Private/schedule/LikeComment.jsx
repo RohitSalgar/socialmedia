@@ -154,9 +154,9 @@ const LikeComment = (props) => {
                   setIsComments(false);
                 }} />
                 </IconButton>
-                <Typography sx={{ cursor: "pointer" }}  onClick={() => {
+                {/* <Typography sx={{ cursor: "pointer" }}  onClick={() => {
                   setIsComments(false);
-                }}>{"close"}</Typography>
+                }}>{"close"}</Typography> */}
               </Box>
                   <Stack>
                     <CommentInputBox

@@ -29,11 +29,13 @@ import { OutlinedInput } from "@mui/material";
 export default function RegisterPage() {
   const { palette } = useTheme();
   const primary = palette.primary.main;
+  const [isClicked, setIsClicked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [conshowPassword, setConShowPassword] = useState(false);
   const navigate = useNavigate();
   const [location, setLocation] = useState({ state: "", country: "" });
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState("");
+  const [fileName, setFileName] = useState("");
   const [uploadedImage, setUploadedImage] = useState(true);
 
   const {
@@ -51,6 +53,7 @@ export default function RegisterPage() {
       password: "",
       designation: "",
       userName: "",
+      fileName: "",
       files: [],
     },
   });
@@ -90,12 +93,16 @@ export default function RegisterPage() {
   }, []);
 
   const updateEmailFn = async (data) => {
-    let response = await fetch(URL + "users/updateRegisterData", {
-      method: "POST",
-      body: data,
-    });
-    let responseData = await response.json();
-    return responseData.response;
+    return fetchData(
+      {
+        url: URL + "users/updateRegisterData",
+        method: "POST",
+        isAuthRequired: true,
+      },
+      {
+        data: data,
+      }
+    );
   };
 
   const updateEmailData = useMutation({
@@ -108,6 +115,7 @@ export default function RegisterPage() {
       toast.error(error.message.split(":")[1]);
     },
   });
+
   // const fetchExistingData = async (data) => {
   //   try {
   //     const response = await fetch(URL+ "users/userDetailsById", {
@@ -145,6 +153,7 @@ export default function RegisterPage() {
       ),
     onSuccess: (data) => {
       setFiles(data.profile);
+      setFileName(data.fileName);
       reset({
         fullName: data.fullName,
         email: data.email,
@@ -154,23 +163,32 @@ export default function RegisterPage() {
       });
     },
   });
+
   const onSubmit = (data) => {
-    const formData = new FormData();
-    formData.append("file", files);
-    formData.append("fullName", data.fullName);
-    formData.append("email", data.email);
-    formData.append("dob", data.dob);
-    formData.append("userName", data.userName);
-    formData.append("password", data.password);
-    formData.append("designation", data.designation);
-    formData.append("state", location.state);
-    formData.append("country", location.country);
-    if (id) {
-      formData.append("id", id);
-      data.id = id;
-      updateEmailData.mutate(formData);
-    } else {
-      postRegistrationData.mutate(formData);
+    if (!isClicked) {
+      setIsClicked(true);
+      const formData = new FormData();
+      formData.append("file", files);
+      formData.append("fileName", files?.name);
+      formData.append("fullName", data?.fullName);
+      formData.append("email", data?.email);
+      formData.append("dob", data?.dob);
+      formData.append("userName", data?.userName);
+      formData.append("password", data.password);
+      formData.append("designation", data?.designation);
+      formData.append("state", location.state);
+      formData.append("country", location.country);
+      if (id) {
+        formData.append("id", id);
+        data.id = id;
+        updateEmailData.mutate(formData);
+      } else {
+        postRegistrationData.mutate(formData);
+      }
+
+      setTimeout(() => {
+        setIsClicked(false);
+      }, 2000);
     }
   };
   useEffect(() => {
@@ -197,7 +215,7 @@ export default function RegisterPage() {
 
   const onImageClick = (data) => {
     if (data === "url") {
-      return window.open(files)
+      return window.open(files);
     }
     if (files) {
       const reader = new FileReader();
@@ -266,7 +284,6 @@ export default function RegisterPage() {
                   <TextField
                     {...field}
                     className={errors.fullName && styles.errormsg}
-                    placeholder="Enter User Name"
                     margin="normal"
                     type="text"
                     style={{
@@ -311,7 +328,6 @@ export default function RegisterPage() {
                   <TextField
                     {...field}
                     className={errors.fullName && styles.errormsg}
-                    placeholder="Enter Full Name"
                     margin="normal"
                     style={{
                       marginBottom: "1px",
@@ -355,7 +371,6 @@ export default function RegisterPage() {
                 <TextField
                   {...field}
                   className={errors.email && styles.errormsg}
-                  placeholder="Enter Email"
                   margin="normal"
                   style={{
                     marginBottom: "1px",
@@ -411,7 +426,6 @@ export default function RegisterPage() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    placeholder="Enter Designation"
                     className={errors.designation && styles.errormsg}
                     margin="normal"
                     style={{
@@ -511,7 +525,6 @@ export default function RegisterPage() {
                   <OutlinedInput
                     {...field}
                     className={errors.password && styles.errormsg}
-                    placeholder="Enter Password"
                     margin="normal"
                     style={{
                       marginBottom: "1px",
@@ -565,7 +578,6 @@ export default function RegisterPage() {
                   <OutlinedInput
                     {...field}
                     className={errors.conPassword && styles.errormsg}
-                    placeholder="Enter Password"
                     margin="normal"
                     style={{
                       marginBottom: "1px",
@@ -596,12 +608,14 @@ export default function RegisterPage() {
           {files ? (
             <div className={styles.imageContainer}>
               {uploadedImage ? (
-                <p onClick={() => onImageClick("url")}>uploadedImage</p>
+                <p onClick={() => onImageClick("url")}>{fileName}</p>
               ) : (
-                <p onClick={() => onImageClick()} style={{ cursor: "pointer" }}>{files.name}</p>
+                <p onClick={() => onImageClick()} style={{ cursor: "pointer" }}>
+                  {files.name}
+                </p>
               )}
               <DeleteIcon
-                onClick={() => setFiles(null)}
+                onClick={() => setFiles("")}
                 className={styles.deleteIcon}
               />
             </div>
