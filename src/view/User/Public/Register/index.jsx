@@ -266,7 +266,6 @@ export default function RegisterPage() {
                   <TextField
                     {...field}
                     className={errors.fullName && styles.errormsg}
-                    placeholder="Enter User Name"
                     margin="normal"
                     type="text"
                     style={{
@@ -311,7 +310,6 @@ export default function RegisterPage() {
                   <TextField
                     {...field}
                     className={errors.fullName && styles.errormsg}
-                    placeholder="Enter Full Name"
                     margin="normal"
                     style={{
                       marginBottom: "1px",
@@ -355,7 +353,6 @@ export default function RegisterPage() {
                 <TextField
                   {...field}
                   className={errors.email && styles.errormsg}
-                  placeholder="Enter Email"
                   margin="normal"
                   style={{
                     marginBottom: "1px",
@@ -411,7 +408,6 @@ export default function RegisterPage() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    placeholder="Enter Designation"
                     className={errors.designation && styles.errormsg}
                     margin="normal"
                     style={{
@@ -511,7 +507,6 @@ export default function RegisterPage() {
                   <OutlinedInput
                     {...field}
                     className={errors.password && styles.errormsg}
-                    placeholder="Enter Password"
                     margin="normal"
                     style={{
                       marginBottom: "1px",
@@ -565,7 +560,6 @@ export default function RegisterPage() {
                   <OutlinedInput
                     {...field}
                     className={errors.conPassword && styles.errormsg}
-                    placeholder="Enter Password"
                     margin="normal"
                     style={{
                       marginBottom: "1px",

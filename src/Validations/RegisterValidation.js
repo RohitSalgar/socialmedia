@@ -10,7 +10,7 @@ export const registerValidation = yup.object({
     .string()
     .trim()
     .required("UserName is required")
-    .matches(/^[a-zA-Z0-9_.-]*$/,"Only alphabets and numbers are allowed"),
+    .matches(/^[a-zA-Z0-9_.-]*$/, "Only alphabets and numbers are allowed"),
   designation: yup
     .string()
     .trim()

@@ -24,7 +24,7 @@ const CreateCompany = () => {
   const userId = useSelector((state) => state.profile.profileData.userId);
   const { data: profiledate, isLoading: profileLoading } =
     useGetProfile(userId);
-  const { mutate, isLoading: mutateLoading } = useCreateCompany();
+  const { mutate, isPending: mutateLoading } = useCreateCompany();
   const [profilePic, setProfilePic] = useState("");
   const [profilePicUrl, setProfilePicUrl] = useState("");
   const {
@@ -61,7 +61,7 @@ const CreateCompany = () => {
     mutate(formData);
   };
 
-  if (mutateLoading || profileLoading) {
+  if ( profileLoading) {
     return <Loader />;
   }
 

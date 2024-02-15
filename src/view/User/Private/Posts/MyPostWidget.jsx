@@ -137,7 +137,6 @@ const MyPostWidget = () => {
     if (image) {
       image.map((file) => {
         const acceptFile = acceptOnlyImages(file);
-        console.log(acceptFile);
         if (!acceptFile) {
           valid = false;
         }
