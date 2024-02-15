@@ -35,6 +35,7 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const [location, setLocation] = useState({ state: "", country: "" });
   const [files, setFiles] = useState(null);
+  const [fileName, setFileName] = useState("");
   const [uploadedImage, setUploadedImage] = useState(true);
 
   const {
@@ -52,6 +53,7 @@ export default function RegisterPage() {
       password: "",
       designation: "",
       userName: "",
+      fileName: "",
       files: [],
     },
   });
@@ -91,12 +93,16 @@ export default function RegisterPage() {
   }, []);
 
   const updateEmailFn = async (data) => {
-    let response = await fetch(URL + "users/updateRegisterData", {
-      method: "POST",
-      body: data,
-    });
-    let responseData = await response.json();
-    return responseData.response;
+    return fetchData(
+      {
+        url: URL + "users/updateRegisterData",
+        method: "POST",
+        isAuthRequired: true,
+      },
+      {
+        data: data,
+      }
+    );
   };
 
   const updateEmailData = useMutation({
@@ -109,6 +115,7 @@ export default function RegisterPage() {
       toast.error(error.message.split(":")[1]);
     },
   });
+
   // const fetchExistingData = async (data) => {
   //   try {
   //     const response = await fetch(URL+ "users/userDetailsById", {
@@ -146,6 +153,7 @@ export default function RegisterPage() {
       ),
     onSuccess: (data) => {
       setFiles(data.profile);
+      setFileName(data.fileName);
       reset({
         fullName: data.fullName,
         email: data.email,
@@ -155,26 +163,65 @@ export default function RegisterPage() {
       });
     },
   });
+
+  function acceptOnlyImages(files) {
+    const acceptedImageTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "video/mp4",
+    ];
+    return acceptedImageTypes.includes(files.type);
+  }
+
   const onSubmit = (data) => {
     if (!isClicked) {
       setIsClicked(true);
-      const formData = new FormData();
-      formData.append("file", files);
-      formData.append("fullName", data.fullName);
-      formData.append("email", data.email);
-      formData.append("dob", data.dob);
-      formData.append("userName", data.userName);
-      formData.append("password", data.password);
-      formData.append("designation", data.designation);
-      formData.append("state", location.state);
-      formData.append("country", location.country);
-      if (id) {
-        formData.append("id", id);
-        data.id = id;
-        updateEmailData.mutate(formData);
-      } else {
-        postRegistrationData.mutate(formData);
+      if (files) {
+        const acceptFile = acceptOnlyImages(files);
+        if (acceptFile) {
+          const formData = new FormData();
+          formData.append("file", files);
+          formData.append("fileName", files?.name);
+          formData.append("fullName", data.fullName);
+          formData.append("email", data.email);
+          formData.append("dob", data.dob);
+          formData.append("userName", data.userName);
+          formData.append("password", data.password);
+          formData.append("designation", data.designation);
+          formData.append("state", location.state);
+          formData.append("country", location.country);
+          if (id) {
+            formData.append("id", id);
+            data.id = id;
+            updateEmailData.mutate(formData);
+          } else {
+            postRegistrationData.mutate(formData);
+          }
+        } else {
+          toast.error("Invalid File Type");
+        }
       }
+
+      if (!files) {
+        const formData = new FormData();
+        formData.append("fullName", data.fullName);
+        formData.append("email", data.email);
+        formData.append("dob", data.dob);
+        formData.append("userName", data.userName);
+        formData.append("password", data.password);
+        formData.append("designation", data.designation);
+        formData.append("state", location.state);
+        formData.append("country", location.country);
+        if (id) {
+          formData.append("id", id);
+          data.id = id;
+          updateEmailData.mutate(formData);
+        } else {
+          postRegistrationData.mutate(formData);
+        }
+      }
+
       setTimeout(() => {
         setIsClicked(false);
       }, 2000);
@@ -603,7 +650,7 @@ export default function RegisterPage() {
           {files ? (
             <div className={styles.imageContainer}>
               {uploadedImage ? (
-                <p onClick={() => onImageClick("url")}>uploadedImage</p>
+                <p onClick={() => onImageClick("url")}>{fileName}</p>
               ) : (
                 <p onClick={() => onImageClick()} style={{ cursor: "pointer" }}>
                   {files.name}
