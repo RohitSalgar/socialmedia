@@ -29,17 +29,15 @@ const Myqa = () => {
   const [isfiles, setIsfiles] = useState(false);
   const { palette } = useTheme();
   const [imageUrls, setImageUrls] = useState([]);
-  
-  const {
-    getRootProps,
-    getInputProps
-  } = useDropzone({
-    accept: {
-      'image/jpeg': [],
-      'image/png': [],
-      "image/jpg" : [],
-    }
-  });
+  // const {
+  //   getRootProps,
+  //   getInputProps
+  // } = useDropzone({
+  //   accept: {
+  //     'image/jpeg': [],
+  //     'image/png': []
+  //   }
+  // });
 
   // const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
@@ -88,9 +86,9 @@ const Myqa = () => {
         return toast.error("Invalid File Format")
       }
     }
-    if(files.length === 0){
+    if (files.length === 0) {
       formData.append("files", files);
-    }else{
+    } else {
       files.forEach((item) => {
         formData.append("files", item);
       });
@@ -115,6 +113,7 @@ const Myqa = () => {
   };
 
   const fileChangeFn = (files) => {
+    console.log(files)
     let urls = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
@@ -179,11 +178,11 @@ const Myqa = () => {
       <FlexBetween>
         <FlexBetween gap="0.25rem" onClick={() => setIsfiles(!isfiles)}>
           <Dropzone
-            acceptedFiles=".jpg,.jpeg,.png"
+            // acceptedFiles=".jpg,.jpeg,.png"
             multiple={false}
             onDrop={(files) => fileChangeFn(files)}
           >
-            {() => (
+            {({ getRootProps, getInputProps }) => (
               <FlexBetween>
                 <Box
                   {...getRootProps()}
@@ -200,8 +199,7 @@ const Myqa = () => {
                     </IconButton>
                   )}
                 </Box>
-                {console.log(files)}
-                
+
               </FlexBetween>
             )}
           </Dropzone>
