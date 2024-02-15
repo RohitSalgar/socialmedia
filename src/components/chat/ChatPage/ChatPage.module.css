@@ -52,7 +52,7 @@
 .onlineuser {
   width: 10px !important;
   height: 10px !important;
-  background-color: #2F65B9;
+  background-color: #2f65b9;
   border-radius: 50%;
 }
 
@@ -92,6 +92,9 @@
   color: black;
   width: fit-content;
   font-size: 11px !important;
+  word-break: break-all;
+  text-align: justify;
+  text-justify: newspaper;
 }
 
 .senderTime {
@@ -112,15 +115,17 @@
   color: black;
   padding: 2% 4%;
   float: right;
+  text-align: justify;
+  text-justify: newspaper;
+  word-break: break-all;
 }
 .receiverText {
-  
   font-size: 11px !important;
 }
 .activeLogo {
   font-size: 10px !important;
   margin-left: 10px;
-  color: #2F65B9 !important;
+  color: #2f65b9 !important;
 }
 
 .receiverTime {

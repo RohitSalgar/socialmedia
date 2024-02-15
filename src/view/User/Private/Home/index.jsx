@@ -320,6 +320,7 @@ const HomePage = () => {
                                   <PostWidget
                                     key={postData._id}
                                     postData={postData}
+                                    checkCond={true}
                                   />
                                 );
                               });

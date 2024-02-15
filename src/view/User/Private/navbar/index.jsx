@@ -37,7 +37,7 @@ import {
 import { openAdvert } from "../../../../redux/slices/advert";
 import { removePostData } from "../../../../redux/slices/post";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
-import { useGetAllNotificationById } from "../../../../hooks/notifications";
+import { useGetNotificationCountById } from "../../../../hooks/notifications";
 import Loader from "../../../../components/Loader/Loader";
 
 const Navbar = () => {
@@ -45,6 +45,9 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const signedIn = localStorage.getItem("amsSocialSignedIn");
+  const { userId, userName } = useSelector(
+    (state) => state.profile.profileData
+  );
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
   const onSearchSuccess = (data) => {
@@ -52,10 +55,13 @@ const Navbar = () => {
   };
   const { mutate: navesearchMutate } = useNavSearch(onSearchSuccess);
 
+  let payload = {
+    userId,
+    userName,
+  };
+  const { data, isLoading } = useGetNotificationCountById(payload);
+
   const tokenId = localStorage.getItem("amsSocialToken");
-  const { userId } = useSelector((state) => state.profile.profileData);
-  const { data: notificationData, isLoading } =
-    useGetAllNotificationById(userId);
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -76,9 +82,10 @@ const Navbar = () => {
     }
   }
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
+  if (isLoading) {
+    return <Loader />;
+  }
+
 
   return (
     <FlexBetween
@@ -176,20 +183,12 @@ const Navbar = () => {
               }}
             />
 
-            <Badge
-              badgeContent={
-                notificationData?.pages.length > 0 &&
-                notificationData?.pages[0].unseenCount > 0
-                  ? notificationData?.pages[0].unseenCount
-                  : 0
-              }
-              color="primary"
-            >
+            <Badge badgeContent={data} color="primary">
               <NotificationImportantIcon
                 sx={{ fontSize: "25px", cursor: "pointer" }}
                 onClick={() => dispatch(setSideView("notification"))}
               />
-            </Badge> 
+            </Badge>
             <ImSwitch
               style={{ fontSize: "25px", cursor: "pointer" }}
               onClick={() => {

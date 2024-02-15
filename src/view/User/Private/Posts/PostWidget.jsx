@@ -39,7 +39,10 @@ function HighlightAndTag({ text }) {
   const onSuccess = (data) => {
     dispatch(setViewProfileId(data[0].userData._id));
   };
-  const { mutate, data } = useGetMentionedProfile(onSuccess);
+
+
+
+  const { mutate , data } = useGetMentionedProfile(onSuccess);
   const handleTagClick = (e) => {
     const clickedWord = e.target.innerText;
     let userName = clickedWord.replace("@", "").trim();
