@@ -154,18 +154,20 @@ const MyPostWidget = () => {
     //   }
     // }
 
+
     const formData = new FormData();
     image &&
       image.forEach((item) => {
         formData.append("file", item);
       });
+    
     formData.append("createdBy", userId);
     formData.append("description", description);
     formData.append("hashTags", JSON.stringify(hashTagss));
     formData.append("postMentions", JSON.stringify(postMentions));
     formData.append("state", location.state);
     formData.append("country", location.country);
-    if (dashboardView === "pages") {
+    if (dashboardView === "pages" && data) {
       formData.append("companyId", data.pageData._id);
     }
     mutate(formData);
@@ -241,6 +243,8 @@ const MyPostWidget = () => {
     setSearchDivToggle(false);
     textFieldRef.current.focus();
   }
+
+
 
   return (
     <WidgetWrapper>

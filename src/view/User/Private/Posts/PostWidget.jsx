@@ -80,7 +80,11 @@ function HighlightAndTag({ text }) {
           </span>
         );
       } else {
-        return <span className={styles.descriptiontxt} key={index}>{word} </span>;
+        return (
+          <span className={styles.descriptiontxt} key={index}>
+            {word}{" "}
+          </span>
+        );
       }
     });
   };
@@ -89,7 +93,6 @@ function HighlightAndTag({ text }) {
 }
 
 const PostWidget = ({ postData, checkCond }) => {
-  console.log(postData.reporterIds)
   const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
   const [postId, setPostId] = useState("");
@@ -112,7 +115,7 @@ const PostWidget = ({ postData, checkCond }) => {
   const main = palette.neutral.main;
   const primary = palette.primary.main;
   useEffect(() => {
-    setIsLiked(postData?.likedBy.includes(userId));
+    setIsLiked(postData?.likedBy?.includes(userId));
   }, [userId]);
 
   function SampleArrow(props) {
@@ -314,29 +317,31 @@ const PostWidget = ({ postData, checkCond }) => {
               </Typography>
             </Box>
           </FlexBetween>
-          {!(postData?.reporterIds?.includes(userId)) && <FlexBetween gap="0.3rem">
-            <Box
-              onClick={() => {
-                setReport(true);
-                setIsComments(false);
-              }}
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <IconButton>
-                <ReportProblemIcon />
-              </IconButton>
-              <Typography
-                className={styles.likestxt}
-                sx={{ cursor: "pointer" }}
+          {!postData?.reporterIds?.includes(userId) && (
+            <FlexBetween gap="0.3rem">
+              <Box
+                onClick={() => {
+                  setReport(true);
+                  setIsComments(false);
+                }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
               >
-                {"report"}
-              </Typography>
-            </Box>
-          </FlexBetween>}
+                <IconButton>
+                  <ReportProblemIcon />
+                </IconButton>
+                <Typography
+                  className={styles.likestxt}
+                  sx={{ cursor: "pointer" }}
+                >
+                  {"report"}
+                </Typography>
+              </Box>
+            </FlexBetween>
+          )}
           {(report === true || isComments === true) && (
             <FlexBetween gap="0.3rem">
               {/* <Box
