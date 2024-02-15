@@ -143,15 +143,8 @@ const MyPostWidget = () => {
       });
     }
     if (!valid) {
-      return;
+      return toast.error('Invalid File Type');
     }
-
-    // if (image) {
-    //   const acceptFile = acceptOnlyImages(image);
-    //   if (!acceptFile) {
-    //     return toast.error("Invalid File Format");
-    //   }
-    // }
 
     const formData = new FormData();
     image &&
@@ -444,7 +437,7 @@ const MyPostWidget = () => {
               }}
             >
               {isPending ? (
-                <CircularProgress style={{'color': 'white'}} size={20} />
+                <CircularProgress style={{ color: "white" }} size={20} />
               ) : (
                 "Feed News"
               )}
@@ -460,7 +453,7 @@ const MyPostWidget = () => {
               }}
             >
               {isPending ? (
-                <CircularProgress style={{'color': 'white'}} size={20} />
+                <CircularProgress style={{ color: "white" }} size={20} />
               ) : (
                 "Post"
               )}

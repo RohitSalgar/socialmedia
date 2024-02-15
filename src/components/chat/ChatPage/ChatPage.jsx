@@ -6,11 +6,9 @@ import SendIcon from "@mui/icons-material/Send";
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { CancelScheduleSend } from "@mui/icons-material";
-import {
-  setSingleChatModeOff,
-} from "../../../redux/slices/chat";
+import { setSingleChatModeOff } from "../../../redux/slices/chat";
 import { useGetChatById, useUpdateChatStatus } from "../../../hooks/chat";
-import DoneAllIcon from '@mui/icons-material/DoneAll';
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { useQueryClient } from "@tanstack/react-query";
 import ChatPageSkeleton from "../../Skeleton/ChatSkeleton/ChatPageSkeleton";
 
@@ -79,8 +77,6 @@ const ChatPage = ({ data, socket, resetNotification }) => {
       socket?.off("getMessage");
     };
   }, []);
-
-
 
   const sendChatMessage = (e) => {
     e.preventDefault();
@@ -206,7 +202,9 @@ const ChatPage = ({ data, socket, resetNotification }) => {
         }}
       />
       <Box className={styles.chatHeader}>
-        <Box sx={{ display: "flex", alignItems: "center", padding: "10px 5px" }}>
+        <Box
+          sx={{ display: "flex", alignItems: "center", padding: "10px 5px" }}
+        >
           <Avatar
             width={"40px"}
             height={"40px"}
@@ -223,17 +221,28 @@ const ChatPage = ({ data, socket, resetNotification }) => {
                 ? filteredData[0].recipientName
                 : filteredData[0].senderName}
             </Typography>
-            {chatliveUsers && isUserIdPresent(chatliveUsers, filteredData[0])
-              ? <Typography style={{
-                fontSize: "13px",
-                fontWeight: "350", 
-              color: "green"
-              }}>Online</Typography>
-              : <Typography sx={{
-                fontSize: "13px",
-                fontWeight: "350",
-                color: "red"
-              }}>Offline</Typography>}
+            {chatliveUsers &&
+            isUserIdPresent(chatliveUsers, filteredData[0]) ? (
+              <Typography
+                style={{
+                  fontSize: "13px",
+                  fontWeight: "350",
+                  color: "green",
+                }}
+              >
+                Online
+              </Typography>
+            ) : (
+              <Typography
+                sx={{
+                  fontSize: "13px",
+                  fontWeight: "350",
+                  color: "red",
+                }}
+              >
+                Offline
+              </Typography>
+            )}
           </Box>
         </Box>
       </Box>
@@ -278,10 +287,11 @@ const ChatPage = ({ data, socket, resetNotification }) => {
                             )}
                             {message.senderId === userId && (
                               <Box>
-                                <Typography className={styles.receiver}>
-                                  {message.message}
-                                </Typography>
-
+                                <Box className={styles.receiver}>
+                                  <Typography className={styles.receiverText}>
+                                    {message.message}
+                                  </Typography>
+                                </Box>
                                 <p className={`${styles.receiverTime}`}>
                                   {formatDate(message?.createdAt)}
                                 </p>
@@ -318,10 +328,11 @@ const ChatPage = ({ data, socket, resetNotification }) => {
                     )}
                     {message.senderId === userId && (
                       <Box>
-                        <Typography className={styles.receiver}>
-                          {message.message}
-                        </Typography>
-
+                        <Box className={styles.receiver}>
+                          <Typography className={styles.receiverText}>
+                            {message.message}
+                          </Typography>
+                        </Box>
                         <p className={`${styles.receiverTime}`}>
                           {formatDate(message?.createdAt)}
                         </p>
@@ -359,7 +370,15 @@ const ChatPage = ({ data, socket, resetNotification }) => {
                         <Typography className={styles.receiverText}>
                           {message.message}
                         </Typography>
-                        {message.status === 1 ? <DoneAllIcon fontSize="small" color="success" sx={{ pt: "2px" }} /> : <DoneAllIcon fontSize="small" sx={{ pt: "2px" }} />}
+                        {message.status === 1 ? (
+                          <DoneAllIcon
+                            fontSize="small"
+                            color="success"
+                            sx={{ pt: "2px" }}
+                          />
+                        ) : (
+                          <DoneAllIcon fontSize="small" sx={{ pt: "2px" }} />
+                        )}
                       </Box>
                       <p className={`${styles.receiverTime}`}>
                         {formatDate(message?.createdAt)}
@@ -390,10 +409,7 @@ const ChatPage = ({ data, socket, resetNotification }) => {
                 <SendIcon />
               </IconButton>
             ) : (
-              <IconButton
-                disabled={true}
-                className={styles.sendButton}
-              >
+              <IconButton disabled={true} className={styles.sendButton}>
                 <CancelScheduleSend />
               </IconButton>
             )}
@@ -405,4 +421,3 @@ const ChatPage = ({ data, socket, resetNotification }) => {
 };
 
 export default ChatPage;
-

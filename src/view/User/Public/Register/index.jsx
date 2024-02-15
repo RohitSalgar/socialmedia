@@ -34,7 +34,8 @@ export default function RegisterPage() {
   const [conshowPassword, setConShowPassword] = useState(false);
   const navigate = useNavigate();
   const [location, setLocation] = useState({ state: "", country: "" });
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState("");
+  const [fileName, setFileName] = useState("");
   const [uploadedImage, setUploadedImage] = useState(true);
 
   const {
@@ -52,6 +53,7 @@ export default function RegisterPage() {
       password: "",
       designation: "",
       userName: "",
+      fileName: "",
       files: [],
     },
   });
@@ -91,12 +93,16 @@ export default function RegisterPage() {
   }, []);
 
   const updateEmailFn = async (data) => {
-    let response = await fetch(URL + "users/updateRegisterData", {
-      method: "POST",
-      body: data,
-    });
-    let responseData = await response.json();
-    return responseData.response;
+    return fetchData(
+      {
+        url: URL + "users/updateRegisterData",
+        method: "POST",
+        isAuthRequired: true,
+      },
+      {
+        data: data,
+      }
+    );
   };
 
   const updateEmailData = useMutation({
@@ -109,6 +115,7 @@ export default function RegisterPage() {
       toast.error(error.message.split(":")[1]);
     },
   });
+
   // const fetchExistingData = async (data) => {
   //   try {
   //     const response = await fetch(URL+ "users/userDetailsById", {
@@ -146,6 +153,7 @@ export default function RegisterPage() {
       ),
     onSuccess: (data) => {
       setFiles(data.profile);
+      setFileName(data.fileName);
       reset({
         fullName: data.fullName,
         email: data.email,
@@ -155,17 +163,19 @@ export default function RegisterPage() {
       });
     },
   });
+
   const onSubmit = (data) => {
     if (!isClicked) {
       setIsClicked(true);
       const formData = new FormData();
       formData.append("file", files);
-      formData.append("fullName", data.fullName);
-      formData.append("email", data.email);
-      formData.append("dob", data.dob);
-      formData.append("userName", data.userName);
+      formData.append("fileName", files?.name);
+      formData.append("fullName", data?.fullName);
+      formData.append("email", data?.email);
+      formData.append("dob", data?.dob);
+      formData.append("userName", data?.userName);
       formData.append("password", data.password);
-      formData.append("designation", data.designation);
+      formData.append("designation", data?.designation);
       formData.append("state", location.state);
       formData.append("country", location.country);
       if (id) {
@@ -175,6 +185,7 @@ export default function RegisterPage() {
       } else {
         postRegistrationData.mutate(formData);
       }
+
       setTimeout(() => {
         setIsClicked(false);
       }, 2000);
@@ -597,14 +608,14 @@ export default function RegisterPage() {
           {files ? (
             <div className={styles.imageContainer}>
               {uploadedImage ? (
-                <p onClick={() => onImageClick("url")}>uploadedImage</p>
+                <p onClick={() => onImageClick("url")}>{fileName}</p>
               ) : (
                 <p onClick={() => onImageClick()} style={{ cursor: "pointer" }}>
                   {files.name}
                 </p>
               )}
               <DeleteIcon
-                onClick={() => setFiles(null)}
+                onClick={() => setFiles("")}
                 className={styles.deleteIcon}
               />
             </div>

@@ -42,6 +42,7 @@ const PostTitle = ({ data, checkCond }) => {
   const { viewProfileId } = useSelector((state) => state.profile);
   const { mutate, isLoading } = useDeletePost();
   const dispatch = useDispatch();
+
   const deletePost = (id) => {
     if (!isClicked) {
       setIsClicked(true);
@@ -55,6 +56,7 @@ const PostTitle = ({ data, checkCond }) => {
       }, 2000);
     }
   };
+
   const formatDate = (createdAt) => {
     const now = moment();
     const createdAtMoment = moment(createdAt);
