@@ -43,54 +43,56 @@ function CommentInputBox({ type, postData, replyId, insertAt, scheduleId }) {
     }
   }, [insertCommentLoading, insertReplyLoading]);
   function handleSubmit() {
-    if (type === "comment") {
-      if (dashboardView === "schedule" || dashboardView === "postprofile") {
-        const newComment = {
-          scheduleId,
+    if (text.trim().length > 0) {
+      if (type === "comment") {
+        if (dashboardView === "schedule" || dashboardView === "postprofile") {
+          const newComment = {
+            scheduleId,
+            userId: userId,
+            message: text,
+          };
+          setText("");
+          return commentMutate(newComment);
+        } else if (dashboardView === "qa") {
+          const newComment = {
+            questionId: postData?._id,
+            userId,
+            answer: text,
+          };
+          setText("");
+          return mutateQaComment(newComment);
+        } else {
+          const newComment = {
+            postId: postData?._id,
+            userId,
+            message: text,
+          };
+          setText("");
+          return insertComment(newComment);
+        }
+      } else if (type === "reply") {
+        if (dashboardView === "qa") {
+          setText("");
+          dispatch(setReplyInput("false"));
+          return insertQaReply({
+            answerId: replyId?._id,
+            userId: userId,
+            message: text,
+          });
+        }
+        const newReply = {
+          commentId: replyId?._id,
           userId: userId,
           message: text,
         };
         setText("");
-        return commentMutate(newComment);
-      } else if (dashboardView === "qa") {
-        const newComment = {
-          questionId: postData?._id,
-          userId,
-          answer: text,
-        };
-        setText("");
-        return mutateQaComment(newComment);
-      } else {
-        const newComment = {
-          postId: postData?._id,
-          userId,
-          message: text,
-        };
-        setText("");
-        return insertComment(newComment);
-      }
-    } else if (type === "reply") {
-      if (dashboardView === "qa") {
-        setText("");
-        dispatch(setReplyInput("false"));
-        return insertQaReply({
-          answerId: replyId?._id,
-          userId: userId,
-          message: text,
-        });
-      }
-      const newReply = {
-        commentId: replyId?._id,
-        userId: userId,
-        message: text,
-      };
-      setText("");
-      if (dashboardView === "schedule" || dashboardView === "postprofile") {
-        dispatch(setReplyInput("false"));
-        return insertScheduleReply(newReply);
-      } else {
-        dispatch(setReplyInput("false"));
-        return insertReply(newReply);
+        if (dashboardView === "schedule" || dashboardView === "postprofile") {
+          dispatch(setReplyInput("false"));
+          return insertScheduleReply(newReply);
+        } else {
+          dispatch(setReplyInput("false"));
+          return insertReply(newReply);
+        }
       }
     }
   }

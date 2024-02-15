@@ -108,7 +108,7 @@ const QaWidget = ({ postData }) => {
       <Typography color={main} className={styles.questiondiv}>
         Question : {postData?.question}
       </Typography>
-      {postData.files != "null" &&
+      {postData.files &&
        <img
         width="100%"
         height="auto"

@@ -26,7 +26,7 @@
 .msgCount {
   width: 20px;
   height: 20px;
-  background-color: #2F65B9;
+  background-color: #2f65b9;
   color: #fff;
   border-radius: 50%;
   display: flex;
@@ -35,4 +35,12 @@
 }
 .imgdiv > img {
   border-radius: 50%;
+}
+
+.recentChat {
+  white-space: nowrap;
+  width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 10px !important;
 }

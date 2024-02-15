@@ -29,6 +29,7 @@ import { OutlinedInput } from "@mui/material";
 export default function RegisterPage() {
   const { palette } = useTheme();
   const primary = palette.primary.main;
+  const [isClicked, setIsClicked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [conshowPassword, setConShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -155,22 +156,28 @@ export default function RegisterPage() {
     },
   });
   const onSubmit = (data) => {
-    const formData = new FormData();
-    formData.append("file", files);
-    formData.append("fullName", data.fullName);
-    formData.append("email", data.email);
-    formData.append("dob", data.dob);
-    formData.append("userName", data.userName);
-    formData.append("password", data.password);
-    formData.append("designation", data.designation);
-    formData.append("state", location.state);
-    formData.append("country", location.country);
-    if (id) {
-      formData.append("id", id);
-      data.id = id;
-      updateEmailData.mutate(formData);
-    } else {
-      postRegistrationData.mutate(formData);
+    if (!isClicked) {
+      setIsClicked(true);
+      const formData = new FormData();
+      formData.append("file", files);
+      formData.append("fullName", data.fullName);
+      formData.append("email", data.email);
+      formData.append("dob", data.dob);
+      formData.append("userName", data.userName);
+      formData.append("password", data.password);
+      formData.append("designation", data.designation);
+      formData.append("state", location.state);
+      formData.append("country", location.country);
+      if (id) {
+        formData.append("id", id);
+        data.id = id;
+        updateEmailData.mutate(formData);
+      } else {
+        postRegistrationData.mutate(formData);
+      }
+      setTimeout(() => {
+        setIsClicked(false);
+      }, 2000);
     }
   };
   useEffect(() => {
@@ -197,7 +204,7 @@ export default function RegisterPage() {
 
   const onImageClick = (data) => {
     if (data === "url") {
-      return window.open(files)
+      return window.open(files);
     }
     if (files) {
       const reader = new FileReader();
@@ -592,7 +599,9 @@ export default function RegisterPage() {
               {uploadedImage ? (
                 <p onClick={() => onImageClick("url")}>uploadedImage</p>
               ) : (
-                <p onClick={() => onImageClick()} style={{ cursor: "pointer" }}>{files.name}</p>
+                <p onClick={() => onImageClick()} style={{ cursor: "pointer" }}>
+                  {files.name}
+                </p>
               )}
               <DeleteIcon
                 onClick={() => setFiles(null)}
