@@ -9,6 +9,7 @@ import {
   Typography,
   TextField,
   Button,
+  Skeleton,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import { getEmail } from "../../../../hooks/otp";
@@ -66,6 +67,9 @@ const OTPPage = () => {
     mutationFn: () => getEmail(id),
     onSuccess: (response) => {
       const responseData = JSON.parse(response.data);
+      if(responseData.status === 1){
+        navigate("/login")
+      }
       setEmailId(responseData.email);
     },
     onError: () => {
@@ -146,7 +150,7 @@ const OTPPage = () => {
     }
   };
 
-  if (emailData.isLoading || resendOtpData.isLoading) {
+  if (emailData.isLoading || resendOtpData.isLoading || emailId === "") {
     return <Loader />;
   }
 

@@ -410,7 +410,7 @@ const PostWidget = ({ postData, checkCond }) => {
                 }}
               />
             </IconButton>
-            <Typography
+            {/* <Typography
               sx={{ cursor: "pointer" }}
               onClick={() => {
                 setReport(false);
@@ -418,7 +418,7 @@ const PostWidget = ({ postData, checkCond }) => {
               }}
             >
               {"close"}
-            </Typography>
+            </Typography> */}
           </Box>
         </FlexBetween>
       )}
@@ -442,7 +442,7 @@ const PostWidget = ({ postData, checkCond }) => {
                   }}
                 />
               </IconButton>
-              <Typography
+              {/* <Typography
                 sx={{ cursor: "pointer" }}
                 onClick={() => {
                   setReport(false);
@@ -450,7 +450,7 @@ const PostWidget = ({ postData, checkCond }) => {
                 }}
               >
                 {"close"}
-              </Typography>
+              </Typography> */}
             </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />
