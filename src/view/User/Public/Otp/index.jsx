@@ -155,7 +155,7 @@ const OTPPage = () => {
       <Box>
         <Typography className={styles.otptitle}>Enter OTP</Typography>
         <Typography paragraph className={styles.otpsendid}>
-          OTP sent to <span>{emailId}</span>
+          OTP sent to <span title={emailId}>{emailId}</span>
         </Typography>
         <Box
           component="form"

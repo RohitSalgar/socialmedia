@@ -100,7 +100,7 @@ export default function Register() {
     control,
   } = useForm({
     resolver: yupResolver(loginValidation),
-    mode: "onTouched",
+    mode: "onSubmit",
     defaultValues: {
       email: "",
       password: "",
@@ -217,7 +217,7 @@ export default function Register() {
               textAlign: "center",
               padding: "6px",
               borderRadius: "5px",
-                    cursor:"pointer"
+              cursor: "pointer"
             }}
             onClick={() => {
               dispatch(setSkip());

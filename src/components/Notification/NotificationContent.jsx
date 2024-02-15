@@ -48,7 +48,7 @@ const NotificationContent = () => {
           Math.ceil(data?.pages[0]?.totalCount / PAGE_SIZE)
         )
       ) {
-        fetchNextPage();
+        // fetchNextPage();
       } else if (
         selected === "mention" &&
         !postTagData?.pageParams.includes(
@@ -85,17 +85,15 @@ const NotificationContent = () => {
     <Box sx={{ marginLeft: "-0.9rem", marginRight: "-0.9rem" }}>
       <Box className={styles.optionDiv}>
         <Box
-          className={`${selected === "myposts" && styles.selectedButton} ${
-            styles.buttonDiv
-          }`}
+          className={`${selected === "myposts" && styles.selectedButton} ${styles.buttonDiv
+            }`}
           onClick={() => handleClick("myposts")}
         >
           <Typography>My Posts</Typography>
         </Box>
         <Box
-          className={`${selected === "mention" && styles.selectedButton} ${
-            styles.buttonDiv
-          }`}
+          className={`${selected === "mention" && styles.selectedButton} ${styles.buttonDiv
+            }`}
           onClick={() => handleClick("mention")}
         >
           <Typography>Mention</Typography>
@@ -103,19 +101,19 @@ const NotificationContent = () => {
       </Box>
       <Divider sx={{ marginTop: "0.2rem" }} />
       <Box className={styles.notificationMainDiv}>
-        {data && data?.pages?.length > 0 ? (
+        {data && data?.pages[0]?.totalCount != 0 && selected === "myposts" ? (
           <>
-            {selected === "myposts" &&
+            {
               data.pages?.map(({ data }) =>
                 data
                   .filter((e) => e.status !== 0)
                   .map((e, i) => <NotificationTemplate key={i} data={e} />)
               )}
-            {selected === "myposts" &&
+            {
               !data?.pageParams?.includes(
                 Math.ceil(data.pages[0]?.totalCount / 10)
               ) && <NotificationSkeleton />}
-            {selected === "myposts" && (
+            {(
               <div
                 ref={ref}
                 style={{ height: "10px" }}
@@ -124,17 +122,22 @@ const NotificationContent = () => {
                 {isFetchingNextPage && <NotificationSkeleton />}
               </div>
             )}
-            {selected === "mention" &&
+
+          </>
+        ) : (          
+        postTagData && postTagData?.pages[0]?.totalCount != 0 && selected === "mention" ? (
+          <>
+            {
               postTagData.pages?.map(({ data }) =>
                 data
                   .filter((e) => e.status !== 0)
                   .map((e, i) => <NotificationTemplate key={i} data={e} />)
               )}
-            {selected === "mention" &&
+            {
               !postTagData?.pageParams?.includes(
                 Math.ceil(postTagData.pages[0]?.totalCount / 10)
               ) && <NotificationSkeleton />}
-            {selected === "mention" && (
+            {(
               <div
                 ref={ref}
                 style={{ height: "10px" }}
@@ -143,9 +146,11 @@ const NotificationContent = () => {
                 {postTagisFetchingNextPage && <NotificationSkeleton />}
               </div>
             )}
+
           </>
         ) : (
           <LookingEmpty />
+        )
         )}
       </Box>
     </Box>

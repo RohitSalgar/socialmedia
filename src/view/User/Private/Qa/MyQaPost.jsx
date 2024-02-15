@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
 import Dropzone from "react-dropzone";
+import { useDropzone } from 'react-dropzone';
 import WidgetWrapper from "../../../../components/WidgetWrapper";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
@@ -23,17 +24,29 @@ import { CircularProgress } from "@mui/material";
 
 const Myqa = () => {
   const { userId } = useSelector((state) => state.profile.profileData);
-  const [files, setfiles] = useState(null);
+  const [files, setfiles] = useState([]);
   const [question, setquestion] = useState("");
   const [isfiles, setIsfiles] = useState(false);
   const { palette } = useTheme();
+  const [imageUrls, setImageUrls] = useState([]);
+  
+  const {
+    getRootProps,
+    getInputProps
+  } = useDropzone({
+    accept: {
+      'image/jpeg': [],
+      'image/png': [],
+      "image/jpg" : [],
+    }
+  });
 
   // const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
   // const medium = palette.neutral.medium;
   const onSuccess = () => {
     setquestion("");
-    setfiles(null);
+    setfiles([]);
     setIsfiles(false);
   };
   const { mutate, isPending } = useInsertquestion(onSuccess);
@@ -69,18 +82,25 @@ const Myqa = () => {
 
   const onSubmit = () => {
     const formData = new FormData();
-    if (files) {
-      const acceptFile = acceptOnlyImages(files)
+    if (files.length > 0) {
+      const acceptFile = acceptOnlyImages(files[0])
       if (!acceptFile) {
         return toast.error("Invalid File Format")
       }
     }
-    formData.append("files", files);
+    if(files.length === 0){
+      formData.append("files", files);
+    }else{
+      files.forEach((item) => {
+        formData.append("files", item);
+      });
+    }
     formData.append("createdBy", userId);
     formData.append("question", question);
     mutate(formData);
     setquestion("");
-    setfiles("");
+    setfiles([]);
+    setImageUrls([]);
   };
 
   const onImageClick = () => {
@@ -94,6 +114,22 @@ const Myqa = () => {
     }
   };
 
+  const fileChangeFn = (files) => {
+    let urls = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const imageUrl = e.target.result;
+        urls.push({ imageUrl, ...file });
+        setImageUrls([...imageUrls, ...urls]);
+      };
+
+      reader.readAsDataURL(file);
+    }
+    setfiles([...files, ...files]);
+  };
+
   return (
     <WidgetWrapper>
       <FlexBetween flexDirection={"column"}>
@@ -104,10 +140,10 @@ const Myqa = () => {
           placeholder="Ask your Question ?...."
           onChange={(e) => setquestion(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey ) {
+            if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
-                onSubmit();
-              
+              onSubmit();
+
             }
           }}
           value={question}
@@ -118,14 +154,36 @@ const Myqa = () => {
         />
       </FlexBetween>
       <Divider sx={{ margin: "0.7rem 0" }} />
+      {files != null && imageUrls.length > 0 && (
+        <div className={styles.sliderContainer}>
+          <div className={styles.imageContainer}>
+            <img
+              className={styles.video}
+              src={imageUrls[0].imageUrl}
+              alt="post_image"
+            />
+          </div>
+          <div className={styles.imageFooter}>
+            <Typography onClick={onImageClick}>{files[0].path}</Typography>
+            <IconButton
+              onClick={() => {
+                setfiles([]);
+                setImageUrls([]);
+              }}
+            >
+              <DeleteOutlined />
+            </IconButton>
+          </div>
+        </div>
+      )}
       <FlexBetween>
         <FlexBetween gap="0.25rem" onClick={() => setIsfiles(!isfiles)}>
           <Dropzone
             acceptedFiles=".jpg,.jpeg,.png"
             multiple={false}
-            onDrop={(acceptedFiles) => setfiles(acceptedFiles[0])}
+            onDrop={(files) => fileChangeFn(files)}
           >
-            {({ getRootProps, getInputProps }) => (
+            {() => (
               <FlexBetween>
                 <Box
                   {...getRootProps()}
@@ -133,8 +191,8 @@ const Myqa = () => {
                   sx={{ "&:hover": { cursor: "pointer" } }}
                 >
                   <input {...getInputProps()} />
-                  {!files && (
-                    <IconButton onClick={() => setfiles(null)}>
+                  {files?.length === 0 && (
+                    <IconButton >
                       <MdAddPhotoAlternate
                         size={25}
                         style={{ color: mediumMain }}
@@ -142,23 +200,13 @@ const Myqa = () => {
                     </IconButton>
                   )}
                 </Box>
-                {files && (
-                  <>
-                    <FlexBetween>
-                      <Typography onClick={onImageClick}>{files && files.name}</Typography>
-                      <IconButton onClick={() => setfiles(null)}>
-                        <EditOutlined style={{ color: mediumMain }} />
-                      </IconButton>
-                    </FlexBetween>
-                  <IconButton onClick={() => setfiles(null)}>
-                    <DeleteOutlined />
-                  </IconButton>
-                  </>
-                )}
+                {console.log(files)}
+                
               </FlexBetween>
             )}
           </Dropzone>
         </FlexBetween>
+
         <Box>
           <Button
             disabled={!question.trim()}
@@ -168,12 +216,12 @@ const Myqa = () => {
               borderRadius: "1rem",
             }}
           >
-             {isPending ? (
-                <CircularProgress style={{'color': 'white'}} size={20} />
-              ) : (
-                "Ask"
-              )}
-            
+            {isPending ? (
+              <CircularProgress style={{ 'color': 'white' }} size={20} />
+            ) : (
+              "Ask"
+            )}
+
           </Button>
         </Box>
       </FlexBetween>

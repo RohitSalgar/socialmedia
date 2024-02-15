@@ -10,7 +10,7 @@ import {
   IconButton,
 } from "@mui/material";
 import FlexBetween from "../../../../components/FlexBetween";
-import Dropzone from "react-dropzone";
+import Dropzone, { useDropzone } from "react-dropzone";
 import WidgetWrapper from "../../../../components/WidgetWrapper";
 import { useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
@@ -33,6 +33,17 @@ const MyPostWidget = () => {
   let [description, setDescription] = useState("");
   let [lastWordBeforeCursor, setLastWordBeforeCursor] = useState("");
   let [typingPosition, setTypingPosition] = useState("");
+  const {
+    getRootProps,
+    getInputProps
+  } = useDropzone({
+    accept: {
+      'image/jpeg': [],
+      'image/png': [],
+      "image/jpg" : [],
+      "video/mp4": [],
+    }
+  });
   const [location, setLocation] = useState({
     state: "TamilNadu",
     country: "India",
@@ -415,7 +426,7 @@ const MyPostWidget = () => {
             multiple={true}
             onDrop={(files) => fileChangeFn(files)}
           >
-            {({ getRootProps, getInputProps }) => (
+            {() => (
               <FlexBetween>
                 <Box
                   {...getRootProps()}

@@ -43,7 +43,7 @@ export default function RegisterPage() {
     reset,
   } = useForm({
     resolver: yupResolver(registerValidation),
-    mode: "onTouched",
+    mode: "onSubmit",
     defaultValues: {
       fullName: "",
       email: "",
@@ -196,9 +196,9 @@ export default function RegisterPage() {
   };
 
   const onImageClick = (data) => {
-    if(data === "url"){
+    if (data === "url") {
       return window.open(files)
-        }
+    }
     if (files) {
       const reader = new FileReader();
       reader.onload = function (event) {
@@ -212,9 +212,10 @@ export default function RegisterPage() {
   return (
     <Box className={styles.registerdiv}>
       <Box className={styles.formdiv}>
-      <Typography className={styles.registertitle}>Create Account</Typography>
+        <Typography className={styles.registertitle}>Create Account</Typography>
         <Box
           component="form"
+          autoComplete="nope"
           noValidate
           onSubmit={handleSubmit(onSubmit)}
           sx={{ mt: 1 }}
@@ -231,7 +232,7 @@ export default function RegisterPage() {
             <Box>
               <Box className={styles.labelDiv}>
                 <label className={styles.forminputlabel} htmlFor="fullName">
-                  Username
+                  User Name
                   <span style={{ color: "red" }}>*</span>
                 </label>
                 {errors?.userName ? (
@@ -245,16 +246,16 @@ export default function RegisterPage() {
                   >
                     <InfoIcon />
                   </Tooltip>
-                      ) : (
-                        <Tooltip
-                          style={{
-                            marginLeft: "0.5rem",
-                            fontSize: "14px",
-                          }}
-                          title="no special characters allowed"
-                        >
-                          <InfoIcon />
-                        </Tooltip>
+                ) : (
+                  <Tooltip
+                    style={{
+                      marginLeft: "0.5rem",
+                      fontSize: "14px",
+                    }}
+                    title="User Name should be Unique"
+                  >
+                    <InfoIcon />
+                  </Tooltip>
                 )}
               </Box>
               <Controller
@@ -265,8 +266,9 @@ export default function RegisterPage() {
                   <TextField
                     {...field}
                     className={errors.fullName && styles.errormsg}
-                    placeholder="Enter Username"
+                    placeholder="Enter User Name"
                     margin="normal"
+                    type="text"
                     style={{
                       marginBottom: "1px",
                       fontSize: "10px",
@@ -277,7 +279,7 @@ export default function RegisterPage() {
                     fullWidth
                     id="userName"
                     name="userName"
-                    autoComplete="new-userName"
+                    autoComplete="given-name"
                   />
                 )}
               />
@@ -467,7 +469,7 @@ export default function RegisterPage() {
                     id="dob"
                     views={["year", "month", "day"]}
                     format="DD-MM-YYYY"
-                          disableFuture
+                    disableFuture
                   />
                 )}
               />
@@ -593,11 +595,11 @@ export default function RegisterPage() {
           </div>
           {files ? (
             <div className={styles.imageContainer}>
-                    {uploadedImage ? (
-                      <p onClick={()=>onImageClick("url")}>uploadedImage</p>
-                      ) : (
-                <p onClick={()=>onImageClick()} style={{cursor:"pointer"}}>{files.name}</p>
-                    )}
+              {uploadedImage ? (
+                <p onClick={() => onImageClick("url")}>uploadedImage</p>
+              ) : (
+                <p onClick={() => onImageClick()} style={{ cursor: "pointer" }}>{files.name}</p>
+              )}
               <DeleteIcon
                 onClick={() => setFiles(null)}
                 className={styles.deleteIcon}

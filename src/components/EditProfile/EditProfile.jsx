@@ -15,6 +15,7 @@ import { setSideView } from "../../redux/slices/profileSlice";
 import { CircularProgress } from "@mui/material";
 import { Tooltip } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
+import AdvertisementSkeleton from "../Skeleton/AdvertisementSkeleton/AdvertisementSkeleton";
 const EditProfile = () => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
@@ -67,7 +68,7 @@ const EditProfile = () => {
   };
 
   if (isLoading || mutateLoading) {
-   return <Loader />;
+   return <AdvertisementSkeleton/>;
   }
 
   const handleFileChange = (event) => {
