@@ -34,7 +34,7 @@ export default function RegisterPage() {
   const [conshowPassword, setConShowPassword] = useState(false);
   const navigate = useNavigate();
   const [location, setLocation] = useState({ state: "", country: "" });
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState("");
   const [fileName, setFileName] = useState("");
   const [uploadedImage, setUploadedImage] = useState(true);
 
@@ -164,62 +164,26 @@ export default function RegisterPage() {
     },
   });
 
-  function acceptOnlyImages(files) {
-    const acceptedImageTypes = [
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-      "video/mp4",
-    ];
-    return acceptedImageTypes.includes(files.type);
-  }
-
   const onSubmit = (data) => {
     if (!isClicked) {
       setIsClicked(true);
-      if (files) {
-        const acceptFile = acceptOnlyImages(files);
-        if (acceptFile) {
-          const formData = new FormData();
-          formData.append("file", files);
-          formData.append("fileName", files?.name);
-          formData.append("fullName", data.fullName);
-          formData.append("email", data.email);
-          formData.append("dob", data.dob);
-          formData.append("userName", data.userName);
-          formData.append("password", data.password);
-          formData.append("designation", data.designation);
-          formData.append("state", location.state);
-          formData.append("country", location.country);
-          if (id) {
-            formData.append("id", id);
-            data.id = id;
-            updateEmailData.mutate(formData);
-          } else {
-            postRegistrationData.mutate(formData);
-          }
-        } else {
-          toast.error("Invalid File Type");
-        }
-      }
-
-      if (!files) {
-        const formData = new FormData();
-        formData.append("fullName", data.fullName);
-        formData.append("email", data.email);
-        formData.append("dob", data.dob);
-        formData.append("userName", data.userName);
-        formData.append("password", data.password);
-        formData.append("designation", data.designation);
-        formData.append("state", location.state);
-        formData.append("country", location.country);
-        if (id) {
-          formData.append("id", id);
-          data.id = id;
-          updateEmailData.mutate(formData);
-        } else {
-          postRegistrationData.mutate(formData);
-        }
+      const formData = new FormData();
+      formData.append("file", files);
+      formData.append("fileName", files?.name);
+      formData.append("fullName", data?.fullName);
+      formData.append("email", data?.email);
+      formData.append("dob", data?.dob);
+      formData.append("userName", data?.userName);
+      formData.append("password", data.password);
+      formData.append("designation", data?.designation);
+      formData.append("state", location.state);
+      formData.append("country", location.country);
+      if (id) {
+        formData.append("id", id);
+        data.id = id;
+        updateEmailData.mutate(formData);
+      } else {
+        postRegistrationData.mutate(formData);
       }
 
       setTimeout(() => {
@@ -651,7 +615,7 @@ export default function RegisterPage() {
                 </p>
               )}
               <DeleteIcon
-                onClick={() => setFiles(null)}
+                onClick={() => setFiles("")}
                 className={styles.deleteIcon}
               />
             </div>
