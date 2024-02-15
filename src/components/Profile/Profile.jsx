@@ -70,6 +70,7 @@ const Profile = () => {
 
   const { data: mainUserConnectionList, isLoading: mainUserConnectionLoading } =
     useGetMainUserConnectionList(userId);
+
   const frdRequestSentSuccess = (data) => {
     // toast.success(data);
     setShowSuccessAnimation(true);
@@ -463,6 +464,11 @@ const Profile = () => {
               {profileId === userId && data?.pageData?.status === 3 && (
                 <Box className={styles.pendingdivs}>
                   <p className={styles.pendingdiv}>Pending</p>
+                </Box>
+              )}
+              {profileId === userId && data?.pageData?.status === 4 && (
+                <Box className={styles.rejecteddivs}>
+                  <p className={styles.rejecteddiv}>Rejected</p>
                 </Box>
               )}
               {profileId === userId && data?.pageData?.status === 1 && (

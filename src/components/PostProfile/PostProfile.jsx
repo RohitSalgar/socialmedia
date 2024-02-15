@@ -278,7 +278,6 @@ const PostProfile = () => {
                 </Box>
               </Box>
             )}
-
           {companyData?.companyPageData?.status === 5 &&
             viewList === "schedule" && (
               <img style={{ width: "100%", height: "100%" }} src={blockedimg} />

@@ -113,7 +113,6 @@ const Myqa = () => {
   };
 
   const fileChangeFn = (files) => {
-    console.log(files)
     let urls = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];

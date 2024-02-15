@@ -16,6 +16,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchData } from "../../helper";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
+import { useState } from "react";
 
 const PagesOTP = () => {
   const queryClient = useQueryClient();
@@ -26,9 +27,10 @@ const PagesOTP = () => {
   const primary = palette.neutral.primary;
   const profileId = useSelector((state) => state.profile.viewProfileId);
   const { data, isLoading } = useGetProfile(profileId);
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const pagesId = data?.pageData?._id;
   const pagesEmail = data?.pageData?.email;
-
+  const [loader, setLoader] = useState(false)
   const {
     handleSubmit,
     control,
@@ -65,12 +67,20 @@ const PagesOTP = () => {
         }),
       });
       const responseJson = await response.json();
+      setLoader(false)
       if (responseJson.status === 1) {
         dispatch(setSideView("companyPage"));
         queryClient.invalidateQueries({ queryKey: ["profile"] });
-        // toast.success(responseJson.response)
+        setShowSuccessAnimation(1);
+        setTimeout(() => {
+          setShowSuccessAnimation(0);
+        }, 2000);
+
       } else {
-        // toast.error(responseJson.response)
+        setShowSuccessAnimation(2);
+        setTimeout(() => {
+          setShowSuccessAnimation(0);
+        }, 2000);
       }
       reset()
     } catch (error) {
@@ -88,15 +98,19 @@ const PagesOTP = () => {
         },
         { data: [{ email: pagesEmail }] }
       ),
-    // onSuccess: (data) => {
-    //   toast.success(data);
-    // },
+    onSuccess: (data) => {
+      setShowSuccessAnimation(3);
+      setTimeout(() => {
+        setShowSuccessAnimation(0);
+      }, 2000);
+    },
     // onError: (error) => {
     //   toast.error(error.message.split(":")[1]);
     // },
   });
 
   const onSubmit = (data) => {
+    setLoader(true)
     otpPost(data);
   };
   const codeChangeHandler = (event) => {
@@ -305,31 +319,51 @@ const PagesOTP = () => {
                 mt: 3,
                 mb: 2,
                 background: `${primary}`,
-                color: "#fff",
+                color: `${showSuccessAnimation === 2 ? "red" :"#fff"}`,
                 fontWeight: "bold",
               }}
               className={styles.submitbtn}
             >
-              {isLoading ? (
-                <CircularProgress style={{'color': 'white'}} size={20} />
-              ) : (
-                "Submit"
-              )}
+              {loader ? (
+                <CircularProgress style={{ 'color': 'white' }} size={20} />
+              ) : (showSuccessAnimation === 1 ?
+                <div className={styles.successAnimation}>
+                  <svg className={styles.checkmark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle className={styles.checkmarkCircle} cx="26" cy="26" r="25" fill="none" /><path className={styles.checkmarkCheck} fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+                </div> :
+                (showSuccessAnimation === 2 ?
+                  // <div className={styles.container}>
+                  //   <div className={styles.circleBorder}></div>
+                  //   <div className={styles.circle}>
+                  //     <div className={styles.error}></div>
+                  //   </div>
+                  // </div>
+                  "Invalid OTP"
+                  :
+                  "Submit"
+                ))}
             </Button>
           </Box>
           <div className={styles.receiveotp}>
             <p>Didn't Receive OTP? </p>
-            <p
-              onClick={() => resendOtpData.mutate()}
-              className={styles.forgot}
-            //   color={primary}
-            >
-              Resend
-            </p>
+            <Box className={styles.resend}>
+              {showSuccessAnimation === 3 ?
+                <div className={styles.successAnimation}>
+                  <svg className={styles.checkmark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle className={styles.checkmarkCircle} cx="26" cy="26" r="25" fill="none" /><path className={styles.checkmarkCheck} fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+                </div>
+                :
+                <p
+                  onClick={() => resendOtpData.mutate()}
+                  className={styles.forgot}
+                //   color={primary}
+                >
+                  Resend
+                </p>
+              }
+            </Box>
           </div>
         </Box>
       </Typography>
-    </WidgetWrapper>
+    </WidgetWrapper >
   );
 };
 
