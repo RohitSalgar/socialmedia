@@ -57,7 +57,8 @@ import { AdvertisementWidget } from "../Posts/AdvertisementWidget";
 import { PAGE_SIZE } from "../../../../config";
 import styles from './index.module.css';
 import DashboardSkeleton from "../../../../components/Skeleton/DashboardSkeleton/DashboardSkeleton";
-
+import Lottie from 'lottie-react';
+import animationData from '../../../../assets/emptyAnimation.json';
 const HomePage = () => {
   const { ref, inView } = useInView();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -422,6 +423,7 @@ const HomePage = () => {
                         ) : (
                           <div style={{ marginTop: "10px" }}>
                             <LookingEmpty />
+                            {/* <Lottie animationData={animationData} /> */}
                           </div>
                         )
                       ) : null}

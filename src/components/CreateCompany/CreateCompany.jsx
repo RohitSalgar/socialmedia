@@ -93,7 +93,7 @@ const CreateCompany = () => {
         <Box className={styles.avatardiv}>
           <Avatar
             alt="B"
-            src={profilePicUrl }
+            src={profilePicUrl}
             sx={{ width: 80, height: 80, border:'1px solid #9e9e9e' }}
             className={styles.avathar}
           />
