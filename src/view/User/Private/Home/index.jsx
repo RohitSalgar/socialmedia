@@ -55,10 +55,10 @@ import { useGetNotificationPostById } from "../../../../hooks/notifications";
 import notfound from "../../../../assets/Images/notfound.jpg";
 import { AdvertisementWidget } from "../Posts/AdvertisementWidget";
 import { PAGE_SIZE } from "../../../../config";
-import styles from './index.module.css';
+import styles from "./index.module.css";
 import DashboardSkeleton from "../../../../components/Skeleton/DashboardSkeleton/DashboardSkeleton";
-import Lottie from 'lottie-react';
-import animationData from '../../../../assets/emptyAnimation.json';
+import Lottie from "lottie-react";
+import animationData from "../../../../assets/emptyAnimation.json";
 const HomePage = () => {
   const { ref, inView } = useInView();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -235,7 +235,7 @@ const HomePage = () => {
     dispatch(removeHastag());
     dispatch(setDashboardView(dashboardView));
   };
-  
+
   return (
     <Box>
       <Navbar />
@@ -276,7 +276,9 @@ const HomePage = () => {
                           ))
                         )}
                         {!hashTagPostData.pageParams.includes(
-                          Math.ceil(hashTagPostData.pages[0]?.totalCount / PAGE_SIZE)
+                          Math.ceil(
+                            hashTagPostData.pages[0]?.totalCount / PAGE_SIZE
+                          )
                         ) && <PostSkeleton />}
                         <div
                           ref={ref}
@@ -305,7 +307,7 @@ const HomePage = () => {
                     )}
                     <Box>
                       {tabView === "trending" && trendingPost?.pages ? (
-                        trendingPost?.pages[0]?.totalCount != 0  ? (
+                        trendingPost?.pages[0]?.totalCount != 0 ? (
                           <Box>
                             {trendingPost.pages.map(({ data }) => {
                               return data.map((postData) => {
@@ -348,7 +350,7 @@ const HomePage = () => {
                         )
                       ) : null}
                       {tabView === "forYou" && forYouData?.pages ? (
-                        forYouData?.pages[0]?.totalCount != 0  ? (
+                        forYouData?.pages[0]?.totalCount != 0 ? (
                           <Box>
                             {forYouData.pages.map(({ data }) => {
                               return data.map((postData) => {
@@ -370,7 +372,9 @@ const HomePage = () => {
                               });
                             })}
                             {!forYouData?.pageParams.includes(
-                              Math.ceil(forYouData?.pages[0]?.totalCount / PAGE_SIZE)
+                              Math.ceil(
+                                forYouData?.pages[0]?.totalCount / PAGE_SIZE
+                              )
                             ) && <PostSkeleton />}
                             <div
                               ref={ref}
@@ -388,7 +392,7 @@ const HomePage = () => {
                       ) : null}
 
                       {tabView === "friend" && friendPostData?.pages ? (
-                        friendPostData?.pages[0]?.totalCount != 0  ? (
+                        friendPostData?.pages[0]?.totalCount != 0 ? (
                           <Box>
                             {friendPostData.pages.map(({ data }) => {
                               return data.map((postData) => {
@@ -430,88 +434,89 @@ const HomePage = () => {
                         )
                       ) : null}
 
-                    {tabView === "news" && newsPostData?.pages ? (
-                      newsPostData?.pages[0]?.totalCount != 0 ? (
-                        <Box>
-                          {newsPostData.pages.map(({ data }) => {
-                            return data.map((postData) => {
-                              if (postData.title) {
+                      {tabView === "news" && newsPostData?.pages ? (
+                        newsPostData?.pages[0]?.totalCount != 0 ? (
+                          <Box>
+                            {newsPostData.pages.map(({ data }) => {
+                              return data.map((postData) => {
+                                if (postData.title) {
+                                  return (
+                                    <AdvertisementWidget
+                                      key={`ad-${postData._id}`}
+                                      postData={postData}
+                                    />
+                                  );
+                                }
                                 return (
-                                  <AdvertisementWidget
-                                    key={`ad-${postData._id}`}
+                                  <PostWidget
+                                    key={postData._id}
                                     postData={postData}
+                                    checkCond={true}
                                   />
                                 );
-                              }
-                              return (
-                                <PostWidget
-                                  key={postData._id}
-                                  postData={postData}
-                                />
-                              );
-                            });
-                          })}
-                          {!newsPostData?.pageParams.includes(
-                            Math.ceil(
-                              newsPostData?.pages[0]?.totalCount / PAGE_SIZE
-                            )
-                          ) && <PostSkeleton />}
-                          <div
-                            ref={ref}
-                            style={{ height: "10px" }}
-                            onClick={() => newsFetchNextPage()}
-                          >
-                            {newsFetchingNextPage && <PostSkeleton />}
+                              });
+                            })}
+                            {!newsPostData?.pageParams.includes(
+                              Math.ceil(
+                                newsPostData?.pages[0]?.totalCount / PAGE_SIZE
+                              )
+                            ) && <PostSkeleton />}
+                            <div
+                              ref={ref}
+                              style={{ height: "10px" }}
+                              onClick={() => newsFetchNextPage()}
+                            >
+                              {newsFetchingNextPage && <PostSkeleton />}
+                            </div>
+                          </Box>
+                        ) : (
+                          <div style={{ marginTop: "10px" }}>
+                            <LookingEmpty />
                           </div>
-                        </Box>
-                      ) : (
-                        <div style={{ marginTop: "10px" }}>
-                          <LookingEmpty />
-                        </div>
-                      )
-                    ) : null}
-                  </Box>
-                </>
-              )}
-            {dashboardView === "schedule" && (
-              <Box>
-                {data?.pageData?.status === 1 && <AddSchedule />}
-                <ScheduleList />
-              </Box>
-            )}
-            {dashboardView === "profile" && hashtag === "" && <Profile />}
-            {dashboardView === "postprofile" && hashtag === "" && (
-              <PostProfile />
-            )}
-            {dashboardView === "notification" && (
-              <>
-                {notificationPostData && notificationPostData.length > 0 ? (
-                  <>
-                    {notificationPostData.map((e, i) => {
-                      return <PostWidget key={i} postData={e} />;
-                    })}
-                  </>
-                ) : (
-                  <>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "0.4rem",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        margin: "1rem",
-                      }}
-                    >
-                      <img src={notfound} alt="notfound" width={"80%"} />
-                      <p style={{ fontSize: "22px" }}>
-                        The Post isn't available
-                      </p>
+                        )
+                      ) : null}
                     </Box>
                   </>
                 )}
-              </>
-            )}
+              {dashboardView === "schedule" && (
+                <Box>
+                  {data?.pageData?.status === 1 && <AddSchedule />}
+                  <ScheduleList />
+                </Box>
+              )}
+              {dashboardView === "profile" && hashtag === "" && <Profile />}
+              {dashboardView === "postprofile" && hashtag === "" && (
+                <PostProfile />
+              )}
+              {dashboardView === "notification" && (
+                <>
+                  {notificationPostData && notificationPostData.length > 0 ? (
+                    <>
+                      {notificationPostData.map((e, i) => {
+                        return <PostWidget key={i} postData={e} />;
+                      })}
+                    </>
+                  ) : (
+                    <>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "0.4rem",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          margin: "1rem",
+                        }}
+                      >
+                        <img src={notfound} alt="notfound" width={"80%"} />
+                        <p style={{ fontSize: "22px" }}>
+                          The Post isn't available
+                        </p>
+                      </Box>
+                    </>
+                  )}
+                </>
+              )}
 
               {dashboardView === "pages" &&
               hashtag === "" &&
@@ -546,7 +551,9 @@ const HomePage = () => {
                           });
                         })}
                         {!pagePostData.pageParams.includes(
-                          Math.ceil(pagePostData.pages[0]?.totalCount / PAGE_SIZE)
+                          Math.ceil(
+                            pagePostData.pages[0]?.totalCount / PAGE_SIZE
+                          )
                         ) && <PostSkeleton />}
                         <div
                           ref={ref}

@@ -68,6 +68,7 @@ const useInsertComment = () => {
       ),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["postComment"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       dashboardView === "profile" &&
         queryClient.invalidateQueries({ queryKey: ["postList"] });
       dashboardView === "postprofile" &&
@@ -93,6 +94,7 @@ const useInsertReply = () => {
       ),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["postComment"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       dashboardView === "profile" &&
         queryClient.invalidateQueries({ queryKey: ["postList"] });
       dashboardView === "postprofile" &&
@@ -119,6 +121,7 @@ const useDeleteComment = () => {
       ),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["postComment"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       dashboardView === "profile" &&
         queryClient.invalidateQueries({ queryKey: ["postList"] });
       dashboardView === "postprofile" &&
@@ -145,6 +148,7 @@ const useDeleteReply = () => {
       ),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["postComment"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       dashboardView === "profile" &&
         queryClient.invalidateQueries({ queryKey: ["postList"] });
       dashboardView === "postprofile" &&

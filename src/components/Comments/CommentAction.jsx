@@ -9,6 +9,7 @@ import {
 } from "../../hooks/schedule";
 import { useDeleteQaComment, useDeleteQaReply } from "../../hooks/qa";
 import { setReplyInput } from "../../redux/slices/post";
+import { useState } from "react";
 
 function CommentAction({
   type,
@@ -21,6 +22,7 @@ function CommentAction({
 }) {
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
+  const [isClicked, setIsClicked] = useState(false);
   const { userId } = useSelector((state) => state.profile.profileData);
   const { mutate: deleteComment } = useDeleteComment();
   const { mutate: deleteReply } = useDeleteReply();
@@ -31,41 +33,47 @@ function CommentAction({
   const { mutate: deleteQaComments } = useDeleteQaComment();
   const { mutate: deleteQaReply } = useDeleteQaReply();
   const deleteComments = () => {
-    if (Object.keys(postData).includes("userReplied")) {
-      if (dashboardView === "qa") {
-        return deleteQaReply({
-          answerId: commentId,
-          userId: userId,
+    if (!isClicked) {
+      setIsClicked(true);
+      if (Object.keys(postData).includes("userReplied")) {
+        if (dashboardView === "qa") {
+          return deleteQaReply({
+            answerId: commentId,
+            userId: userId,
+            replyId: postData?._id,
+          });
+        }
+        const payload = {
+          commentId: commentId,
           replyId: postData?._id,
-        });
-      }
-      const payload = {
-        commentId: commentId,
-        replyId: postData?._id,
-        userId: userId,
-      };
-      if (dashboardView === "schedule" || dashboardView === 'postprofile') {
-        return deleteScheduleReply(payload);
-      } else {
-        return deleteReply(payload);
-      }
-    } else {
-      if (dashboardView === "qa") {
-        return deleteQaComments({
-          answerId: postData._id,
           userId: userId,
-        });
-      }
-      const payload = {
-        commentId: postData._id,
-        userId: userId,
-      };
-      if (dashboardView === "schedule" || dashboardView === 'postprofile') {
-        return deleteScheduleComments(payload);
+        };
+        if (dashboardView === "schedule" || dashboardView === "postprofile") {
+          return deleteScheduleReply(payload);
+        } else {
+          return deleteReply(payload);
+        }
       } else {
-        return deleteComment(payload);
+        if (dashboardView === "qa") {
+          return deleteQaComments({
+            answerId: postData._id,
+            userId: userId,
+          });
+        }
+        const payload = {
+          commentId: postData._id,
+          userId: userId,
+        };
+        if (dashboardView === "schedule" || dashboardView === "postprofile") {
+          return deleteScheduleComments(payload);
+        } else {
+          return deleteComment(payload);
+        }
       }
     }
+    setTimeout(() => {
+      setIsClicked(false);
+    }, 2000);
   };
 
   return (

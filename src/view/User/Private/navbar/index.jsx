@@ -86,7 +86,6 @@ const Navbar = () => {
     return <Loader />;
   }
 
-
   return (
     <FlexBetween
       padding="1rem 3%"
@@ -117,9 +116,10 @@ const Navbar = () => {
               <InputBase
                 value={searchText}
                 onChange={(e) => {
+                  let pattern = /[^a-zA-Z0-9\s]/g;
                   setSearchText(e.target.value);
                   navesearchMutate({
-                    term: e.target.value,
+                    term: searchText.replace(pattern, ""),
                   });
                 }}
                 placeholder="Search..."
