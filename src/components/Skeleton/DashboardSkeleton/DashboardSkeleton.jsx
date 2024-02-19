@@ -12,14 +12,6 @@ import {
   List,
   ListItemText,
 } from "@mui/material";
-import {
-  Inbox as InboxIcon,
-  Mail as MailIcon,
-  CalendarMonth as CalendarMonthIcon,
-  ContactSupport as ContactSupportIcon,
-  SwitchAccount as SwitchAccountIcon,
-  Newspaper as NewspaperIcon
-} from "@mui/icons-material";
 
 export default function DashboardSkeleton() {
   return (
@@ -62,43 +54,42 @@ export default function DashboardSkeleton() {
                 {/* Home */}
                 <ListItemButton sx={{ padding: "1px 20px" }}>
                   <ListItemIcon>
-                    <InboxIcon />
+                    <Skeleton width={25} />
                   </ListItemIcon>
                   <ListItemText primary={<Skeleton width={100} />} />
                 </ListItemButton>
                 {/* News Feed */}
                 <ListItemButton sx={{ padding: "1px 20px" }}>
                   <ListItemIcon>
-                    <NewspaperIcon />
+                    <Skeleton width={25} />
                   </ListItemIcon>
                   <ListItemText primary={<Skeleton width={100} />} />
                 </ListItemButton>
                 {/* Schedule */}
                 <ListItemButton sx={{ padding: "1px 20px" }}>
                   <ListItemIcon>
-                    <MailIcon />
+                    <Skeleton width={25} />
                   </ListItemIcon>
                   <ListItemText primary={<Skeleton width={100} />} />
                 </ListItemButton>
                 {/* Company Page */}
                 <ListItemButton sx={{ padding: "1px 20px" }}>
                   <ListItemIcon>
-                    <CalendarMonthIcon />
+                    <Skeleton width={25} />
                   </ListItemIcon>
                   <ListItemText primary={<Skeleton width={100} />} />
                 </ListItemButton>
                 {/* QA */}
                 <ListItemButton sx={{ padding: "1px 20px" }}>
                   <ListItemIcon>
-                    <ContactSupportIcon />
+                    <Skeleton width={25} />
                   </ListItemIcon>
                   <ListItemText primary={<Skeleton width={100} />} />
                 </ListItemButton>
                 {/* Profile */}
                 <ListItemButton sx={{ padding: "1px 20px" }}>
                   <ListItemIcon>
-                    <SwitchAccountIcon />
-                  </ListItemIcon>
+                    <Skeleton width={25} />                  </ListItemIcon>
                   <ListItemText primary={<Skeleton width={100} />} />
                 </ListItemButton>
               </List>
@@ -106,7 +97,7 @@ export default function DashboardSkeleton() {
             <Divider />
           </Box>
         </Box>
-        <Box sx={{ width: "48%", marginTop:"30px" }}>
+        <Box sx={{ width: "48%", marginTop: "30px" }}>
           <Box className={styles.myPost}>
             <Skeleton variant="rectangular" height={50} />
             <Box className={styles.myPostAction}>
@@ -172,9 +163,9 @@ export default function DashboardSkeleton() {
             </CardContent>
           </Box>
         </Box>
-        <Box sx={{ width: "25%", paddingRight:"20px" }}>
-        <Skeleton variant="rectangular" height={200} sx={{marginBottom:"20px"}}/>
-        <Skeleton variant="rectangular" height={200} />
+        <Box sx={{ width: "25%", paddingRight: "20px" }}>
+          <Skeleton variant="rectangular" height={200} sx={{ marginBottom: "20px" }} />
+          <Skeleton variant="rectangular" height={200} />
 
         </Box>
       </Box>

@@ -207,10 +207,10 @@ const QaWidget = ({ postData }) => {
                   setIsComments(false);
                 }}/>
                 </IconButton>
-                <Typography sx={{ cursor: "pointer" }} 
+                {/* <Typography sx={{ cursor: "pointer" }} 
                 onClick={() => {
                   setIsComments(false);
-                }}>{"close"}</Typography>
+                }}>{"close"}</Typography> */}
               </Box>
             <Stack>
               <CommentInputBox type="comment" postData={postData} />

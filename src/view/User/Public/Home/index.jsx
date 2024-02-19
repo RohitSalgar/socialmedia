@@ -4,6 +4,7 @@ import UserWidget from "../../widgets/UserWidget";
 import MyPostWidget from "../../Private/Posts/MyPostWidget";
 import PostWidget from "./PostWidget";
 import AdvertWidget from "./AdvertWidget";
+import BusinessIcon from '@mui/icons-material/Business';
 import FriendListWidget from "../../widgets/FriendListWidget";
 import { useDispatch, useSelector } from "react-redux";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -123,24 +124,11 @@ const HomePage = () => {
                   }}
                 >
                   <ListItemIcon>
-                    <MailIcon />
+                  <CalendarMonthIcon />
                   </ListItemIcon>
                   <ListItemText primary="Schedule" />
                 </ListItemButton>
-                <ListItemButton
-                  sx={{ padding: "1px 20px" }}
-                  selected={selectedIndex === 3}
-                  onClick={(event) => {
-                    handleListItemClick(event, 3);
-                    dispatch(setDashboardView("shipment"));
-                    handleClassname();
-                  }}
-                >
-                  <ListItemIcon>
-                    <CalendarMonthIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Shipments News" />
-                </ListItemButton>
+                
                 <ListItemButton
                   sx={{ padding: "1px 20px" }}
                   selected={selectedIndex === 4}
@@ -151,9 +139,9 @@ const HomePage = () => {
                   }}
                 >
                   <ListItemIcon>
-                    <CalendarMonthIcon />
+                  <BusinessIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Pages" />
+                  <ListItemText primary="Company Page" />
                 </ListItemButton>
                 <ListItemButton
                   sx={{ padding: "1px 20px" }}
